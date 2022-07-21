@@ -2,6 +2,8 @@
 using EzCommon.Events;
 using EzCommon.Models;
 using MediatR;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace EzCommon.Infra.Bus;
 

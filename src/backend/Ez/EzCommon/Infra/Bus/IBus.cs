@@ -1,6 +1,7 @@
 ﻿using EzCommon.Commands;
 using EzCommon.Events;
 using EzCommon.Models;
+using System.Threading.Tasks;
 
 namespace EzCommon.Infra.Bus;
 
