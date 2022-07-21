@@ -5,7 +5,7 @@ namespace EzCommon.Models
     public class EventStream
     {
         public string Id { get; private set; }
-        public int Version { get; private set; }
+        public int Version { get; private set; } = 0;
         public IList<EventRow> EventRows { get; private set; }
 
         public EventStream(EventStreamId id, IReadOnlyList<IEvent> events)

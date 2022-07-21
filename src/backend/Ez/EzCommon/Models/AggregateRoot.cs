@@ -20,10 +20,10 @@ namespace EzCommon.Models
 
         protected abstract void RegisterEvents();
 
-        protected void RegisterEvent<TEvent>(Action<TEvent?> eventHandler)
+        protected void RegisterEvent<TEvent>(Action<TEvent> eventHandler)
             where TEvent : class, IEvent
         {
-            _eventHandlers[typeof(TEvent).Name] = @event => eventHandler(@event as TEvent);
+            _eventHandlers[typeof(TEvent).Name] = @event => eventHandler((TEvent)@event);
         }
 
         protected void RaiseEvent(IEvent @event)
@@ -43,6 +43,12 @@ namespace EzCommon.Models
         public IEnumerable<IEvent> GetEvents()
         {
             return _events;
+        }
+
+        public EventStream ToEventStream()
+        {
+            var eventStreamId = new EventStreamId(GetType(), Id);
+            return new EventStream(eventStreamId, GetEvents().ToList());
         }
     }
 }
