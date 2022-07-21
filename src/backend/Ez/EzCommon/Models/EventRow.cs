@@ -4,10 +4,12 @@ namespace EzCommon.Models
 {
     public class EventRow
     {
-        public string Id { get; private set; }
-        public string EventName { get; private set; }
-        public int Version { get; private set; }
-        public IEvent Data { get; private set; }
+        public string Id { get; protected set; }
+        public string EventName { get; protected set; }
+        public int Version { get; protected set; }
+        public IEvent Data { get; protected set; }
+
+        private EventRow() { }
 
         public EventRow(EventStreamId streamId, IEvent @event)
         {

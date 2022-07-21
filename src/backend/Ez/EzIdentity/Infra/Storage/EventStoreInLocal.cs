@@ -26,19 +26,6 @@ namespace EzIdentity.Infra.Storage
             _bus = bus;
         }
 
-        public T GetById<T>(Guid id)
-            where T : AggregateRoot, new()
-        {
-            var aggregate = new T();
-            var streamId = new EventStreamId(aggregate.GetType(), id);
-
-            using var db = new LiteDatabase(@"C:\temp\identity.db");
-            var eventStream = db.GetCollection<EventStream>().Include(es => es.EventRows).FindById(streamId.ToString());
-            aggregate.LoadFromEvents(eventStream.EventRows.Select(er => er.Data).OrderBy(e => e.Version));
-
-            return aggregate;
-        }
-
         public async Task<EventStream> SaveAsync<T>(T aggregate)
             where T : AggregateRoot
         {
@@ -46,17 +33,18 @@ namespace EzIdentity.Infra.Storage
             var eventStream = new EventStream(eventStreamId, aggregate.GetEvents().ToList());
 
             using var db = new LiteDatabase(@"C:\temp\identity.db");
-            var currentEventStreamState = db.GetCollection<EventStream>().FindById(eventStream.Id);
-            var uncommittedEvents = eventStream.EventRows.Where(e => e.Version > (currentEventStreamState?.Version ?? 0)).ToList();
+            var eventStreamState = db.GetCollection<EventStream>().FindById(eventStream.Id);
+            var uncommittedEvents = eventStream.EventRows.Where(e => e.Version > (eventStreamState?.Version ?? 0)).ToList();
 
-            if (currentEventStreamState == null)
+            if (eventStreamState == null)
             {
                 db.GetCollection<EventStream>().Insert(eventStream);
                 db.GetCollection<T>().Insert(aggregate);
             }
             else
             {
-                db.GetCollection<EventStream>().Update(eventStream);
+                eventStreamState.EventRows.AddRange(uncommittedEvents);
+                db.GetCollection<EventStream>().Update(eventStreamState);
                 db.GetCollection<T>().Update(aggregate);
             }
 

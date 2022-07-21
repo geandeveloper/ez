@@ -25,20 +25,20 @@ public class LoginCommandHandler : ICommandHandler<LoginCommand>
         _eventStore = eventStore;
     }
 
-    public Task<EventStream> Handle(LoginCommand request, CancellationToken cancellationToken)
+    public async Task<EventStream> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
         var user = _eventStore.GetSnapShot<User>(user => user.Email == request.Email && user.Password == CryptographyService.CreateHash(request.Password));
 
-        var accessToken = _tokenService.GenerateToken(() =>
-        {
-            return new ClaimsIdentity(new Claim[]
+        var accessToken = _tokenService.GenerateAccessToken(() => new Claim[]
             {
-                    new Claim(ClaimTypes.Email, request.Email)
+                    new Claim(nameof(User.Id), user.Id.ToString()),
+                    new Claim(ClaimTypes.Email, request.Email),
             });
-        });
 
-        user.SuccessLogin(request, new Token(accessToken));
+        var refreshToken = _tokenService.GenereateRefreshToken();
 
-        return Task.FromResult(user.ToEventStream());
+        user.SuccessLogin(accessToken, refreshToken);
+
+        return await _eventStore.SaveAsync(user);
     }
 }

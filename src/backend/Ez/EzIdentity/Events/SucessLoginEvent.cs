@@ -3,5 +3,5 @@ using EzIdentity.Models;
 
 namespace EzIdentity.Events
 {
-    public record SucessLoginEvent(string AccessToken) : Event;
+    public record SucessLoginEvent(AccessToken AccessToken, RefreshToken RefreshToken) : Event;
 }

@@ -8,7 +8,7 @@ namespace EzCommon.Models
     public abstract class AggregateRoot
     {
         public Guid Id { get; protected set; }
-        public int Version { get; private set; }
+        public int Version { get; protected set; }
 
         private readonly Queue<IEvent> _events;
 
