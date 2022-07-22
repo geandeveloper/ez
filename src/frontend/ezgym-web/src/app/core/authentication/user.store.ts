@@ -1,43 +1,52 @@
-import { tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Store } from '../state/store';
 import { UserState } from './user.state';
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserStore extends Store<UserState> {
 
-  authenticated: boolean = false
-  currentUser: UserState = { email: '', id: '', token: '' }
+  user: UserState = { id: "", email: "", accessToken: "", authenticated: false }
 
   constructor(private http: HttpClient) {
     super()
 
-    this.store$.subscribe(user => {
-      if (user) {
-        this.authenticated = user?.token != null
-        this.currentUser = user
-
-        localStorage.setItem("session", JSON.stringify(user))
-      }
+    this.store$.subscribe(userState => {
+      this.user = userState
     })
-
-    if (localStorage.getItem("session") != null) {
-      this.setState(() => JSON.parse(localStorage.getItem("session")!))
-    }
-
   }
 
   authenticate(request: { email: string, password: string }) {
     return this.http
-      .post<UserState>("user/login", request)
+      .post<any>("users/token", request)
       .pipe(
-        tap(user => {
-          this.setState(() => user)
+        tap(response => {
+          this.setState(() => ({
+            id: response.userId,
+            email: request.email,
+            accessToken: response.accessToken,
+            authenticated: true
+          }))
         })
+      )
+  }
+
+  refreshToken(request: { userId: string }): Observable<UserState> {
+    return this.http
+      .post<any>(`users/refresh-token`, request)
+      .pipe(
+        tap(response => {
+          this.setState((state) => ({
+            ...state,
+            authenticated: true,
+            accessToken: response.accessToken
+          }))
+        }),
+        map(() => this.user)
       )
   }
 }

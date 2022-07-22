@@ -11,6 +11,6 @@ export class CreateUserStore extends Store<CreateUserState>{
   }
 
   register(user: CreateUserState) {
-    return this.httpClient.post("user", user)
+    return this.httpClient.post("users", { email: user.email, password: user.password })
   }
 }

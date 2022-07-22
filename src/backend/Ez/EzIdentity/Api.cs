@@ -16,10 +16,11 @@ public static class Api
 {
     public static IApplicationBuilder UseEzIdentityApi(this WebApplication app)
     {
+        app.UseCors("localhost");
         app.UseAuthentication();
         app.UseAuthorization();
 
-        app.MapPost("/login", async (
+        app.MapPost("/users/token", async (
             [FromServices] LoginCommandHandler handler,
             [FromServices] IHttpContextAccessor httpContextAccessor,
             LoginCommand command) =>
@@ -31,13 +32,14 @@ public static class Api
 
             return Results.Ok(new
             {
+                UserId = @event.AggregateId,
                 AccessToken = @event.AccessToken.Value,
                 RefreshToken = @event.RefreshToken.Value
             });
         });
 
         app.MapPost("/users",
-            [Authorize]
+            //[Authorize]
         async (
             [FromServices] CreateUserCommandHandler handler,
             CreateUserCommand command) =>
@@ -46,17 +48,18 @@ public static class Api
             return Results.Ok(eventStream);
         });
 
-        app.MapPost("/users/{userId}/refresh-token", async (
+        app.MapPost("/users/refresh-token", async (
             [FromServices] RefreshTokenCommandHandler handler,
-            IHttpContextAccessor httpContextAccessor,
-            string userId) =>
+            IHttpContextAccessor httpContextAccessor
+            ) =>
         {
-            var eventStream = await handler.Handle(new RefreshTokenCommand(userId.ToGuid(), httpContextAccessor.GetRefreshTokenFromCookie()), CancellationToken.None);
+            var eventStream = await handler.Handle(new RefreshTokenCommand(httpContextAccessor.GetRefreshTokenFromCookie()), CancellationToken.None);
             var @event = eventStream.GetEvent<SucessRenewTokenEvent>();
             httpContextAccessor.SetRefreshTokenAsCookie(@event.RefreshToken);
 
             return Results.Ok(new
             {
+                UserId = @event.AggregateId,
                 AccessToken = @event.AccessToken.Value,
                 RefreshToken = @event.RefreshToken.Value
             });

@@ -7,5 +7,6 @@ namespace EzCommon.Events
     {
         int Version { get; set; }
         DateTime TimeStamp { get; }
+        Guid AggregateId { get; set; }
     }
 }

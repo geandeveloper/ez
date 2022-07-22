@@ -38,7 +38,7 @@ import { PreLoaderModule } from './shared/components/pre-loader/pre-loader.modul
       useClass: BaseUrlInterceptor,
       multi: true
     },
-    { provide: "BASE_API_URL", useValue: " http://localhost:5000/" },
+    { provide: "BASE_API_URL", useValue: " http://localhost:5000" },
     { provide: HTTP_INTERCEPTORS, useClass: JwtRequestInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]

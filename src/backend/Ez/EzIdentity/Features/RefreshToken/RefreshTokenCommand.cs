@@ -3,6 +3,6 @@ using System;
 
 namespace EzIdentity.Features.RefreshToken
 {
-    public record RefreshTokenCommand(Guid UserId, string RefreshToken) : ICommand;
+    public record RefreshTokenCommand(string RefreshToken) : ICommand;
 
 }

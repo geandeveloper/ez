@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import "../../assets/templates/skydash/skydash"
 
 @Component({
   selector: 'ezgym',

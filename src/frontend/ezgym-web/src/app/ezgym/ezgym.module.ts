@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { EzGymComponent } from './ezgym.component';
 
 import { AdminModule } from "./admin/admin.module";
+import { RouterModule } from "@angular/router";
 
 
 @NgModule({
@@ -12,6 +13,7 @@ import { AdminModule } from "./admin/admin.module";
   ],
   imports: [
     FormsModule,
+    RouterModule,
     ReactiveFormsModule,
     AdminModule
   ],

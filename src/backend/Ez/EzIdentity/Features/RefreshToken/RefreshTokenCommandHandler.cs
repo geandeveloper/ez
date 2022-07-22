@@ -27,7 +27,7 @@ public class RefreshTokenCommandHandler : ICommandHandler<RefreshTokenCommand>
 
     public async Task<EventStream> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
     {
-        var user = _eventStore.GetSnapShot<User>(user => user.Id == request.UserId && user.RefreshToken.Value == request.RefreshToken);
+        var user = _eventStore.GetSnapShot<User>(user => user.RefreshToken.Value == request.RefreshToken);
 
         if (user == null)
             throw new Exception("Invalid refresh token value");

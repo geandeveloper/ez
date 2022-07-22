@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 
 import { LoginComponent } from './login/login.component';
-import { AuthenticationRoutingModule } from "./ezidentity-routing.module";
+import { EzIdentityRoutingModule } from "./ezidentity-routing.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CreateUserComponent } from "./create-user/create-user.component";
 
@@ -10,7 +10,7 @@ import { CreateUserComponent } from "./create-user/create-user.component";
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    AuthenticationRoutingModule
+    EzIdentityRoutingModule
   ],
   exports: [LoginComponent, CreateUserComponent]
 })

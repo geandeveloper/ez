@@ -32,12 +32,12 @@ export class LoginComponent implements OnInit {
   login() {
 
     this.preLoaderStore.show();
-
     this.userStore.authenticate({
       ...this.loginForm.value
     }).subscribe(
       () => {
-        this.router.navigate([''])
+        debugger
+        this.router.navigate(['/admin'])
         this.preLoaderStore.close();
       },
       error => {
