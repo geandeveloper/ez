@@ -1,0 +1,29 @@
+@import "variables";
+
+::ng-deep {
+  .mat-dialog-container {
+    background: url("/assets/img/bg-lines.svg") #fff;
+    background-size: cover;
+  }
+}
+.modal-container {
+  display: flex;
+  max-width: 800px;
+  justify-content: space-between;
+
+  > .content {
+    flex: 1 0 0;
+  }
+
+  > .image {
+    flex: 1 0 0;
+    text-align: right;
+    > img {
+      width: 250px;
+    }
+  }
+}
+
+.modal-actions {
+  justify-content: center !important;
+}

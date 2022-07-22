@@ -1,0 +1,58 @@
+@import "variables";
+
+.container {
+  position: absolute;
+  background: url("/assets/img/bg-lines.svg") #fff no-repeat bottom right;
+  z-index: 99;
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  min-width: 100%;
+  align-items: center;
+  justify-content: center;
+  font-family: $font-family;
+}
+
+.logo-container {
+  display: flex;
+
+  * > span {
+    color: $white;
+    font-size: 100px;
+    font-weight: bold;
+    animation: waviy 1s infinite;
+    animation-delay: calc(0.1s * var(--i));
+  }
+
+  > .logo-circle {
+    width: 140px;
+    height: 140px;
+    display: flex;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    background: $primary;
+  }
+
+  > .logo-text {
+    height: 140px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    span {
+      color: $secondary;
+    }
+  }
+
+  @keyframes waviy {
+    0%,
+    40%,
+    100% {
+      transform: translateY(0);
+    }
+    20% {
+      transform: translateY(-20px);
+    }
+  }
+}

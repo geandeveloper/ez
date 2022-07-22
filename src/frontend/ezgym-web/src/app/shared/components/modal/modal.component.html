@@ -1,0 +1,12 @@
+<section class="modal-container">
+  <div class="content" mat-dialog-content>
+    <h2>{{state.title}}</h2>
+    <p>{{state.description}}</p>
+  </div>
+  <div class="image">
+    <img [src]="state.iconSrc" />
+  </div>
+</section>
+<div mat-dialog-actions class="modal-actions">
+  <button mat-dialog-close class="btn btn-secondary">{{state.button}}</button>
+</div>
