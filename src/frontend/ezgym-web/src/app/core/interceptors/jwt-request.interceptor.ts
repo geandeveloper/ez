@@ -14,7 +14,7 @@ export class JwtRequestInterceptor implements HttpInterceptor {
           Authorization: `Bearer ${this.userStore.user.accessToken}`
         }
       });
-      
+
     } else {
 
     }

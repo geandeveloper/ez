@@ -253,7 +253,7 @@
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
             <ul class="nav">
                 <li class="nav-item">
-                    <a class="nav-link" [routerLink]="[{ outlets:{ 'manager': 'dashboard' } }]">
+                    <a class="nav-link" [routerLink]="['/admin', { outlets:{ 'content':'dashboard' } }]">
                         <i class="icon-grid menu-icon"></i>
                         <span class="menu-title">Dashboard</span>
                     </a>
@@ -266,7 +266,7 @@
                     </a>
                     <div class="collapse" id="ui-basic">
                         <ul class="nav flex-column sub-menu">
-                            <li class="nav-item"> <a class="nav-link" [routerLink]="[{ outlets:{ 'manager': 'users' } }]">Cadastros</a>
+                            <li class="nav-item"> <a class="nav-link" [routerLink]="['/admin', { outlets:{ 'content':'users' } }]">Cadastros</a>
                             </li>
                         </ul>
                     </div>
@@ -277,7 +277,7 @@
         <div class="main-panel">
 
             <div class="content-wrapper">
-                <router-outlet name="manager"></router-outlet>
+                <router-outlet name="content"></router-outlet>
             </div>
             <!-- content-wrapper ends -->
             <!-- partial:partials/_footer.html -->

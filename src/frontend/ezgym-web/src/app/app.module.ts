@@ -14,6 +14,7 @@ import { EzGymModule } from './ezgym/ezgym.module';
 import { EzIdentityModule } from './ezidentity/ezidentity.module';
 import { ModalModule } from './shared/components/modal/modal.module';
 import { PreLoaderModule } from './shared/components/pre-loader/pre-loader.module';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 
 @NgModule({
@@ -38,8 +39,9 @@ import { PreLoaderModule } from './shared/components/pre-loader/pre-loader.modul
       useClass: BaseUrlInterceptor,
       multi: true
     },
-    { provide: "BASE_API_URL", useValue: " http://localhost:5000" },
-    { provide: HTTP_INTERCEPTORS, useClass: JwtRequestInterceptor, multi: true }
+    { provide: "BASE_API_URL", useValue: "http://localhost:5000" },
+    { provide: HTTP_INTERCEPTORS, useClass: JwtRequestInterceptor, multi: true },
+    { provide: LocationStrategy, useClass: HashLocationStrategy }
   ],
   bootstrap: [AppComponent]
 })

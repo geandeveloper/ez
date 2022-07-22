@@ -17,6 +17,8 @@ public static class Api
     public static IApplicationBuilder UseEzIdentityApi(this WebApplication app)
     {
         app.UseCors("localhost");
+        app.UsePathBase(new PathString("/api"));
+        app.UseRouting();
         app.UseAuthentication();
         app.UseAuthorization();
 
@@ -39,7 +41,7 @@ public static class Api
         });
 
         app.MapPost("/users",
-            //[Authorize]
+        //[Authorize]
         async (
             [FromServices] CreateUserCommandHandler handler,
             CreateUserCommand command) =>

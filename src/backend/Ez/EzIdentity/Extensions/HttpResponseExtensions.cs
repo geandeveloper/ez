@@ -8,11 +8,11 @@ namespace EzIdentity.Extensions
     {
         public static void SetRefreshTokenAsCookie(this IHttpContextAccessor httpContextAccessor, RefreshToken refreshToken)
         {
-            var cookieOptions = new CookieOptions { 
-                Domain = "localhost:4200",
-                SameSite = SameSiteMode.None, 
+            var cookieOptions = new CookieOptions {
+                HttpOnly = true,
                 Expires = refreshToken.Expires 
             };
+
             httpContextAccessor.HttpContext.Response.Cookies.Append(nameof(RefreshToken), refreshToken.Value, cookieOptions);
         }
 

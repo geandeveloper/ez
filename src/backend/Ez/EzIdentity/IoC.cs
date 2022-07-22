@@ -30,12 +30,6 @@ public static class IoC
         services.AddSingleton<CreateUserCommandHandler>();
         services.AddSingleton<RefreshTokenCommandHandler>();
 
-        services.Configure<CookiePolicyOptions>(options =>
-        {
-            options.CheckConsentNeeded = context => true;
-            options.MinimumSameSitePolicy = SameSiteMode.None;
-        });
-
         services.AddCors(c =>
         {
             c.AddPolicy("localhost", options => options.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod());

@@ -36,8 +36,7 @@ export class LoginComponent implements OnInit {
       ...this.loginForm.value
     }).subscribe(
       () => {
-        debugger
-        this.router.navigate(['/admin'])
+        this.router.navigate(['/'])
         this.preLoaderStore.close();
       },
       error => {

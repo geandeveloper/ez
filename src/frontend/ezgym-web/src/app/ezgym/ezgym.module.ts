@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { EzGymComponent } from './ezgym.component';
 
 import { AdminModule } from "./admin/admin.module";
-import { RouterModule } from "@angular/router";
+import { EzGymRoutingModule } from "./ezgym-routing-module";
 
 
 @NgModule({
@@ -13,8 +13,8 @@ import { RouterModule } from "@angular/router";
   ],
   imports: [
     FormsModule,
-    RouterModule,
     ReactiveFormsModule,
+    EzGymRoutingModule,
     AdminModule
   ],
   exports: [

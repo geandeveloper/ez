@@ -5,7 +5,15 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <_ContentIncludedByDefault Remove="wwwroot\json.json" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<ProjectReference Include="..\EzCommon\EzCommon.csproj" />
 		<ProjectReference Include="..\EzIdentity\EzIdentity.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="wwwroot\" />
 	</ItemGroup>
 </Project>
