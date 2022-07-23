@@ -10,7 +10,6 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using EzIdentity.Extensions;
 using EzIdentity.Features.RefreshToken;
-using Microsoft.AspNetCore.Builder;
 
 namespace EzIdentity;
 
@@ -32,7 +31,10 @@ public static class IoC
 
         services.AddCors(c =>
         {
-            c.AddPolicy("localhost", options => options.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod());
+            c.AddPolicy("localhost", options => options
+            .WithOrigins("http://localhost:4200")
+            .AllowAnyHeader()
+            .AllowAnyMethod());
         });
 
         services.AddAuthWithJwtBearer();

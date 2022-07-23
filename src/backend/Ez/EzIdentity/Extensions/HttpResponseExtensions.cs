@@ -10,6 +10,7 @@ namespace EzIdentity.Extensions
         {
             var cookieOptions = new CookieOptions {
                 HttpOnly = true,
+                Secure = true,
                 Expires = refreshToken.Expires 
             };
 

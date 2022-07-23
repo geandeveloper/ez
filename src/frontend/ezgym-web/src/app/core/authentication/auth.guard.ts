@@ -12,12 +12,12 @@ export class AuthGuard implements CanActivate {
 
   canActivate(_route: ActivatedRouteSnapshot, _state: RouterStateSnapshot) {
     const user = this.userStore.user;
-
+    
     if (user.authenticated)
       return true;
 
     return this.userStore
-      .refreshToken({ userId: user.id })
+      .refreshToken()
       .pipe(
         map(user => user.authenticated),
         tap(authenticated => {

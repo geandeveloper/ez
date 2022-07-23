@@ -14,7 +14,7 @@ import { EzGymModule } from './ezgym/ezgym.module';
 import { EzIdentityModule } from './ezidentity/ezidentity.module';
 import { ModalModule } from './shared/components/modal/modal.module';
 import { PreLoaderModule } from './shared/components/pre-loader/pre-loader.module';
-import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { AppRoutingModule } from './app-routing.module';
 
 
 @NgModule({
@@ -24,6 +24,7 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
   imports: [
     FormsModule,
     ReactiveFormsModule,
+    AppRoutingModule,
     HttpClientModule,
     RouterModule,
     BrowserModule,
@@ -39,9 +40,9 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
       useClass: BaseUrlInterceptor,
       multi: true
     },
-    { provide: "BASE_API_URL", useValue: "http://localhost:5000" },
+    { provide: "BASE_API_URL", useValue: "/api" },
     { provide: HTTP_INTERCEPTORS, useClass: JwtRequestInterceptor, multi: true },
-    { provide: LocationStrategy, useClass: HashLocationStrategy }
+    // { provide: LocationStrategy, useClass: HashLocationStrategy }
   ],
   bootstrap: [AppComponent]
 })

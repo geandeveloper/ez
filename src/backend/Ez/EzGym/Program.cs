@@ -9,6 +9,7 @@ builder.Services.AddEzIdentity();
 
 var app = builder.Build();
 
+app.UseHttpsRedirection();
 app.UseDefaultFiles();
 app.UseStaticFiles();
 app.UseEzIdentityApi();

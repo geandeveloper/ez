@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { PreLoaderStore } from 'src/app/shared/components/pre-loader/pre-loader.store';
 import { ModalStore } from 'src/app/shared/components/modal/modal.store';
+import { catchError, finalize, tap } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -27,32 +28,46 @@ export class LoginComponent implements OnInit {
       password: []
     })
 
+
+  }
+
+  ngOnInit(): void {
+    // this.preLoaderStore.show();
+    // this
+    //   .userStore
+    //   .refreshToken()
+    //   .pipe(
+    //     tap(user => {
+    //       debugger
+    //       if (user?.authenticated)
+    //         this.router.navigate(['/'])
+    //     }),
+    //     finalize(() => {
+    //       this.preLoaderStore.close();
+    //     })
+    //   ).subscribe()
   }
 
   login() {
-
     this.preLoaderStore.show();
     this.userStore.authenticate({
       ...this.loginForm.value
-    }).subscribe(
-      () => {
+    }).pipe(
+      tap(() => {
         this.router.navigate(['/'])
-        this.preLoaderStore.close();
-      },
-      error => {
-        console.log(error)
-        this.preLoaderStore.close();
+      }),
+      catchError((error) => {
         this.modalStore.error({
           title: "Algo deu errado !",
           description: "Usuario ou senha invalidos, por favor tente novamente"
         })
-
-      }
-    )
+        return error
+      }),
+      finalize(() => {
+        this.preLoaderStore.close();
+      })
+    ).subscribe()
 
     return false;
-  }
-
-  ngOnInit(): void {
   }
 }

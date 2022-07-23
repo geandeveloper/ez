@@ -35,9 +35,9 @@ export class UserStore extends Store<UserState> {
       )
   }
 
-  refreshToken(request: { userId: string }): Observable<UserState> {
+  refreshToken(): Observable<UserState> {
     return this.http
-      .post<any>(`users/refresh-token`, request)
+      .post<any>(`users/refresh-token`, this.user.id)
       .pipe(
         tap(response => {
           this.setState((state) => ({
