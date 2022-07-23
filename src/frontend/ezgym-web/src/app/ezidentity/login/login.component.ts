@@ -32,20 +32,19 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.preLoaderStore.show();
-    // this
-    //   .userStore
-    //   .refreshToken()
-    //   .pipe(
-    //     tap(user => {
-    //       debugger
-    //       if (user?.authenticated)
-    //         this.router.navigate(['/'])
-    //     }),
-    //     finalize(() => {
-    //       this.preLoaderStore.close();
-    //     })
-    //   ).subscribe()
+    this.preLoaderStore.show();
+    this
+      .userStore
+      .refreshToken()
+      .pipe(
+        tap(user => {
+          if (user?.authenticated)
+            this.router.navigate(['/'])
+        }),
+        finalize(() => {
+          this.preLoaderStore.close();
+        })
+      ).subscribe()
   }
 
   login() {

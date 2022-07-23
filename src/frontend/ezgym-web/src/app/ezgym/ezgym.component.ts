@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { tap, catchError, finalize } from 'rxjs';
 import "../../assets/templates/skydash/skydash"
+import { UserStore } from '../core/authentication/user.store';
+import { ModalStore } from '../shared/components/modal/modal.store';
+import { PreLoaderStore } from '../shared/components/pre-loader/pre-loader.store';
 
 @Component({
   selector: 'ezgym',
@@ -7,6 +12,34 @@ import "../../assets/templates/skydash/skydash"
   styleUrls: ['./ezgym.component.scss']
 })
 export class EzGymComponent {
-  constructor() {
+  constructor(
+    private userStore: UserStore,
+    private modalStore: ModalStore,
+    private preLoaderStore: PreLoaderStore,
+    private router: Router
+  ) {
+
+  }
+
+  logout() {
+    this.preLoaderStore.show();
+    this.userStore.revokeToken()
+      .pipe(
+        tap(() => {
+          this.router.navigate(['/ezidentity/login'])
+        }),
+        catchError((error) => {
+          this.modalStore.error({
+            title: "Algo deu errado !",
+            description: "Por favor tente novamente"
+          })
+          return error
+        }),
+        finalize(() => {
+          this.preLoaderStore.close();
+        })
+      ).subscribe()
+
+    return false;
   }
 }

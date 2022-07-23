@@ -10,7 +10,9 @@ import { Observable, of } from 'rxjs';
 })
 export class UserStore extends Store<UserState> {
 
-  user: UserState = { id: "", email: "", accessToken: "", authenticated: false }
+  private readonly initialUserState = { id: "", email: "", accessToken: "", authenticated: false };
+
+  user: UserState = { ...this.initialUserState }
 
   constructor(private http: HttpClient) {
     super()
@@ -37,7 +39,7 @@ export class UserStore extends Store<UserState> {
 
   refreshToken(): Observable<UserState> {
     return this.http
-      .post<any>(`users/refresh-token`, this.user.id)
+      .post<any>(`users/refresh-token`, {})
       .pipe(
         tap(response => {
           this.setState((state) => ({
@@ -47,6 +49,17 @@ export class UserStore extends Store<UserState> {
           }))
         }),
         map(() => this.user)
+      )
+  }
+
+  revokeToken(): Observable<UserState> {
+    return this.http
+      .post<any>(`users/revoke-token`, {})
+      .pipe(
+        tap(() => {
+          this.setState(() => ({ ...this.initialUserState }))
+        }),
+        map(() => this.initialUserState)
       )
   }
 }
