@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { PreLoaderStore } from 'src/app/shared/components/pre-loader/pre-loader.store';
 import { ModalStore } from 'src/app/shared/components/modal/modal.store';
-import { catchError, finalize, tap } from 'rxjs';
+import { catchError, finalize, of, tap } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -55,12 +55,12 @@ export class LoginComponent implements OnInit {
       tap(() => {
         this.router.navigate(['/'])
       }),
-      catchError((error) => {
+      catchError(() => {
         this.modalStore.error({
           title: "Algo deu errado !",
           description: "Usuario ou senha invalidos, por favor tente novamente"
         })
-        return error
+        return of([])
       }),
       finalize(() => {
         this.preLoaderStore.close();
