@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading;
 using EzIdentity.Extensions;
 using EzIdentity.Features.RefreshToken;
-
+using EzIdentity.Features.RevokeToken;
 
 namespace EzIdentity;
 
@@ -40,9 +40,7 @@ public static class Api
             });
         });
 
-        app.MapPost("/users",
-        //[Authorize]
-        async (
+        app.MapPost("/users", async (
             [FromServices] CreateUserCommandHandler handler,
             CreateUserCommand command) =>
         {
@@ -67,6 +65,16 @@ public static class Api
             });
         });
 
+        app.MapPost("/users/revoke-token", async (
+            [FromServices] RevokeTokenCommandHandler handler,
+            IHttpContextAccessor httpContextAccessor
+            ) =>
+        {
+            var eventStream = await handler.Handle(new RevokeTokenCommand(httpContextAccessor.GetRefreshTokenFromCookie()), CancellationToken.None);
+            httpContextAccessor.DeleteRefreshCookie();
+
+            return Results.Ok();
+        });
 
         return app;
 

@@ -4,7 +4,7 @@ using System;
 
 namespace EzIdentity.Extensions
 {
-    public static class HttpExtensions
+    public static class HttpRefreshCookieExtensions
     {
         public static void SetRefreshTokenAsCookie(this IHttpContextAccessor httpContextAccessor, RefreshToken refreshToken)
         {
@@ -20,6 +20,11 @@ namespace EzIdentity.Extensions
         public static string GetRefreshTokenFromCookie(this IHttpContextAccessor httpContextAccessor)
         {
             return httpContextAccessor.HttpContext.Request.Cookies[nameof(RefreshToken)].ToString();
+        }
+
+        public static void DeleteRefreshCookie(this IHttpContextAccessor httpContextAccessor)
+        {
+            httpContextAccessor.HttpContext.Response.Cookies.Delete(nameof(RefreshToken));
         }
     }
 }

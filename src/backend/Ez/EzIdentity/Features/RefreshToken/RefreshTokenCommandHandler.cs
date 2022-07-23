@@ -14,14 +14,11 @@ namespace EzIdentity.Features.RefreshToken;
 
 public class RefreshTokenCommandHandler : ICommandHandler<RefreshTokenCommand>
 {
-    private readonly TokenService _tokenService;
     private readonly IEventStore _eventStore;
 
     public RefreshTokenCommandHandler(
-        TokenService tokenService,
         IEventStore eventStore)
     {
-        _tokenService = tokenService;
         _eventStore = eventStore;
     }
 
@@ -32,17 +29,7 @@ public class RefreshTokenCommandHandler : ICommandHandler<RefreshTokenCommand>
         if (user == null)
             throw new Exception("Invalid refresh token value");
 
-        if (user.RefreshToken.Expires <= DateTime.UtcNow)
-            throw new Exception("Refresh token already expired, please login again");
-
-        var accessToken = _tokenService.GenerateAccessToken(() => new Claim[]
-            {
-                    new Claim(nameof(User.Id), user.Id.ToString()),
-                    new Claim(ClaimTypes.Email, user.Email),
-            });
-
-        var refreshToken = _tokenService.GenereateRefreshToken();
-        user.SuccessRefreshToken(accessToken, refreshToken);
+        user.RenewToken();
 
         return await _eventStore.SaveAsync(user);
     }

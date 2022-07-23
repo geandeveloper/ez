@@ -1,17 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { tap, catchError, finalize } from 'rxjs';
-import "../../assets/templates/skydash/skydash"
 import { UserStore } from '../core/authentication/user.store';
 import { ModalStore } from '../shared/components/modal/modal.store';
 import { PreLoaderStore } from '../shared/components/pre-loader/pre-loader.store';
+
 
 @Component({
   selector: 'ezgym',
   templateUrl: './ezgym.component.html',
   styleUrls: ['./ezgym.component.scss']
 })
-export class EzGymComponent {
+export class EzGymComponent implements OnInit {
   constructor(
     private userStore: UserStore,
     private modalStore: ModalStore,
@@ -19,6 +19,10 @@ export class EzGymComponent {
     private router: Router
   ) {
 
+  }
+
+  ngOnInit(): void {
+    import("src/assets/templates/skydash/skydash")
   }
 
   logout() {

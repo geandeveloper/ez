@@ -1,5 +1,4 @@
 ﻿using EzIdentity.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -9,7 +8,7 @@ using System.Text;
 
 namespace EzIdentity.Services;
 
-public class TokenService
+public static class TokenService
 {
 
     public static TokenValidationParameters TokenValidationParameters = new()
@@ -22,7 +21,7 @@ public class TokenService
         ClockSkew = TimeSpan.Zero,
     };
 
-    public AccessToken GenerateAccessToken(Func<Claim[]> getClaims)
+    public static AccessToken GenerateAccessToken(Func<Claim[]> getClaims)
     {
         var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("ZWRpw6fDo28gZW0gY29tcHV0YWRvcmE"));
         var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
@@ -38,7 +37,7 @@ public class TokenService
         return new AccessToken(tokenString);
     }
 
-    public RefreshToken GenereateRefreshToken()
+    public static RefreshToken GenereateRefreshToken()
     {
         var randomNumber = new byte[32];
         using var rng = RandomNumberGenerator.Create();

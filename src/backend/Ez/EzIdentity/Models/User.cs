@@ -1,11 +1,9 @@
 ﻿using EzCommon.Models;
 using EzIdentity.Events;
 using EzIdentity.Features.CreateUser;
-using EzIdentity.Features.Login;
+using EzIdentity.Services;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.Immutable;
+using System.Security.Claims;
 
 namespace EzIdentity.Models
 {
@@ -24,14 +22,41 @@ namespace EzIdentity.Models
             RaiseEvent(new UserCreatedEvent(Guid.NewGuid(), command.Name, command.Email, command.Password));
         }
 
-        public void SuccessLogin(AccessToken accessToken, RefreshToken refreshToken)
+        public void Login()
         {
+            var accessToken = TokenService.GenerateAccessToken(() => new Claim[]
+            {
+                    new Claim(nameof(Id), Id.ToString()),
+                    new Claim(ClaimTypes.Email, Email),
+            });
+
+            var refreshToken = TokenService.GenereateRefreshToken();
+
             RaiseEvent(new SucessLoginEvent(accessToken, refreshToken));
         }
 
-        public void SuccessRefreshToken(AccessToken accessToken, RefreshToken refreshToken)
+        public void RenewToken()
         {
+            if (RefreshToken.Expires <= DateTime.UtcNow)
+                throw new Exception("Refresh token already expired, please login again");
+
+            var accessToken = TokenService.GenerateAccessToken(() => new Claim[]
+                {
+                    new Claim(nameof(Id), Id.ToString()),
+                    new Claim(ClaimTypes.Email, Email),
+                });
+
+            var refreshToken = TokenService.GenereateRefreshToken();
+
             RaiseEvent(new SucessRenewTokenEvent(accessToken, refreshToken));
+        }
+
+        public void RevokeToken(string refreshToken)
+        {
+            if (RefreshToken.Value != refreshToken)
+                throw new Exception("invalid token");
+
+            RaiseEvent(new SucessRevokeTokenEvent());
         }
 
         protected override void RegisterEvents()
@@ -39,6 +64,12 @@ namespace EzIdentity.Models
             RegisterEvent<UserCreatedEvent>(When);
             RegisterEvent<SucessLoginEvent>(When);
             RegisterEvent<SucessRenewTokenEvent>(When);
+            RegisterEvent<SucessRevokeTokenEvent>(When);
+        }
+
+        private void When(SucessRevokeTokenEvent obj)
+        {
+            RefreshToken = null;
         }
 
         private void When(SucessLoginEvent @event)

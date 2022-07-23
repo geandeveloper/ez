@@ -24,10 +24,10 @@ public static class IoC
         services.AddMediatR(typeof(IoC));
         services.AddSingleton<IBus, InMemoryBus>();
 
-        services.AddSingleton<TokenService>();
         services.AddSingleton<LoginCommandHandler>();
         services.AddSingleton<CreateUserCommandHandler>();
         services.AddSingleton<RefreshTokenCommandHandler>();
+        services.AddSingleton<RevokeTokenCommandHandler>();
 
         services.AddCors(c =>
         {
