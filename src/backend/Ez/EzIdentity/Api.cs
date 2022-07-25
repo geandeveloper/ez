@@ -1,7 +1,6 @@
 using EzIdentity.Events;
 using EzIdentity.Features.CreateUser;
 using EzIdentity.Features.Login;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,9 +15,6 @@ public static class Api
 {
     public static IApplicationBuilder UseEzIdentityApi(this WebApplication app)
     {
-        app.UseCors("localhost");
-        app.UsePathBase(new PathString("/api"));
-        app.UseRouting();
         app.UseAuthentication();
         app.UseAuthorization();
 

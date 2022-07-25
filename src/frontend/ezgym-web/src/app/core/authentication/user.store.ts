@@ -1,4 +1,4 @@
-import { catchError, map, tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Store } from '../state/store';
 import { UserState } from './user.state';
@@ -10,12 +10,12 @@ import { Observable, of } from 'rxjs';
 })
 export class UserStore extends Store<UserState> {
 
-  private readonly initialUserState = { id: "", email: "", accessToken: "", authenticated: false };
-
-  user: UserState = { ...this.initialUserState }
+  user: UserState
 
   constructor(private http: HttpClient) {
-    super()
+    super({ id: "", email: "", accessToken: "", authenticated: false })
+
+    this.user = this.initialState;
 
     this.store$.subscribe(userState => {
       this.user = userState
@@ -57,9 +57,9 @@ export class UserStore extends Store<UserState> {
       .post<any>(`users/revoke-token`, {})
       .pipe(
         tap(() => {
-          this.setState(() => ({ ...this.initialUserState }))
+          this.setState(() => ({ ...this.initialState }))
         }),
-        map(() => this.initialUserState)
+        map(() => this.initialState)
       )
   }
 }

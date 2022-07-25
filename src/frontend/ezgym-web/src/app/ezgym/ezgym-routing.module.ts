@@ -11,7 +11,8 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {
-        path: 'admin', loadChildren: () => import("./admin/admin-routing-module").then(m => m.AdminRoutingModule)
+        path: 'gyms',
+        loadChildren: () => import("./gyms/gyms.module").then(m => m.GymModule)
       }
     ]
   }

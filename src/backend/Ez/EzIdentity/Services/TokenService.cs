@@ -29,7 +29,7 @@ public static class TokenService
             issuer: "https://localhost:5000",
             audience: "https://localhost:5000",
             claims: getClaims(),
-            expires: DateTime.Now.AddSeconds(15),
+            expires: DateTime.Now.AddHours(24),
             signingCredentials: signinCredentials
         );
 

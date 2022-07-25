@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit {
       ...this.loginForm.value
     }).pipe(
       tap(() => {
-        this.router.navigate(['/'])
+        location.href = "/"
       }),
       catchError(() => {
         this.modalStore.error({

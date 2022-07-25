@@ -1,0 +1,51 @@
+<div class="col-12 grid-margin stretch-card">
+    <div class="card">
+        <form [formGroup]="creaGymFormGroup" (ngSubmit)="createGym()">
+            <div class="card-body" formGroupName="gym">
+                <h4 class="card-title">Criar uma nova academia</h4>
+                <p class="card-description">
+                    Informações da academia
+                </p>
+                <div class="form-group">
+                    <label for="exampleInputName1">Nome da Academia</label>
+                    <input formControlName="fantasyName" type="text" class="form-control" placeholder="Nome fantasia">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail3">CNPJ</label>
+                    <input formControlName="cnpj" type="text" class="form-control" placeholder="CNPJ">
+                </div>
+            </div>
+
+            <div class="card-body" formGroupName="address">
+                <p class="card-description">
+                    Endereço da academia
+                </p>
+                <div class="form-group">
+                    <label>CEP</label>
+                    <input formControlName="cep" type="text" #cep (focusout)="searchAddressByCep(cep.value)"
+                        class="form-control" placeholder="Cep">
+                </div>
+                <div class="form-group">
+                    <label>Numero</label>
+                    <input formControlName="number" type="text" (keyup)="addressChanged()" class="form-control"
+                        placeholder="Numero">
+                </div>
+                <div class="form-group">
+                    <label>Complementar</label>
+                    <input formControlName="extraInformation" (keyup)="addressChanged()" type="text"
+                        class="form-control" placeholder="Complemento">
+                </div>
+                <div class="form-group">
+                    <label>Por favor verifique se o endereço esta correto</label>
+                    <blockquote class="blockquote">
+                        <p class="mb-0">{{ui.address1}}</p>
+                        <p class="mb-0">{{ui.address2}}</p>
+                        <p class="mb-0">{{ui.address3}}</p>
+                        <p class="mb-0">{{ui.address4}}</p>
+                    </blockquote>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Salvar</button>
+            </div>
+        </form>
+    </div>
+</div>

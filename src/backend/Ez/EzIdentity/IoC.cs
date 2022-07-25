@@ -29,15 +29,7 @@ public static class IoC
         services.AddSingleton<RefreshTokenCommandHandler>();
         services.AddSingleton<RevokeTokenCommandHandler>();
 
-        services.AddCors(c =>
-        {
-            c.AddPolicy("localhost", options => options
-            .WithOrigins("http://localhost:4200")
-            .AllowAnyHeader()
-            .AllowAnyMethod());
-        });
-
-        services.AddAuthWithJwtBearer();
+             services.AddAuthWithJwtBearer();
 
         return services;
     }
