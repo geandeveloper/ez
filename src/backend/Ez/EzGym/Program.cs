@@ -2,22 +2,20 @@
 using EzCommon;
 using EzIdentity;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
+using EzGym;
 
 var builder = WebApplication
     .CreateBuilder();
 
-builder.Services.AddCors(c =>
-        {
-            c.AddPolicy("localhost", options => options
-            .WithOrigins("http://localhost:4200")
-            .AllowAnyHeader()
-            .AllowAnyMethod());
-        });
 
-builder.Services.AddEzIdentity();
+//EzGym Services
+builder.Services
+    .AddEzCommon(typeof(EzCommon.Api))
+    .AddEzIdentity()
+    .AddEzGym();
 
 var app = builder.Build();
+
 
 app.UseHttpsRedirection();
 app.UseDefaultFiles();
@@ -28,7 +26,8 @@ app.UseRouting();
 
 
 //EzGym Modules
-app.UseEzCommonApi();
-app.UseEzIdentityApi();
+app.UseEzCommonApi()
+.UseEzIdentityApi()
+.UseEzGymApi();
 
 app.Run();

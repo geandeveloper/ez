@@ -5,9 +5,9 @@ using Refit;
 
 namespace EzCommon
 {
-    public static class EzCommonApi
+    public static class Api
     {
-        public static IApplicationBuilder UseEzCommonApi(this WebApplication app)
+        public static WebApplication UseEzCommonApi(this WebApplication app)
         {
             app.MapGet("/integrations/services/search-address/{cep}", async (string cep) =>
             {
@@ -15,7 +15,14 @@ namespace EzCommon
                 .For<ISearchAddressService>("https://viacep.com.br/")
                 .SearchByCep(cep);
 
-                return Results.Ok(address);
+                return Results.Ok(new
+                {
+                    Cep = address.Cep,
+                    Street = address.Logradouro,
+                    Neighborhood = address.Bairro,
+                    City = address.Localidade,
+                    State = address.Uf,
+                });
             });
 
             return app;

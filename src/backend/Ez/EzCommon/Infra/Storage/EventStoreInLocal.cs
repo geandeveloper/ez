@@ -7,7 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace EzIdentity.Infra.Storage
+namespace EzCommon.Infra.Storage
 {
     public class EventStoreInLocal : IEventStore
     {

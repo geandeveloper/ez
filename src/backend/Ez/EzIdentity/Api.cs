@@ -13,7 +13,7 @@ namespace EzIdentity;
 
 public static class Api
 {
-    public static IApplicationBuilder UseEzIdentityApi(this WebApplication app)
+    public static WebApplication UseEzIdentityApi(this WebApplication app)
     {
         app.UseAuthentication();
         app.UseAuthorization();

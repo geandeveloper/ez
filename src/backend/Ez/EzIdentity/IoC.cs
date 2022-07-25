@@ -2,9 +2,6 @@
 using EzCommon.Infra.Storage;
 using EzIdentity.Features.CreateUser;
 using EzIdentity.Features.Login;
-using EzIdentity.Infra.Bus;
-using EzIdentity.Infra.Storage;
-using EzIdentity.Services;
 using Microsoft.Extensions.DependencyInjection;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -29,7 +26,7 @@ public static class IoC
         services.AddSingleton<RefreshTokenCommandHandler>();
         services.AddSingleton<RevokeTokenCommandHandler>();
 
-             services.AddAuthWithJwtBearer();
+        services.AddAuthWithJwtBearer();
 
         return services;
     }

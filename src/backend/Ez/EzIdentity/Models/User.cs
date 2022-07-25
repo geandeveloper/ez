@@ -28,6 +28,7 @@ namespace EzIdentity.Models
             {
                     new Claim(nameof(Id), Id.ToString()),
                     new Claim(ClaimTypes.Email, Email),
+                    new Claim(ClaimTypes.Name, Name ?? Email)
             });
 
             var refreshToken = TokenService.GenereateRefreshToken();
@@ -44,6 +45,7 @@ namespace EzIdentity.Models
                 {
                     new Claim(nameof(Id), Id.ToString()),
                     new Claim(ClaimTypes.Email, Email),
+                    new Claim(ClaimTypes.Name, Name ?? Email)
                 });
 
             var refreshToken = TokenService.GenereateRefreshToken();
