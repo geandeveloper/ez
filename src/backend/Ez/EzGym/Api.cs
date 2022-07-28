@@ -15,7 +15,7 @@ namespace EzGym
     {
         public static WebApplication UseEzGymApi(this WebApplication app)
         {
-            app.MapPost("/ezgym/gyms",
+            app.MapPost("/gyms",
                 [Authorize]
             async (
                       [FromServices] EzPrincipal principal,
@@ -26,7 +26,7 @@ namespace EzGym
                       return Results.Ok(eventStream.GetEvent<GymCreatedEvent>());
                   });
 
-            app.MapGet("/ezgym/userinfo",
+            app.MapGet("/userinfo",
                 [Authorize] (
                       [FromServices] EzPrincipal principal,
                       [FromServices] IQueryStorage queryStorage) =>

@@ -13166,12 +13166,12 @@ input[type="button"].btn-block {
 }
 
 .dropdown-menu-left {
-    right: auto;
+    right: -130px !important;
     left: 0;
 }
 
 .dropdown-menu-right {
-    right: 0;
+    right: 0px;
     left: auto;
 }
 
@@ -18683,6 +18683,7 @@ button.bg-dark:focus,
 .navbar .navbar-menu-wrapper .navbar-nav .nav-item.nav-settings,
 .navbar .navbar-menu-wrapper .navbar-nav.navbar-nav-right {
     align-self: stretch !important;
+    margin-left: auto;
 }
 
 @media (min-width: 576px) {
@@ -33358,15 +33359,14 @@ div.tagsinput span.tag a {
     color: #6C7383;
     padding-right: 2.375rem;
     padding-left: 2.375rem;
-    width: calc(100% - 235px);
+    width: calc(100%);
     height: 60px;
 }
 
 @media (max-width: 991px) {
     .navbar .navbar-menu-wrapper {
-        width: calc(100% - 55px);
+        width: calc(100%);
         padding-left: 15px;
-        padding-right: 11px;
     }
 }
 
@@ -33706,7 +33706,7 @@ div.tagsinput span.tag a {
     margin-top: 0;
     right: 0;
     left: auto;
-    top: 70px;
+    top: 50px;
 }
 
 .rtl .navbar .navbar-menu-wrapper .navbar-nav .nav-item.dropdown .navbar-dropdown {
