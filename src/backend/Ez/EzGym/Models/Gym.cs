@@ -1,6 +1,6 @@
 ﻿using EzCommon.Models;
 using EzGym.Events;
-using EzGym.Features.CreateGym;
+using EzGym.Features.Gyms.CreateGym;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +14,7 @@ namespace EzGym.Models
         public string Cnpj { get; protected set; }
         public IList<Address> Addresses { get; protected set; }
 
+        private Gym() { }
         public Gym(CreateGymCommand command)
         {
             RaiseEvent(new GymCreatedEvent(

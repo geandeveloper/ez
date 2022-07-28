@@ -10,7 +10,7 @@ var builder = WebApplication
 
 //EzGym Services
 builder.Services
-    .AddEzCommon(typeof(EzCommon.Api))
+    .AddEzCommon(typeof(EzCommon.Api), typeof(EzGym.Api), typeof(EzIdentity.Api))
     .AddEzIdentity()
     .AddEzGym();
 

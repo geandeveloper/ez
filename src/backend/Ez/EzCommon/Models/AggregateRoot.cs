@@ -31,10 +31,12 @@ namespace EzCommon.Models
 
         protected void RaiseEvent(IEvent @event)
         {
-            @event.AggregateId = Id;
             @event.Version = Version + 1;
+
             _eventHandlers[@event.GetType().Name](@event);
             _events.Enqueue(@event);
+
+            @event.AggregateId = Id;
             Version = _events.Max(e => e.Version);
         }
 

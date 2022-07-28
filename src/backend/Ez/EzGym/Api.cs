@@ -1,6 +1,8 @@
-﻿using EzCommon.Models;
+﻿using EzCommon.Infra.Storage;
+using EzCommon.Models;
 using EzGym.Events;
-using EzGym.Features.CreateGym;
+using EzGym.Features.Gyms.CreateGym;
+using EzGym.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -24,8 +26,20 @@ namespace EzGym
                       return Results.Ok(eventStream.GetEvent<GymCreatedEvent>());
                   });
 
-            return app;
+            app.MapGet("/ezgym/userinfo",
+                [Authorize] (
+                      [FromServices] EzPrincipal principal,
+                      [FromServices] IQueryStorage queryStorage) =>
+                  {
+                      var userInfo = new
+                      {
+                          Gyms = queryStorage.Query<Gym>(gym => gym.OwnerId == principal.Id)
+                      };
 
+                      return Results.Ok(userInfo);
+                  });
+
+            return app;
         }
 
     }

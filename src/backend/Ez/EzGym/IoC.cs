@@ -1,5 +1,5 @@
 ﻿using EzCommon;
-using EzGym.Features.CreateGym;
+using EzGym.Features.Gyms.CreateGym;
 using EzIdentity;
 using Microsoft.Extensions.DependencyInjection;
 

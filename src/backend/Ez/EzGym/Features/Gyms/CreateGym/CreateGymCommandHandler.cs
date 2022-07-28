@@ -5,7 +5,7 @@ using EzGym.Models;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace EzGym.Features.CreateGym
+namespace EzGym.Features.Gyms.CreateGym
 {
     public class CreateGymCommandHandler : ICommandHandler<CreateGymCommand>
     {

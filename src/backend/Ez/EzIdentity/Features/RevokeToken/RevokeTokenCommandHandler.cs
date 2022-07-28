@@ -9,16 +9,20 @@ using System.Threading.Tasks;
 public class RevokeTokenCommandHandler : ICommandHandler<RevokeTokenCommand>
 {
     private readonly IEventStore _eventStore;
+    private readonly IQueryStorage _queryStorage;
 
     public RevokeTokenCommandHandler(
-        IEventStore eventStore)
+        IEventStore eventStore,
+        IQueryStorage queryStorage
+        )
     {
         _eventStore = eventStore;
+        _queryStorage = queryStorage;
     }
 
     public async Task<EventStream> Handle(RevokeTokenCommand request, CancellationToken cancellationToken)
     {
-        var user = _eventStore.GetSnapShot<User>(user => user.RefreshToken.Value == request.RefreshToken);
+        var user = _queryStorage.GetSnapShot<User>(user => user.RefreshToken.Value == request.RefreshToken);
 
         user.RevokeToken(request.RefreshToken);
 

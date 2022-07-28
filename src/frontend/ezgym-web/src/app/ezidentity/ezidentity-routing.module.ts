@@ -9,7 +9,7 @@ const routes: Routes = [
     path: 'ezidentity',
     children: [
       { path: 'login', component: LoginComponent },
-      { path: 'create', component: CreateUserComponent }
+      { path: 'create', component: CreateUserComponent, data: { animation: 'isRight' } }
     ]
   }
 ];

@@ -3,11 +3,11 @@ import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import { MatStepperModule } from '@angular/material/stepper';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { EzGymComponent } from './ezgym.component';
 
-import { AdminModule } from "./admin/admin.module";
 import { EzGymRoutingModule } from "./ezgym-routing.module";
 
 
@@ -19,8 +19,7 @@ import { EzGymRoutingModule } from "./ezgym-routing.module";
     FormsModule,
     ReactiveFormsModule,
     EzGymRoutingModule,
-    AdminModule,
-    MatStepperModule,
+    MatAutocompleteModule,
     MatFormFieldModule,
     GymModule
   ],

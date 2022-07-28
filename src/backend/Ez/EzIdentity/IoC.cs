@@ -16,7 +16,7 @@ public static class IoC
     {
 
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-        services.AddSingleton<IEventStore, EventStoreInLocal>();
+        services.AddSingleton<IEventStore, StoreInLocal>();
 
         services.AddMediatR(typeof(IoC));
         services.AddSingleton<IBus, InMemoryBus>();

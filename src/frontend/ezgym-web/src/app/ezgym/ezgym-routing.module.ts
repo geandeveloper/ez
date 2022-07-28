@@ -9,6 +9,7 @@ const routes: Routes = [
     path: '',
     component: EzGymComponent,
     canActivate: [AuthGuard],
+    data: { animation: 'isRight' },
     children: [
       {
         path: 'gyms',

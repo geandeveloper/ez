@@ -1,9 +1,14 @@
 import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { slider } from './shared/animations/route.animation';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  animations: [
+    slider
+  ]
 })
 export class AppComponent {
   title = 'ezgym-web';
@@ -13,6 +18,10 @@ export class AppComponent {
     setTimeout(() => {
       this.signUpMode = true
     }, 100)
+  }
+
+  prepareRoute(outlet: RouterOutlet) {
+    return outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'];
   }
 
 }

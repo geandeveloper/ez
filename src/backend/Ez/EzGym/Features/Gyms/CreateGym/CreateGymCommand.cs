@@ -2,7 +2,7 @@
 using EzGym.Features.Dtos;
 using System;
 
-namespace EzGym.Features.CreateGym
+namespace EzGym.Features.Gyms.CreateGym
 {
     public record CreateGymCommand(
         Guid OwnerId,
