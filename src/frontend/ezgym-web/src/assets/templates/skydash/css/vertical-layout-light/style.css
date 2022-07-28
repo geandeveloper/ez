@@ -32919,14 +32919,13 @@ div.tagsinput span.tag a {
 }
 
 .page-body-wrapper {
-    min-height: calc(100vh - 60px);
+    min-height: calc(100vh);
     display: -webkit-flex;
     display: flex;
     -webkit-flex-direction: row;
     flex-direction: row;
     padding-left: 0;
     padding-right: 0;
-    padding-top: 60px;
 }
 
 .page-body-wrapper.full-page-wrapper {
@@ -32938,7 +32937,7 @@ div.tagsinput span.tag a {
 .main-panel {
     transition: width 0.25s ease, margin 0.25s ease;
     width: calc(100%);
-    min-height: calc(100vh - 60px);
+    min-height: calc(100vh);
     display: -webkit-flex;
     display: flex;
     -webkit-flex-direction: column;
