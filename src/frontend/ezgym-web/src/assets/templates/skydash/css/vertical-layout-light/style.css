@@ -32937,7 +32937,7 @@ div.tagsinput span.tag a {
 
 .main-panel {
     transition: width 0.25s ease, margin 0.25s ease;
-    width: calc(100% - 235px);
+    width: calc(100%);
     min-height: calc(100vh - 60px);
     display: -webkit-flex;
     display: flex;
@@ -32954,7 +32954,7 @@ div.tagsinput span.tag a {
 
 .content-wrapper {
     background: #F5F7FF;
-    padding: 0px;
+    padding: 20px 0px;
     width: 100%;
     -webkit-flex-grow: 1;
     flex-grow: 1;

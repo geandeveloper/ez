@@ -2,5 +2,5 @@
 
 namespace EzIdentity.Features.CreateUser
 {
-    public record CreateUserCommand(string Name, string Email, string Password) : ICommand;
+    public record CreateUserCommand(string Name, string UserName, string Email, string Password) : ICommand;
 }

@@ -6,7 +6,8 @@ export const routes: Routes = [
     {
         path: 'create',
         component: CreateGymComponent,
-        outlet: 'content'
+        outlet: 'content',
+        data: { animation: 'isRight' }
     }
 ]
 

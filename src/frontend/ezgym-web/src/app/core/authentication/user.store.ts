@@ -13,7 +13,7 @@ export class UserStore extends Store<UserState> {
   user: UserState
 
   constructor(private http: HttpClient) {
-    super({ id: "", email: "", accessToken: "", authenticated: false })
+    super({ id: "", userName: "", accessToken: "", authenticated: false })
 
     this.user = this.initialState;
 
@@ -22,14 +22,19 @@ export class UserStore extends Store<UserState> {
     })
   }
 
-  authenticate(request: { email: string, password: string }) {
+  createUser(request: UserState) {
+    return this.http
+      .post<UserState>("users", request)
+  }
+
+  authenticate(request: { userName: string, password: string }) {
     return this.http
       .post<any>("users/token", request)
       .pipe(
         tap(response => {
           this.setState(() => ({
             id: response.userId,
-            email: request.email,
+            userName: request.userName,
             accessToken: response.accessToken,
             authenticated: true
           }))

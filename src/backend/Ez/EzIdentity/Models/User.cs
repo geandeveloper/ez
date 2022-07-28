@@ -9,6 +9,7 @@ namespace EzIdentity.Models
 {
     public class User : AggregateRoot
     {
+        public string UserName { get; private set; }
         public string Name { get; private set; }
         public string Email { get; private set; }
         public RefreshToken RefreshToken { get; private set; }
@@ -19,7 +20,7 @@ namespace EzIdentity.Models
 
         public User(CreateUserCommand command)
         {
-            RaiseEvent(new UserCreatedEvent(Guid.NewGuid(), command.Name, command.Email, command.Password));
+            RaiseEvent(new UserCreatedEvent(Guid.NewGuid(), command.Name, command.UserName, command.Email, command.Password));
         }
 
         public void Login()
@@ -28,7 +29,8 @@ namespace EzIdentity.Models
             {
                     new Claim(nameof(Id), Id.ToString()),
                     new Claim(ClaimTypes.Email, Email),
-                    new Claim(ClaimTypes.Name, Name ?? Email)
+                    new Claim(ClaimTypes.NameIdentifier, UserName),
+                    new Claim(ClaimTypes.Name, Name ?? UserName)
             });
 
             var refreshToken = TokenService.GenereateRefreshToken();
@@ -45,7 +47,8 @@ namespace EzIdentity.Models
                 {
                     new Claim(nameof(Id), Id.ToString()),
                     new Claim(ClaimTypes.Email, Email),
-                    new Claim(ClaimTypes.Name, Name ?? Email)
+                    new Claim(ClaimTypes.NameIdentifier, UserName),
+                    new Claim(ClaimTypes.Name, Name ?? UserName)
                 });
 
             var refreshToken = TokenService.GenereateRefreshToken();
@@ -88,6 +91,7 @@ namespace EzIdentity.Models
         {
             Id = @event.Id;
             Name = @event.Name;
+            UserName = @event.UserName;
             Email = @event.Email;
             Password = @event.Password;
         }

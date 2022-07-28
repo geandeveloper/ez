@@ -6,20 +6,22 @@
     background-size: cover;
   }
 }
+
 .modal-container {
   display: flex;
   max-width: 800px;
   justify-content: space-between;
 
-  > .content {
+  >.content {
     flex: 1 0 0;
   }
 
-  > .image {
+  >.image {
     flex: 1 0 0;
     text-align: right;
-    > img {
-      width: 250px;
+
+    >img {
+      width: 100%
     }
   }
 }

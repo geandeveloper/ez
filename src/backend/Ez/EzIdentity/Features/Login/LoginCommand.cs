@@ -2,5 +2,5 @@
 
 namespace EzIdentity.Features.Login;
 
-public record LoginCommand(string Email, string Password) : ICommand;
+public record LoginCommand(string UserName, string Password) : ICommand;
 

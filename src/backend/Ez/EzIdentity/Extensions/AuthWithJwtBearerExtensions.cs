@@ -22,6 +22,7 @@ public static class AuthWithJwtBearerExtensions
             return new EzPrincipal(
                 id: user.Claims.First(c => c.Type == nameof(EzPrincipal.Id)).Value.ToGuid(),
                 name: user.Claims.First(c => c.Type == ClaimTypes.Name).Value,
+                userName: user.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value,
                 email: user.Claims.First(c => c.Type == ClaimTypes.Email).Value
                 );
         });

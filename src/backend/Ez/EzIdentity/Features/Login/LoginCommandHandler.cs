@@ -24,7 +24,7 @@ public class LoginCommandHandler : ICommandHandler<LoginCommand>
 
     public async Task<EventStream> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
-        var user = _queryStorage.GetSnapShot<User>(user => user.Email == request.Email && user.Password == CryptographyService.CreateHash(request.Password));
+        var user = _queryStorage.GetSnapShot<User>(user => user.UserName == request.UserName && user.Password == CryptographyService.CreateHash(request.Password));
 
         user.Login();
 

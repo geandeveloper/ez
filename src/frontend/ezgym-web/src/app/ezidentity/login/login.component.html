@@ -2,7 +2,7 @@
     <div class="container-fluid page-body-wrapper full-page-wrapper">
         <div class="content-wrapper d-flex align-items-center auth px-0 login-component">
             <div class="row w-100 mx-0">
-                <div class="col-lg-4 mx-auto">
+                <div class="col-lg-6 mx-auto">
                     <div class="text-left py-5 px-4 px-sm-5">
                         <div class="brand-logo">
                             <img src="assets/img/ezgym-logo.svg" alt="logo">
@@ -11,21 +11,29 @@
                         <h6 class="font-weight-light">Bem vindo.</h6>
                         <form class="pt-3" [formGroup]="loginForm">
                             <div class="form-group">
-                                <input type="email" class="form-control form-control-lg" formControlName="email" placeholder="Email">
+                                <div class="input-group">
+                                    <div class="form-group-prepend">
+                                        <span class="input-group-text form-control-lg">@</span>
+                                    </div>
+                                    <input type="text" class="form-control form-control-lg" formControlName="userName"
+                                        placeholder="Usuario">
+                                </div>
                             </div>
                             <div class="form-group">
-                                <input type="password" class="form-control form-control-lg" autocomplete="cc-csc" formControlName="password" placeholder="Password">
+                                <input type="password" class="form-control form-control-lg" autocomplete="cc-csc"
+                                    formControlName="password" placeholder="Senha">
                             </div>
                             <div class="mt-3">
 
-                                <input type="submit" (click)="login()" value="Entrar" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" />
+                                <input type="submit" (click)="login()" value="Entrar"
+                                    class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" />
                             </div>
                             <div class="my-2 d-flex justify-content-between align-items-center">
                                 <div class="form-check form-check-flat form-check-primary">
                                     <label class="form-check-label">
-                                      <input type="checkbox" class="form-check-input">
-                                      Manter conectado
-                                    <i class="input-helper"></i></label>
+                                        <input type="checkbox" class="form-check-input">
+                                        Manter conectado
+                                        <i class="input-helper"></i></label>
                                 </div>
                                 <a href="#" class="auth-link text-black">Esqueceu a senha?</a>
                             </div>
@@ -39,7 +47,5 @@
                 </div>
             </div>
         </div>
-        <!-- content-wrapper ends -->
     </div>
-    <!-- page-body-wrapper ends -->
 </div>

@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
   ) {
 
     this.loginForm = this.formBuilder.group({
-      email: [],
+      userName: [],
       password: []
     })
 
@@ -53,10 +53,10 @@ export class LoginComponent implements OnInit {
       ...this.loginForm.value
     }).pipe(
       tap(() => {
-        location.href = "/"
+        this.router.navigate(['/'])
       }),
       catchError(() => {
-        this.modalStore.error({
+        this.modalStore.accessDenied({
           title: "Algo deu errado !",
           description: "Usuario ou senha invalidos, por favor tente novamente"
         })
