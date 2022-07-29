@@ -1,7 +1,7 @@
 export interface AccountModel {
     id: string,
     accountName: string,
-    active: false,
+    isDefault: false,
     accountType: AccounTypeEnum
 }
 

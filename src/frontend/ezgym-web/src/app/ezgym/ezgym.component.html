@@ -12,11 +12,12 @@
                         <p class="mb-0 font-weight-normal float-left dropdown-header">Academias</p>
                         <div *ngFor="let account of userState?.userInfo?.accounts">
                             <a class="dropdown-item preview-item">
-                                <i class="material-icons"> domain </i>
+                                <i class="material-icons"> {{account.accountType == 1 ? 'account_circle' : 'domain'}}
+                                </i>
                                 <div class="preview-item-content">
                                     <h6 class="preview-subject font-weight-normal">@{{account.accountName}}</h6>
                                     <p class="font-weight-light small-text mb-0 text-muted">
-                                        392 - Alunos
+                                        Perfil de {{account.accountType == 1 ? 'Usuario' : 'Academia'}}
                                     </p>
                                 </div>
                             </a>
@@ -80,26 +81,24 @@
         <div class="navbar-bottom navbar-item">
             <ul>
                 <li>
-                    <a>
+                    <a class="nav-link" href="#">
                         <i class=" material-icons">home</i>
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a class="nav-link" href="#">
                         <i class="material-icons"> search </i>
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a class="nav-link" href="#">
                         <i class="material-icons">event_available</i>
                     </a>
                 </li>
 
                 <li>
-                    <a href="#">
-                        <a class="nav-link" href="#">
-                            <img src="assets/templates/skydash/images/faces/face28.jpg" alt="profile" />
-                        </a>
+                    <a class="nav-link" href="#">
+                        <i class="material-icons">account_circle</i>
                     </a>
                 </li>
             </ul>

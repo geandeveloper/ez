@@ -4,5 +4,5 @@ using System;
 
 namespace EzGym.Features.Accounts.CreateAccount
 {
-    public record CreateAccountCommand(Guid UserId, string AccountName, AccountTypeEnum AccountType) : ICommand;
+    public record CreateAccountCommand(Guid UserId, string AccountName, AccountTypeEnum AccountType, bool IsDefault) : ICommand;
 }

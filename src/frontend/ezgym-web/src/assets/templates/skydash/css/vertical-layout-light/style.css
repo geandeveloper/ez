@@ -33758,7 +33758,7 @@ div.tagsinput span.tag a {
     }
 
     .navbar .navbar-menu-wrapper .navbar-nav .nav-item.dropdown .navbar-dropdown {
-        left: 20px;
+        left: 20px !important;
         right: 20px;
         top: 60px;
         width: calc(100% - 40px);

@@ -4,5 +4,5 @@ using System;
 
 namespace EzGym.Events
 {
-    public record AccountCreatedEvent(Guid Id, Guid UserId, string AccountName, AccountTypeEnum AccountType) : Event;
+    public record AccountCreatedEvent(Guid Id, Guid UserId, string AccountName, AccountTypeEnum AccountType, bool IsDefault) : Event;
 }

@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CreateGymComponent } from './create-gym/create-gym.component';
+import { CreateAccountComponent } from './create-account/create-account.component';
 
 export const routes: Routes = [
     {
         path: 'create',
-        component: CreateGymComponent,
+        component: CreateAccountComponent,
         outlet: 'content',
         data: { animation: 'isRight' }
     }

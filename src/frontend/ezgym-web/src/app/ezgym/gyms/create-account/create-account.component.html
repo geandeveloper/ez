@@ -1,8 +1,8 @@
 <div class="col-12 grid-margin stretch-card">
     <div class="card">
-        <form [formGroup]="creaGymFormGroup" (ngSubmit)="createGym()">
+        <form [formGroup]="createAccountFromGroup" (ngSubmit)="createAccount()">
             <div class="card-body">
-                <h4 class="card-title">Criar uma nova academia</h4>
+                <h4 class="card-title">Criar uma nova conta para Academia</h4>
                 <p class="card-description">
                     Informações da academia
                 </p>
@@ -20,14 +20,11 @@
                             placeholder="Academia Id">
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="exampleInputEmail3">CNPJ</label>
-                    <input formControlName="cnpj" type="text" class="form-control" placeholder="CNPJ">
-                </div>
+                <button type="submit" class="btn btn-primary btn-block">Salvar</button>
             </div>
 
             <div class="card-body" formGroupName="address">
-                <p class="card-description">
+                <!-- <p class="card-description">
                     Endereço da academia
                 </p>
                 <div class="form-group">
@@ -53,8 +50,7 @@
                         <p class="mb-0">{{ui.address3}}</p>
                         <p class="mb-0">{{ui.address4}}</p>
                     </blockquote>
-                </div>
-                <button type="submit" class="btn btn-primary btn-block">Salvar</button>
+                </div> -->
             </div>
         </form>
     </div>

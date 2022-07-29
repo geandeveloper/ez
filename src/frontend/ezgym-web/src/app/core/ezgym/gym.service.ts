@@ -1,4 +1,4 @@
-import { GymCreatedEvent } from './events/gym.model';
+import { GymCreatedEvent } from './events/gym.events';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
@@ -9,8 +9,4 @@ import { HttpClient } from "@angular/common/http";
 export class GymService {
     constructor(private http: HttpClient) { }
 
-    createGym(command: any): Observable<GymCreatedEvent> {
-        return this.http
-            .post<GymCreatedEvent>("accounts", command)
-    }
 }

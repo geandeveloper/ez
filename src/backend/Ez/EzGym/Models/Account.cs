@@ -10,6 +10,7 @@ namespace EzGym.Models
         public Guid UserId { get; private set; }
         public string AccountName { get; private set; }
         public AccountTypeEnum AccountType { get; private set; }
+        public bool IsDefault { get; private set; }
 
         private Account() { }
         public Account(CreateAccountCommand command)
@@ -18,7 +19,8 @@ namespace EzGym.Models
                     Id: Guid.NewGuid(),
                     UserId: command.UserId,
                     AccountName: command.AccountName,
-                    AccountType: command.AccountType
+                    AccountType: command.AccountType,
+                    IsDefault: command.IsDefault
            ));
         }
 
@@ -33,6 +35,7 @@ namespace EzGym.Models
             AccountName = @event.AccountName;
             UserId = @event.UserId;
             AccountType = @event.AccountType;
+            IsDefault = @event.IsDefault;
         }
     }
 }
