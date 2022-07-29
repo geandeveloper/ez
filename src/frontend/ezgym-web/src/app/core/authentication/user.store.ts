@@ -1,9 +1,9 @@
-import { map, tap } from 'rxjs/operators';
+import { map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Store } from '../state/store';
 import { UserInfoState, UserState } from './user.state';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { merge, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -37,8 +37,8 @@ export class UserStore extends Store<UserState> {
             accessToken: response.accessToken,
             authenticated: true
           }))
-          this.updateUserInfo().subscribe()
-        })
+        }),
+        mergeMap(() => this.updateUserInfo())
       )
   }
 
@@ -65,8 +65,8 @@ export class UserStore extends Store<UserState> {
             authenticated: true,
             accessToken: response.accessToken
           }))
-          this.updateUserInfo().subscribe()
         }),
+        mergeMap(() => this.updateUserInfo()),
         map(() => this.user)
       )
   }

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
+import { tap } from 'rxjs';
+import { UserStore } from 'src/app/core/authentication/user.store';
 
 @Component({
     selector: 'profile',
@@ -9,12 +11,20 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 export class ProfileComponent implements OnInit {
     userName: string = ""
 
-    constructor(private activeRoute: ActivatedRoute) {
-        debugger
-        this.activeRoute.paramMap.subscribe((params: ParamMap) => {
-            this.userName = params.get("id")!;
-        });
+    constructor(
+        private userStore: UserStore,
+        private activeRoute: ActivatedRoute
+    ) {
+
+        this.activeRoute.params
+            .pipe(
+                tap(params => {
+                    this.userName = params['accountName']
+                })
+            ).subscribe()
     }
 
-    ngOnInit() { }
+    ngOnInit() {
+
+    }
 }

@@ -1,4 +1,3 @@
-import { GymModule } from './gyms/gyms.module';
 import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
@@ -24,7 +23,6 @@ import { ProfileComponent } from './profile/profile.component';
     EzGymRoutingModule,
     MatAutocompleteModule,
     MatFormFieldModule,
-    GymModule
   ],
   exports: [
     EzGymComponent

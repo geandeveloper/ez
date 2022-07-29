@@ -7,7 +7,6 @@ export const routes: Routes = [
         path: 'create',
         component: CreateAccountComponent,
         outlet: 'content',
-        data: { animation: 'isRight' }
     }
 ]
 
@@ -15,4 +14,4 @@ export const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule]
 })
-export class GymsRoutingModule { }
+export class AccountRoutingModule { }

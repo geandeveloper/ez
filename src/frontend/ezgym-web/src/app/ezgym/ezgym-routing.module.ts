@@ -3,19 +3,31 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from 'src/app/core/authentication/auth.guard';
 
 import { EzGymComponent } from './ezgym.component';
+import { ProfileComponent } from './profile/profile.component';
 
 const routes: Routes = [
   {
-    path: '',
+    path: ':accountName',
     component: EzGymComponent,
     canActivate: [AuthGuard],
-    data: { animation: 'isRight' },
     children: [
       {
-        path: 'gyms',
-        loadChildren: () => import("./gyms/gyms.module").then(m => m.GymModule)
-      }
+        path: '',
+        component: ProfileComponent,
+        outlet: 'content'
+      },
     ]
+  },
+  {
+    path: 'accounts',
+    canActivate: [AuthGuard],
+    component: EzGymComponent,
+    loadChildren: () => import("./accounts/accounts.module").then(m => m.AccountsModule)
+  },
+  {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: '/ezidentity/login'
   }
 ];
 

@@ -14,24 +14,20 @@ import { PreLoaderStore } from '../shared/components/pre-loader/pre-loader.store
 })
 export class EzGymComponent implements OnInit {
 
-  userState = {} as UserState 
+  userState = {} as UserState
 
   constructor(
     private userStore: UserStore,
     private modalStore: ModalStore,
     private preLoaderStore: PreLoaderStore,
-    private router: Router,
-    private activeRoute: ActivatedRoute
-  ) {
+    private router: Router  ) {
 
-    this.activeRoute.paramMap.subscribe((params: ParamMap) => {
-    });
+    this.userStore.store$.subscribe(userState => {
+      this.userState = userState;
+    })
   }
 
   ngOnInit(): void {
-    this.userStore.store$.subscribe(userState => {
-      this.userState = userState
-    })
     import("src/assets/templates/skydash/skydash")
   }
 

@@ -8,7 +8,6 @@ import { debounceTime, switchMap } from 'rxjs';
 import { Store } from 'src/app/core/state/store';
 import { AccountService } from 'src/app/core/ezgym/account.service';
 import { UserStore } from 'src/app/core/authentication/user.store';
-import { AccounTypeEnum } from 'src/app/core/ezgym/models/accout.model';
 
 interface CreateAccountComponentState {
     fantasyName: string,

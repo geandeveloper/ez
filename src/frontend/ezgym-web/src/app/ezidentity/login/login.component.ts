@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
       .pipe(
         tap(user => {
           if (user?.authenticated)
-            this.router.navigate(['/'])
+            this.router.navigate(['/', user.userInfo?.userName])
         }),
         finalize(() => {
           this.preLoaderStore.close();
@@ -52,8 +52,9 @@ export class LoginComponent implements OnInit {
     this.userStore.authenticate({
       ...this.loginForm.value
     }).pipe(
-      tap(() => {
-        this.router.navigate(['/'])
+      tap((response) => {
+        const userName = this.loginForm.get('userName')?.value
+        this.router.navigate(['/', userName])
       }),
       catchError(() => {
         this.modalStore.accessDenied({

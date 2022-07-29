@@ -11,7 +11,7 @@
                         aria-labelledby="gymsDropdown">
                         <p class="mb-0 font-weight-normal float-left dropdown-header">Academias</p>
                         <div *ngFor="let account of userState?.userInfo?.accounts">
-                            <a class="dropdown-item preview-item">
+                            <a class="dropdown-item preview-item" [routerLink]="['/', account.accountName]">
                                 <i class="material-icons"> {{account.accountType == 1 ? 'account_circle' : 'domain'}}
                                 </i>
                                 <div class="preview-item-content">
@@ -22,7 +22,7 @@
                                 </div>
                             </a>
                         </div>
-                        <a [routerLink]="['/gyms', { outlets:{ 'content':'create' } }]"
+                        <a [routerLink]="['/accounts', { outlets:{ 'content':'create' } }]"
                             class="dropdown-item preview-item">
                             <i class="material-icons"> add_business </i>
                             <div class="preview-item-content">
