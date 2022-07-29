@@ -57,7 +57,8 @@ public static class Api
             {
                 UserId = @event.AggregateId,
                 AccessToken = @event.AccessToken.Value,
-                RefreshToken = @event.RefreshToken.Value
+                RefreshToken = @event.RefreshToken.Value,
+                
             });
         });
 

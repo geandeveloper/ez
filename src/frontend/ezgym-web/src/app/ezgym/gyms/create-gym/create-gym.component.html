@@ -11,12 +11,13 @@
                     <input formControlName="fantasyName" type="text" class="form-control" placeholder="Nome fantasia">
                 </div>
                 <div class="form-group">
-                    <label>Nome de Identificacao</label>
                     <div class="input-group">
                         <div class="form-group-prepend">
-                            <span class="input-group-text form-control-lg">@</span>
+                            <span [ngClass]="ui.gymAccountNameStatusClassName"
+                                class="input-group-text form-control-lg primary bg-primary text-white">@</span>
                         </div>
-                        <input disable type="text" class="form-control form-control-lg" formControlName="gymId" placeholder="Academia Id">
+                        <input type="text" class="form-control form-control-lg" formControlName="accountName"
+                            placeholder="Academia Id">
                     </div>
                 </div>
                 <div class="form-group">

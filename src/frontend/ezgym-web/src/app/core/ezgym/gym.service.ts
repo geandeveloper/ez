@@ -11,6 +11,6 @@ export class GymService {
 
     createGym(command: any): Observable<GymCreatedEvent> {
         return this.http
-            .post<GymCreatedEvent>("ezgym/gyms", command)
+            .post<GymCreatedEvent>("accounts", command)
     }
 }

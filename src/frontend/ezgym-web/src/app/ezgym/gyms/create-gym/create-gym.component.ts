@@ -1,17 +1,20 @@
 import { ModalStore } from 'src/app/shared/components/modal/modal.store';
-import { ModalComponent } from './../../../shared/components/modal/modal.component';
 import { PreLoaderStore } from 'src/app/shared/components/pre-loader/pre-loader.store';
 import { AddressModel } from '../../../core/ezgym/models/address.model';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { finalize, tap, filter, catchError } from 'rxjs/operators';
 import { Component } from '@angular/core';
-import { debounceTime, of, pipe } from 'rxjs';
+import { debounceTime, of, switchMap } from 'rxjs';
 import { SearchByCepStore } from 'src/app/core/integrations/services/search-address/search-by-cep/search-by-cep.service';
 import { Store } from 'src/app/core/state/store';
 import { GymService } from 'src/app/core/ezgym/gym.service';
+import { AccountService } from 'src/app/core/ezgym/account.service';
+import { UserStore } from 'src/app/core/authentication/user.store';
+import { AccounTypeEnum } from 'src/app/core/ezgym/models/accout.model';
 
 interface CreateGymComponentState {
     fantasyName: string,
+    accountName: string,
     cnpj: string,
     address: AddressModel
 }
@@ -30,10 +33,13 @@ export class CreateGymComponent extends Store<CreateGymComponentState> {
         address2: '',
         address3: '',
         address4: '',
+        gymAccountNameStatusClassName: 'bg-primary'
     }
 
     constructor(
         private searchByCepStore: SearchByCepStore,
+        private userStore: UserStore,
+        private accountService: AccountService,
         private fb: FormBuilder,
         private preloader: PreLoaderStore,
         private modal: ModalStore,
@@ -44,6 +50,7 @@ export class CreateGymComponent extends Store<CreateGymComponentState> {
         this.creaGymFormGroup = fb.group({
             fantasyName: '',
             cnpj: '',
+            accountName: this.fb.control('', [Validators.pattern(`^[a-z0-9_-]{2,15}$`), Validators.required]),
             address: this.fb.group({
                 cep: '',
                 street: '',
@@ -61,6 +68,38 @@ export class CreateGymComponent extends Store<CreateGymComponentState> {
                 this.creaGymFormGroup.get('address')?.patchValue({ ...state.address })
             })
         ).subscribe()
+
+
+        this.creaGymFormGroup.get('accountName')
+            ?.valueChanges
+            .pipe(
+                filter(value => {
+                    const gymId = value?.trim()
+                    if (gymId.length)
+                        return true;
+
+                    this.ui = {
+                        ...this.ui,
+                        gymAccountNameStatusClassName: gymId == '' ? 'bg-primary' : 'bg-danger'
+                    }
+
+                    return false;
+                }),
+                debounceTime(500),
+                switchMap(gymId => {
+                    return this
+                        .accountService
+                        .verifyAccount(gymId)
+                        .pipe(
+                            tap(response => {
+                                this.ui = {
+                                    ...this.ui,
+                                    gymAccountNameStatusClassName: response.exists ? 'bg-danger' : 'bg-success'
+                                }
+                            })
+                        )
+                }))
+            .subscribe()
     }
 
     searchAddressByCep(cep: string) {
@@ -85,6 +124,7 @@ export class CreateGymComponent extends Store<CreateGymComponentState> {
                         description: 'Por favor verificar cep e tentar novamente'
                     })
                     this.ui = {
+                        ...this.ui,
                         address1: 'Endereco nao encontrado',
                         address2: '',
                         address3: '',
@@ -111,6 +151,7 @@ export class CreateGymComponent extends Store<CreateGymComponentState> {
 
     private updateAddressDescription(address: AddressModel) {
         return this.ui = {
+            ...this.ui,
             address1: `${address.street}, ${address.number} - ${address.neighborhood}`,
             address2: `${address.city} - ${address.state}`,
             address3: `CEP: ${address.cep}`,
@@ -123,9 +164,9 @@ export class CreateGymComponent extends Store<CreateGymComponentState> {
         this.gymService
             .createGym({
                 ...this.creaGymFormGroup.value,
-                addresses: [{
-                    ...this.creaGymFormGroup.get("address")?.value
-                }]
+                // addresses: [{
+                //     ...this.creaGymFormGroup.get("address")?.value
+                // }]
             })
             .pipe(
                 tap(response => {
@@ -133,6 +174,21 @@ export class CreateGymComponent extends Store<CreateGymComponentState> {
                         title: `Academia ${response.fantasyName} criada com sucesso`,
                         description: 'Agora você pode gerenciar sua academia de maneira simples :)'
                     })
+
+                    this.userStore.setState(user => ({
+                        ...user,
+                        userInfo: {
+                            ...user.userInfo!,
+                            accounts: [
+                                ...user?.userInfo?.accounts!,
+                                {
+                                    id: response.id,
+                                    accountName: this.state?.accountName!,
+                                    accountType: AccounTypeEnum.Gym,
+                                    active: false
+                                }]
+                        }
+                    }))
                 }),
                 finalize(() => {
                     this.preloader.close()

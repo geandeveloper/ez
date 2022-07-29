@@ -21,9 +21,10 @@ namespace EzGym
                 [Authorize]
             async (
                       [FromServices] CreateAccountCommandHandler handler,
+                      [FromServices] EzPrincipal principal,
                       CreateAccountCommand command) =>
                   {
-                      var eventStream = await handler.Handle(command, CancellationToken.None);
+                      var eventStream = await handler.Handle(command with { UserId = principal.Id }, CancellationToken.None);
                       return Results.Ok(eventStream.GetEvent<AccountCreatedEvent>());
                   });
 
