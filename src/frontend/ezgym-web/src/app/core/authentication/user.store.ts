@@ -1,9 +1,9 @@
-import { map, mergeMap, switchMap, tap } from 'rxjs/operators';
+import { map, mergeMap, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Store } from '../state/store';
 import { UserInfoState, UserState } from './user.state';
 import { Injectable } from '@angular/core';
-import { merge, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -18,13 +18,22 @@ export class UserStore extends Store<UserState> {
     this.user = this.initialState;
 
     this.store$.subscribe(userState => {
-      this.user = userState
+      this.user = {
+        ...userState,
+      }
     })
   }
 
   createUser(request: UserState) {
     return this.http
       .post<UserState>("users", request)
+  }
+
+  setActiveAccount(accountName: string) {
+    this.setState((state) => ({
+      ...state,
+      activeAccount: state.userInfo?.accounts.find(a => a.accountName == accountName)
+    }))
   }
 
   authenticate(request: { userName: string, password: string }) {
@@ -49,6 +58,7 @@ export class UserStore extends Store<UserState> {
         tap(response => {
           this.setState((state) => ({
             ...state,
+            activeAccount: state.activeAccount || response.accounts.find(a => a.isDefault),
             userInfo: response
           }))
         })

@@ -20,7 +20,7 @@ export class EzGymComponent implements OnInit {
     private userStore: UserStore,
     private modalStore: ModalStore,
     private preLoaderStore: PreLoaderStore,
-    private router: Router  ) {
+    private router: Router) {
 
     this.userStore.store$.subscribe(userState => {
       this.userState = userState;
@@ -29,6 +29,11 @@ export class EzGymComponent implements OnInit {
 
   ngOnInit(): void {
     import("src/assets/templates/skydash/skydash")
+  }
+
+  switchAccount(accountName: string): void {
+    this.userStore.setActiveAccount(accountName)
+    this.router.navigate(['/', accountName])
   }
 
   logout() {

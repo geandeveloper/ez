@@ -20,6 +20,8 @@ export class ProfileComponent implements OnInit {
             .pipe(
                 tap(params => {
                     this.userName = params['accountName']
+                    if (this.userStore.user.userInfo?.accounts.some(a => a.accountName == this.userName))
+                        this.userStore.setActiveAccount(this.userName)
                 })
             ).subscribe()
     }

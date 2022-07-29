@@ -8,6 +8,7 @@ import { debounceTime, switchMap } from 'rxjs';
 import { Store } from 'src/app/core/state/store';
 import { AccountService } from 'src/app/core/ezgym/account.service';
 import { UserStore } from 'src/app/core/authentication/user.store';
+import { Router } from '@angular/router';
 
 interface CreateAccountComponentState {
     fantasyName: string,
@@ -34,7 +35,9 @@ export class CreateAccountComponent extends Store<CreateAccountComponentState> {
         private accountService: AccountService,
         private fb: FormBuilder,
         private preloader: PreLoaderStore,
-        private modal: ModalStore    ) {
+        private modal: ModalStore,
+        private router: Router,
+    ) {
         super()
 
         this.createAccountFromGroup = fb.group({
@@ -85,11 +88,6 @@ export class CreateAccountComponent extends Store<CreateAccountComponentState> {
             })
             .pipe(
                 tap(response => {
-                    this.modal.success({
-                        title: `Conta ${response.accountName} criada com sucesso`,
-                        description: 'Agora você pode gerenciar sua academia de maneira simples :)'
-                    })
-
                     this.userStore.setState(user => ({
                         ...user,
                         userInfo: {
@@ -104,6 +102,13 @@ export class CreateAccountComponent extends Store<CreateAccountComponentState> {
                                 }]
                         }
                     }))
+                    this.userStore.setActiveAccount(response.accountName)
+                    this.router.navigate(['/', response.accountName])
+                    this.modal.success({
+                        title: `Conta ${response.accountName} criada com sucesso`,
+                        description: 'Agora você pode gerenciar sua academia de maneira simples :)'
+                    })
+
                 }),
                 finalize(() => {
                     this.preloader.close()
