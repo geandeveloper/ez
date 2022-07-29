@@ -8,14 +8,18 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { EzGymComponent } from './ezgym.component';
 
 import { EzGymRoutingModule } from "./ezgym-routing.module";
+import { BrowserModule } from '@angular/platform-browser';
+import { ProfileComponent } from './profile/profile.component';
 
 
 @NgModule({
   declarations: [
-    EzGymComponent
+    EzGymComponent,
+    ProfileComponent
   ],
   imports: [
     FormsModule,
+    BrowserModule,
     ReactiveFormsModule,
     EzGymRoutingModule,
     MatAutocompleteModule,

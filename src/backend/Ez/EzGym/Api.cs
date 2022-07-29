@@ -1,12 +1,14 @@
-﻿using EzCommon.Infra.Storage;
-using EzCommon.Models;
+﻿using EzCommon.Models;
 using EzGym.Events;
+using EzGym.Features.Accounts.CreateAccount;
 using EzGym.Features.Gyms.CreateGym;
+using EzGym.Infra.Storage;
 using EzGym.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Threading;
 
 namespace EzGym
@@ -15,25 +17,56 @@ namespace EzGym
     {
         public static WebApplication UseEzGymApi(this WebApplication app)
         {
-            app.MapPost("/gyms",
+            app.MapPost("/accounts",
                 [Authorize]
             async (
-                      [FromServices] EzPrincipal principal,
+                      [FromServices] CreateAccountCommandHandler handler,
+                      CreateAccountCommand command) =>
+                  {
+                      var eventStream = await handler.Handle(command, CancellationToken.None);
+                      return Results.Ok(eventStream.GetEvent<AccountCreatedEvent>());
+                  });
+
+            app.MapPost("/accounts/{accountId}/gyms",
+                [Authorize]
+            async (
                       [FromServices] CreateGymCommandHandler handler,
                       CreateGymCommand command) =>
                   {
-                      var eventStream = await handler.Handle(command with { OwnerId = principal.Id.Value }, CancellationToken.None);
+                      var eventStream = await handler.Handle(command, CancellationToken.None);
                       return Results.Ok(eventStream.GetEvent<GymCreatedEvent>());
+                  });
+
+            app.MapPost("/accounts/{accountId}/gyms/{gymId}/users",
+                [Authorize]
+            async (
+                      [FromServices] CreateGymCommandHandler handler,
+                      CreateGymCommand command) =>
+                  {
+                      var eventStream = await handler.Handle(command, CancellationToken.None);
+                      return Results.Ok(eventStream.GetEvent<GymCreatedEvent>());
+                  });
+
+            app.MapGet("/accounts/{accountName}/verify", (
+                      [FromServices] IGymQueryStorage queryStorage, string accountName) =>
+                  {
+                      var response = new
+                      {
+                          Exists = queryStorage.Query<Account>(account => account.AccountName == accountName).FirstOrDefault() != null
+                      };
+
+                      return Results.Ok(response);
                   });
 
             app.MapGet("/userinfo",
                 [Authorize] (
                       [FromServices] EzPrincipal principal,
-                      [FromServices] IQueryStorage queryStorage) =>
+                      [FromServices] IGymQueryStorage queryStorage) =>
                   {
                       var userInfo = new
                       {
-                          Gyms = queryStorage.Query<Gym>(gym => gym.OwnerId == principal.Id)
+                          principal.UserName,
+                          Accounts = queryStorage.Query<Account>(account => account.UserId == principal.Id)
                       };
 
                       return Results.Ok(userInfo);

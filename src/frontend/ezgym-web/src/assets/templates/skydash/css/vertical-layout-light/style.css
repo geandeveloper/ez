@@ -13166,8 +13166,8 @@ input[type="button"].btn-block {
 }
 
 .dropdown-menu-left {
-    right: -130px !important;
-    left: 0;
+    right: auto !important;
+    left: 0px !important;
 }
 
 .dropdown-menu-right {

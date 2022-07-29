@@ -1,9 +1,9 @@
 import { map, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Store } from '../state/store';
-import { UserState } from './user.state';
+import { UserInfoState, UserState } from './user.state';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,7 @@ export class UserStore extends Store<UserState> {
   user: UserState
 
   constructor(private http: HttpClient) {
-    super({ id: "", userName: "", accessToken: "", authenticated: false })
+    super({ id: "", accessToken: "", authenticated: false })
 
     this.user = this.initialState;
 
@@ -34,9 +34,22 @@ export class UserStore extends Store<UserState> {
         tap(response => {
           this.setState(() => ({
             id: response.userId,
-            userName: request.userName,
             accessToken: response.accessToken,
             authenticated: true
+          }))
+          this.updateUserInfo().subscribe()
+        })
+      )
+  }
+
+  updateUserInfo(): Observable<UserInfoState> {
+    return this.http
+      .get<UserInfoState>(`userInfo`)
+      .pipe(
+        tap(response => {
+          this.setState((state) => ({
+            ...state,
+            userInfo: response
           }))
         })
       )
@@ -52,6 +65,7 @@ export class UserStore extends Store<UserState> {
             authenticated: true,
             accessToken: response.accessToken
           }))
+          this.updateUserInfo().subscribe()
         }),
         map(() => this.user)
       )

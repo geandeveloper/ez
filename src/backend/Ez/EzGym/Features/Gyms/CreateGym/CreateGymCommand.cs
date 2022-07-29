@@ -5,7 +5,7 @@ using System;
 namespace EzGym.Features.Gyms.CreateGym
 {
     public record CreateGymCommand(
-        Guid OwnerId,
+        Guid AccountId,
         string FantasyName,
         string Cnpj, AddressDto[] Addresses) : ICommand;
 

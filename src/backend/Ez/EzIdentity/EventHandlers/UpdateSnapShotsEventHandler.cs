@@ -1,17 +1,19 @@
 ﻿using EzCommon.EventHandlers;
 using EzCommon.Events;
 using EzCommon.Infra.Storage;
+using EzIdentity.Infra.Storage;
 using EzIdentity.Models;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace EzIdentity.EventHandlers
 {
-    public class UpdateSnapShotsEventHandler : IEventHandler<SnapShotEvent<User>>
+    public class UpdateSnapShotsEventHandler : 
+        IEventHandler<SnapShotEvent<User>>
     {
         private readonly IQueryStorage _queryStorage;
 
-        public UpdateSnapShotsEventHandler(IQueryStorage queryStorage)
+        public UpdateSnapShotsEventHandler(IIdentityQueryStorage queryStorage)
         {
             _queryStorage = queryStorage;
         }

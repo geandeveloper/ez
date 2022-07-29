@@ -1,4 +1,5 @@
 import { NgModule } from "@angular/core";
+import { CommonModule } from '@angular/common';
 
 import { LoginComponent } from './login/login.component';
 import { EzIdentityRoutingModule } from "./ezidentity-routing.module";
@@ -9,6 +10,7 @@ import { CreateUserComponent } from "./create-user/create-user.component";
   declarations: [LoginComponent, CreateUserComponent],
   imports: [
     FormsModule,
+    CommonModule,
     ReactiveFormsModule,
     EzIdentityRoutingModule
   ],

@@ -2,6 +2,7 @@
 using EzCommon.Infra.Storage;
 using EzCommon.Models;
 using EzIdentity.Features.RevokeToken;
+using EzIdentity.Infra.Storage;
 using EzIdentity.Models;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,8 +13,8 @@ public class RevokeTokenCommandHandler : ICommandHandler<RevokeTokenCommand>
     private readonly IQueryStorage _queryStorage;
 
     public RevokeTokenCommandHandler(
-        IEventStore eventStore,
-        IQueryStorage queryStorage
+        IIdentityEventStore eventStore,
+        IIdentityQueryStorage queryStorage
         )
     {
         _eventStore = eventStore;

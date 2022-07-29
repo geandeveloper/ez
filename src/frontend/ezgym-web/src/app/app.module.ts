@@ -15,11 +15,15 @@ import { EzIdentityModule } from './ezidentity/ezidentity.module';
 import { ModalModule } from './shared/components/modal/modal.module';
 import { PreLoaderModule } from './shared/components/pre-loader/pre-loader.module';
 import { AppRoutingModule } from './app-routing.module';
+import { Error404Component } from './shared/error-pages/404/error-404.component';
+import { Error500Component } from './shared/error-pages/500/error-500.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
+    Error404Component,
+    Error500Component
   ],
   imports: [
     FormsModule,

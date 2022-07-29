@@ -1,6 +1,6 @@
 ﻿using EzCommon.CommandHandlers;
-using EzCommon.Infra.Storage;
 using EzCommon.Models;
+using EzGym.Infra.Storage;
 using EzGym.Models;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,9 +10,9 @@ namespace EzGym.Features.Gyms.CreateGym
     public class CreateGymCommandHandler : ICommandHandler<CreateGymCommand>
     {
 
-        private readonly IEventStore _eventStore;
+        private readonly IGymEventStore _eventStore;
 
-        public CreateGymCommandHandler(IEventStore eventStore)
+        public CreateGymCommandHandler(IGymEventStore eventStore)
         {
             _eventStore = eventStore;
         }

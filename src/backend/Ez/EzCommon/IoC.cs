@@ -10,8 +10,6 @@ namespace EzCommon
     {
         public static IServiceCollection AddEzCommon(this IServiceCollection services, params Type[] mediatrTypes)
         {
-            services.AddSingleton<IEventStore, StoreInLocal>();
-            services.AddSingleton<IQueryStorage, StoreInLocal>();
             services.AddMediatR(mediatrTypes);
             services.AddSingleton<IBus, InMemoryBus>();
 

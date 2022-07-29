@@ -1,12 +1,10 @@
-﻿using EzCommon.Infra.Bus;
-using EzCommon.Infra.Storage;
-using EzIdentity.Features.CreateUser;
+﻿using EzIdentity.Features.CreateUser;
 using EzIdentity.Features.Login;
 using Microsoft.Extensions.DependencyInjection;
-using MediatR;
 using Microsoft.AspNetCore.Http;
 using EzIdentity.Extensions;
 using EzIdentity.Features.RefreshToken;
+using EzIdentity.Infra.Storage;
 
 namespace EzIdentity;
 
@@ -16,10 +14,8 @@ public static class IoC
     {
 
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-        services.AddSingleton<IEventStore, StoreInLocal>();
-
-        services.AddMediatR(typeof(IoC));
-        services.AddSingleton<IBus, InMemoryBus>();
+        services.AddSingleton<IIdentityEventStore, IdentityEventStore>();
+        services.AddSingleton<IIdentityQueryStorage, IdentityEventStore>();
 
         services.AddSingleton<LoginCommandHandler>();
         services.AddSingleton<CreateUserCommandHandler>();

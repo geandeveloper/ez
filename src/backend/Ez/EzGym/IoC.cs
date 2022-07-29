@@ -1,6 +1,6 @@
-﻿using EzCommon;
+﻿using EzGym.Features.Accounts.CreateAccount;
 using EzGym.Features.Gyms.CreateGym;
-using EzIdentity;
+using EzGym.Infra.Storage;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EzGym
@@ -19,6 +19,9 @@ namespace EzGym
                     });
 
 
+            services.AddSingleton<IGymEventStore, GymEventStore>();
+            services.AddSingleton<IGymQueryStorage, GymEventStore>();
+            services.AddSingleton<CreateAccountCommandHandler>();
             services.AddSingleton<CreateGymCommandHandler>();
 
             return services;

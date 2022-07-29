@@ -6,7 +6,7 @@ namespace EzGym.Events
 {
     public record GymCreatedEvent(
          Guid Id,
-         Guid OwnerId,
+         Guid AccountId,
          string FantasyName,
          string Cnpj,
          Address[] Addresses

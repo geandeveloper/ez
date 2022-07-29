@@ -2,6 +2,7 @@
 using EzCommon.Infra.Security;
 using EzCommon.Infra.Storage;
 using EzCommon.Models;
+using EzIdentity.Infra.Storage;
 using EzIdentity.Models;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,8 +15,8 @@ public class LoginCommandHandler : ICommandHandler<LoginCommand>
     private readonly IQueryStorage _queryStorage;
 
     public LoginCommandHandler(
-        IEventStore eventStore,
-        IQueryStorage queryStorage 
+        IIdentityEventStore eventStore,
+        IIdentityQueryStorage queryStorage 
         )
     {
         _eventStore = eventStore;

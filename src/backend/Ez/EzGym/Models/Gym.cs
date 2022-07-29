@@ -9,7 +9,7 @@ namespace EzGym.Models
 {
     public class Gym : AggregateRoot
     {
-        public Guid OwnerId { get; protected set; }
+        public Guid AccountId { get; protected set; }
         public string FantasyName { get; protected set; }
         public string Cnpj { get; protected set; }
         public IList<Address> Addresses { get; protected set; }
@@ -19,7 +19,7 @@ namespace EzGym.Models
         {
             RaiseEvent(new GymCreatedEvent(
                 Id = Guid.NewGuid(),
-                OwnerId: command.OwnerId,
+                AccountId: command.AccountId,
                 FantasyName: command.FantasyName,
                 Cnpj: command.Cnpj,
                 Addresses: command.Addresses.Select(address => new Address(
@@ -42,7 +42,7 @@ namespace EzGym.Models
         private void When(GymCreatedEvent @event)
         {
             Id = @event.Id;
-            OwnerId = @event.OwnerId;
+            AccountId = @event.AccountId;
             FantasyName = @event.FantasyName;
             Cnpj = @event.Cnpj;
             Addresses = @event.Addresses;

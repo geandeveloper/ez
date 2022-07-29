@@ -5,21 +5,22 @@
             <ul class="navbar-nav navbar-nav-left">
                 <li class="nav-item dropdown">
                     <a class="nav-link  dropdown-toggle" id="gymsDropdown" href="#" data-toggle="dropdown">
-                        <span><b>@geandeveloper</b></span>
+                        <span><b>@{{userState.userInfo?.userName}}</b></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-left navbar-dropdown preview-list"
                         aria-labelledby="gymsDropdown">
                         <p class="mb-0 font-weight-normal float-left dropdown-header">Academias</p>
-                        <a [routerLink]="['/gyms', { outlets:{ 'content':'create' } }]"
-                            class="dropdown-item preview-item">
-                            <i class="material-icons"> domain </i>
-                            <div class="preview-item-content">
-                                <h6 class="preview-subject font-weight-normal">@orionfitness</h6>
-                                <p class="font-weight-light small-text mb-0 text-muted">
-                                    392 - Alunos
-                                </p>
-                            </div>
-                        </a>
+                        <div *ngFor="let account of userState?.userInfo?.accounts">
+                            <a class="dropdown-item preview-item">
+                                <i class="material-icons"> domain </i>
+                                <div class="preview-item-content">
+                                    <h6 class="preview-subject font-weight-normal">@{{account.accountName}}</h6>
+                                    <p class="font-weight-light small-text mb-0 text-muted">
+                                        392 - Alunos
+                                    </p>
+                                </div>
+                            </a>
+                        </div>
                         <a [routerLink]="['/gyms', { outlets:{ 'content':'create' } }]"
                             class="dropdown-item preview-item">
                             <i class="material-icons"> add_business </i>
@@ -47,7 +48,7 @@
                         </a>
                         <a (click)="logout()" class="dropdown-item">
                             <i class="ti-power-off text-primary"></i>
-                            Sair 
+                            Sair
                         </a>
                     </div>
                 </li>

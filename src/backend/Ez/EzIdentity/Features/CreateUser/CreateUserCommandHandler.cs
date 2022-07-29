@@ -2,6 +2,7 @@
 using EzCommon.Infra.Security;
 using EzCommon.Infra.Storage;
 using EzCommon.Models;
+using EzIdentity.Infra.Storage;
 using EzIdentity.Models;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace EzIdentity.Features.CreateUser
     public class CreateUserCommandHandler : ICommandHandler<CreateUserCommand>
     {
         private readonly IEventStore _eventStore;
-        public CreateUserCommandHandler(IEventStore eventStore)
+        public CreateUserCommandHandler(IIdentityEventStore eventStore)
         {
             _eventStore = eventStore;
         }

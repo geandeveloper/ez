@@ -1,6 +1,7 @@
 ﻿using EzCommon.CommandHandlers;
 using EzCommon.Infra.Storage;
 using EzCommon.Models;
+using EzIdentity.Infra.Storage;
 using EzIdentity.Models;
 using System;
 using System.Threading;
@@ -14,8 +15,8 @@ public class RefreshTokenCommandHandler : ICommandHandler<RefreshTokenCommand>
     private readonly IEventStore _eventStore;
 
     public RefreshTokenCommandHandler(
-        IEventStore eventStore, 
-        IQueryStorage queryStorage
+        IIdentityEventStore eventStore, 
+        IIdentityQueryStorage queryStorage
         )
     {
         _eventStore = eventStore;

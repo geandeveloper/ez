@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace EzCommon.Infra.Storage
 {
-    public class StoreInLocal : IEventStore, IQueryStorage
+    public abstract class StoreInLocal : IEventStore, IQueryStorage
     {
         static StoreInLocal()
         {
@@ -20,10 +20,12 @@ namespace EzCommon.Infra.Storage
 
 
         private readonly IBus _bus;
+        private readonly string _storeName;
 
-        public StoreInLocal(IBus bus)
+        public StoreInLocal(IBus bus, string storeName)
         {
             _bus = bus;
+            _storeName = storeName;
         }
 
         public async Task<EventStream> SaveAsync<T>(T aggregate)
@@ -32,7 +34,7 @@ namespace EzCommon.Infra.Storage
             var eventStreamId = new EventStreamId(aggregate.GetType(), aggregate.Id);
             var eventStream = new EventStream(eventStreamId, aggregate.GetEvents().ToList());
 
-            using var db = new LiteDatabase(@"C:\temp\identity.db");
+            using var db = new LiteDatabase($"C:/temp/{_storeName}.db");
             var eventStreamState = db.GetCollection<EventStream>().FindById(eventStream.Id);
             var uncommittedEvents = eventStream.EventRows.Where(e => e.Version > (eventStreamState?.Version ?? 0)).ToList();
 
@@ -55,20 +57,20 @@ namespace EzCommon.Infra.Storage
 
         public T GetSnapShot<T>(Expression<Func<T, bool>> query) where T : AggregateRoot
         {
-            using var db = new LiteDatabase(@"C:\temp\snapshots.db");
+            using var db = new LiteDatabase($"C:/temp/{_storeName}-snapshots.db");
             return db.GetCollection<T>().FindOne(query);
         }
 
         public T UpinsertSnapShot<T>(T snapShot) where T : AggregateRoot
         {
-            using var db = new LiteDatabase(@"C:\temp\snapshots.db");
+            using var db = new LiteDatabase($"C:/temp/{_storeName}-snapshots.db");
             db.GetCollection<T>().Upsert(snapShot);
             return snapShot;
         }
 
         public IQueryable<T> Query<T>(Expression<Func<T, bool>> query)
         {
-            using var db = new LiteDatabase(@"C:\temp\snapshots.db");
+            using var db = new LiteDatabase($"C:/temp/{_storeName}-snapshots.db");
             return db.GetCollection<T>().Find(query).ToList().AsQueryable();
         }
     }
