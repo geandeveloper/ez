@@ -9,6 +9,7 @@ import { EzGymComponent } from './ezgym.component';
 import { EzGymRoutingModule } from "./ezgym-routing.module";
 import { BrowserModule } from '@angular/platform-browser';
 import { ProfileComponent } from './profile/profile.component';
+import { MatDialogModule } from "@angular/material/dialog";
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { ProfileComponent } from './profile/profile.component';
   imports: [
     FormsModule,
     BrowserModule,
+    MatDialogModule,
     ReactiveFormsModule,
     EzGymRoutingModule,
     MatAutocompleteModule,

@@ -1,1 +1,37 @@
-<h1>{{userName}}</h1>
+<div class="row profile-component">
+    <section class="profile-header">
+        <div class="profile-bio-image">
+            <img src="https://th.bing.com/th/id/OIP.aWmA0p-4ALixK-d1vXPLlwHaGG?pid=ImgDet&rs=1" />
+        </div>
+        <div class="profile-bio-info">
+            <h1 class="display-3">{{userName}}</h1>
+            <button type="button" class="btn btn-secondary btn-lg btn-block btn-follow">Seguir</button>
+            <button type="button" (click)="editProfile()" class="btn btn-primary btn-lg btn-block btn-follow">Editar perfil</button>
+        </div>
+    </section>
+    <div class="profile-description">
+        <h5>
+            Gean Silva<br />
+            <p class="text-muted"> Desenvolvedor software </p>
+        </h5>
+        <p>
+            - Sou sonhadora. Vivo para fazer dos meus desejos realidade. <br />
+            - Ariana ♈️🧿, 25 anos.
+        </p>
+    </div>
+    <div class="profile-counts">
+        <div class="profile-header-info">
+            <h3 class="text-primary fs-30 font-weight-medium">34</h3>
+            <p class="text-muted">Treinos</p>
+        </div>
+        <div class="profile-header-info">
+            <h3 class="text-primary fs-30 font-weight-medium">15</h3>
+            <p class="text-muted">Seguidores</p>
+        </div>
+        <div class="profile-header-info">
+            <h3 class="text-primary fs-30 font-weight-medium">35</h3>
+            <p class="text-muted">Seguindo</p>
+        </div>
+
+    </div>
+</div>
