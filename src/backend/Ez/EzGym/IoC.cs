@@ -1,6 +1,7 @@
 ﻿using EzGym.Features.Accounts.ChangeAvatar;
 using EzGym.Features.Accounts.CreateAccount;
 using EzGym.Features.Gyms.CreateGym;
+using EzGym.Features.Profiles.UpInsertProfile;
 using EzGym.Infra.Storage;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -25,6 +26,7 @@ namespace EzGym
             services.AddSingleton<CreateAccountCommandHandler>();
             services.AddSingleton<CreateGymCommandHandler>();
             services.AddSingleton<ChangeAvatarCommandHandler>();
+            services.AddSingleton<UpInsertProfileCommandHandler>();
 
             return services;
         }

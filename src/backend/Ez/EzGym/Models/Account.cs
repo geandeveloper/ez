@@ -27,16 +27,16 @@ namespace EzGym.Models
 
         public void ChangeAvatarImage(string avatarUrl)
         {
-            RaiseEvent(new AvatarImageAccountChanged(Id, avatarUrl));
+            RaiseEvent(new AvatarImageAccountChangedEvent(Id, avatarUrl));
         }
 
         protected override void RegisterEvents()
         {
             RegisterEvent<AccountCreatedEvent>(When);
-            RegisterEvent<AvatarImageAccountChanged>(When);
+            RegisterEvent<AvatarImageAccountChangedEvent>(When);
         }
 
-        private void When(AvatarImageAccountChanged @event)
+        private void When(AvatarImageAccountChangedEvent @event)
         {
             AvatarUrl = @event.AvatarUrl;
         }

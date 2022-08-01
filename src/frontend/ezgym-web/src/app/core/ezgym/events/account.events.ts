@@ -7,3 +7,8 @@ export interface AccountCreatedEvent {
     accountType: AccounTypeEnum,
     isDefault: boolean
 }
+
+export interface AvatarImageAccountChanged {
+    accountId: string,
+    avatarUrl: string
+}

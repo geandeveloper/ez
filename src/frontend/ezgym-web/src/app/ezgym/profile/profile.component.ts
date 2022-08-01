@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, ParamMap } from '@angular/router';
-import { tap } from 'rxjs';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { catchError, finalize, mergeMap, switchMap, tap } from 'rxjs';
 import { UserStore } from 'src/app/core/authentication/user.store';
+import { AccountService } from 'src/app/core/ezgym/account.service';
 import { AccountModel } from 'src/app/core/ezgym/models/accout.model';
+import { ProfileModel } from 'src/app/core/ezgym/models/profile.model';
+import { PreLoaderStore } from 'src/app/shared/components/pre-loader/pre-loader.store';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
 @Component({
@@ -13,43 +16,57 @@ import { EditProfileComponent } from './edit-profile/edit-profile.component';
 })
 
 export class ProfileComponent implements OnInit {
-    activeAccount = {} as AccountModel
+    account = {} as AccountModel
+    profile?= {} as ProfileModel
 
     constructor(
-        private userStore: UserStore,
         private activeRoute: ActivatedRoute,
+        private router: Router,
+        private preloader: PreLoaderStore,
+        private accountService: AccountService,
         public dialog: MatDialog
     ) {
 
+    }
+
+    ngOnInit() {
+        this.loadProfile()
+    }
+
+    loadProfile() {
+        this.preloader.show()
         this.activeRoute.params
             .pipe(
-                tap(params => {
-                    const userName = params['accountName']
-                    const account = this.userStore.user.userInfo?.accounts.find(a => a.accountName == userName)
-                    if (account) {
-                        this.userStore.setActiveAccount(userName)
-                        this.activeAccount = account
-                    }
+                switchMap(params => {
+                    return this.accountService.loadAccount(params["accountName"])
+                }),
+                tap(response => {
+                    this.account = response.account
+                    this.profile = response.profile
+                    this.preloader.close();
+                }),
+                catchError((error) => {
+                    this.router.navigate(['/404'])
+                    this.preloader.close();
+                    return error
                 })
             ).subscribe()
     }
 
-    ngOnInit() {
-
-    }
-
-    myFooList = ['Some Item', 'Item Second', 'Other In Row', 'What to write', 'Blah To Do']
     editProfile() {
-        const editProfileDialog = this.dialog.open(EditProfileComponent, {
-            data: this.myFooList,
+        this.dialog.open(EditProfileComponent, {
+            data: {
+                account: this.account,
+                profile: this.profile || {}
+            },
             panelClass: 'fullscreen-dialog',
             maxWidth: '935px',
             maxHeight: '100vh',
             height: '100%',
             width: '100%',
-        });
-        editProfileDialog.afterClosed().subscribe((res) => {
-
-        });
+        }).afterClosed()
+            .subscribe(() => {
+                this.loadProfile()
+            })
     }
 }

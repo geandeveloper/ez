@@ -2,7 +2,10 @@ import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { VerifyAccountResponseDto } from './dto/verify-account-response.dto';
-import { AccountCreatedEvent } from './events/account.events';
+import { AccountCreatedEvent, AvatarImageAccountChanged } from './events/account.events';
+import { ProfileChangedEvent } from './events/profile.events';
+import { ProfileModel } from './models/profile.model';
+import { AccountModel } from './models/accout.model';
 
 @Injectable({
     providedIn: 'root'
@@ -18,5 +21,30 @@ export class AccountService {
     createAccount(command: any): Observable<AccountCreatedEvent> {
         return this.http
             .post<AccountCreatedEvent>("accounts", command)
+    }
+
+    changeAvatar(command: {
+        accountId: string,
+        avatar: Blob
+    }): Observable<AvatarImageAccountChanged> {
+
+        const formMultiPart = new FormData();
+        formMultiPart.append('avatar', command.avatar);
+
+        return this.http
+            .post<AvatarImageAccountChanged>(`accounts/${command.accountId}/avatar`, formMultiPart)
+    }
+
+    upInsertProfile(command: any): Observable<ProfileChangedEvent> {
+        return this.http
+            .put<ProfileChangedEvent>(`accounts/${command.accountId}/profile`, command)
+    }
+
+    loadAccount(accountName: string) {
+        return this.http
+            .get<{
+                account: AccountModel,
+                profile: ProfileModel
+            }>(`accounts/${accountName}`)
     }
 }

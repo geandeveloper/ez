@@ -3,6 +3,7 @@ using EzGym.Events;
 using EzGym.Features.Accounts.ChangeAvatar;
 using EzGym.Features.Accounts.CreateAccount;
 using EzGym.Features.Gyms.CreateGym;
+using EzGym.Features.Profiles.UpInsertProfile;
 using EzGym.Infra.Storage;
 using EzGym.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -63,12 +64,11 @@ namespace EzGym
                               FileName: file.FileName,
                               AvatarStream: avatarMemoryStream), CancellationToken.None);
 
-                          return Results.Ok(eventStream.GetEvent<AvatarImageAccountChanged>());
+                          return Results.Ok(eventStream.GetEvent<AvatarImageAccountChangedEvent>());
 
                       }
 
-                  })
-                .Accepts<IFormFile>("multipart/form-data");
+                  }).Accepts<IFormFile>("multipart/form-data");
 
             app.MapPost("/accounts/{accountId}/gyms/{gymId}/users",
                     [Authorize]
@@ -104,6 +104,37 @@ namespace EzGym
 
                       return Results.Ok(userInfo);
                   });
+
+            app.MapGet("accounts/{accountName}",
+                [Authorize] (
+                      [FromServices] EzPrincipal principal,
+                      [FromServices] IGymQueryStorage queryStorage,
+                      string accountName
+                      ) =>
+                {
+                    var account = queryStorage.Query<Account>(a => a.AccountName == accountName).FirstOrDefault();
+                    var profile = queryStorage.Query<Profile>(p => p.AccountId == account.Id).FirstOrDefault();
+
+                    var response = new
+                    {
+                        Account = account,
+                        Profile = profile
+                    };
+
+                    return Results.Ok(response);
+                });
+
+            app.MapPut("accounts/{accountId}/profile",
+                [Authorize] async (
+                      [FromServices] UpInsertProfileCommandHandler handler,
+                      UpInsertProfileCommand command,
+                      Guid accountId
+                      ) =>
+                {
+                    var eventStream = await handler.Handle(command, CancellationToken.None);
+
+                    return Results.Ok(eventStream.GetEvent<ProfileChangedEvent>());
+                });
 
             return app;
         }

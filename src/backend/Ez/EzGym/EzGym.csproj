@@ -14,8 +14,4 @@
 		<Watch Remove="wwwroot\**\*" />	
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Features\Profiles\EditProfile\" />
-	</ItemGroup>
-
 </Project>

@@ -17,6 +17,8 @@ import { PreLoaderModule } from './shared/components/pre-loader/pre-loader.modul
 import { AppRoutingModule } from './app-routing.module';
 import { Error404Component } from './shared/error-pages/404/error-404.component';
 import { Error500Component } from './shared/error-pages/500/error-500.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 
 @NgModule({
@@ -36,7 +38,13 @@ import { Error500Component } from './shared/error-pages/500/error-500.component'
     ModalModule,
     PreLoaderModule,
     EzGymModule,
-    EzIdentityModule
+    EzIdentityModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    })
   ],
   providers: [
     {

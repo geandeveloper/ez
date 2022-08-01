@@ -4,6 +4,7 @@ import { Store } from '../state/store';
 import { UserInfoState, UserState } from './user.state';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { AccountModel } from '../ezgym/models/accout.model';
 
 @Injectable({
   providedIn: 'root'
@@ -90,5 +91,23 @@ export class UserStore extends Store<UserState> {
         }),
         map(() => this.initialState)
       )
+  }
+
+  updateActiveAccount(updateAccountFn: (account: AccountModel) => AccountModel) {
+    this.setState(state => {
+
+      const account = updateAccountFn(state.activeAccount!)
+
+      const newState = {
+        ...state,
+        activeAccount: account,
+        userInfo: {
+          ...state.userInfo,
+          accounts: state.userInfo?.accounts.map(a => a.id === account.id ? account : a)!
+        }
+      }
+
+      return newState
+    })
   }
 }

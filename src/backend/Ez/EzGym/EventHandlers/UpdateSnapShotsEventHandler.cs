@@ -10,7 +10,8 @@ namespace EzGym.EventHandlers
 {
     public class UpdateSnapShotsEventHandler :
         IEventHandler<SnapShotEvent<Gym>>,
-        IEventHandler<SnapShotEvent<Account>>
+        IEventHandler<SnapShotEvent<Account>>,
+        IEventHandler<SnapShotEvent<Profile>>
     {
         private readonly IQueryStorage _queryStorage;
 
@@ -26,6 +27,12 @@ namespace EzGym.EventHandlers
         }
 
         public Task Handle(SnapShotEvent<Account> notification, CancellationToken cancellationToken)
+        {
+            _queryStorage.UpinsertSnapShot(notification.SnapShot);
+            return Task.CompletedTask;
+        }
+
+        public Task Handle(SnapShotEvent<Profile> notification, CancellationToken cancellationToken)
         {
             _queryStorage.UpinsertSnapShot(notification.SnapShot);
             return Task.CompletedTask;
