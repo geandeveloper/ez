@@ -1,4 +1,4 @@
-﻿namespace EzGym.Features.Dtos
+﻿namespace EzGym.Dtos
 {
     public record AddressDto(
         string Id,

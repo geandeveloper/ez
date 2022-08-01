@@ -1,5 +1,5 @@
 ﻿using EzCommon.Commands;
-using EzGym.Features.Dtos;
+using EzGym.Dtos;
 using System;
 
 namespace EzGym.Features.Gyms.CreateGym

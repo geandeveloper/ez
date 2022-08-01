@@ -2,12 +2,16 @@
 using EzGym.Events;
 using EzGym.Features.Accounts.CreateAccount;
 using EzGym.Features.Gyms.CreateGym;
+using EzGym.Features.Profiles.ChangeAvatar;
 using EzGym.Infra.Storage;
 using EzGym.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.IO;
+using System.IO.Pipelines;
 using System.Linq;
 using System.Threading;
 
@@ -38,15 +42,42 @@ namespace EzGym
                       return Results.Ok(eventStream.GetEvent<GymCreatedEvent>());
                   });
 
-            app.MapPost("/accounts/{accountId}/gyms/{gymId}/users",
-                [Authorize]
+            app.MapPost("/accounts/{accountId}/avatar",
             async (
-                      [FromServices] CreateGymCommandHandler handler,
-                      CreateGymCommand command) =>
+                      [FromServices] ChangeAvatarCommandHandler handler,
+                      [FromServices] EzPrincipal principal,
+                      Guid accountId,
+                      HttpRequest request) =>
                   {
-                      var eventStream = await handler.Handle(command, CancellationToken.None);
-                      return Results.Ok(eventStream.GetEvent<GymCreatedEvent>());
-                  });
+                      using (var avatarMemoryStream = new MemoryStream())
+                      {
+
+                          var form = await request.ReadFormAsync();
+                          var file = form.Files["avatar"];
+
+                          await using var fileStream = file.OpenReadStream();
+                          await fileStream.CopyToAsync(avatarMemoryStream);
+
+                          var eventStream = await handler.Handle(new ChangeAvatarCommand(
+                              UserId: principal.Id,
+                              AccountId: accountId,
+                              AvatarStream: avatarMemoryStream), CancellationToken.None);
+
+                      }
+
+                      return Results.NoContent();
+                  })
+                .Accepts<IFormFile>("multipart/form-data");
+
+            app.MapPost("/accounts/{accountId}/gyms/{gymId}/users",
+                    [Authorize]
+            async (
+                          [FromServices] CreateGymCommandHandler handler,
+                          CreateGymCommand command) =>
+                      {
+                          var eventStream = await handler.Handle(command, CancellationToken.None);
+                          return Results.Ok(eventStream.GetEvent<GymCreatedEvent>());
+                      });
 
             app.MapGet("/accounts/{accountName}/verify", (
                       [FromServices] IGymQueryStorage queryStorage, string accountName) =>
