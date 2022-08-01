@@ -36,7 +36,7 @@ export class ProfileComponent implements OnInit {
 
     myFooList = ['Some Item', 'Item Second', 'Other In Row', 'What to write', 'Blah To Do']
     editProfile() {
-        const myTempDialog = this.dialog.open(EditProfileComponent, {
+        const editProfileDialog = this.dialog.open(EditProfileComponent, {
             data: this.myFooList,
             panelClass: 'fullscreen-dialog',
             maxWidth: '935px',
@@ -44,10 +44,8 @@ export class ProfileComponent implements OnInit {
             height: '100%',
             width: '100%',
         });
-        myTempDialog.afterClosed().subscribe((res) => {
+        editProfileDialog.afterClosed().subscribe((res) => {
 
-            // Data back from dialog
-            console.log({ res });
         });
     }
 }

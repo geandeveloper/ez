@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
     selector: 'edit-profile',
@@ -7,7 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class EditProfileComponent implements OnInit {
-    constructor() { }
+    constructor(public modal: MatDialogRef<EditProfileComponent>) { }
 
     ngOnInit() { }
+
+    close() {
+        this.modal.close()
+    }
 }

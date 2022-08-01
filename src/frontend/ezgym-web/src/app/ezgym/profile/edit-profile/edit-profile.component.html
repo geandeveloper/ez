@@ -1,1 +1,45 @@
-Editar profile
+<div class="center">
+    <section class="header">
+        <button (click)="close()" class="header-btn">Cancelar</button>
+        <p class="header-title">Editar Perfil</p>
+        <button class="header-btn btn-save">Salvar</button>
+    </section>
+    <div class="line"></div>
+    <section class="edit-form">
+        <div class="form-group form-group-avatar">
+            <div class="profile-bio-image">
+                <img src="https://th.bing.com/th/id/OIP.aWmA0p-4ALixK-d1vXPLlwHaGG?pid=ImgDet&rs=1" />
+            </div>
+            <label class="header-btn btn-save">
+                Trocar foto
+                <input class="input-upload" type="file" accept="image/*" />
+            </label>
+        </div>
+        <form class="forms-sample">
+            <div class="form-group">
+                <label for="exampleInputUsername1">Username</label>
+                <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Username">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Email address</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputConfirmPassword1">Confirm Password</label>
+                <input type="password" class="form-control" id="exampleInputConfirmPassword1" placeholder="Password">
+            </div>
+            <div class="form-check form-check-flat form-check-primary">
+                <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input">
+                    Remember me
+                    <i class="input-helper"></i></label>
+            </div>
+            <button type="submit" class="btn btn-primary mr-2">Submit</button>
+            <button class="btn btn-light">Cancel</button>
+        </form>
+    </section>
+</div>

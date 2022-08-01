@@ -1,1 +1,66 @@
 @import "variables";
+
+
+.header {
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    font-family: $font-family;
+    font-size: small;
+    padding: 10px;
+    align-items: flex-start;
+}
+
+.line {
+    flex: 1;
+    border-top: 1px solid #ccc;
+    width: 100%;
+}
+
+
+.form-group-avatar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.input-upload {
+    display: none;
+}
+
+.edit-form {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.header-btn {
+    border: none;
+    background: none;
+
+    &:hover {
+        color: $secondary;
+    }
+}
+
+.header-title {
+    font-weight: bold;
+}
+
+.btn-save {
+    font-weight: bold;
+    color: $primary;
+}
+
+.profile-bio-image {
+    width: 100px;
+    height: 100px;
+    background: red;
+    overflow: hidden;
+    border-radius: 50%
+}
+
+img {
+    display: block;
+    height: 100%;
+}

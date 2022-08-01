@@ -10,6 +10,7 @@ import { EzGymRoutingModule } from "./ezgym-routing.module";
 import { BrowserModule } from '@angular/platform-browser';
 import { ProfileComponent } from './profile/profile.component';
 import { MatDialogModule } from "@angular/material/dialog";
+import { ImageCropperModule } from "ngx-image-cropper";
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import { MatDialogModule } from "@angular/material/dialog";
     EzGymRoutingModule,
     MatAutocompleteModule,
     MatFormFieldModule,
+    ImageCropperModule
   ],
   exports: [
     EzGymComponent
