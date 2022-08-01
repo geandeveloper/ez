@@ -5,6 +5,6 @@ namespace EzCommon.Infra.Storage
 {
     public interface IFileStorage
     {
-        public Task UploadFileAsync(MemoryStream stream, string fileName);
+        public Task<string> UploadFileAsync(MemoryStream stream, string fileName, string extension);
     }
 }

@@ -1,8 +1,8 @@
 ﻿using EzCommon.Models;
 using EzGym.Events;
+using EzGym.Features.Accounts.ChangeAvatar;
 using EzGym.Features.Accounts.CreateAccount;
 using EzGym.Features.Gyms.CreateGym;
-using EzGym.Features.Profiles.ChangeAvatar;
 using EzGym.Infra.Storage;
 using EzGym.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.IO;
-using System.IO.Pipelines;
 using System.Linq;
 using System.Threading;
 
@@ -61,11 +60,13 @@ namespace EzGym
                           var eventStream = await handler.Handle(new ChangeAvatarCommand(
                               UserId: principal.Id,
                               AccountId: accountId,
+                              FileName: file.FileName,
                               AvatarStream: avatarMemoryStream), CancellationToken.None);
+
+                          return Results.Ok(eventStream.GetEvent<AvatarImageAccountChanged>());
 
                       }
 
-                      return Results.NoContent();
                   })
                 .Accepts<IFormFile>("multipart/form-data");
 

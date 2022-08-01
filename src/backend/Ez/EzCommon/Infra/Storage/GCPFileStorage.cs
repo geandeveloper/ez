@@ -16,10 +16,13 @@ namespace EzCommon.Infra.Storage
             _bucketName = bucketName;
         }
 
-        public async Task UploadFileAsync(MemoryStream stream, string fileName)
+        public async Task<string> UploadFileAsync(MemoryStream stream, string fileName, string extension)
         {
             const string contentType = "application/octet-stream";
-            await _storageClient.UploadObjectAsync(_bucketName, fileName, contentType, stream);
+            var uploadedFIle  = await _storageClient.UploadObjectAsync(_bucketName, $"{fileName}{extension}", contentType, stream);
+
+            return uploadedFIle.MediaLink;
         }
+
     }
 }

@@ -1,6 +1,6 @@
-﻿using EzGym.Features.Accounts.CreateAccount;
+﻿using EzGym.Features.Accounts.ChangeAvatar;
+using EzGym.Features.Accounts.CreateAccount;
 using EzGym.Features.Gyms.CreateGym;
-using EzGym.Features.Profiles.ChangeAvatar;
 using EzGym.Infra.Storage;
 using Microsoft.Extensions.DependencyInjection;
 

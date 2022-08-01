@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { tap } from 'rxjs';
 import { UserStore } from 'src/app/core/authentication/user.store';
+import { AccountModel } from 'src/app/core/ezgym/models/accout.model';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
 @Component({
@@ -12,7 +13,7 @@ import { EditProfileComponent } from './edit-profile/edit-profile.component';
 })
 
 export class ProfileComponent implements OnInit {
-    userName: string = ""
+    activeAccount = {} as AccountModel
 
     constructor(
         private userStore: UserStore,
@@ -23,9 +24,12 @@ export class ProfileComponent implements OnInit {
         this.activeRoute.params
             .pipe(
                 tap(params => {
-                    this.userName = params['accountName']
-                    if (this.userStore.user.userInfo?.accounts.some(a => a.accountName == this.userName))
-                        this.userStore.setActiveAccount(this.userName)
+                    const userName = params['accountName']
+                    const account = this.userStore.user.userInfo?.accounts.find(a => a.accountName == userName)
+                    if (account) {
+                        this.userStore.setActiveAccount(userName)
+                        this.activeAccount = account
+                    }
                 })
             ).subscribe()
     }

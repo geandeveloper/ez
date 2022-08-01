@@ -2,7 +2,8 @@ export interface AccountModel {
     id: string,
     accountName: string,
     isDefault: false,
-    accountType: AccounTypeEnum
+    accountType: AccounTypeEnum,
+    avatarUrl?: string
 }
 
 

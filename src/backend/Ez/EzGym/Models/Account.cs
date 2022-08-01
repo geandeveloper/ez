@@ -11,6 +11,7 @@ namespace EzGym.Models
         public string AccountName { get; private set; }
         public AccountTypeEnum AccountType { get; private set; }
         public bool IsDefault { get; private set; }
+        public string AvatarUrl { get; private set; }
 
         private Account() { }
         public Account(CreateAccountCommand command)
@@ -24,9 +25,20 @@ namespace EzGym.Models
            ));
         }
 
+        public void ChangeAvatarImage(string avatarUrl)
+        {
+            RaiseEvent(new AvatarImageAccountChanged(Id, avatarUrl));
+        }
+
         protected override void RegisterEvents()
         {
             RegisterEvent<AccountCreatedEvent>(When);
+            RegisterEvent<AvatarImageAccountChanged>(When);
+        }
+
+        private void When(AvatarImageAccountChanged @event)
+        {
+            AvatarUrl = @event.AvatarUrl;
         }
 
         private void When(AccountCreatedEvent @event)
