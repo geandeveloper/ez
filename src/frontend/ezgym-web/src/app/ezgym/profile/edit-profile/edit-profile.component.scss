@@ -52,12 +52,39 @@
     color: $primary;
 }
 
+.crop-component {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+    width: 100%;
+    border-top: 1px solid #ccc;
+    padding: 10px;
+    background: #f1f1f1;
+}
+
+.preview-image {
+    display: block;
+    width: 150px;
+}
+
+.crop-buttons {
+    display: flex;
+    gap: 20px
+}
+
 .profile-bio-image {
     width: 100px;
     height: 100px;
-    background: red;
+    background: $primary;
+    background-image: url("/assets/img/default-user-img.png");
     overflow: hidden;
-    border-radius: 50%
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    background-size: cover;
 }
 
 img {

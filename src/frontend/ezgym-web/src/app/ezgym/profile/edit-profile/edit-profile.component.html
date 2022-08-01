@@ -7,39 +7,44 @@
     <div class="line"></div>
     <section class="edit-form">
         <div class="form-group form-group-avatar">
+
             <div class="profile-bio-image">
-                <img src="https://th.bing.com/th/id/OIP.aWmA0p-4ALixK-d1vXPLlwHaGG?pid=ImgDet&rs=1" />
+                <img [src]="croppedImage" />
             </div>
             <label class="header-btn btn-save">
-                Trocar foto
-                <input class="input-upload" type="file" accept="image/*" />
+                Trocar imagem
+                <input class="input-upload" type="file" #inputUpload (change)="fileChangeEvent($event)"
+                    accept="image/*" />
             </label>
+
+            <div class="crop-component" *ngIf="showPreview">
+                <p class="header-title">Ajustar imagem</p>
+                <div class="preview-image">
+                    <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+                        [aspectRatio]="4 / 4" [resizeToWidth]="256" format="png" (imageCropped)="imageCropped($event)"
+                        (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady()"
+                        (loadImageFailed)="loadImageFailed()">
+                    </image-cropper>
+                </div>
+                <div class="crop-buttons">
+                    <button (click)="close()" class="header-btn">Cancelar</button>
+                    <button class="header-btn btn-save">Salvar</button>
+                </div>
+            </div>
         </div>
-        <form class="forms-sample">
+        <form class="edit-profile-form">
             <div class="form-group">
-                <label for="exampleInputUsername1">Username</label>
-                <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Username">
-            </div>
-            <div class="form-group">
-                <label for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+                <label>Nome</label>
+                <input type="text" class="form-control" placeholder="Nome">
             </div>
             <div class="form-group">
-                <label for="exampleInputPassword1">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                <label for="job">Profissão</label>
+                <input type="text" class="form-control"  placeholder="Profissão">
             </div>
             <div class="form-group">
-                <label for="exampleInputConfirmPassword1">Confirm Password</label>
-                <input type="password" class="form-control" id="exampleInputConfirmPassword1" placeholder="Password">
+                <label for="bio">Bio</label>
+                <textarea type="password" class="form-control" rows="2"></textarea>
             </div>
-            <div class="form-check form-check-flat form-check-primary">
-                <label class="form-check-label">
-                    <input type="checkbox" class="form-check-input">
-                    Remember me
-                    <i class="input-helper"></i></label>
-            </div>
-            <button type="submit" class="btn btn-primary mr-2">Submit</button>
-            <button class="btn btn-light">Cancel</button>
         </form>
     </section>
 </div>

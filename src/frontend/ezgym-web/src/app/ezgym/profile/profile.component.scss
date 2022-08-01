@@ -49,9 +49,11 @@
     >.profile-bio-image {
         width: 100px;
         height: 100px;
-        background: red;
+        background: $primary;
         overflow: hidden;
-        border-radius: 50%
+        border-radius: 50%;
+        background-image: url("/assets/img/default-user-img.png");
+        background-size: cover;
     }
 
     img {

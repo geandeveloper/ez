@@ -11,12 +11,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ProfileComponent } from './profile/profile.component';
 import { MatDialogModule } from "@angular/material/dialog";
 import { ImageCropperModule } from "ngx-image-cropper";
+import { EditProfileComponent } from "./profile/edit-profile/edit-profile.component";
 
 
 @NgModule({
   declarations: [
     EzGymComponent,
-    ProfileComponent
+    ProfileComponent,
+    EditProfileComponent
   ],
   imports: [
     FormsModule,
@@ -26,7 +28,7 @@ import { ImageCropperModule } from "ngx-image-cropper";
     EzGymRoutingModule,
     MatAutocompleteModule,
     MatFormFieldModule,
-    ImageCropperModule
+    ImageCropperModule,
   ],
   exports: [
     EzGymComponent
