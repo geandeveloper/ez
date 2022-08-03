@@ -5,6 +5,7 @@ import { UserInfoState, UserState } from '../core/authentication/user.state';
 import { UserStore } from '../core/authentication/user.store';
 import { ModalStore } from '../shared/components/modal/modal.store';
 import { PreLoaderStore } from '../shared/components/pre-loader/pre-loader.store';
+import { EzGymComponentState, EzGymComponentStore } from './ezgym.component.store';
 
 
 @Component({
@@ -15,15 +16,21 @@ import { PreLoaderStore } from '../shared/components/pre-loader/pre-loader.store
 export class EzGymComponent implements OnInit {
 
   userState = {} as UserState
+  state: EzGymComponentState | undefined
 
   constructor(
     private userStore: UserStore,
     private modalStore: ModalStore,
     private preLoaderStore: PreLoaderStore,
+    private ezGymComponentStorage: EzGymComponentStore,
     private router: Router) {
 
     this.userStore.store$.subscribe(userState => {
       this.userState = userState;
+    })
+
+    this.ezGymComponentStorage.store$.subscribe(state => {
+      this.state = { ...state }
     })
   }
 

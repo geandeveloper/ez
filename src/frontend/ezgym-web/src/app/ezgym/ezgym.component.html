@@ -1,5 +1,5 @@
 <div class="container-scroller">
-    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+    <nav *ngIf="state?.ui?.showTopNavBar" class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="navbar-menu-wrapper d-flex align-items-center">
 
             <ul class="navbar-nav navbar-nav-left">
@@ -86,7 +86,8 @@
                         </a>
                     </li>
                     <li>
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" routerLinkActive="link-active"
+                            [routerLink]="['/', 'search',  { outlets:{ 'content':'search' } }]">
                             <i class="material-icons"> search </i>
                         </a>
                     </li>

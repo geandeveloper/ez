@@ -1,21 +1,23 @@
 <div class="row profile-component">
     <section class="profile-header">
         <div class="profile-bio-image">
-            <img [src]="account.avatarUrl" />
+            <img [src]="state?.account?.avatarUrl" />
         </div>
         <div class="profile-bio-info">
-            <h1 class="display-3">{{account.accountName}}</h1>
-            <!-- <button type="button" class="btn btn-secondary btn-lg btn-block btn-follow">Seguir</button> -->
-            <button type="button" (click)="editProfile()" class="btn btn-primary btn-lg btn-block btn-follow">Editar perfil</button>
+            <h1 class="display-3">{{state?.account?.accountName}}</h1>
+            <button type="button" *ngIf="!state?.ui?.isOwner"
+                class="btn btn-secondary btn-lg btn-block btn-follow">Seguir</button>
+            <button type="button" *ngIf="state?.ui?.isOwner" (click)="editProfile()"
+                class="btn btn-primary btn-lg btn-block btn-follow">Editar perfil</button>
         </div>
     </section>
     <div class="profile-description">
         <h5>
-            {{profile?.name}}<br />
-            <p class="text-muted"> {{profile?.jobDescription}} </p>
+            {{state?.profile?.name}}<br />
+            <p class="text-muted"> {{state?.profile?.jobDescription}} </p>
         </h5>
         <p>
-            {{profile?.bioDescription}}
+            {{state?.profile?.bioDescription}}
         </p>
     </div>
     <div class="profile-counts">

@@ -4,6 +4,7 @@ import { AuthGuard } from 'src/app/core/authentication/auth.guard';
 
 import { EzGymComponent } from './ezgym.component';
 import { ProfileComponent } from './profile/profile.component';
+import { SearchAccountComponent } from './search/search-account/search-account.component';
 
 const routes: Routes = [
   {
@@ -14,6 +15,11 @@ const routes: Routes = [
       {
         path: '',
         component: ProfileComponent,
+        outlet: 'content'
+      },
+      {
+        path: 'search',
+        component: SearchAccountComponent,
         outlet: 'content'
       },
     ]
