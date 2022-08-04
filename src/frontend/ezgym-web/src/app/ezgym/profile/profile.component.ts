@@ -13,7 +13,7 @@ import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
 interface ProfileComponentState {
     account: AccountModel,
-    profile: ProfileModel,
+    profile?: ProfileModel,
     ui: {
         isOwner: boolean
     }
@@ -35,23 +35,21 @@ export class ProfileComponent extends Store<ProfileComponentState> implements On
         private ezGymComponentStore: EzGymComponentStore,
         public dialog: MatDialog
     ) {
-        super()
-
-        this.store$.subscribe(state => {
-            if (state.account)
-                this.setState(() => ({
-                    ...state,
-                    ui: {
-                        isOwner: state.account.id == this.userStore.user.activeAccount?.id
-                    }
-                }))
+        super({
+            account: {} as AccountModel,
+            profile: {} as ProfileModel,
+            ui: {
+                isOwner: false
+            }
         })
 
     }
 
     ngOnInit() {
+        setTimeout(() => {
+            this.ezGymComponentStore.showTopNavBar(true)
+        })
         this.loadProfile()
-        this.ezGymComponentStore.showTopNavBar(true)
     }
 
     loadProfile() {
@@ -66,6 +64,9 @@ export class ProfileComponent extends Store<ProfileComponentState> implements On
                         ...state,
                         account: response.account,
                         profile: response.profile,
+                        ui: {
+                            isOwner: response.account.id == this.userStore.user.activeAccount?.id
+                        }
                     }))
 
                     this.preloader.close();

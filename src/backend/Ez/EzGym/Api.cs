@@ -105,7 +105,8 @@ namespace EzGym
                       return Results.Ok(userInfo);
                   });
 
-            app.MapGet("accounts", (
+            app.MapGet("accounts", 
+                [Authorize] (
                       [FromServices] IGymQueryStorage queryStorage,
                       string accountName
                       ) =>
