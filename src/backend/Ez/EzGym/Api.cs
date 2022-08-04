@@ -120,8 +120,8 @@ namespace EzGym
                 });
 
             app.MapGet("accounts/{accountName}",
-                [Authorize] (
-                      [FromServices] EzPrincipal principal,
+                //[Authorize] 
+            (
                       [FromServices] IGymQueryStore queryStorage,
                       string accountName
                       ) =>
@@ -150,7 +150,7 @@ namespace EzGym
                     return Results.Ok(eventStream.GetEvent<ProfileChangedEvent>());
                 });
 
-            app.MapPost("accounts/{followAccountId}/followers",
+            app.MapPost("accounts/{followAccountId}/follow",
                 [Authorize] async (
                       [FromServices] FollowAccountCommandHandler handler,
                       FollowAccountCommand command,

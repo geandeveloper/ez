@@ -6,9 +6,10 @@ namespace EzGym.Models
     {
         public Guid AccountId { get; private set; }
 
-        public Follower(Guid accountId)
+        private Follower() { }
+        public Follower(Account account)
         {
-            AccountId = accountId;
+            AccountId = account.Id;
         }
     }
 }

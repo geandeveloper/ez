@@ -13,8 +13,12 @@ namespace EzGym.Models
         public AccountTypeEnum AccountType { get; private set; }
         public bool IsDefault { get; private set; }
         public string AvatarUrl { get; private set; }
-        public IList<Follower> Following { get; private set; }
-        public IList<Follower> Followers { get; private set; }
+
+        public IList<Follower> Following { get; set; }
+        public IList<Follower> Followers { get; set; }
+
+        public int? FollowingCount => Following?.Count;
+        public int? FollowersCount => Followers?.Count;
 
         private Account()
         {
@@ -40,22 +44,22 @@ namespace EzGym.Models
 
         public void AddFollower(Account account)
         {
-            RaiseEvent(new AddedFollowAccountEvent(Id, new Follower(account.Id)));
+            RaiseEvent(new AddedFollowAccountEvent(new Follower(account)));
         }
 
         public void RemoveFollower(Account account)
         {
-            RaiseEvent(new RemovedFollowAccountEvent(Id, new Follower(account.Id)));
+            RaiseEvent(new RemovedFollowAccountEvent(new Follower(account)));
         }
 
         public void FollowAccount(Account account)
         {
-            RaiseEvent(new StartFollowAccountEvent(Id, new Follower(account.Id)));
+            RaiseEvent(new StartFollowAccountEvent(new Follower(account)));
         }
 
         public void UnfollowAccount(Account account)
         {
-            RaiseEvent(new UnfollowAccountEvent(Id, new Follower(account.Id)));
+            RaiseEvent(new UnfollowAccountEvent(new Follower(account)));
         }
 
         protected override void RegisterEvents()
@@ -70,7 +74,7 @@ namespace EzGym.Models
 
         private void When(RemovedFollowAccountEvent @event)
         {
-            Followers.Remove(@event.Folower);
+            Followers.Remove(@event.Follower);
         }
 
         private void When(AddedFollowAccountEvent @event)

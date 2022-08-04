@@ -3,7 +3,9 @@ export interface AccountModel {
     accountName: string,
     isDefault: false,
     accountType: AccountTypeEnum,
-    avatarUrl?: string
+    avatarUrl?: string,
+    followingCount?: number
+    followersCount?: number
 }
 
 

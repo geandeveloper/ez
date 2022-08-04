@@ -55,6 +55,6 @@ export class AccountService {
 
     followAccount(command: { userAccountId: string, followAccountId: string }): Observable<StartFollowAccountEvent> {
         return this.http
-            .post<StartFollowAccountEvent>(`accounts/${command.followAccountId}/followers`, command)
+            .post<StartFollowAccountEvent>(`accounts/${command.followAccountId}/follow`, command)
     }
 }
