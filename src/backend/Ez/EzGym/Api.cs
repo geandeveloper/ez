@@ -105,6 +105,18 @@ namespace EzGym
                       return Results.Ok(userInfo);
                   });
 
+            app.MapGet("accounts", (
+                      [FromServices] IGymQueryStorage queryStorage,
+                      string accountName
+                      ) =>
+                {
+                    var accounts = queryStorage.Query<Account>(a => a.AccountName.Contains(accountName))
+                    .Take(20)
+                    .ToList();
+
+                    return Results.Ok(accounts);
+                });
+
             app.MapGet("accounts/{accountName}",
                 [Authorize] (
                       [FromServices] EzPrincipal principal,

@@ -12,8 +12,6 @@ export interface EzGymComponentState {
 })
 export class EzGymComponentStore extends Store<EzGymComponentState> {
 
-    state: EzGymComponentState | undefined
-
     constructor() {
         super({
             ui: {

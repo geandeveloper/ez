@@ -47,4 +47,9 @@ export class AccountService {
                 profile: ProfileModel
             }>(`accounts/${accountName}`)
     }
+
+    searchAccounts(accountName: string) {
+        return this.http
+            .get<AccountModel[]>(`accounts?accountName=${accountName}`)
+    }
 }

@@ -1,0 +1,29 @@
+<nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+    <div class="navbar-search">
+        <form [formGroup]="searchForm">
+            <div class="input-group">
+                <div class="input-group-prepend hover-cursor" id="navbar-search-icon">
+                    <span class="input-group-text" id="search">
+                        <i class="icon-search"></i>
+                    </span>
+                </div>
+                <input type="text" class="form-control" formControlName="accountName" id="navbar-search-input"
+                    placeholder="Buscar" aria-label="search" aria-describedby="search">
+            </div>
+        </form>
+    </div>
+</nav>
+
+<div class="row">
+    <ul class="icon-data-list">
+        <li *ngFor="let account of state?.accounts" [routerLink]="['/', account.accountName]">
+            <div class="d-flex account-item-list">
+                <img [src]="account?.avatarUrl || '/assets/img/default-user-img.png'" alt="user">
+                <div  class="account-item-description">
+                    <p class="text-primary font-weight-bold">{{account.accountName}}</p>
+                    <small>{{account.accountType == 1 ? 'Usuario' : 'Academia'}} </small>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>

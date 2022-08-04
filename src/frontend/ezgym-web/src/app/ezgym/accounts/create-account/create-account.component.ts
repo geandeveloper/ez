@@ -25,7 +25,6 @@ interface CreateAccountComponentState {
 export class CreateAccountComponent extends Store<CreateAccountComponentState> {
 
     createAccountFromGroup: FormGroup
-    state?: CreateAccountComponentState
     ui = {
         gymAccountNameStatusClassName: 'bg-primary'
     }

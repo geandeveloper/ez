@@ -2,9 +2,13 @@ import { Observable, BehaviorSubject } from 'rxjs';
 
 export class Store<T> {
   protected initialState: T
-  
+
   public store$: Observable<T>;
   private _state$: BehaviorSubject<T>;
+
+  public get state() {
+    return this._state$.getValue()
+  }
 
   protected constructor(initialState?: T) {
     this.initialState = initialState || {} as T;
@@ -13,6 +17,6 @@ export class Store<T> {
   }
 
   setState(setStateFn: (state: T) => T): void {
-    this._state$.next(setStateFn(this._state$.getValue()));
+    this._state$.next(setStateFn(this.state))
   }
 }

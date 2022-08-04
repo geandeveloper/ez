@@ -26,8 +26,6 @@ interface ProfileComponentState {
 })
 export class ProfileComponent extends Store<ProfileComponentState> implements OnInit {
 
-    state?: ProfileComponentState
-
     constructor(
         private activeRoute: ActivatedRoute,
         private router: Router,
@@ -41,12 +39,12 @@ export class ProfileComponent extends Store<ProfileComponentState> implements On
 
         this.store$.subscribe(state => {
             if (state.account)
-                this.state = {
+                this.setState(() => ({
                     ...state,
                     ui: {
                         isOwner: state.account.id == this.userStore.user.activeAccount?.id
                     }
-                }
+                }))
         })
 
     }

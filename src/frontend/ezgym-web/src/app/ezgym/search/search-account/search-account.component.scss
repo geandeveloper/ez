@@ -1,0 +1,57 @@
+.center {
+    padding: 0px 20px;
+}
+
+.navbar-search {
+    height: 60px;
+    flex: 1;
+    align-items: center;
+    display: flex;
+    padding: 0px 20px;
+
+    form {
+        flex: 1
+    }
+
+    .input-group-text {
+        border: none;
+        background: #f3f3f3
+    }
+
+    #navbar-search-input {
+        border: none;
+        background: #f3f3f3;
+    }
+
+}
+
+ul {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+li {
+    text-transform: capitalize;
+
+    >:hover {
+        background: #fff;
+        cursor: pointer;
+    }
+
+    .account-item-list {
+        padding: 5px 20px;
+        flex-direction: row;
+        justify-content: left;
+        align-items: center;
+
+        p {
+            line-height: 5px;
+            margin-bottom: 0px;
+        }
+    }
+
+    .account-item-description {
+        margin-top: 10px;
+    }
+}
