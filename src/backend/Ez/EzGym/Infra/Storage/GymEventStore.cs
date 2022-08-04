@@ -3,7 +3,7 @@ using EzCommon.Infra.Storage;
 
 namespace EzGym.Infra.Storage
 {
-    public class GymEventStore : StoreInLocal, IGymEventStore, IGymQueryStorage
+    public class GymEventStore : StoreInLocal, IGymEventStore, IGymQueryStore
     {
         public GymEventStore(IBus bus) : base(bus, "ezgym")
         {

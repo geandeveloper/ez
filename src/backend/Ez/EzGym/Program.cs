@@ -3,10 +3,19 @@ using EzCommon;
 using EzIdentity;
 using Microsoft.AspNetCore.Http;
 using EzGym;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication
     .CreateBuilder();
 
+
+builder.Services.AddCors(c =>
+        {
+            c.AddPolicy("localhost", options => options
+            .WithOrigins("http://localhost:4200")
+            .AllowAnyHeader()
+            .AllowAnyMethod());
+        });
 
 //EzGym Services
 builder.Services

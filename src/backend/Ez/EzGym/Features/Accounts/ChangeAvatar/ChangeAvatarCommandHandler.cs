@@ -12,12 +12,12 @@ namespace EzGym.Features.Accounts.ChangeAvatar
 {
     public class ChangeAvatarCommandHandler : ICommandHandler<ChangeAvatarCommand>
     {
-        private readonly IGymQueryStorage _queryStorage;
+        private readonly IGymQueryStore _queryStorage;
         private readonly IFileStorage _fileStorage;
         private readonly IGymEventStore _eventStore;
 
         public ChangeAvatarCommandHandler(
-            IGymQueryStorage queryStorage,
+            IGymQueryStore queryStorage,
             IFileStorage fileStorage,
             IGymEventStore eventStore)
         {

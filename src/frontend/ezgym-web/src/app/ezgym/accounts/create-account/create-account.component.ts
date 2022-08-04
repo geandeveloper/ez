@@ -9,6 +9,7 @@ import { Store } from 'src/app/core/state/store';
 import { AccountService } from 'src/app/core/ezgym/account.service';
 import { UserStore } from 'src/app/core/authentication/user.store';
 import { Router } from '@angular/router';
+import { AccountTypeEnum } from 'src/app/core/ezgym/models/accout.model';
 
 interface CreateAccountComponentState {
     fantasyName: string,
@@ -42,6 +43,8 @@ export class CreateAccountComponent extends Store<CreateAccountComponentState> {
         this.createAccountFromGroup = fb.group({
             fantasyName: '',
             accountName: this.fb.control('', [Validators.pattern(`^[a-z0-9_-]{2,15}$`), Validators.required]),
+            accountType: [AccountTypeEnum.Gym]
+
         });
 
 

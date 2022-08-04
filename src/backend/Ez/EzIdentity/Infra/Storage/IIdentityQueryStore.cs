@@ -2,7 +2,7 @@
 
 namespace EzIdentity.Infra.Storage
 {
-    public interface IIdentityQueryStorage : IQueryStorage
+    public interface IIdentityQueryStore : IQueryStorage
     {
     }
 }

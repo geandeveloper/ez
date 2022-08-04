@@ -14,7 +14,7 @@ public class RevokeTokenCommandHandler : ICommandHandler<RevokeTokenCommand>
 
     public RevokeTokenCommandHandler(
         IIdentityEventStore eventStore,
-        IIdentityQueryStorage queryStorage
+        IIdentityQueryStore queryStorage
         )
     {
         _eventStore = eventStore;

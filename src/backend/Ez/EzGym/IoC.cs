@@ -1,5 +1,6 @@
 ﻿using EzGym.Features.Accounts.ChangeAvatar;
 using EzGym.Features.Accounts.CreateAccount;
+using EzGym.Features.Accounts.FollowAccount;
 using EzGym.Features.Gyms.CreateGym;
 using EzGym.Features.Profiles.UpInsertProfile;
 using EzGym.Infra.Storage;
@@ -11,22 +12,15 @@ namespace EzGym
     {
         public static IServiceCollection AddEzGym(this IServiceCollection services)
         {
-
-            services.AddCors(c =>
-                    {
-                        c.AddPolicy("localhost", options => options
-                        .WithOrigins("http://localhost:4200")
-                        .AllowAnyHeader()
-                        .AllowAnyMethod());
-                    });
-
-
             services.AddSingleton<IGymEventStore, GymEventStore>();
-            services.AddSingleton<IGymQueryStorage, GymEventStore>();
+            services.AddSingleton<IGymQueryStore, GymEventStore>();
+
+            
             services.AddSingleton<CreateAccountCommandHandler>();
             services.AddSingleton<CreateGymCommandHandler>();
             services.AddSingleton<ChangeAvatarCommandHandler>();
             services.AddSingleton<UpInsertProfileCommandHandler>();
+            services.AddSingleton<FollowAccountCommandHandler>();
 
             return services;
         }

@@ -16,7 +16,7 @@ public class RefreshTokenCommandHandler : ICommandHandler<RefreshTokenCommand>
 
     public RefreshTokenCommandHandler(
         IIdentityEventStore eventStore, 
-        IIdentityQueryStorage queryStorage
+        IIdentityQueryStore queryStorage
         )
     {
         _eventStore = eventStore;

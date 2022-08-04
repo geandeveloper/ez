@@ -13,7 +13,7 @@ namespace EzIdentity.EventHandlers
     {
         private readonly IQueryStorage _queryStorage;
 
-        public UpdateSnapShotsEventHandler(IIdentityQueryStorage queryStorage)
+        public UpdateSnapShotsEventHandler(IIdentityQueryStore queryStorage)
         {
             _queryStorage = queryStorage;
         }

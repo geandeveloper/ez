@@ -10,9 +10,9 @@ namespace EzGym.Features.Profiles.UpInsertProfile
     public class UpInsertProfileCommandHandler : ICommandHandler<UpInsertProfileCommand>
     {
         private readonly IGymEventStore _eventStorage;
-        private readonly IGymQueryStorage _queryStorage;
+        private readonly IGymQueryStore _queryStorage;
 
-        public UpInsertProfileCommandHandler(IGymEventStore eventStorage, IGymQueryStorage queryStorage)
+        public UpInsertProfileCommandHandler(IGymEventStore eventStorage, IGymQueryStore queryStorage)
         {
             _eventStorage = eventStorage;
             _queryStorage = queryStorage;

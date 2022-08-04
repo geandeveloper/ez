@@ -16,7 +16,7 @@ public class LoginCommandHandler : ICommandHandler<LoginCommand>
 
     public LoginCommandHandler(
         IIdentityEventStore eventStore,
-        IIdentityQueryStorage queryStorage 
+        IIdentityQueryStore queryStorage 
         )
     {
         _eventStore = eventStore;

@@ -2,6 +2,7 @@
 using EzGym.Events;
 using EzGym.Features.Accounts.ChangeAvatar;
 using EzGym.Features.Accounts.CreateAccount;
+using EzGym.Features.Accounts.FollowAccount;
 using EzGym.Features.Gyms.CreateGym;
 using EzGym.Features.Profiles.UpInsertProfile;
 using EzGym.Infra.Storage;
@@ -81,7 +82,7 @@ namespace EzGym
                       });
 
             app.MapGet("/accounts/{accountName}/verify", (
-                      [FromServices] IGymQueryStorage queryStorage, string accountName) =>
+                      [FromServices] IGymQueryStore queryStorage, string accountName) =>
                   {
                       var response = new
                       {
@@ -94,7 +95,7 @@ namespace EzGym
             app.MapGet("/userinfo",
                 [Authorize] (
                       [FromServices] EzPrincipal principal,
-                      [FromServices] IGymQueryStorage queryStorage) =>
+                      [FromServices] IGymQueryStore queryStorage) =>
                   {
                       var userInfo = new
                       {
@@ -105,9 +106,9 @@ namespace EzGym
                       return Results.Ok(userInfo);
                   });
 
-            app.MapGet("accounts", 
+            app.MapGet("accounts",
                 [Authorize] (
-                      [FromServices] IGymQueryStorage queryStorage,
+                      [FromServices] IGymQueryStore queryStorage,
                       string accountName
                       ) =>
                 {
@@ -121,7 +122,7 @@ namespace EzGym
             app.MapGet("accounts/{accountName}",
                 [Authorize] (
                       [FromServices] EzPrincipal principal,
-                      [FromServices] IGymQueryStorage queryStorage,
+                      [FromServices] IGymQueryStore queryStorage,
                       string accountName
                       ) =>
                 {
@@ -147,6 +148,18 @@ namespace EzGym
                     var eventStream = await handler.Handle(command, CancellationToken.None);
 
                     return Results.Ok(eventStream.GetEvent<ProfileChangedEvent>());
+                });
+
+            app.MapPost("accounts/{followAccountId}/followers",
+                [Authorize] async (
+                      [FromServices] FollowAccountCommandHandler handler,
+                      FollowAccountCommand command,
+                      Guid followAccountId
+                      ) =>
+                {
+                    var eventStream = await handler.Handle(command with { FollowAccountId = followAccountId }, CancellationToken.None);
+
+                    return Results.Ok(eventStream.GetEvent<StartFollowAccountEvent>());
                 });
 
             return app;

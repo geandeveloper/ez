@@ -2,7 +2,7 @@ import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { VerifyAccountResponseDto } from './dto/verify-account-response.dto';
-import { AccountCreatedEvent, AvatarImageAccountChanged } from './events/account.events';
+import { AccountCreatedEvent, AvatarImageAccountChanged, StartFollowAccountEvent } from './events/account.events';
 import { ProfileChangedEvent } from './events/profile.events';
 import { ProfileModel } from './models/profile.model';
 import { AccountModel } from './models/accout.model';
@@ -51,5 +51,10 @@ export class AccountService {
     searchAccounts(accountName: string) {
         return this.http
             .get<AccountModel[]>(`accounts?accountName=${accountName}`)
+    }
+
+    followAccount(command: { userAccountId: string, followAccountId: string }): Observable<StartFollowAccountEvent> {
+        return this.http
+            .post<StartFollowAccountEvent>(`accounts/${command.followAccountId}/followers`, command)
     }
 }

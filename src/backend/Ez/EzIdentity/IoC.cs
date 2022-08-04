@@ -15,7 +15,7 @@ public static class IoC
 
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         services.AddSingleton<IIdentityEventStore, IdentityEventStore>();
-        services.AddSingleton<IIdentityQueryStorage, IdentityEventStore>();
+        services.AddSingleton<IIdentityQueryStore, IdentityEventStore>();
 
         services.AddSingleton<LoginCommandHandler>();
         services.AddSingleton<CreateUserCommandHandler>();

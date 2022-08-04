@@ -15,7 +15,7 @@ namespace EzGym.EventHandlers
     {
         private readonly IQueryStorage _queryStorage;
 
-        public UpdateSnapShotsEventHandler(IGymQueryStorage queryStorage)
+        public UpdateSnapShotsEventHandler(IGymQueryStore queryStorage)
         {
             _queryStorage = queryStorage;
         }

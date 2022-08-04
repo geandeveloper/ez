@@ -2,7 +2,7 @@
 
 namespace EzGym.Infra.Storage
 {
-    public interface IGymQueryStorage : IQueryStorage
+    public interface IGymQueryStore : IQueryStorage
     {
     }
 }

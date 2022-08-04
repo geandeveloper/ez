@@ -95,4 +95,16 @@ export class ProfileComponent extends Store<ProfileComponentState> implements On
                 this.loadProfile()
             })
     }
+
+    followAccount(accountId: string) {
+        debugger
+        this.accountService.followAccount({
+            userAccountId: this.userStore.state.activeAccount?.id!,
+            followAccountId: accountId
+        }).pipe(
+            tap(response => {
+                debugger
+            })
+        ).subscribe()
+    }
 }
