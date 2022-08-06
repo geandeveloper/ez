@@ -1,5 +1,4 @@
-﻿using EzCommon.Events;
-using EzCommon.Infra.Bus;
+﻿using EzCommon.Infra.Bus;
 using EzCommon.Models;
 using LiteDB;
 using System;
@@ -20,7 +19,7 @@ namespace EzCommon.Infra.Storage
 
 
         private readonly IBus _bus;
-        private readonly string _storeName;
+        protected readonly string _storeName;
 
         public StoreInLocal(IBus bus, string storeName)
         {
@@ -73,5 +72,6 @@ namespace EzCommon.Infra.Storage
             using var db = new LiteDatabase($"C:/temp/{_storeName}-snapshots.db");
             return db.GetCollection<T>().Find(query).ToList().AsQueryable();
         }
+
     }
 }

@@ -42,10 +42,7 @@ export class AccountService {
 
     loadAccount(accountName: string) {
         return this.http
-            .get<{
-                account: AccountModel,
-                profile: ProfileModel
-            }>(`accounts/${accountName}`)
+            .get<AccountModel>(`accounts/${accountName}`)
     }
 
     searchAccounts(accountName: string) {

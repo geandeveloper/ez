@@ -1,6 +1,7 @@
 ﻿using EzCommon.Models;
 using EzGym.Events;
 using EzGym.Features.Accounts.CreateAccount;
+using EzGym.Features.Accounts.UpInsertAccountProfile;
 using System;
 using System.Collections.Generic;
 
@@ -13,6 +14,8 @@ namespace EzGym.Models
         public AccountTypeEnum AccountType { get; private set; }
         public bool IsDefault { get; private set; }
         public string AvatarUrl { get; private set; }
+
+        public Profile Profile { get; private set; }
 
         public IList<Follower> Following { get; set; }
         public IList<Follower> Followers { get; set; }
@@ -36,6 +39,32 @@ namespace EzGym.Models
                     IsDefault: command.IsDefault
            ));
         }
+        protected override void RegisterEvents()
+        {
+            RegisterEvent<AccountCreatedEvent>(When);
+            RegisterEvent<AvatarImageAccountChangedEvent>(When);
+            RegisterEvent<AccountFollowedEvent>(When);
+            RegisterEvent<AddedAccountFollowerEvent>(When);
+            RegisterEvent<ProfileChangedEvent>(When);
+        }
+
+
+        public void UpdateProfile(UpInsertAccountProfileCommand command)
+        {
+            RaiseEvent(new ProfileChangedEvent(
+                AccountId: command.AccountId,
+                Name: command.Name,
+                JobDescription: command.JobDescription,
+                BioDescription: command.BioDescription));
+        }
+
+        private void When(ProfileChangedEvent @event)
+        {
+            Profile = new Profile(
+                name: @event.Name,
+                jobDescription: @event.JobDescription,
+                bioDescription: @event.BioDescription);
+        }
 
         public void ChangeAvatarImage(string avatarUrl)
         {
@@ -44,52 +73,22 @@ namespace EzGym.Models
 
         public void AddFollower(Account account)
         {
-            RaiseEvent(new AddedFollowAccountEvent(new Follower(account)));
-        }
-
-        public void RemoveFollower(Account account)
-        {
-            RaiseEvent(new RemovedFollowAccountEvent(new Follower(account)));
+            RaiseEvent(new AddedAccountFollowerEvent(account.Id));
         }
 
         public void FollowAccount(Account account)
         {
-            RaiseEvent(new StartFollowAccountEvent(new Follower(account)));
+            RaiseEvent(new AccountFollowedEvent(account.Id));
         }
 
-        public void UnfollowAccount(Account account)
+        private void When(AddedAccountFollowerEvent @event)
         {
-            RaiseEvent(new UnfollowAccountEvent(new Follower(account)));
+            Followers.Add(new Follower(@event.AccountId));
         }
 
-        protected override void RegisterEvents()
+        private void When(AccountFollowedEvent @event)
         {
-            RegisterEvent<AccountCreatedEvent>(When);
-            RegisterEvent<AvatarImageAccountChangedEvent>(When);
-            RegisterEvent<StartFollowAccountEvent>(When);
-            RegisterEvent<UnfollowAccountEvent>(When);
-            RegisterEvent<AddedFollowAccountEvent>(When);
-            RegisterEvent<RemovedFollowAccountEvent>(When);
-        }
-
-        private void When(RemovedFollowAccountEvent @event)
-        {
-            Followers.Remove(@event.Follower);
-        }
-
-        private void When(AddedFollowAccountEvent @event)
-        {
-            Followers.Add(@event.Follower);
-        }
-
-        private void When(UnfollowAccountEvent @event)
-        {
-            Following.Remove(@event.Follower);
-        }
-
-        private void When(StartFollowAccountEvent @event)
-        {
-            Following.Add(@event.Follower);
+            Following.Add(new Follower(@event.AccountId));
         }
 
         private void When(AvatarImageAccountChangedEvent @event)

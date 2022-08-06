@@ -5,7 +5,6 @@ import { catchError, switchMap, tap } from 'rxjs';
 import { UserStore } from 'src/app/core/authentication/user.store';
 import { AccountService } from 'src/app/core/ezgym/account.service';
 import { AccountModel } from 'src/app/core/ezgym/models/accout.model';
-import { ProfileModel } from 'src/app/core/ezgym/models/profile.model';
 import { Store } from 'src/app/core/state/store';
 import { PreLoaderStore } from 'src/app/shared/components/pre-loader/pre-loader.store';
 import { EzGymComponentStore } from '../ezgym.component.store';
@@ -13,7 +12,6 @@ import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
 interface ProfileComponentState {
     account: AccountModel,
-    profile?: ProfileModel,
     ui: {
         isOwner: boolean
     }
@@ -37,7 +35,6 @@ export class ProfileComponent extends Store<ProfileComponentState> implements On
     ) {
         super({
             account: {} as AccountModel,
-            profile: {} as ProfileModel,
             ui: {
                 isOwner: false
             }
@@ -62,10 +59,9 @@ export class ProfileComponent extends Store<ProfileComponentState> implements On
                 tap(response => {
                     this.setState(state => ({
                         ...state,
-                        account: response.account,
-                        profile: response.profile,
+                        account: response,
                         ui: {
-                            isOwner: response.account.id == this.userStore.user.activeAccount?.id
+                            isOwner: response.id == this.userStore.user.activeAccount?.id
                         }
                     }))
 
@@ -83,7 +79,7 @@ export class ProfileComponent extends Store<ProfileComponentState> implements On
         this.dialog.open(EditProfileComponent, {
             data: {
                 account: this.state?.account,
-                profile: this.state?.profile || {}
+                profile: this.state?.account.profile || {}
             },
             panelClass: 'fullscreen-dialog',
             maxWidth: '935px',

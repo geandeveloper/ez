@@ -3,8 +3,8 @@ using EzGym.Events;
 using EzGym.Features.Accounts.ChangeAvatar;
 using EzGym.Features.Accounts.CreateAccount;
 using EzGym.Features.Accounts.FollowAccount;
+using EzGym.Features.Accounts.UpInsertAccountProfile;
 using EzGym.Features.Gyms.CreateGym;
-using EzGym.Features.Profiles.UpInsertProfile;
 using EzGym.Infra.Storage;
 using EzGym.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -120,28 +121,33 @@ namespace EzGym
                 });
 
             app.MapGet("accounts/{accountName}",
-                //[Authorize] 
+            //[Authorize] 
             (
                       [FromServices] IGymQueryStore queryStorage,
                       string accountName
                       ) =>
                 {
                     var account = queryStorage.Query<Account>(a => a.AccountName == accountName).FirstOrDefault();
-                    var profile = queryStorage.Query<Profile>(p => p.AccountId == account.Id).FirstOrDefault();
 
-                    var response = new
-                    {
-                        Account = account,
-                        Profile = profile
-                    };
+                    return Results.Ok(account);
+                });
 
-                    return Results.Ok(response);
+            _ = app.MapGet("accounts/{accountName}/followers",
+            //[Authorize] 
+            (
+                      [FromServices] IGymQueryStore queryStorage,
+                      string accountName
+                      ) =>
+                {
+                    var followers = queryStorage.GetFollowersByAccountName(accountName);
+
+                    return Results.Ok(followers);
                 });
 
             app.MapPut("accounts/{accountId}/profile",
                 [Authorize] async (
-                      [FromServices] UpInsertProfileCommandHandler handler,
-                      UpInsertProfileCommand command,
+                      [FromServices] UpInsertAccountProfileCommandHandler handler,
+                      UpInsertAccountProfileCommand command,
                       Guid accountId
                       ) =>
                 {
@@ -159,7 +165,7 @@ namespace EzGym
                 {
                     var eventStream = await handler.Handle(command with { FollowAccountId = followAccountId }, CancellationToken.None);
 
-                    return Results.Ok(eventStream.GetEvent<StartFollowAccountEvent>());
+                    return Results.Ok(eventStream.GetEvent<AccountFollowedEvent>());
                 });
 
             return app;

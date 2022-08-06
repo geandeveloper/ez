@@ -21,15 +21,14 @@ namespace EzGym.Features.Accounts.FollowAccount
 
         public async Task<EventStream> Handle(FollowAccountCommand request, CancellationToken cancellationToken)
         {
-            var userAccount = _queryStore.Query<Account>(a => a.Id == request.UserAccountId).First();
+            var account = _queryStore.Query<Account>(a => a.Id == request.UserAccountId).First();
             var accountToFollow = _queryStore.Query<Account>(a => a.Id == request.FollowAccountId).First();
 
-            userAccount.FollowAccount(accountToFollow);
-            accountToFollow.AddFollower(userAccount);
+            account.FollowAccount(accountToFollow);
+            accountToFollow.AddFollower(account);
 
             await _eventStore.SaveAsync(accountToFollow);
-
-            return await _eventStore.SaveAsync(userAccount);
+            return await _eventStore.SaveAsync(account);
         }
     }
 }

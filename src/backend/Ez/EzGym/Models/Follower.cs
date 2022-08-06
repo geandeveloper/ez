@@ -5,11 +5,11 @@ namespace EzGym.Models
     public class Follower
     {
         public Guid AccountId { get; private set; }
+        public Account Account { get;  set; }
 
-        private Follower() { }
-        public Follower(Account account)
+        public Follower(Guid accountId)
         {
-            AccountId = account.Id;
+            AccountId = accountId;
         }
     }
 }

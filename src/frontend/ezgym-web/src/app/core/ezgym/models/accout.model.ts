@@ -1,8 +1,11 @@
+import { ProfileModel } from "./profile.model"
+
 export interface AccountModel {
     id: string,
+    accountType: AccountTypeEnum,
+    profile?: ProfileModel,
     accountName: string,
     isDefault: false,
-    accountType: AccountTypeEnum,
     avatarUrl?: string,
     followingCount?: number
     followersCount?: number
