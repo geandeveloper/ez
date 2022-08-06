@@ -1,4 +1,5 @@
-﻿using EzCommon.Infra.Bus;
+﻿using EzCommon.Events;
+using EzCommon.Infra.Bus;
 using EzCommon.Infra.Storage;
 using Google.Cloud.Storage.V1;
 using MediatR;
@@ -12,7 +13,7 @@ namespace EzCommon
         public static IServiceCollection AddEzCommon(this IServiceCollection services, params Type[] mediatrTypes)
         {
             services.AddMediatR(mediatrTypes);
-            services.AddSingleton<IBus, InMemoryBus>();
+            services.AddSingleton<IBus, KafkaBus>();
             services.AddSingleton<IFileStorage>(new GCPFileStorage(StorageClient.Create(), "ezgym"));
 
             return services;

@@ -1,7 +1,4 @@
-﻿using EzCommon.Commands;
-using EzCommon.Events;
-using EzCommon.Infra.Bus;
-using EzCommon.Models;
+﻿using EzCommon.Events;
 using MediatR;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,14 +14,10 @@ public class InMemoryBus : IBus
         _mediator = mediator;
     }
 
-    public async Task PublishAsync(params IEvent[] events)
+    public async Task PublishAsync<TEvent>(params TEvent[] events) where TEvent : IEvent
     {
         await Task.WhenAll(events.Select(e => _mediator.Publish(e)));
     }
-
-    public async Task<EventStream> RequestAsync(ICommand command)
-    {
-        return await _mediator.Send(command);
-    }
 }
+
 

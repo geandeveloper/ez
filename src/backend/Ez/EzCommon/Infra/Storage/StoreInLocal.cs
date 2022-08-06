@@ -50,7 +50,7 @@ namespace EzCommon.Infra.Storage
 
             db.GetCollection<EventRow>().InsertBulk(uncommittedEvents);
 
-            await _bus.PublishAsync(new SnapShotEvent<T>(aggregate));
+            UpinsertSnapShot(aggregate);
             await _bus.PublishAsync(uncommittedEvents.Select(ue => ue.Data).ToArray());
             return new EventStream(eventStreamId, uncommittedEvents.Select(ue => ue.Data).ToList());
         }

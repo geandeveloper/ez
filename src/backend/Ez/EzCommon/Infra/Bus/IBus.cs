@@ -1,13 +1,10 @@
-﻿using EzCommon.Commands;
-using EzCommon.Events;
-using EzCommon.Models;
+﻿using EzCommon.Events;
 using System.Threading.Tasks;
 
 namespace EzCommon.Infra.Bus;
 
 public interface IBus
 {
-    Task PublishAsync(params IEvent[] events);
-    Task<EventStream> RequestAsync(ICommand command);
+    Task PublishAsync<TEvent>(params TEvent[] events) where TEvent : IEvent;
 }
 

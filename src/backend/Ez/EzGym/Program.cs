@@ -4,6 +4,7 @@ using EzIdentity;
 using Microsoft.AspNetCore.Http;
 using EzGym;
 using Microsoft.Extensions.DependencyInjection;
+using EzCommon.Events;
 
 var builder = WebApplication
     .CreateBuilder();
@@ -17,11 +18,15 @@ builder.Services.AddCors(c =>
             .AllowAnyMethod());
         });
 
+
+var eventRegister = EventRegister.Factory();
+
 //EzGym Services
 builder.Services
     .AddEzCommon(typeof(EzCommon.Api), typeof(EzGym.Api), typeof(EzIdentity.Api))
-    .AddEzIdentity()
-    .AddEzGym();
+    .AddEzIdentity(eventRegister)
+    .AddEzGym(eventRegister)
+    .AddSingleton(eventRegister);
 
 var app = builder.Build();
 

@@ -5,12 +5,14 @@ using Microsoft.AspNetCore.Http;
 using EzIdentity.Extensions;
 using EzIdentity.Features.RefreshToken;
 using EzIdentity.Infra.Storage;
+using EzCommon.Events;
+using EzIdentity.Events;
 
 namespace EzIdentity;
 
 public static class IoC
 {
-    public static IServiceCollection AddEzIdentity(this IServiceCollection services)
+    public static IServiceCollection AddEzIdentity(this IServiceCollection services, IEventRegister eventRegister)
     {
 
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -23,6 +25,12 @@ public static class IoC
         services.AddSingleton<RevokeTokenCommandHandler>();
 
         services.AddAuthWithJwtBearer();
+
+        eventRegister
+            .Register<UserCreatedEvent>()
+            .Register<SucessRevokeTokenEvent>()
+            .Register<SucessRenewTokenEvent>()
+            .Register<SucessLoginEvent>();
 
         return services;
     }
