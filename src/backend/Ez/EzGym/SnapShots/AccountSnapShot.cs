@@ -14,9 +14,9 @@ namespace EzGym.SnapShots
         public bool IsDefault { get; set; }
         public string AvatarUrl { get; set; }
         public Profile Profile { get; set; }
-        public IList<Follower> Following { get; set; }
-        public IList<Follower> Followers { get; set; }
-        public int? FollowingCount => Following?.Count;
-        public int? FollowersCount => Followers?.Count;
+        public IList<Follower> Following { get; set; } = new List<Follower>();
+        public IList<Follower> Followers { get; set; } = new List<Follower>();
+        public int? FollowingCount => Following.Count;
+        public int? FollowersCount => Followers.Count;
     }
 }

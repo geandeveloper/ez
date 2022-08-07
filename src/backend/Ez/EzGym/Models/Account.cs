@@ -116,8 +116,8 @@ namespace EzGym.Models
             IsDefault = entityState.IsDefault;
             AvatarUrl = entityState.AvatarUrl;
             Profile = entityState.Profile;
-            Following = entityState.Following;
-            Followers = entityState.Followers;
+            Following = entityState.Following ?? new List<Follower>();
+            Followers = entityState.Followers ?? new List<Follower>();
 
             return this;
         }
@@ -134,8 +134,8 @@ namespace EzGym.Models
                 IsDefault = IsDefault,
                 AvatarUrl = AvatarUrl,
                 Profile = Profile,
-                Following = Following,
-                Followers = Followers,
+                Following = Following ?? new List<Follower>(),
+                Followers = Followers ?? new List<Follower>()
             };
         }
 
