@@ -3,6 +3,7 @@ using EzCommon.Infra.Storage;
 using EzCommon.Models;
 using EzGym.Infra.Storage;
 using EzGym.Models;
+using EzGym.SnapShots;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -28,12 +29,13 @@ namespace EzGym.Features.Accounts.ChangeAvatar
 
         public async Task<EventStream> Handle(ChangeAvatarCommand request, CancellationToken cancellationToken)
         {
-            var account = _queryStorage.Query<Account>(a => a.UserId == request.UserId && a.Id == request.AccountId).FirstOrDefault();
+            var snapShot = _queryStorage.Query<AccountSnapShot>(a => a.UserId == request.UserId && a.Id == request.AccountId).FirstOrDefault();
+            var account = Account.RestoreSnapShot(snapShot);
             var avatarUrl = await _fileStorage.UploadFileAsync(request.AvatarStream, account.Id.ToString(), Path.GetExtension(request.FileName));
 
             account.ChangeAvatarImage(avatarUrl);
 
-            return await _eventStore.SaveAsync(account);
+            return await _eventStore.SaveAsync<Account, AccountSnapShot>(account);
         }
     }
 }

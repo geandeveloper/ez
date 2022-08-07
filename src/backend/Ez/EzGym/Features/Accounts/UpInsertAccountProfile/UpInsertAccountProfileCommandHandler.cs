@@ -2,6 +2,7 @@
 using EzCommon.Models;
 using EzGym.Infra.Storage;
 using EzGym.Models;
+using EzGym.SnapShots;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -20,11 +21,12 @@ namespace EzGym.Features.Accounts.UpInsertAccountProfile
 
         public Task<EventStream> Handle(UpInsertAccountProfileCommand request, CancellationToken cancellationToken)
         {
-            var account = _queryStorage.GetSnapShot<Account>(p => p.Id == request.AccountId);
+            var snapShot = _queryStorage.GetSnapShot<AccountSnapShot>(p => p.Id == request.AccountId);
+            var account = Account.RestoreSnapShot(snapShot);
 
             account.UpdateProfile(request);
 
-            return _eventStorage.SaveAsync(account);
+            return _eventStorage.SaveAsync<Account, AccountSnapShot>(account);
         }
     }
 }

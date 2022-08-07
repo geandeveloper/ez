@@ -1,4 +1,5 @@
-﻿using EzCommon.Infra.Bus;
+﻿using EzCommon.Events;
+using EzCommon.Infra.Bus;
 using EzCommon.Models;
 using LiteDB;
 using System;
@@ -10,6 +11,9 @@ namespace EzCommon.Infra.Storage
 {
     public abstract class StoreInLocal : IEventStore, IQueryStorage
     {
+
+        private readonly ILiteDatabase _db;
+
         static StoreInLocal()
         {
             BsonMapper.Global
@@ -25,42 +29,49 @@ namespace EzCommon.Infra.Storage
         {
             _bus = bus;
             _storeName = storeName;
+
+            var connection = new ConnectionString($"C:/temp/{_storeName}.db")
+            {
+                Connection = ConnectionType.Shared
+            };
+
+            _db = new LiteDatabase(connection);
         }
 
-        public async Task<EventStream> SaveAsync<T>(T aggregate)
-            where T : AggregateRoot
+        public async Task<EventStream> SaveAsync<T,TSnapShot>(T aggregate)
+            where T : AggregateRoot, ISnapShotManager<T, TSnapShot>
         {
             var eventStreamId = new EventStreamId(aggregate.GetType(), aggregate.Id);
             var eventStream = new EventStream(eventStreamId, aggregate.GetEvents().ToList());
 
-            using var db = new LiteDatabase($"C:/temp/{_storeName}.db");
-            var eventStreamState = db.GetCollection<EventStream>().FindById(eventStream.Id);
+            var eventStreamState = _db.GetCollection<EventStream>().FindById(eventStream.Id);
             var uncommittedEvents = eventStream.EventRows.Where(e => e.Version > (eventStreamState?.Version ?? 0)).ToList();
 
             if (eventStreamState == null)
             {
-                db.GetCollection<EventStream>().Insert(eventStream);
+                _db.GetCollection<EventStream>().Insert(eventStream);
             }
             else
             {
                 eventStreamState.EventRows.AddRange(uncommittedEvents);
-                db.GetCollection<EventStream>().Update(eventStreamState);
+                _db.GetCollection<EventStream>().Update(eventStreamState);
             }
 
-            db.GetCollection<EventRow>().InsertBulk(uncommittedEvents);
+            _db.GetCollection<EventRow>().InsertBulk(uncommittedEvents);
 
-            UpinsertSnapShot(aggregate);
             await _bus.PublishAsync(uncommittedEvents.Select(ue => ue.Data).ToArray());
+            await _bus.PublishAsync(new SnapShotEvent<TSnapShot>(aggregate.ToSnapShot()));
+
             return new EventStream(eventStreamId, uncommittedEvents.Select(ue => ue.Data).ToList());
         }
 
-        public T GetSnapShot<T>(Expression<Func<T, bool>> query) where T : AggregateRoot
+        public T GetSnapShot<T>(Expression<Func<T, bool>> query)
         {
             using var db = new LiteDatabase($"C:/temp/{_storeName}-snapshots.db");
             return db.GetCollection<T>().FindOne(query);
         }
 
-        public T UpinsertSnapShot<T>(T snapShot) where T : AggregateRoot
+        public T UpinsertSnapShot<T>(T snapShot)
         {
             using var db = new LiteDatabase($"C:/temp/{_storeName}-snapshots.db");
             db.GetCollection<T>().Upsert(snapShot);

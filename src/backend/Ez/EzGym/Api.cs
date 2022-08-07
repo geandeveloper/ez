@@ -7,6 +7,7 @@ using EzGym.Features.Accounts.UpInsertAccountProfile;
 using EzGym.Features.Gyms.CreateGym;
 using EzGym.Infra.Storage;
 using EzGym.Models;
+using EzGym.SnapShots;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -87,7 +88,7 @@ namespace EzGym
                   {
                       var response = new
                       {
-                          Exists = queryStorage.Query<Account>(account => account.AccountName == accountName).FirstOrDefault() != null
+                          Exists = queryStorage.Query<AccountSnapShot>(account => account.AccountName == accountName).FirstOrDefault() != null
                       };
 
                       return Results.Ok(response);
@@ -101,7 +102,7 @@ namespace EzGym
                       var userInfo = new
                       {
                           principal.UserName,
-                          Accounts = queryStorage.Query<Account>(account => account.UserId == principal.Id)
+                          Accounts = queryStorage.Query<AccountSnapShot>(account => account.UserId == principal.Id)
                       };
 
                       return Results.Ok(userInfo);
@@ -113,7 +114,7 @@ namespace EzGym
                       string accountName
                       ) =>
                 {
-                    var accounts = queryStorage.Query<Account>(a => a.AccountName.Contains(accountName))
+                    var accounts = queryStorage.Query<AccountSnapShot>(a => a.AccountName.Contains(accountName))
                     .Take(20)
                     .ToList();
 
@@ -127,7 +128,7 @@ namespace EzGym
                       string accountName
                       ) =>
                 {
-                    var account = queryStorage.Query<Account>(a => a.AccountName == accountName).FirstOrDefault();
+                    var account = queryStorage.Query<AccountSnapShot>(a => a.AccountName == accountName).FirstOrDefault();
 
                     return Results.Ok(account);
                 });

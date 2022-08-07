@@ -3,6 +3,7 @@ using EzCommon.Infra.Storage;
 using EzCommon.Models;
 using EzIdentity.Infra.Storage;
 using EzIdentity.Models;
+using EzIdentity.SnapShots;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ public class RefreshTokenCommandHandler : ICommandHandler<RefreshTokenCommand>
     private readonly IEventStore _eventStore;
 
     public RefreshTokenCommandHandler(
-        IIdentityEventStore eventStore, 
+        IIdentityEventStore eventStore,
         IIdentityQueryStore queryStorage
         )
     {
@@ -25,14 +26,15 @@ public class RefreshTokenCommandHandler : ICommandHandler<RefreshTokenCommand>
 
     public async Task<EventStream> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
     {
-        var user = _queryStorage.GetSnapShot<User>(user => user.RefreshToken.Value == request.RefreshToken);
+        var snapShot = _queryStorage.GetSnapShot<UserSnapShot>(user => user.RefreshToken.Value == request.RefreshToken);
+        var user = User.RestoreSnapShot(snapShot);
 
         if (user == null)
             throw new Exception("Invalid refresh token value");
 
         user.RenewToken();
 
-        return await _eventStore.SaveAsync(user);
+        return await _eventStore.SaveAsync<User, UserSnapShot>(user);
     }
 }
 

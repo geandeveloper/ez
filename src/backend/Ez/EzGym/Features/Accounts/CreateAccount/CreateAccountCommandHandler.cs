@@ -3,6 +3,7 @@ using EzCommon.Infra.Storage;
 using EzCommon.Models;
 using EzGym.Infra.Storage;
 using EzGym.Models;
+using EzGym.SnapShots;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -21,6 +22,6 @@ public class CreateAccountCommandHandler : ICommandHandler<CreateAccountCommand>
     public Task<EventStream> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
     {
         var account = new Account(request);
-        return _eventStore.SaveAsync(account);
+        return _eventStore.SaveAsync<Account, AccountSnapShot>(account);
     }
 }

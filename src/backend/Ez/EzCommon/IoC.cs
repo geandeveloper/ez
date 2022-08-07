@@ -1,5 +1,4 @@
-﻿using EzCommon.Events;
-using EzCommon.Infra.Bus;
+﻿using EzCommon.Infra.Bus;
 using EzCommon.Infra.Storage;
 using Google.Cloud.Storage.V1;
 using MediatR;

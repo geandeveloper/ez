@@ -17,7 +17,7 @@ namespace EzCommon.Infra.Bus
             var publishTasks = events.ToList().Select(@event =>
             {
                 var eventJson = JsonSerializer.Serialize(@event, @event.GetType());
-                return producer.ProduceAsync("ezgym-events", new Message<string, string> { Key = @event.GetType().Name, Value = eventJson });
+                return producer.ProduceAsync("ezgym-events", new Message<string, string> { Key = @event.GetType().FullName, Value = eventJson });
             });
 
 

@@ -2,12 +2,13 @@
 using EzIdentity.Events;
 using EzIdentity.Features.CreateUser;
 using EzIdentity.Services;
+using EzIdentity.SnapShots;
 using System;
 using System.Security.Claims;
 
 namespace EzIdentity.Models
 {
-    public class User : AggregateRoot
+    public class User : AggregateRoot, ISnapShotManager<User, UserSnapShot>
     {
         public string UserName { get; private set; }
         public string Name { get; private set; }
@@ -17,7 +18,6 @@ namespace EzIdentity.Models
         public bool Activated { get; private set; }
 
         private User() { }
-
         public User(CreateUserCommand command)
         {
             RaiseEvent(new UserCreatedEvent(Guid.NewGuid(), command.Name, command.UserName, command.Email, command.Password));
@@ -95,5 +95,37 @@ namespace EzIdentity.Models
             Email = @event.Email;
             Password = @event.Password;
         }
+
+        public User FromSnapShot(UserSnapShot entityState)
+        {
+            return new User
+            {
+                Version = entityState.Version,
+                Id = entityState.Id,
+                Activated = entityState.Activated,
+                Email = entityState.Email,
+                Name = entityState.Name,
+                Password = entityState.Password,
+                RefreshToken = entityState.RefreshToken,
+                UserName = entityState.UserName,
+            };
+        }
+
+        public UserSnapShot ToSnapShot()
+        {
+            return new UserSnapShot
+            {
+                Version = Version,
+                Id = Id,
+                Activated = Activated,
+                Email = Email,
+                Name = Name,
+                Password = Password,
+                RefreshToken = RefreshToken,
+                UserName = UserName,
+            };
+        }
+
+        public static User RestoreSnapShot(UserSnapShot snapShot) => new User().FromSnapShot(snapShot);
     }
 }

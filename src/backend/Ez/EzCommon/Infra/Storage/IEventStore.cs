@@ -1,13 +1,12 @@
 ﻿
 using EzCommon.Models;
-using System;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace EzCommon.Infra.Storage;
 
 public interface IEventStore
 {
-    Task<EventStream> SaveAsync<T>(T aggregate) where T : AggregateRoot;
+    Task<EventStream> SaveAsync<T, TSnapShot>(T aggregate)
+      where T : AggregateRoot, ISnapShotManager<T, TSnapShot>;
 }
 

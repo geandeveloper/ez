@@ -7,6 +7,8 @@ using EzIdentity.Features.RefreshToken;
 using EzIdentity.Infra.Storage;
 using EzCommon.Events;
 using EzIdentity.Events;
+using EzIdentity.Models;
+using EzIdentity.SnapShots;
 
 namespace EzIdentity;
 
@@ -30,7 +32,8 @@ public static class IoC
             .Register<UserCreatedEvent>()
             .Register<SucessRevokeTokenEvent>()
             .Register<SucessRenewTokenEvent>()
-            .Register<SucessLoginEvent>();
+            .Register<SucessLoginEvent>()
+            .Register<SnapShotEvent<UserSnapShot>>();
 
         return services;
     }

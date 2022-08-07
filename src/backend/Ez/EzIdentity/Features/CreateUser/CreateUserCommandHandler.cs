@@ -4,6 +4,7 @@ using EzCommon.Infra.Storage;
 using EzCommon.Models;
 using EzIdentity.Infra.Storage;
 using EzIdentity.Models;
+using EzIdentity.SnapShots;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -20,7 +21,7 @@ namespace EzIdentity.Features.CreateUser
         public async Task<EventStream> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
             var user = new User(request with { Password = CryptographyService.CreateHash(request.Password) });
-            return await _eventStore.SaveAsync(user);
+            return await _eventStore.SaveAsync<User, UserSnapShot>(user);
         }
     }
 }

@@ -2,6 +2,7 @@
 using EzCommon.Models;
 using EzGym.Infra.Storage;
 using EzGym.Models;
+using EzGym.SnapShots;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,14 +22,17 @@ namespace EzGym.Features.Accounts.FollowAccount
 
         public async Task<EventStream> Handle(FollowAccountCommand request, CancellationToken cancellationToken)
         {
-            var account = _queryStore.Query<Account>(a => a.Id == request.UserAccountId).First();
-            var accountToFollow = _queryStore.Query<Account>(a => a.Id == request.FollowAccountId).First();
+            var snapShot = _queryStore.Query<AccountSnapShot>(a => a.Id == request.UserAccountId).First();
+            var account = Account.RestoreSnapShot(snapShot);
+
+            var accountToFollowSnapShot = _queryStore.Query<AccountSnapShot>(a => a.Id == request.FollowAccountId).First();
+            var accountToFollow = Account.RestoreSnapShot(accountToFollowSnapShot);
 
             account.FollowAccount(accountToFollow);
             accountToFollow.AddFollower(account);
 
-            await _eventStore.SaveAsync(accountToFollow);
-            return await _eventStore.SaveAsync(account);
+            await _eventStore.SaveAsync<Account, AccountSnapShot>(accountToFollow);
+            return await _eventStore.SaveAsync<Account, AccountSnapShot>(account);
         }
     }
 }

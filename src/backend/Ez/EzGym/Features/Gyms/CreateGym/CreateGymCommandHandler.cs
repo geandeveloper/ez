@@ -19,8 +19,7 @@ namespace EzGym.Features.Gyms.CreateGym
 
         public Task<EventStream> Handle(CreateGymCommand request, CancellationToken cancellationToken)
         {
-            var gym = new Gym(request);
-            return _eventStore.SaveAsync(gym);
+            throw new System.Exception();
         }
     }
 }

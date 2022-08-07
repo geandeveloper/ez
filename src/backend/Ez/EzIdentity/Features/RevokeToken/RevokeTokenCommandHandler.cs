@@ -4,6 +4,7 @@ using EzCommon.Models;
 using EzIdentity.Features.RevokeToken;
 using EzIdentity.Infra.Storage;
 using EzIdentity.Models;
+using EzIdentity.SnapShots;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -23,11 +24,12 @@ public class RevokeTokenCommandHandler : ICommandHandler<RevokeTokenCommand>
 
     public async Task<EventStream> Handle(RevokeTokenCommand request, CancellationToken cancellationToken)
     {
-        var user = _queryStorage.GetSnapShot<User>(user => user.RefreshToken.Value == request.RefreshToken);
+        var snapShot = _queryStorage.GetSnapShot<UserSnapShot>(user => user.RefreshToken.Value == request.RefreshToken);
+        var user = User.RestoreSnapShot(snapShot);
 
         user.RevokeToken(request.RefreshToken);
 
-        return await _eventStore.SaveAsync(user);
+        return await _eventStore.SaveAsync<User, UserSnapShot>(user);
     }
 }
 

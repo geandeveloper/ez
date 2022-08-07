@@ -6,7 +6,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace EzCommon.BackgroundServices
+namespace EzCommon.Consumers
 {
     public class KafkaConsumerBackgroundService : BackgroundService
     {
@@ -39,11 +39,11 @@ namespace EzCommon.BackgroundServices
                 await Task.Factory.StartNew(() =>
                 {
                     var result = consumer.Consume(stoppingToken);
-                    var @eventType = _eventRegister.GetEventType(result.Message.Key);
+                    var eventType = _eventRegister.GetRegisterType(result.Message.Key);
+
                     var @event = JsonSerializer.Deserialize(result.Message.Value, eventType);
 
                     _mediator.Publish(@event);
-
                 });
             }
         }

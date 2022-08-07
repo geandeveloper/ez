@@ -2,12 +2,13 @@
 using EzGym.Events;
 using EzGym.Features.Accounts.CreateAccount;
 using EzGym.Features.Accounts.UpInsertAccountProfile;
+using EzGym.SnapShots;
 using System;
 using System.Collections.Generic;
 
 namespace EzGym.Models
 {
-    public class Account : AggregateRoot
+    public class Account : AggregateRoot, ISnapShotManager<Account, AccountSnapShot>
     {
         public Guid UserId { get; private set; }
         public string AccountName { get; private set; }
@@ -104,5 +105,40 @@ namespace EzGym.Models
             AccountType = @event.AccountType;
             IsDefault = @event.IsDefault;
         }
+
+        public Account FromSnapShot(AccountSnapShot entityState)
+        {
+            Id = entityState.Id;
+            Version = entityState.Version;
+            UserId = entityState.UserId;
+            AccountName = entityState.AccountName;
+            AccountType = entityState.AccountType;
+            IsDefault = entityState.IsDefault;
+            AvatarUrl = entityState.AvatarUrl;
+            Profile = entityState.Profile;
+            Following = entityState.Following;
+            Followers = entityState.Followers;
+
+            return this;
+        }
+
+        public AccountSnapShot ToSnapShot()
+        {
+            return new AccountSnapShot
+            {
+                Id = Id,
+                Version = Version,
+                UserId = UserId,
+                AccountName = AccountName,
+                AccountType = AccountType,
+                IsDefault = IsDefault,
+                AvatarUrl = AvatarUrl,
+                Profile = Profile,
+                Following = Following,
+                Followers = Followers,
+            };
+        }
+
+        public static Account RestoreSnapShot(AccountSnapShot snapShot) => new Account().FromSnapShot(snapShot);
     }
 }

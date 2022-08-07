@@ -4,6 +4,7 @@ using EzCommon.Infra.Storage;
 using EzCommon.Models;
 using EzIdentity.Infra.Storage;
 using EzIdentity.Models;
+using EzIdentity.SnapShots;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,7 +17,7 @@ public class LoginCommandHandler : ICommandHandler<LoginCommand>
 
     public LoginCommandHandler(
         IIdentityEventStore eventStore,
-        IIdentityQueryStore queryStorage 
+        IIdentityQueryStore queryStorage
         )
     {
         _eventStore = eventStore;
@@ -25,10 +26,11 @@ public class LoginCommandHandler : ICommandHandler<LoginCommand>
 
     public async Task<EventStream> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
-        var user = _queryStorage.GetSnapShot<User>(user => user.UserName == request.UserName && user.Password == CryptographyService.CreateHash(request.Password));
+        var snapShot = _queryStorage.GetSnapShot<UserSnapShot>(user => user.UserName == request.UserName && user.Password == CryptographyService.CreateHash(request.Password));
+        var user = User.RestoreSnapShot(snapShot);
 
         user.Login();
 
-        return await _eventStore.SaveAsync(user);
+        return await _eventStore.SaveAsync<User, UserSnapShot>(user);
     }
 }
