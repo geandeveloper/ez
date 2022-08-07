@@ -8,7 +8,7 @@ namespace EzCommon.Models
     {
         public string Id { get; protected set; }
         public int Version { get; protected set; } = 0;
-        public List<EventRow> EventRows { get; protected set; }
+        private List<EventRow> EventRows { get; set; }
 
         private EventStream() { }
         public EventStream(EventStreamId id, IReadOnlyList<IEvent> events)
@@ -23,6 +23,17 @@ namespace EzCommon.Models
             var eventName = typeof(TEvent).Name;
             var @event = EventRows.Where(@event => @event.EventName == eventName).FirstOrDefault();
             return @event.Data as TEvent;
+        }
+
+        public IEnumerable<EventRow> GetUncommitedEvents(int? fromVersion)
+        {
+            return EventRows.Where(e => e.Version > (fromVersion ?? 0));
+        }
+
+        public EventStream CommitEvents(IEnumerable<EventRow> eventRows)
+        {
+            EventRows.AddRange(eventRows.ToList());
+            return this;
         }
     }
 }

@@ -13,12 +13,10 @@ namespace EzCommon.Infra.Storage
     {
 
         private readonly ILiteDatabase _db;
+        private readonly MongoStorage _mongoStorage;
 
         static StoreInLocal()
         {
-            BsonMapper.Global
-                .Entity<EventStream>()
-                .DbRef(es => es.EventRows);
         }
 
 
@@ -35,34 +33,15 @@ namespace EzCommon.Infra.Storage
                 Connection = ConnectionType.Shared
             };
 
+            _mongoStorage = new MongoStorage(bus, storeName);
+
             _db = new LiteDatabase(connection);
         }
 
-        public async Task<EventStream> SaveAsync<T,TSnapShot>(T aggregate)
+        public Task<EventStream> SaveAsync<T, TSnapShot>(T aggregate)
             where T : AggregateRoot, ISnapShotManager<T, TSnapShot>
         {
-            var eventStreamId = new EventStreamId(aggregate.GetType(), aggregate.Id);
-            var eventStream = new EventStream(eventStreamId, aggregate.GetEvents().ToList());
-
-            var eventStreamState = _db.GetCollection<EventStream>().FindById(eventStream.Id);
-            var uncommittedEvents = eventStream.EventRows.Where(e => e.Version > (eventStreamState?.Version ?? 0)).ToList();
-
-            if (eventStreamState == null)
-            {
-                _db.GetCollection<EventStream>().Insert(eventStream);
-            }
-            else
-            {
-                eventStreamState.EventRows.AddRange(uncommittedEvents);
-                _db.GetCollection<EventStream>().Update(eventStreamState);
-            }
-
-            _db.GetCollection<EventRow>().InsertBulk(uncommittedEvents);
-
-            await _bus.PublishAsync(uncommittedEvents.Select(ue => ue.Data).ToArray());
-            await _bus.PublishAsync(new SnapShotEvent<TSnapShot>(aggregate.ToSnapShot()));
-
-            return new EventStream(eventStreamId, uncommittedEvents.Select(ue => ue.Data).ToList());
+            return _mongoStorage.SaveAsync<T, TSnapShot>(aggregate);
         }
 
         public T GetSnapShot<T>(Expression<Func<T, bool>> query)
