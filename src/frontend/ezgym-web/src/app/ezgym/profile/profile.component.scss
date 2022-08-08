@@ -3,6 +3,7 @@
 :host {
     display: flex;
     justify-content: center;
+    font-family: $font-family;
 }
 
 .profile-component {
@@ -10,73 +11,7 @@
     max-width: 935px;
     flex-direction: column;
     flex: 1;
-}
-
-.profile-description {
-    margin-top: 20px;
-    flex: 1;
-    margin-left: 20px;
-    padding: 5px;
-}
-
-
-.profile-header {
-    font-family: $font-family;
-    display: flex;
-    color: rgb(105, 105, 105);
-    flex-direction: row;
-    flex: 1;
-    margin-left: 20px;
-
-    .profile-bio-info {
-        margin-left: 30px;
-        padding: 5px;
-        flex: 1;
-        padding-right: 20px;
-        max-width: 300px;
-
-        .btn-follow {
-            height: 15px;
-            border-radius: 5px;
-            color: $white;
-            text-transform: none;
-            border-color: #ccc;
-            padding-top: 5px;
-            padding-bottom: 20px;
-        }
-    }
-
-    >.profile-bio-image {
-        width: 100px;
-        height: 100px;
-        background: $primary;
-        overflow: hidden;
-        border-radius: 50%;
-        background-image: url("/assets/img/default-user-img.png");
-        background-size: cover;
-    }
-
-    img {
-        display: block;
-        height: 100%;
-    }
-
-}
-
-.profile-counts {
-    display: flex;
-    flex: 1;
-    flex-direction: row;
-    border-top: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
-    justify-content: space-around;
-    padding-top: 10px;
-
-    >.profile-header-info {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
+    padding: 0px 10px;
 }
 
 .fullscreen-dialog {
@@ -86,15 +21,14 @@
     height: 100vh;
 }
 
-.btn-secondary {
-    background: $secondary;
+.gym-profile {
+    padding: 20px;
 }
 
 .account-menu-options {
     display: flex;
     justify-content: left;
     gap: 20px;
-    padding: 20px;
 
     .menu-option {
         display: flex;
@@ -137,3 +71,97 @@
     }
 }
 
+
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    font-family: $font-family;
+
+    .profile-footer {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        align-items: end;
+
+        .btn-follow {
+            border: none;
+            background: $secondary;
+            color: $white;
+            padding: 15px 20px;
+            border-radius: 15px;
+            font-size: small;
+            -webkit-box-shadow: 5px 5px 2px 1px rgba(238, 238, 238, 0.97);
+            box-shadow: 5px 5px 2px 1px rgba(238, 238, 238, 0.97);
+            border: #efef;
+
+        }
+
+        .unfollow {
+            background: $color-danger;
+            width: 100px;
+            padding: 10px 15px
+        }
+
+        .profile-buttons {
+            display: flex;
+            gap: 5px;
+            flex: 1;
+            justify-content: end;
+        }
+    }
+
+    .btn-link {
+        color: $primary  !important;
+        font-size: small !important;
+        text-decoration: none;
+        cursor: pointer;
+
+        &:hover {
+            color: $secondary  !important;
+        }
+    }
+
+    .profile-counts {
+        display: flex;
+        flex: 1;
+        flex-direction: row;
+        justify-content: left;
+        gap: 25px;
+        padding-top: 10px;
+
+        >.profile-header-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+
+    .profile-info {
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 20px;
+
+        h3 {
+            margin-bottom: 0px;
+        }
+
+        .bio-description {
+            padding: 5px;
+        }
+
+        .profile-bio-image {
+            width: 100px;
+            height: 100px;
+            background: $primary;
+            overflow: hidden;
+            border-radius: 25%;
+            -webkit-box-shadow: 5px 5px 2px 1px rgba(238, 238, 238, 0.97);
+            box-shadow: 5px 5px 2px 1px rgba(238, 238, 238, 0.97);
+            border: #efef;
+            background-image: url("/assets/img/default-user-img.png");
+            background-size: cover;
+        }
+    }
+}
