@@ -11,13 +11,17 @@
                         <img [src]="state.account.avatarUrl" />
                     </div>
                     <div class="profile-description">
-                        <h3>
-                            {{state.account.profile?.name}}
-                        </h3>
 
-                        <small class="text-muted">
-                            {{state.account.accountName}}
-                        </small>
+                        <div style="padding-left: 5px">
+                            <h3>
+                                {{state.account.profile?.name}}
+                            </h3>
+
+                            <small class="text-muted">
+                                {{state.account.accountName}} | {{state.account.profile?.jobDescription}}
+                            </small>
+
+                        </div>
 
                         <p class="text-muted bio-description">
                             {{state.account.profile?.bioDescription}}
