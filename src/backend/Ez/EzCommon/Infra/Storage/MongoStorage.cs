@@ -28,19 +28,17 @@ namespace EzCommon.Infra.Storage
             var eventStreamDbState = await eventStreamCollection.Find(e => e.Id == aggregate.Id.ToString()).FirstOrDefaultAsync();
             var uncommitedEvents = eventStream.GetUncommitedEvents(eventStreamDbState?.Version);
 
-            var newEventStreamState = eventStreamDbState?.CommitEvents(uncommitedEvents) ?? eventStream;
-
             eventStreamCollection.ReplaceOne(
                 e => e.Id == eventStream.Id,
-                newEventStreamState,
+                eventStream,
                 new ReplaceOptions { IsUpsert = true });
 
 
             var eventRowCollection = _db.GetCollection<EventRow>(nameof(EventRow));
             eventRowCollection.InsertMany(uncommitedEvents);
 
-            await _bus.PublishAsync(uncommitedEvents.Select(ue => ue.Data).ToArray());
             await _bus.PublishAsync(new SnapShotEvent<TSnapShot>(aggregate.ToSnapShot()));
+            await _bus.PublishAsync(uncommitedEvents.Select(ue => ue.Data).ToArray());
             return new EventStream(eventStreamId, uncommitedEvents.Select(ue => ue.Data).ToList());
 
         }

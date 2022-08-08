@@ -13,7 +13,8 @@ import { EditProfileComponent } from './edit-profile/edit-profile.component';
 interface ProfileComponentState {
     account: AccountModel,
     ui: {
-        isOwner: boolean
+        isOwner: boolean,
+        isFollowing: boolean
     }
 }
 
@@ -36,7 +37,8 @@ export class ProfileComponent extends Store<ProfileComponentState> implements On
         super({
             account: {} as AccountModel,
             ui: {
-                isOwner: false
+                isOwner: false,
+                isFollowing: false,
             }
         })
 
@@ -57,11 +59,13 @@ export class ProfileComponent extends Store<ProfileComponentState> implements On
                     return this.accountService.loadAccount(params["accountName"])
                 }),
                 tap(response => {
+                    debugger
                     this.setState(state => ({
                         ...state,
                         account: response,
                         ui: {
-                            isOwner: response.id == this.userStore.user.activeAccount?.id
+                            isOwner: response.id == this.userStore.user.activeAccount?.id,
+                            isFollowing: this.userStore.user.activeAccount?.following?.some(f => f.accountId === response.id)!
                         }
                     }))
 
@@ -97,12 +101,16 @@ export class ProfileComponent extends Store<ProfileComponentState> implements On
             userAccountId: this.userStore.state.activeAccount?.id!,
             followAccountId: accountId
         }).pipe(
-            tap(() => {
+            tap((response) => {
                 this.setState(state => ({
                     ...state,
                     account: {
                         ...state.account,
                         followersCount: state.account.followersCount! + 1
+                    },
+                    ui: {
+                        ...state.ui,
+                        isFollowing: true
                     }
                 }))
 
@@ -110,6 +118,7 @@ export class ProfileComponent extends Store<ProfileComponentState> implements On
                     ...state,
                     activeAccount: {
                         ...state.activeAccount!,
+                        following: [...state.activeAccount?.followers!, { accountId: response.accountId }],
                         followingCount: state.activeAccount?.followersCount! + 1
                     }
                 }))

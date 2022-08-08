@@ -20,12 +20,10 @@ namespace EzCommon.Infra.Storage
         }
 
 
-        private readonly IBus _bus;
         protected readonly string _storeName;
 
         public StoreInLocal(IBus bus, string storeName)
         {
-            _bus = bus;
             _storeName = storeName;
 
             var connection = new ConnectionString($"C:/temp/{_storeName}.db")

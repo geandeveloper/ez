@@ -7,10 +7,15 @@ export interface AccountModel {
     accountName: string,
     isDefault: false,
     avatarUrl?: string,
-    followingCount?: number
+    followers?: FollowerModel[],
+    following?: FollowerModel[],
+    followingCount?: number,
     followersCount?: number
 }
 
+export interface FollowerModel {
+    accountId: string,
+}
 
 export enum AccountTypeEnum {
     User = 1,

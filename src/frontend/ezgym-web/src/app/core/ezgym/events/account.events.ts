@@ -17,3 +17,7 @@ export interface StartFollowAccountEvent {
     accountId: string,
     account: AccountModel
 }
+
+export interface AccountFollowedEvent {
+    accountId: string
+}
