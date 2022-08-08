@@ -3,6 +3,7 @@ using EzGym.Events;
 using EzGym.Features.Accounts.ChangeAvatar;
 using EzGym.Features.Accounts.CreateAccount;
 using EzGym.Features.Accounts.FollowAccount;
+using EzGym.Features.Accounts.UnfollowAccount;
 using EzGym.Features.Accounts.UpInsertAccountProfile;
 using EzGym.Features.Gyms.CreateGym;
 using EzGym.Infra.Storage;
@@ -167,6 +168,18 @@ namespace EzGym
                     var eventStream = await handler.Handle(command with { FollowAccountId = followAccountId }, CancellationToken.None);
 
                     return Results.Ok(eventStream.GetEvent<AccountFollowedEvent>());
+                });
+
+            app.MapPost("accounts/{unfollowAccountId}/unfollow",
+                [Authorize] async (
+                      [FromServices] UnfollowAccountCommandHandler handler,
+                      UnfollowAccountCommand command,
+                      Guid unfollowAccountId
+                      ) =>
+                {
+                    var eventStream = await handler.Handle(command with { UnfollowAccountId = unfollowAccountId }, CancellationToken.None);
+
+                    return Results.Ok(eventStream.GetEvent<AccountUnfollowedEvent>());
                 });
 
             return app;

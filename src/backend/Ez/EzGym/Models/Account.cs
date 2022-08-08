@@ -5,6 +5,7 @@ using EzGym.Features.Accounts.UpInsertAccountProfile;
 using EzGym.SnapShots;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EzGym.Models
 {
@@ -30,6 +31,17 @@ namespace EzGym.Models
             Following = new List<Follower>();
         }
 
+        protected override void RegisterEvents()
+        {
+            RegisterEvent<AccountCreatedEvent>(When);
+            RegisterEvent<AvatarImageAccountChangedEvent>(When);
+            RegisterEvent<AccountFollowedEvent>(When);
+            RegisterEvent<AddedAccountFollowerEvent>(When);
+            RegisterEvent<ProfileChangedEvent>(When);
+            RegisterEvent<AccountUnfollowedEvent>(When);
+            RegisterEvent<RemovedAccountFollowerEvent>(When);
+        }
+
         public Account(CreateAccountCommand command)
         {
             RaiseEvent(new AccountCreatedEvent(
@@ -39,14 +51,6 @@ namespace EzGym.Models
                     AccountType: command.AccountType,
                     IsDefault: command.IsDefault
            ));
-        }
-        protected override void RegisterEvents()
-        {
-            RegisterEvent<AccountCreatedEvent>(When);
-            RegisterEvent<AvatarImageAccountChangedEvent>(When);
-            RegisterEvent<AccountFollowedEvent>(When);
-            RegisterEvent<AddedAccountFollowerEvent>(When);
-            RegisterEvent<ProfileChangedEvent>(When);
         }
 
 
@@ -59,13 +63,6 @@ namespace EzGym.Models
                 BioDescription: command.BioDescription));
         }
 
-        private void When(ProfileChangedEvent @event)
-        {
-            Profile = new Profile(
-                name: @event.Name,
-                jobDescription: @event.JobDescription,
-                bioDescription: @event.BioDescription);
-        }
 
         public void ChangeAvatarImage(string avatarUrl)
         {
@@ -76,10 +73,37 @@ namespace EzGym.Models
         {
             RaiseEvent(new AddedAccountFollowerEvent(account.Id));
         }
+        public void RemoveFollower(Account account)
+        {
+            RaiseEvent(new RemovedAccountFollowerEvent(account.Id));
+        }
 
         public void FollowAccount(Account account)
         {
             RaiseEvent(new AccountFollowedEvent(account.Id));
+        }
+
+        public void UnfollowAccount(Account account)
+        {
+            RaiseEvent(new AccountUnfollowedEvent(account.Id));
+        }
+
+        private void When(ProfileChangedEvent @event)
+        {
+            Profile = new Profile(
+                name: @event.Name,
+                jobDescription: @event.JobDescription,
+                bioDescription: @event.BioDescription);
+        }
+
+        private void When(AccountUnfollowedEvent @event)
+        {
+            Following.Remove(Following.First(f => f.AccountId == @event.AccountId));
+        }
+
+        private void When(RemovedAccountFollowerEvent @event)
+        {
+            Followers.Remove(Followers.First(f => f.AccountId == @event.AccountId));
         }
 
         private void When(AddedAccountFollowerEvent @event)

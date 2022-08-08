@@ -2,7 +2,7 @@ import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { VerifyAccountResponseDto } from './dto/verify-account-response.dto';
-import { AccountCreatedEvent, AccountFollowedEvent, AvatarImageAccountChanged, StartFollowAccountEvent } from './events/account.events';
+import { AccountCreatedEvent, AccountFollowedEvent, AccountUnfollowedEvent, AvatarImageAccountChanged, StartFollowAccountEvent } from './events/account.events';
 import { ProfileChangedEvent } from './events/profile.events';
 import { AccountModel } from './models/accout.model';
 
@@ -52,5 +52,10 @@ export class AccountService {
     followAccount(command: { userAccountId: string, followAccountId: string }): Observable<AccountFollowedEvent> {
         return this.http
             .post<AccountFollowedEvent>(`accounts/${command.followAccountId}/follow`, command)
+    }
+
+    unfollowAccount(command: { userAccountId: string, unfollowAccountId: string }): Observable<AccountUnfollowedEvent> {
+        return this.http
+            .post<AccountUnfollowedEvent>(`accounts/${command.unfollowAccountId}/unfollow`, command)
     }
 }

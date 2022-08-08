@@ -4,6 +4,7 @@ using EzGym.Events;
 using EzGym.Features.Accounts.ChangeAvatar;
 using EzGym.Features.Accounts.CreateAccount;
 using EzGym.Features.Accounts.FollowAccount;
+using EzGym.Features.Accounts.UnfollowAccount;
 using EzGym.Features.Accounts.UpInsertAccountProfile;
 using EzGym.Features.Gyms.CreateGym;
 using EzGym.Infra.Storage;
@@ -25,6 +26,7 @@ namespace EzGym
             services.AddSingleton<ChangeAvatarCommandHandler>();
             services.AddSingleton<UpInsertAccountProfileCommandHandler>();
             services.AddSingleton<FollowAccountCommandHandler>();
+            services.AddSingleton<UnfollowAccountCommandHandler>();
 
             services.AddHostedService<KafkaConsumerBackgroundService>();
 
@@ -35,6 +37,8 @@ namespace EzGym
                 .Register<ProfileChangedEvent>()
                 .Register<AccountFollowedEvent>()
                 .Register<AddedAccountFollowerEvent>()
+                .Register<RemovedAccountFollowerEvent>()
+                .Register<AccountUnfollowedEvent>()
                 .Register<SnapShotEvent<AccountSnapShot>>();
 
             return services;

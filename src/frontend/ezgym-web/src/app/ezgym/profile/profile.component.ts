@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, switchMap, tap } from 'rxjs';
+import { catchError, finalize, switchMap, tap } from 'rxjs';
 import { UserStore } from 'src/app/core/authentication/user.store';
 import { AccountService } from 'src/app/core/ezgym/account.service';
 import { AccountModel } from 'src/app/core/ezgym/models/accout.model';
@@ -59,7 +59,6 @@ export class ProfileComponent extends Store<ProfileComponentState> implements On
                     return this.accountService.loadAccount(params["accountName"])
                 }),
                 tap(response => {
-                    debugger
                     this.setState(state => ({
                         ...state,
                         account: response,
@@ -97,6 +96,7 @@ export class ProfileComponent extends Store<ProfileComponentState> implements On
     }
 
     followAccount(accountId: string) {
+        this.preloader.show();
         this.accountService.followAccount({
             userAccountId: this.userStore.state.activeAccount?.id!,
             followAccountId: accountId
@@ -122,6 +122,43 @@ export class ProfileComponent extends Store<ProfileComponentState> implements On
                         followingCount: state.activeAccount?.followersCount! + 1
                     }
                 }))
+            }),
+            finalize(() => {
+                this.preloader.close()
+            })
+        ).subscribe()
+    }
+
+    unfollowAccount(accountId: string) {
+        this.preloader.show();
+        this.accountService.unfollowAccount({
+            userAccountId: this.userStore.state.activeAccount?.id!,
+            unfollowAccountId: accountId
+        }).pipe(
+            tap((response) => {
+                this.setState(state => ({
+                    ...state,
+                    account: {
+                        ...state.account,
+                        followersCount: state.account.followersCount! - 1
+                    },
+                    ui: {
+                        ...state.ui,
+                        isFollowing: false
+                    }
+                }))
+
+                this.userStore.setState(state => ({
+                    ...state,
+                    activeAccount: {
+                        ...state.activeAccount!,
+                        following: state.activeAccount?.following?.filter(f => f.accountId !== response.accountId),
+                        followingCount: state.activeAccount?.followersCount! - 1
+                    }
+                }))
+            }),
+            finalize(() => {
+                this.preloader.close()
             })
         ).subscribe()
     }

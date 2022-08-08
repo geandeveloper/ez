@@ -21,3 +21,7 @@ export interface StartFollowAccountEvent {
 export interface AccountFollowedEvent {
     accountId: string
 }
+
+export interface AccountUnfollowedEvent {
+    accountId: string
+}
