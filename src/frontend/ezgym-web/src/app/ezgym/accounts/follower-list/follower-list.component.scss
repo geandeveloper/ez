@@ -1,30 +1,42 @@
-.center {
-    padding: 0px 20px;
-}
+@import "variables";
 
-.navbar-search {
-    height: 60px;
-    max-width: 935px;
-    flex: 1;
-    align-items: center;
+
+.header {
     display: flex;
-    padding: 0px 20px;
+    flex: 1;
+    justify-content: space-between;
+    font-family: $font-family;
+    font-size: small;
+    padding: 10px;
+    align-items: flex-start;
+}
 
-    form {
-        flex: 1
+.line {
+    flex: 1;
+    border-top: 1px solid #ccc;
+    width: 100%;
+}
+
+.header-btn {
+    border: none;
+    background: none;
+
+    &:hover {
+        color: $secondary;
     }
+}
 
-    .input-group-text {
-        border: none;
-        background: #f3f3f3
-    }
-
-    #navbar-search-input {
-        border: none;
-        background: #f3f3f3;
+::ng-deep {
+    .mat-ink-bar {
+        background-color: $primary !important;
     }
 
 }
+
+.search-follower-form {
+    margin: 10px 0px;
+}
+
 
 ul {
     flex: 1;
@@ -41,7 +53,7 @@ li {
     }
 
     .account-item-list {
-        padding: 5px 20px;
+        padding: 5px 5px;
         flex-direction: row;
         justify-content: left;
         align-items: center;

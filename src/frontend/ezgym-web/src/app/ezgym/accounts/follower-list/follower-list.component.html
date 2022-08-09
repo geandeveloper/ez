@@ -1,0 +1,59 @@
+<div class="center">
+    <section class="header">
+        <button (click)="close()" class="header-btn">Voltar</button>
+    </section>
+    <mat-tab-group (selectedIndexChange)="tabChanged($event)" [selectedIndex]="state.ui.tabIndex" mat-align-tabs="center" mat-stretch-tabs>
+        <mat-tab label="Seguidores" class="tab-label">
+            <form [formGroup]="searchForm" class="search-follower-form">
+                <div class="input-group">
+                    <div class="input-group-prepend hover-cursor" id="navbar-search-icon">
+                        <span class="input-group-text" id="search">
+                            <i class="icon-search"></i>
+                        </span>
+                    </div>
+                    <input formControlName="followerQuery" type="text" class="form-control" id="navbar-search-input"
+                        placeholder="Buscar" aria-label="search" aria-describedby="search">
+                </div>
+            </form>
+            <div class="center">
+                <ul class="icon-data-list">
+                    <li *ngFor="let account of state.followers" (click)="navigateToAccount(account.accountName)">
+                        <div class="d-flex account-item-list">
+                            <img [src]="account?.avatarUrl || '/assets/img/default-user-img.png'" alt="user">
+                            <div class="account-item-description">
+                                <p class="text-primary font-weight-bold">{{account.accountName}}</p>
+                                <small>{{account.accountType == 1 ? 'Usuario' : 'Academia'}} </small>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </mat-tab>
+        <mat-tab label="Seguindo">
+            <form [formGroup]="searchForm" class="search-follower-form">
+                <div class="input-group">
+                    <div class="input-group-prepend hover-cursor" id="navbar-search-icon">
+                        <span class="input-group-text" id="search">
+                            <i class="icon-search"></i>
+                        </span>
+                    </div>
+                    <input formControlName="followingQuery" type="text" class="form-control" id="navbar-search-input"
+                        placeholder="Buscar" aria-label="search" aria-describedby="search">
+                </div>
+            </form>
+            <div class="center">
+                <ul class="icon-data-list">
+                    <li *ngFor="let account of state.following" (click)="navigateToAccount(account.accountName)">
+                        <div class="d-flex account-item-list">
+                            <img [src]="account?.avatarUrl || '/assets/img/default-user-img.png'" alt="user">
+                            <div class="account-item-description">
+                                <p class="text-primary font-weight-bold">{{account.accountName}}</p>
+                                <small>{{account.accountType == 1 ? 'Usuario' : 'Academia'}} </small>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+</div>

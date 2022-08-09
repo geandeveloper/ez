@@ -85,7 +85,7 @@
 
         .btn-follow {
             border: none;
-            background: $secondary;
+            background: $primary;
             color: $white;
             padding: 15px 20px;
             border-radius: 15px;
@@ -93,13 +93,23 @@
             -webkit-box-shadow: 5px 5px 2px 1px rgba(238, 238, 238, 0.97);
             box-shadow: 5px 5px 2px 1px rgba(238, 238, 238, 0.97);
             border: #efef;
+            height: 50px;
+
+            &:hover {
+                background: $secondary;
+            }
 
         }
 
         .unfollow {
-            background: $color-danger;
+            background: #cccc;
             width: 100px;
-            padding: 10px 15px
+            padding: 10px 15px;
+
+            &:hover {
+                background: $color-danger;
+            }
+
         }
 
         .profile-buttons {
@@ -133,6 +143,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            cursor: pointer;
         }
     }
 
@@ -142,6 +153,10 @@
         flex-direction: row;
         align-items: center;
         gap: 20px;
+
+        .profile-description {
+            flex: 1;
+        }
 
         h3 {
             margin-bottom: 0px;
@@ -164,4 +179,9 @@
             background-size: cover;
         }
     }
+}
+
+.user-type-label {
+    color: #cdcdcd !important;
+    margin-bottom: 10px;
 }

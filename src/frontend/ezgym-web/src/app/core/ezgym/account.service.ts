@@ -44,9 +44,19 @@ export class AccountService {
             .get<AccountModel>(`accounts/${accountName}`)
     }
 
-    searchAccounts(accountName: string) {
+    searchAccounts(query: string) {
         return this.http
-            .get<AccountModel[]>(`accounts?accountName=${accountName}`)
+            .get<AccountModel[]>(`accounts?query=${query}`)
+    }
+
+    searchFollowers(accountName: string, query: string) {
+        return this.http
+            .get<AccountModel[]>(`accounts/${accountName}/followers?query=${query}`)
+    }
+
+    searchFollowing(accountName: string, query: string) {
+        return this.http
+            .get<AccountModel[]>(`accounts/${accountName}/following?query=${query}`)
     }
 
     followAccount(command: { userAccountId: string, followAccountId: string }): Observable<AccountFollowedEvent> {

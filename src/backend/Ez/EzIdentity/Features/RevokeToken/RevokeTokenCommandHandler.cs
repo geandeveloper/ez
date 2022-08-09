@@ -24,7 +24,7 @@ public class RevokeTokenCommandHandler : ICommandHandler<RevokeTokenCommand>
 
     public async Task<EventStream> Handle(RevokeTokenCommand request, CancellationToken cancellationToken)
     {
-        var snapShot = _queryStorage.GetSnapShot<UserSnapShot>(user => user.RefreshToken.Value == request.RefreshToken);
+        var snapShot = _queryStorage.QueryOne<UserSnapShot>(user => user.RefreshToken.Value == request.RefreshToken);
         var user = User.RestoreSnapShot(snapShot);
 
         user.RevokeToken(request.RefreshToken);

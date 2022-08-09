@@ -1,7 +1,6 @@
 ﻿using EzCommon.EventHandlers;
 using EzCommon.Events;
 using EzGym.Infra.Storage;
-using EzGym.Models;
 using EzGym.SnapShots;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,7 +18,7 @@ namespace EzGym.EventHandlers
 
         public Task Handle(SnapShotEvent<AccountSnapShot> notification, CancellationToken cancellationToken)
         {
-            _queryStore.UpinsertSnapShot(notification.Value);
+            _queryStore.UpInsert(a => a.Id == notification.Value.Id, notification.Value);
             return Task.CompletedTask;
         }
     }

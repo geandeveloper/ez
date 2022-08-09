@@ -7,14 +7,12 @@ using EzGym.Features.Accounts.UnfollowAccount;
 using EzGym.Features.Accounts.UpInsertAccountProfile;
 using EzGym.Features.Gyms.CreateGym;
 using EzGym.Infra.Storage;
-using EzGym.Models;
 using EzGym.SnapShots;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -112,10 +110,10 @@ namespace EzGym
             app.MapGet("accounts",
                 [Authorize] (
                       [FromServices] IGymQueryStore queryStorage,
-                      string accountName
+                      string query
                       ) =>
                 {
-                    var accounts = queryStorage.Query<AccountSnapShot>(a => a.AccountName.Contains(accountName))
+                    var accounts = queryStorage.Query<AccountSnapShot>(a => a.AccountName.Contains(query))
                     .Take(20)
                     .ToList();
 
@@ -134,16 +132,28 @@ namespace EzGym
                     return Results.Ok(account);
                 });
 
-            _ = app.MapGet("accounts/{accountName}/followers",
-            //[Authorize] 
-            (
+            app.MapGet("accounts/{accountName}/followers", 
+                [Authorize] (
+                     [FromServices] IGymQueryStore queryStorage,
+                     string accountName,
+                     string query
+                     ) =>
+               {
+                   var followers = queryStorage.QueryFollowers(accountName, query);
+
+                   return Results.Ok(followers);
+               });
+
+            app.MapGet("accounts/{accountName}/following", 
+                [Authorize] (
                       [FromServices] IGymQueryStore queryStorage,
-                      string accountName
+                      string accountName,
+                      string query
                       ) =>
                 {
-                    var followers = queryStorage.GetFollowersByAccountName(accountName);
+                    var following = queryStorage.QueryFollowing(accountName, query);
 
-                    return Results.Ok(followers);
+                    return Results.Ok(following);
                 });
 
             app.MapPut("accounts/{accountId}/profile",

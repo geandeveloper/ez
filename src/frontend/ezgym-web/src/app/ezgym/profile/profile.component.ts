@@ -7,6 +7,7 @@ import { AccountService } from 'src/app/core/ezgym/account.service';
 import { AccountModel } from 'src/app/core/ezgym/models/accout.model';
 import { Store } from 'src/app/core/state/store';
 import { PreLoaderStore } from 'src/app/shared/components/pre-loader/pre-loader.store';
+import { FollowerListComponent } from '../accounts/follower-list/follower-list.component';
 import { EzGymComponentStore } from '../ezgym.component.store';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
@@ -161,5 +162,43 @@ export class ProfileComponent extends Store<ProfileComponentState> implements On
                 this.preloader.close()
             })
         ).subscribe()
+    }
+
+    openFollowerList() {
+        this.dialog.open(FollowerListComponent, {
+            data: {
+                account: this.state?.account,
+                ui: {
+                    activeTab: 'followers',
+                }
+            },
+            panelClass: 'fullscreen-dialog',
+            maxWidth: '935px',
+            maxHeight: '100vh',
+            height: '100%',
+            width: '100%',
+        }).afterClosed()
+            .subscribe(() => {
+            })
+
+    }
+
+    openFollowingList() {
+        this.dialog.open(FollowerListComponent, {
+            data: {
+                account: this.state?.account,
+                ui: {
+                    activeTab: 'following',
+                }
+            },
+            panelClass: 'fullscreen-dialog',
+            maxWidth: '935px',
+            maxHeight: '100vh',
+            height: '100%',
+            width: '100%',
+        }).afterClosed()
+            .subscribe(() => {
+            })
+
     }
 }

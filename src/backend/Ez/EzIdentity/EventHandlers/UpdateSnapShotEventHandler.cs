@@ -18,7 +18,7 @@ namespace EzIdentity.EventHandlers
 
         public Task Handle(SnapShotEvent<UserSnapShot> notification, CancellationToken cancellationToken)
         {
-            _queryStore.UpinsertSnapShot(notification.Value);
+            _queryStore.UpInsert(u => u.Id == notification.Value.Id, notification.Value);
             return Task.CompletedTask;
         }
     }

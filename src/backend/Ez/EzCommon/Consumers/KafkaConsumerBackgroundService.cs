@@ -24,7 +24,7 @@ namespace EzCommon.Consumers
             var config = new ConsumerConfig
             {
                 BootstrapServers = "localhost:9092",
-                GroupId = $"ezgym-consumer-2",
+                GroupId = $"ezgym-service",
                 AutoOffsetReset = AutoOffsetReset.Earliest
             };
 

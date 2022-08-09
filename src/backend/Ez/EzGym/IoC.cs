@@ -19,7 +19,7 @@ namespace EzGym
         public static IServiceCollection AddEzGym(this IServiceCollection services, IEventRegister eventRegister)
         {
             services.AddSingleton<IGymEventStore, GymEventStore>();
-            services.AddSingleton<IGymQueryStore, GymEventStore>();
+            services.AddTransient<IGymQueryStore, GymEventStore>();
 
             services.AddSingleton<CreateAccountCommandHandler>();
             services.AddSingleton<CreateGymCommandHandler>();

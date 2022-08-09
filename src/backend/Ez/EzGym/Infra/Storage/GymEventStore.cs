@@ -1,13 +1,15 @@
 ﻿using EzCommon.Infra.Bus;
 using EzCommon.Infra.Storage;
 using EzGym.Models;
+using EzGym.SnapShots;
 using LiteDB;
+using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace EzGym.Infra.Storage
 {
-    public class GymEventStore : StoreInLocal, IGymEventStore, IGymQueryStore
+    public class GymEventStore : MongoStorage, IGymEventStore, IGymQueryStore
     {
         public GymEventStore(IBus bus) : base(bus, "ezgym")
         {
@@ -22,16 +24,16 @@ namespace EzGym.Infra.Storage
                 .Id(es => es.AccountId);
         }
 
-        public IList<Follower> GetFollowersByAccountName(string accountName)
+        public IList<AccountSnapShot> QueryFollowers(string accountName, string query)
         {
-            using var db = new LiteDatabase($"C:/temp/{_storeName}-snapshots.db");
-            var account = db.GetCollection<Account>().FindOne(a => a.AccountName == accountName);
+            var account = QueryOne<AccountSnapShot>(a => a.AccountName == accountName);
+            return account.Followers.Select(f => QueryOne<AccountSnapShot>(a => a.Id == f.AccountId)).Where(a => a.AccountName.Contains(query)).ToList();
+        }
 
-            return account.Followers.Select(f =>
-            {
-                return new Follower(f.AccountId) { Account = db.GetCollection<Account>().FindById(f.AccountId) };
-
-            }).ToList();
+        public IList<AccountSnapShot> QueryFollowing(string accountName, string query)
+        {
+            var account = QueryOne<AccountSnapShot>(a => a.AccountName == accountName);
+            return account.Following.Select(f => QueryOne<AccountSnapShot>(a => a.Id == f.AccountId)).Where(a => a.AccountName.Contains(query)).ToList();
         }
     }
 }

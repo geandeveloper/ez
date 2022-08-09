@@ -11,22 +11,18 @@ namespace EzGym.Features.Accounts.UpInsertAccountProfile
     public class UpInsertAccountProfileCommandHandler : ICommandHandler<UpInsertAccountProfileCommand>
     {
         private readonly IGymEventStore _eventStorage;
-        private readonly IGymQueryStore _queryStorage;
 
         public UpInsertAccountProfileCommandHandler(IGymEventStore eventStorage, IGymQueryStore queryStorage)
         {
             _eventStorage = eventStorage;
-            _queryStorage = queryStorage;
         }
 
-        public Task<EventStream> Handle(UpInsertAccountProfileCommand request, CancellationToken cancellationToken)
+        public async Task<EventStream> Handle(UpInsertAccountProfileCommand request, CancellationToken cancellationToken)
         {
-            var snapShot = _queryStorage.GetSnapShot<AccountSnapShot>(p => p.Id == request.AccountId);
-            var account = Account.RestoreSnapShot(snapShot);
-
+            var account = await _eventStorage.QueryLatestVersionAsync<AccountSnapShot, Account>(p => p.Id == request.AccountId);
             account.UpdateProfile(request);
 
-            return _eventStorage.SaveAsync<Account, AccountSnapShot>(account);
+            return await _eventStorage.SaveAsync<Account, AccountSnapShot>(account);
         }
     }
 }

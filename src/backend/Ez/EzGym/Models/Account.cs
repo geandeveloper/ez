@@ -25,7 +25,7 @@ namespace EzGym.Models
         public int? FollowingCount => Following?.Count;
         public int? FollowersCount => Followers?.Count;
 
-        private Account()
+        public Account()
         {
             Followers = new List<Follower>();
             Following = new List<Follower>();
@@ -71,7 +71,8 @@ namespace EzGym.Models
 
         public void AddFollower(Account account)
         {
-            RaiseEvent(new AddedAccountFollowerEvent(account.Id));
+            if (!Followers.Select(a => a.AccountId).Contains(account.Id))
+                RaiseEvent(new AddedAccountFollowerEvent(account.Id));
         }
         public void RemoveFollower(Account account)
         {
@@ -80,7 +81,9 @@ namespace EzGym.Models
 
         public void FollowAccount(Account account)
         {
-            RaiseEvent(new AccountFollowedEvent(account.Id));
+
+            if (!Following.Select(a => a.AccountId).Contains(account.Id))
+                RaiseEvent(new AccountFollowedEvent(account.Id));
         }
 
         public void UnfollowAccount(Account account)

@@ -17,7 +17,7 @@ namespace EzIdentity.Models
         public string Password { get; private set; }
         public bool Activated { get; private set; }
 
-        private User() { }
+        public User() { }
         public User(CreateUserCommand command)
         {
             RaiseEvent(new UserCreatedEvent(Guid.NewGuid(), command.Name, command.UserName, command.Email, command.Password));

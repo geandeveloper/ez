@@ -1,13 +1,12 @@
-﻿using EzGym.Models;
+﻿using EzCommon.Models;
+using EzGym.Models;
 using System;
 using System.Collections.Generic;
 
 namespace EzGym.SnapShots
 {
-    public class AccountSnapShot
+    public class AccountSnapShot : SnapShot
     {
-        public int Version { get; set; }
-        public Guid Id { get; set; }
         public Guid UserId { get; set; }
         public string AccountName { get; set; }
         public AccountTypeEnum AccountType { get; set; }

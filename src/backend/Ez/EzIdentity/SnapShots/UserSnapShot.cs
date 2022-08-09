@@ -1,12 +1,10 @@
-﻿using EzIdentity.Models;
-using System;
+﻿using EzCommon.Models;
+using EzIdentity.Models;
 
 namespace EzIdentity.SnapShots
 {
-    public class UserSnapShot
+    public class UserSnapShot : SnapShot
     {
-        public int Version { get; set; }
-        public Guid Id { get; set; }
         public string UserName { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }

@@ -3,8 +3,13 @@
         <div class="card profile-container">
             <div class="card-body">
                 <div class="d-flex justify-content-between">
-                    <p class="card-title"></p>
-                    <a (click)="editProfile()" *ngIf="state.ui.isOwner" class="text-info btn-link">Editar profile</a>
+                    <p class="text-muted user-type-label" *ngIf="state.account.accountType == 1">
+                        Perfil de usuario
+                    </p>
+                    <p class="text-muted user-type-label" *ngIf="state.account.accountType == 2">
+                        Perfil de academia 
+                    </p>
+                    <a (click)="editProfile()" *ngIf="state.ui.isOwner" class="text-info btn-link">Editar perfil</a>
                 </div>
                 <div class="profile-info">
                     <div class="profile-bio-image">
@@ -36,22 +41,21 @@
                             <p class="text-muted">Treinos</p>
                             <h3 class="text-primary fs-30 font-weight-medium">0</h3>
                         </div>
-                        <div class="profile-header-info">
+                        <div (click)="openFollowerList()" class="profile-header-info">
                             <p class="text-muted">Seguidores</p>
                             <h3 class="text-primary fs-30 font-weight-medium">{{state.account.followersCount}}</h3>
                         </div>
-                        <div class="profile-header-info">
+                        <div (click)="openFollowingList()" class="profile-header-info">
                             <p class="text-muted">Seguindo</p>
                             <h3 class="text-primary fs-30 font-weight-medium">{{state.account.followingCount}}</h3>
                         </div>
                     </div>
                     <div class="profile-buttons">
                         <button type="button" *ngIf="!state.ui.isOwner && !state.ui.isFollowing"
-                            (click)="followAccount(state.account.id)" (click)="followAccount(state.account.id)"
+                            (click)="followAccount(state.account.id)"
                             class="btn-follow">Seguir</button>
                         <button type="button" *ngIf="!state.ui.isOwner && state.ui.isFollowing"
-                            (click)="unfollowAccount(state.account.id)" class="btn-follow unfollow">Deixar de
-                            seguir</button>
+                            (click)="unfollowAccount(state.account.id)" class="btn-follow unfollow">Seguindo</button>
                     </div>
                 </div>
 

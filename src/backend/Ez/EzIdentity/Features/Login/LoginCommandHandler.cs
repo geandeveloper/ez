@@ -13,24 +13,18 @@ namespace EzIdentity.Features.Login;
 public class LoginCommandHandler : ICommandHandler<LoginCommand>
 {
     private readonly IEventStore _eventStore;
-    private readonly IQueryStorage _queryStorage;
 
     public LoginCommandHandler(
-        IIdentityEventStore eventStore,
-        IIdentityQueryStore queryStorage
+        IIdentityEventStore eventStore
         )
     {
         _eventStore = eventStore;
-        _queryStorage = queryStorage;
     }
 
     public async Task<EventStream> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
-        var snapShot = _queryStorage.GetSnapShot<UserSnapShot>(user => user.UserName == request.UserName && user.Password == CryptographyService.CreateHash(request.Password));
-        var user = User.RestoreSnapShot(snapShot);
-
+        var user = await _eventStore.QueryLatestVersionAsync<UserSnapShot, User>(user => user.UserName == request.UserName && user.Password == CryptographyService.CreateHash(request.Password));
         user.Login();
-
         return await _eventStore.SaveAsync<User, UserSnapShot>(user);
     }
 }
