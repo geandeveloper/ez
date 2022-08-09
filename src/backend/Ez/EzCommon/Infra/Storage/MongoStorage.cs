@@ -55,10 +55,12 @@ namespace EzCommon.Infra.Storage
             var snapShot = QueryOne(querySnapShot);
             var aggregateSnapShot = Activator.CreateInstance<TAggregate>().FromSnapShot(snapShot);
 
-            var eventStreamId = new EventStreamId(snapShot.GetType(), snapShot.Id);
+            var eventStreamId = new EventStreamId(aggregateSnapShot.GetType(), aggregateSnapShot.Id);
             var eventStreamCollection = _db.GetCollection<EventStream>(nameof(EventStream));
             var eventStreamDbState = await eventStreamCollection.Find(e => e.Id == eventStreamId.ToString()).FirstOrDefaultAsync();
 
+            if (aggregateSnapShot.Version == eventStreamDbState.Version)
+                return aggregateSnapShot;
 
             var eventRowCollection = _db.GetCollection<EventRow>(nameof(EventRow));
             var latestEvents = eventRowCollection.Find(e => e.Version > aggregateSnapShot.Version).ToList();
