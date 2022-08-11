@@ -7,8 +7,8 @@ import { AccountService } from 'src/app/core/ezgym/account.service';
 import { AccountModel } from 'src/app/core/ezgym/models/accout.model';
 import { Store } from 'src/app/core/state/store';
 import { PreLoaderStore } from 'src/app/shared/components/pre-loader/pre-loader.store';
-import { FollowerListComponent } from '../accounts/follower-list/follower-list.component';
-import { EzGymComponentStore } from '../ezgym.component.store';
+import { EzGymComponentStore } from '../../ezgym.component.store';
+import { FollowerListComponent } from '../follower-list/follower-list.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
 interface ProfileComponentState {

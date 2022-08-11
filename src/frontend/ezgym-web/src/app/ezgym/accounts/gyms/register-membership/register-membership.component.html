@@ -1,0 +1,115 @@
+<div class="center">
+    <section class="header">
+        <button (click)="close()" class="header-btn">Voltar</button>
+    </section>
+    <section class="register-header">
+        <img src="assets/img/fill-forms.svg">
+        <h3>
+            Matricular-se
+        </h3>
+    </section>
+
+    <section class="register-step">
+        <mat-horizontal-stepper [linear]="false" #stepper="matHorizontalStepper">
+            <mat-step [stepControl]="planFormGroup">
+                <form [formGroup]="planFormGroup">
+                    <ng-template matStepLabel>
+                        Plano
+                    </ng-template>
+
+                    <h5 class="step-header">
+                        Selecione um plano
+                    </h5>
+                    <section class="plan-options">
+                        <div class="option selected">
+                            <div class="icon">
+                                <i class="material-icons">radio_button_checked</i>
+                            </div>
+                            <div class="plan-description">
+                                <h5>
+                                    R$ 70,00 / Mes
+                                </h5>
+                                <small class="text-muted">
+                                    Valido por 30 dias
+                                </small>
+
+                            </div>
+                        </div>
+
+                        <div class="option">
+                            <div class="icon">
+                                <i class="material-icons">radio_button_unchecked</i>
+                            </div>
+                            <div class="plan-description">
+                                <h5>
+                                    R$ 190,00 / Trimestral
+                                </h5>
+                                <small class="text-muted">
+                                    Valido por 90 dias
+                                </small>
+
+                            </div>
+                        </div>
+                        <div class="option">
+                            <div class="icon">
+                                <i class="material-icons">radio_button_unchecked</i>
+                            </div>
+                            <div class="plan-description">
+                                <h5>
+                                    R$ 700,00 / Anual
+                                </h5>
+                                <small class="text-muted">
+                                    Valido por 360 dias
+                                </small>
+
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="register-btn">
+                        <button mat-button matStepperNext>Continuar</button>
+                    </section>
+                </form>
+            </mat-step>
+            <mat-step>
+                <form>
+                    <ng-template matStepLabel>Pagamento</ng-template>
+
+                    <h5 class="step-header">
+                        Forma de pagamento
+                    </h5>
+                    <section class="plan-options">
+                        <div class="option ">
+                            <div class="icon">
+                                <i class="material-icons">radio_button_unchecked</i>
+                            </div>
+                            <div class="plan-description">
+                                <h5>
+                                    PIX
+                                </h5>
+                                <small class="text-muted">
+                                    Pagamento instantaneo
+                                </small>
+
+                            </div>
+                        </div>
+                    </section>
+                    <section class="register-btn">
+                        <button mat-button matStepperNext>Continuar</button>
+                        <button class="btn-back" mat-button matStepperPrevious>Voltar</button>
+                    </section>
+                </form>
+            </mat-step>
+            <mat-step>
+                <ng-template matStepLabel>Finalizar</ng-template>
+                    <h5 class="step-header">
+                        Obrigado :)
+                    </h5>
+                <section class="register-btn">
+                    <button mat-button matStepperNext>Finalizar</button>
+                    <button class="btn-back" mat-button matStepperPrevious>Voltar</button>
+                </section>
+            </mat-step>
+        </mat-horizontal-stepper>
+    </section>
+</div>

@@ -13,3 +13,12 @@ body {
     margin: 0;
     font-family: $font-family;
 }
+
+.fullscreen-dialog {
+    max-width: 100vw;
+    position: static;
+    width: 100vw;
+    height: 100vh;
+}
+
+

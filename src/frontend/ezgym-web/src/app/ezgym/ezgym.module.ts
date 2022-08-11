@@ -10,16 +10,12 @@ import { EzGymRoutingModule } from "./ezgym-routing.module";
 import { BrowserModule } from '@angular/platform-browser';
 import { MatDialogModule } from "@angular/material/dialog";
 import { ImageCropperModule } from "ngx-image-cropper";
-import { EditProfileComponent } from "./profile/edit-profile/edit-profile.component";
-import { ProfileComponent } from "./profile/profile.component";
 import { SearchAccountComponent } from "./search/search-account/search-account.component";
 
 
 @NgModule({
   declarations: [
     EzGymComponent,
-    ProfileComponent,
-    EditProfileComponent,
     SearchAccountComponent
   ],
   imports: [
