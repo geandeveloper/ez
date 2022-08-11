@@ -7,13 +7,12 @@ import { CreateAccountComponent } from './create-account/create-account.componen
 import { AccountRoutingModule } from './accounts-routing.module';
 import { FollowerListComponent } from './follower-list/follower-list.component';
 import { MatTabsModule } from '@angular/material/tabs';
-import { RegisterMembershipComponent } from './gyms/register-membership/register-membership.component';
-import { GymProfileComponent } from './gyms/gym-profile/gym-profile.component';
 import { ProfileComponent } from './profile/profile.component';
 import { EditProfileComponent } from './profile/edit-profile/edit-profile.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { MatStepperModule } from '@angular/material/stepper'
 import { MatFormFieldModule } from '@angular/material/form-field'
+import { GymModule } from '../gyms/gyms.module';
 
 @NgModule({
     imports: [
@@ -24,16 +23,15 @@ import { MatFormFieldModule } from '@angular/material/form-field'
         MatTabsModule,
         ImageCropperModule,
         MatStepperModule,
-        MatFormFieldModule
+        MatFormFieldModule,
+        GymModule
     ],
     declarations: [
         AccountsComponent,
         CreateAccountComponent,
         FollowerListComponent,
-        RegisterMembershipComponent,
         EditProfileComponent,
         ProfileComponent,
-        GymProfileComponent,
     ],
     providers: [],
 })

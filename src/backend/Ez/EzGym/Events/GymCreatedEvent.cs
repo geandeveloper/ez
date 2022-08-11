@@ -7,8 +7,6 @@ namespace EzGym.Events
     public record GymCreatedEvent(
          Guid Id,
          Guid AccountId,
-         string FantasyName,
-         string Cnpj,
          Address[] Addresses
         ) : Event;
 }
