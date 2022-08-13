@@ -14,7 +14,6 @@ export class GymProfileComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.registerNewMemberShip()
     }
     registerNewMemberShip() {
 

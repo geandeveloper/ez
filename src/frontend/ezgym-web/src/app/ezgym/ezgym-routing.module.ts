@@ -31,6 +31,12 @@ const routes: Routes = [
     loadChildren: () => import("./accounts/accounts.module").then(m => m.AccountsModule)
   },
   {
+    path: 'gyms',
+    canActivate: [AuthGuard],
+    component: EzGymComponent,
+    loadChildren: () => import("./gyms/gyms.module").then(m => m.GymModule)
+  },
+  {
     path: '',
     pathMatch: 'full',
     redirectTo: '/ezidentity/login'

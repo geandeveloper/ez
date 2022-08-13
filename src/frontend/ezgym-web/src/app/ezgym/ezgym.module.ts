@@ -26,7 +26,7 @@ import { SearchAccountComponent } from "./search/search-account/search-account.c
     EzGymRoutingModule,
     MatAutocompleteModule,
     MatFormFieldModule,
-    ImageCropperModule,
+    ImageCropperModule
   ],
   exports: [
     EzGymComponent

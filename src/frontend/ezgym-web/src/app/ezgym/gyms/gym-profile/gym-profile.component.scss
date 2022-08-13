@@ -19,14 +19,17 @@
         background: #fff;
         border: 1px solid #ccc;
         border-radius: 10px;
-        align-items: center;
-        justify-content: space-between;
+       align-items: center;
+        justify-content: center;
+        gap: 10px;
         cursor: pointer;
 
 
-        .image-wrapper {
-            width: 60px;
-            height: 60px;
+        .icon-wrapper {
+            i {
+                color: $primary;
+                font-size: 40px;
+            }
         }
 
         label {
@@ -45,6 +48,10 @@
         &:hover {
             label {
                 color: $secondary;
+            }
+
+            i {
+                color: $secondary  !important;
             }
         }
     }
