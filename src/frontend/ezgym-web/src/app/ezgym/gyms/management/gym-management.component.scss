@@ -42,10 +42,16 @@
     margin-top: 30px;
     gap: 20px;
 
+
     .balance-info {
         display: flex;
         flex-direction: column;
         justify-content: left;
+
+        .balance-hidden {
+            height: 30px;
+            background: rgb(241, 241, 241);
+        }
 
         p {
             color: $dark-grey;
@@ -76,6 +82,14 @@
             font-size: x-large;
         }
 
+        &:hover {
+            .toggle-icon {
+                color: $secondary;
+            }
+
+            ;
+        }
+
     }
 }
 
@@ -93,9 +107,8 @@
     .menu-option {
         display: flex;
         flex-direction: column;
-        width: 100%;
-        width: 110px;
-        height: 110px;
+        flex: 1;
+        max-width: 100px;
         padding-top: 10px;
         background: #fff;
         border: 1px solid #ccc;
@@ -124,9 +137,94 @@
             label {
                 color: $secondary;
             }
+
             i {
-                color: $secondary !important;
+                color: $secondary  !important;
             }
         }
     }
+}
+
+.checkins {
+
+    .buttons {
+        align-self: center;
+        display: flex;
+        flex-direction: row;
+        gap: 5px;
+    }
+
+    .btn-validate {
+        border: none;
+        background: $secondary;
+        color: $white;
+        padding: 5px 30px;
+        height: 35px;
+        align-self: center;
+        border-radius: 20px;
+        line-height: 10px;
+
+        &.btn-remove {
+            padding: 5px 15px;
+            background: #ccc;
+
+            &:hover {
+                background: $color-danger;
+
+            }
+        }
+
+
+        &:hover {
+            cursor: pointer;
+            background: $primary;
+        }
+    }
+
+    ul {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    li {
+        text-transform: capitalize;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 10px;
+
+        .account-item-list {
+            padding: 5px 5px;
+            flex-direction: row;
+            align-items: center;
+
+            p {
+                line-height: 5px;
+                margin-bottom: 0px;
+            }
+
+        }
+
+
+
+        .account-item-description {
+            margin-top: 10px;
+        }
+    }
+}
+
+::ng-deep {
+    .mat-ink-bar {
+        background-color: $primary  !important;
+    }
+
+    .mat-tab-label {
+        justify-content: left !important;
+        color: $primary  !important;
+        font-family: $font-family  !important;
+        font-weight: bold;
+        padding: 0px !important;
+    }
+
 }

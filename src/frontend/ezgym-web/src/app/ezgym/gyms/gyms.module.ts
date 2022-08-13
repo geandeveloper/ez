@@ -1,24 +1,30 @@
 
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { MatStepperModule } from '@angular/material/stepper';
+import { MatTabsModule } from '@angular/material/tabs';
 import { ImageCropperModule } from 'ngx-image-cropper';
 
 import { GymProfileComponent } from './gym-profile/gym-profile.component';
 import { GymsRoutingModule } from './gyms-routing.module';
+import { GymManagementComponent } from './management/gym-management.component';
 import { RegisterMembershipComponent } from './register-membership/register-membership.component';
 
 @NgModule({
     imports: [
+        CommonModule,
         ImageCropperModule,
+        MatTabsModule,
         MatStepperModule,
         ReactiveFormsModule,
-        GymsRoutingModule
+        GymsRoutingModule,
     ],
     declarations: [
         RegisterMembershipComponent,
         GymProfileComponent,
+        GymManagementComponent
     ],
     exports: [
         GymProfileComponent

@@ -11,7 +11,6 @@ import { ProfileComponent } from './profile/profile.component';
 import { EditProfileComponent } from './profile/edit-profile/edit-profile.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { MatStepperModule } from '@angular/material/stepper'
-import { MatFormFieldModule } from '@angular/material/form-field'
 import { GymModule } from '../gyms/gyms.module';
 
 @NgModule({
@@ -23,7 +22,6 @@ import { GymModule } from '../gyms/gyms.module';
         MatTabsModule,
         ImageCropperModule,
         MatStepperModule,
-        MatFormFieldModule,
         GymModule
     ],
     declarations: [

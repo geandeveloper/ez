@@ -5,7 +5,7 @@ export interface AccountModel {
     accountType: AccountTypeEnum,
     profile?: ProfileModel,
     accountName: string,
-    isDefault: false,
+    isDefault: boolean,
     avatarUrl?: string,
     followers?: FollowerModel[],
     following?: FollowerModel[],

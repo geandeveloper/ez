@@ -12,14 +12,14 @@
     .menu-option {
         display: flex;
         flex-direction: column;
-        width: 100%;
-        width: 110px;
-        height: 110px;
+        flex: 1;
+        max-width: 100px;
+        height: 60%;
         padding-top: 10px;
         background: #fff;
         border: 1px solid #ccc;
         border-radius: 10px;
-       align-items: center;
+        align-items: center;
         justify-content: center;
         gap: 10px;
         cursor: pointer;
