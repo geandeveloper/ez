@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { AccountModel, AccountTypeEnum } from 'src/app/core/ezgym/models/accout.model';
 import { Store } from 'src/app/core/state/store';
+import { GymWalletComponent } from './gym-wallet/gym-wallet.component';
 
 
 
@@ -15,7 +17,9 @@ interface GymManagementComponentState {
     styleUrls: ['./gym-management.component.scss']
 })
 export class GymManagementComponent extends Store<GymManagementComponentState> implements OnInit {
-    constructor() {
+    constructor(
+        public dialog: MatDialog
+    ) {
         super({
             checkinsToValidate: [
                 {
@@ -30,6 +34,24 @@ export class GymManagementComponent extends Store<GymManagementComponentState> i
 
         this.store$.subscribe()
     }
+    
+    ngOnInit() {
+        this.openWallet();
+    }
 
-    ngOnInit() { }
+    openWallet() {
+
+        this.dialog.open(GymWalletComponent, {
+            data: {
+            },
+            panelClass: 'fullscreen-dialog',
+            maxWidth: '935px',
+            maxHeight: '100vh',
+            height: '100%',
+            width: '100%',
+        })
+            .afterClosed()
+            .subscribe()
+    }
+
 }

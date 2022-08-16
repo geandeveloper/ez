@@ -1,0 +1,35 @@
+<div class="center">
+    <section class="header">
+        <button (click)="close()" class="header-btn">Voltar</button>
+
+    </section>
+    <section class="image-header">
+        <img src="assets/img/vault.svg">
+        <h3>
+            Gerenciar Carteria
+        </h3>
+    </section>
+
+    <section class="pix-management">
+        <h5 class="text-section">
+            Minha chave PIX
+        </h5>
+        <form class="edit-profile-form" [formGroup]="pixFormGroup">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">Tipo da chave</button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item">E-mail</a>
+                        <a class="dropdown-item">Celular</a>
+                        <a class="dropdown-item">Aleatoria</a>
+                    </div>
+                </div>
+                <input type="text" class="form-control" aria-label="Text input with dropdown button">
+            </div>
+           
+        </form>
+    </section>
+
+
+</div>

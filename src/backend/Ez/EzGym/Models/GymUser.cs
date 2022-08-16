@@ -1,10 +1,9 @@
-﻿using EzCommon.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace EzGym.Models
 {
-    public class GymUser : AggregateRoot
+    public class GymUser 
     {
         public Guid GymId { get; private set; }
         public Guid? AccountId { get; private set; }
@@ -17,10 +16,5 @@ namespace EzGym.Models
 
         public IEnumerable<GymMemberShip> MemberShips { get; private set; }
 
-
-        protected override void RegisterEvents()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

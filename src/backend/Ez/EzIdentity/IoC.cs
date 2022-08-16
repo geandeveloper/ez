@@ -8,7 +8,6 @@ using EzIdentity.Infra.Storage;
 using EzCommon.Events;
 using EzIdentity.Events;
 using EzIdentity.Models;
-using EzIdentity.SnapShots;
 
 namespace EzIdentity;
 
@@ -17,14 +16,15 @@ public static class IoC
     public static IServiceCollection AddEzIdentity(this IServiceCollection services, IEventRegister eventRegister)
     {
 
-        services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-        services.AddSingleton<IIdentityEventStore, IdentityEventStore>();
-        services.AddSingleton<IIdentityQueryStore, IdentityEventStore>();
+        services.AddScoped<IIdentityEventStore, IdentityEventStore>();
+        services.AddScoped<IIdentityQueryStore, IdentityEventStore>();
 
-        services.AddSingleton<LoginCommandHandler>();
-        services.AddSingleton<CreateUserCommandHandler>();
-        services.AddSingleton<RefreshTokenCommandHandler>();
-        services.AddSingleton<RevokeTokenCommandHandler>();
+        services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+        services.AddTransient<LoginCommandHandler>();
+        services.AddTransient<CreateUserCommandHandler>();
+        services.AddTransient<RefreshTokenCommandHandler>();
+        services.AddTransient<RevokeTokenCommandHandler>();
 
         services.AddAuthWithJwtBearer();
 
@@ -33,7 +33,7 @@ public static class IoC
             .Register<SucessRevokeTokenEvent>()
             .Register<SucessRenewTokenEvent>()
             .Register<SucessLoginEvent>()
-            .Register<SnapShotEvent<UserSnapShot>>();
+            .Register<SnapShotEvent<User>>();
 
         return services;
     }

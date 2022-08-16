@@ -1,12 +1,12 @@
 ﻿using EzCommon.Infra.Storage;
-using EzGym.SnapShots;
+using EzGym.Models;
 using System.Collections.Generic;
 
 namespace EzGym.Infra.Storage
 {
     public interface IGymQueryStore : IQueryStorage
     {
-        IList<AccountSnapShot> QueryFollowers(string accountName, string query);
-        IList<AccountSnapShot> QueryFollowing(string accountName, string query);
+        IList<Account> QueryFollowers(string accountName, string query);
+        IList<Account> QueryFollowing(string accountName, string query);
     }
 }

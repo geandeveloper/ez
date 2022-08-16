@@ -1,11 +1,12 @@
 ﻿using EzCommon.Models;
 using EzGym.Apis;
 using EzGym.Infra.Storage;
-using EzGym.SnapShots;
+using EzGym.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace EzGym
 {
@@ -22,7 +23,7 @@ namespace EzGym
                       var userInfo = new
                       {
                           principal.UserName,
-                          Accounts = queryStorage.Query<AccountSnapShot>(account => account.UserId == principal.Id)
+                          Accounts = queryStorage.Query<Account>(account => account.UserId == principal.Id).ToList()
                       };
 
                       return Results.Ok(userInfo);

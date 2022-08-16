@@ -15,7 +15,7 @@ namespace EzCommon.Models
 
         public override string ToString()
         {
-            return $"{_streamType.Name}:{_id}";
+            return _id.ToString();
         }
     }
 }

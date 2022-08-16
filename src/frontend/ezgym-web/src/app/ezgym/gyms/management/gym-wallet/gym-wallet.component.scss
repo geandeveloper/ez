@@ -1,0 +1,80 @@
+@import 'variables';
+
+:host {
+    font-family: $font-family;
+}
+
+.header {
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    font-family: $font-family;
+    font-size: small;
+    padding: 10px;
+    align-items: flex-start;
+}
+
+.header-btn {
+    border: none;
+    background: none;
+
+    &:hover {
+        color: $secondary;
+    }
+}
+
+.header-title {
+    font-weight: bold;
+}
+
+.line {
+    flex: 1;
+    border-top: 1px solid #ccc;
+    width: 100%;
+}
+
+.pix-management {
+    margin-top: 20px;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+}
+
+.btn-validate {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    background: $secondary;
+    color: $white;
+    width: 80px;
+
+    border: none;
+
+    &:hover {
+        background: $primary;
+    }
+}
+
+.image-header {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+
+    img {
+        display: block;
+        width: 300px;
+    }
+}
+
+.text-section {
+    margin-top: 25px;
+    width: fit-content;
+    line-height: 25px;
+    display: block;
+    color: $primary;
+    border-bottom: 2px dotted #ccc;
+}

@@ -7,7 +7,7 @@ using EzGym.Features.Accounts.UnfollowAccount;
 using EzGym.Features.Accounts.UpInsertAccountProfile;
 using EzGym.Features.Gyms.CreateGym;
 using EzGym.Infra.Storage;
-using EzGym.SnapShots;
+using EzGym.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -87,7 +87,7 @@ namespace EzGym.Apis
                   {
                       var response = new
                       {
-                          Exists = queryStorage.Query<AccountSnapShot>(account => account.AccountName == accountName).FirstOrDefault() != null
+                          Exists = queryStorage.Query<Account>(account => account.AccountName == accountName).FirstOrDefault() != null
                       };
 
                       return Results.Ok(response);
@@ -99,7 +99,7 @@ namespace EzGym.Apis
                               string query
                               ) =>
                         {
-                            var accounts = queryStorage.Query<AccountSnapShot>(a => a.AccountName.Contains(query))
+                            var accounts = queryStorage.Query<Account>(a => a.AccountName.Contains(query))
                             .Take(20)
                             .ToList();
 
@@ -113,7 +113,7 @@ namespace EzGym.Apis
                       string accountName
                       ) =>
                 {
-                    var account = queryStorage.Query<AccountSnapShot>(a => a.AccountName == accountName).FirstOrDefault();
+                    var account = queryStorage.Query<Account>(a => a.AccountName == accountName).FirstOrDefault();
 
                     return Results.Ok(account);
                 });

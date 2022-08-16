@@ -2,14 +2,13 @@
 using EzGym.Events;
 using EzGym.Features.Accounts.CreateAccount;
 using EzGym.Features.Accounts.UpInsertAccountProfile;
-using EzGym.SnapShots;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace EzGym.Models
 {
-    public class Account : AggregateRoot, ISnapShotManager<Account, AccountSnapShot>
+    public class Account : AggregateRoot
     {
         public Guid UserId { get; private set; }
         public string AccountName { get; private set; }
@@ -22,6 +21,8 @@ namespace EzGym.Models
         public IList<Follower> Following { get; set; }
         public IList<Follower> Followers { get; set; }
 
+        public Wallet Wallet { get; private set; }
+
         public int? FollowingCount => Following?.Count;
         public int? FollowersCount => Followers?.Count;
 
@@ -31,15 +32,9 @@ namespace EzGym.Models
             Following = new List<Follower>();
         }
 
-        protected override void RegisterEvents()
+
+        private void Apply(AccountWalletChangedEvent @event)
         {
-            RegisterEvent<AccountCreatedEvent>(When);
-            RegisterEvent<AvatarImageAccountChangedEvent>(When);
-            RegisterEvent<AccountFollowedEvent>(When);
-            RegisterEvent<AddedAccountFollowerEvent>(When);
-            RegisterEvent<ProfileChangedEvent>(When);
-            RegisterEvent<AccountUnfollowedEvent>(When);
-            RegisterEvent<RemovedAccountFollowerEvent>(When);
         }
 
         public Account(CreateAccountCommand command)
@@ -91,7 +86,8 @@ namespace EzGym.Models
             RaiseEvent(new AccountUnfollowedEvent(account.Id));
         }
 
-        private void When(ProfileChangedEvent @event)
+
+        protected void Apply(ProfileChangedEvent @event)
         {
             Profile = new Profile(
                 name: @event.Name,
@@ -99,73 +95,40 @@ namespace EzGym.Models
                 bioDescription: @event.BioDescription);
         }
 
-        private void When(AccountUnfollowedEvent @event)
+
+        protected void Apply(AccountUnfollowedEvent @event)
         {
             Following.Remove(Following.First(f => f.AccountId == @event.AccountId));
         }
 
-        private void When(RemovedAccountFollowerEvent @event)
+        protected void Apply(RemovedAccountFollowerEvent @event)
         {
             Followers.Remove(Followers.First(f => f.AccountId == @event.AccountId));
         }
 
-        private void When(AddedAccountFollowerEvent @event)
+        protected void Apply(AddedAccountFollowerEvent @event)
         {
             Followers.Add(new Follower(@event.AccountId));
         }
 
-        private void When(AccountFollowedEvent @event)
+        protected void Apply(AccountFollowedEvent @event)
         {
             Following.Add(new Follower(@event.AccountId));
         }
 
-        private void When(AvatarImageAccountChangedEvent @event)
+        protected void Apply(AvatarImageAccountChangedEvent @event)
         {
             AvatarUrl = @event.AvatarUrl;
         }
 
-        private void When(AccountCreatedEvent @event)
+        protected void Apply(AccountCreatedEvent @event)
         {
             Id = @event.Id;
             AccountName = @event.AccountName;
             UserId = @event.UserId;
             AccountType = @event.AccountType;
             IsDefault = @event.IsDefault;
+            Wallet = new Wallet(Id, decimal.Zero, new Pix());
         }
-
-        public Account FromSnapShot(AccountSnapShot entityState)
-        {
-            Id = entityState.Id;
-            Version = entityState.Version;
-            UserId = entityState.UserId;
-            AccountName = entityState.AccountName;
-            AccountType = entityState.AccountType;
-            IsDefault = entityState.IsDefault;
-            AvatarUrl = entityState.AvatarUrl;
-            Profile = entityState.Profile;
-            Following = entityState.Following ?? new List<Follower>();
-            Followers = entityState.Followers ?? new List<Follower>();
-
-            return this;
-        }
-
-        public AccountSnapShot ToSnapShot()
-        {
-            return new AccountSnapShot
-            {
-                Id = Id,
-                Version = Version,
-                UserId = UserId,
-                AccountName = AccountName,
-                AccountType = AccountType,
-                IsDefault = IsDefault,
-                AvatarUrl = AvatarUrl,
-                Profile = Profile,
-                Following = Following ?? new List<Follower>(),
-                Followers = Followers ?? new List<Follower>()
-            };
-        }
-
-        public static Account RestoreSnapShot(AccountSnapShot snapShot) => new Account().FromSnapShot(snapShot);
     }
 }

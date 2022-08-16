@@ -9,8 +9,10 @@ using EzGym.Features.Accounts.UpInsertAccountProfile;
 using EzGym.Features.Gyms.CreateGym;
 using EzGym.Infra.Storage;
 using EzGym.Models;
-using EzGym.SnapShots;
+using EzIdentity.Models;
+using Marten;
 using Microsoft.Extensions.DependencyInjection;
+using Weasel.Core;
 
 namespace EzGym
 {
@@ -18,15 +20,15 @@ namespace EzGym
     {
         public static IServiceCollection AddEzGym(this IServiceCollection services, IEventRegister eventRegister)
         {
-            services.AddSingleton<IGymEventStore, GymEventStore>();
-            services.AddTransient<IGymQueryStore, GymEventStore>();
+            services.AddScoped<IGymEventStore, GymEventStore>();
+            services.AddScoped<IGymQueryStore, GymEventStore>();
 
-            services.AddSingleton<CreateAccountCommandHandler>();
-            services.AddSingleton<CreateGymCommandHandler>();
-            services.AddSingleton<ChangeAvatarCommandHandler>();
-            services.AddSingleton<UpInsertAccountProfileCommandHandler>();
-            services.AddSingleton<FollowAccountCommandHandler>();
-            services.AddSingleton<UnfollowAccountCommandHandler>();
+            services.AddTransient<CreateAccountCommandHandler>();
+            services.AddTransient<CreateGymCommandHandler>();
+            services.AddTransient<ChangeAvatarCommandHandler>();
+            services.AddTransient<UpInsertAccountProfileCommandHandler>();
+            services.AddTransient<FollowAccountCommandHandler>();
+            services.AddTransient<UnfollowAccountCommandHandler>();
 
             services.AddHostedService<KafkaConsumerBackgroundService>();
 
@@ -39,7 +41,30 @@ namespace EzGym
                 .Register<AddedAccountFollowerEvent>()
                 .Register<RemovedAccountFollowerEvent>()
                 .Register<AccountUnfollowedEvent>()
-                .Register<SnapShotEvent<AccountSnapShot>>();
+                .Register<SnapShotEvent<Account>>();
+
+            services.AddMarten(options =>
+                      {
+                          options.Connection("host=localhost;database=ezgym-store;password=ezgym;username=postgres");
+                          options.AutoCreateSchemaObjects = AutoCreate.All;
+                          options.CreateDatabasesForTenants(c =>
+                          {
+                              c.ForTenant()
+                                  .CheckAgainstPgDatabase()
+                                  .WithOwner("postgres")
+                                  .WithEncoding("UTF-8")
+                                  .ConnectionLimit(-1)
+                                  .OnDatabaseCreated(_ =>
+                                  {
+                                  });
+                          });
+
+
+                          options.UseDefaultSerialization(nonPublicMembersStorage: NonPublicMembersStorage.NonPublicSetters);
+                          options.Projections.SelfAggregate<User>();
+                          options.Projections.SelfAggregate<Account>();
+                      });
+
 
             return services;
         }

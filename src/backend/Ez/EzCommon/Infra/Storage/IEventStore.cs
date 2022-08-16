@@ -8,11 +8,13 @@ namespace EzCommon.Infra.Storage;
 
 public interface IEventStore
 {
-    Task<EventStream> SaveAsync<T, TSnapShot>(T aggregate)
-      where T : AggregateRoot, ISnapShotManager<T, TSnapShot>;
+    Task<TAggregate> LoadAggregateAsync<TAggregate>(Guid aggregateId)
+      where TAggregate : AggregateRoot;
 
-    Task<TAggregate> QueryLatestVersionAsync<TSnapShot, TAggregate>(Expression<Func<TSnapShot, bool>> querySnapShot)
-            where TAggregate : AggregateRoot, ISnapShotManager<TAggregate, TSnapShot>
-            where TSnapShot : SnapShot;
+    Task<EventStream> SaveAggregateAsync<TAggregate>(TAggregate aggregate)
+      where TAggregate : AggregateRoot;
+
+    Task<TAggregate> QueryAsync<TAggregate>(Expression<Func<TAggregate, bool>> query);
+
 }
 

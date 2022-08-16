@@ -32,12 +32,7 @@ namespace EzGym.Models
 
         }
 
-        protected override void RegisterEvents()
-        {
-            RegisterEvent<GymCreatedEvent>(When);
-        }
-
-        private void When(GymCreatedEvent @event)
+        protected void Apply(GymCreatedEvent @event)
         {
             Id = @event.Id;
             AccountId = @event.AccountId;
