@@ -33,10 +33,6 @@ namespace EzGym.Models
         }
 
 
-        private void Apply(AccountWalletChangedEvent @event)
-        {
-        }
-
         public Account(CreateAccountCommand command)
         {
             RaiseEvent(new AccountCreatedEvent(
@@ -48,6 +44,11 @@ namespace EzGym.Models
            ));
         }
 
+
+        public void UpdateWallet(Pix pix)
+        {
+            RaiseEvent(new AccountWalletChangedEvent(Id, pix));
+        }
 
         public void UpdateProfile(UpInsertAccountProfileCommand command)
         {
@@ -86,6 +87,10 @@ namespace EzGym.Models
             RaiseEvent(new AccountUnfollowedEvent(account.Id));
         }
 
+        protected void Apply(AccountWalletChangedEvent @event)
+        {
+            Wallet = Wallet with { Pix = @event.Pix };
+        }
 
         protected void Apply(ProfileChangedEvent @event)
         {
@@ -128,7 +133,7 @@ namespace EzGym.Models
             UserId = @event.UserId;
             AccountType = @event.AccountType;
             IsDefault = @event.IsDefault;
-            Wallet = new Wallet(Id, decimal.Zero, new Pix());
+            Wallet = new Wallet(Id, new Pix());
         }
     }
 }

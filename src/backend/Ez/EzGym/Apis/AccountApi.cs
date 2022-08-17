@@ -4,6 +4,7 @@ using EzGym.Features.Accounts.ChangeAvatar;
 using EzGym.Features.Accounts.CreateAccount;
 using EzGym.Features.Accounts.FollowAccount;
 using EzGym.Features.Accounts.UnfollowAccount;
+using EzGym.Features.Accounts.UpdateWallet;
 using EzGym.Features.Accounts.UpInsertAccountProfile;
 using EzGym.Features.Gyms.CreateGym;
 using EzGym.Infra.Storage;
@@ -174,6 +175,18 @@ namespace EzGym.Apis
                       ) =>
                 {
                     var eventStream = await handler.Handle(command with { UnfollowAccountId = unfollowAccountId }, CancellationToken.None);
+
+                    return Results.Ok(eventStream.GetEvent<AccountUnfollowedEvent>());
+                });
+
+            app.MapPost("accounts/{accountId}/wallet",
+                [Authorize] async (
+                      [FromServices] UpdateWalletCommandHandler handler,
+                      UpdateWalletCommand command,
+                      Guid accountId
+                      ) =>
+                {
+                    var eventStream = await handler.Handle(command with { AccountId = accountId }, CancellationToken.None);
 
                     return Results.Ok(eventStream.GetEvent<AccountUnfollowedEvent>());
                 });

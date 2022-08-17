@@ -4,5 +4,5 @@ using System;
 
 namespace EzGym.Events
 {
-    public record AccountWalletChangedEvent(Guid Id, Guid AccountId, decimal Balance, Pix PixInfo) : Event;
+    public record AccountWalletChangedEvent(Guid AccountId, Pix Pix) : Event;
 }

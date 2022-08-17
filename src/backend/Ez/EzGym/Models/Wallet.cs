@@ -1,22 +1,18 @@
-﻿using EzCommon.Models;
-using EzGym.Events;
-using System;
+﻿using System;
 
 namespace EzGym.Models
 {
-    public class Wallet : AggregateRoot
+    public record Wallet
     {
-        public Guid AccountId { get; set; }
-        public decimal Balance { get; private set; }
-        public Pix Pix { get; private set; }
+        public Guid AccountId { get; init; }
+        public decimal Balance { get; init; }
+        public Pix Pix { get; init; }
 
-        public Wallet(Guid accountId, decimal balance, Pix pix)
+        public Wallet(Guid accountId, Pix pix)
         {
-            RaiseEvent(new AccountWalletChangedEvent(Guid.NewGuid(), accountId, balance, pix));
-        }
-
-        private void Apply(AccountWalletChangedEvent @event)
-        {
+            AccountId = accountId;
+            Balance = 0;
+            Pix = pix;
         }
     }
 }

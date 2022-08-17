@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { VerifyAccountResponseDto } from './dto/verify-account-response.dto';
@@ -24,7 +24,7 @@ export class AccountService {
 
     changeAvatar(command: {
         accountId: string,
-        avatar: Blob
+        avatar: Blob,
     }): Observable<AvatarImageAccountChanged> {
 
         const formMultiPart = new FormData();

@@ -1,6 +1,6 @@
 <div class="center">
     <section class="header">
-        <button (click)="close()" class="header-btn">Cancelar</button>
+        <button (click)="close()" class="header-btn">Fechar</button>
         <p class="header-title">Editar Perfil</p>
         <button (click)="saveProfile()" class="header-btn btn-save">Salvar</button>
     </section>
@@ -9,12 +9,11 @@
         <div class="form-group form-group-avatar">
 
             <div class="profile-bio-image">
-                <img [src]="account.avatarUrl" />
+                <img [src]="state.account.avatarUrl" />
             </div>
             <label class="header-btn btn-save">
                 Trocar imagem
-                <input class="input-upload" type="file" #inputUpload (change)="fileChangeEvent($event)"
-                    accept="image/*" />
+                <input class="input-upload" type="file" #inputUpload (change)="fileChangeEvent($event)" accept="image/*" />
             </label>
 
             <div class="crop-component" *ngIf="showPreview">
@@ -25,8 +24,8 @@
                     </image-cropper>
                 </div>
                 <div class="crop-buttons">
-                    <button (click)="close()" class="header-btn">Cancelar</button>
-                    <button (click)="changeAvatar()" class="header-btn btn-save">Salvar</button>
+                    <button (click)="cutCancel()" class="header-btn">Cancelar</button>
+                    <button (click)="cutAvatar()" class="header-btn btn-save">Cortar</button>
                 </div>
             </div>
         </div>
