@@ -1,0 +1,88 @@
+<section class="gym-plans-component">
+    <section class="header">
+        <button (click)="close()" class="header-btn">Voltar</button>
+    </section>
+    <section class="register-header">
+        <img src="assets/img/fill-forms.svg">
+        <h3>
+            Gerenciar Planos 
+        </h3>
+    </section>
+    <form [formGroup]="planFormGroup">
+        <div class="card">
+            <h5 class="step-header">
+                Criar novo plano
+            </h5>
+            <div class="form-group-inline">
+                <div class="form-group">
+                    <label for="exampleFormControlSelect2">Valor Plano</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text bg-primary text-white">R$</span>
+                        </div>
+                        <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                        <div class="input-group-append">
+                            <span class="input-group-text">.00</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlSelect2">Meses</label>
+                    <select class="form-control" id="exampleFormControlSelect2">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </div>
+
+            </div>
+        </div>
+
+        <section class="btn-add">
+            <button>Adicionar</button>
+        </section>
+    </form>
+    <h5 class="step-header">
+        Planos
+    </h5>
+    <section class="plan-options">
+        <div class="option selected">
+            <div class="plan-description">
+                <h5>
+                    R$ 70,00 / Mes
+                </h5>
+                <small class="text-muted">
+                    Valido por 30 dias
+                </small>
+
+            </div>
+        </div>
+
+        <div class="option">
+            <div class="plan-description">
+                <h5>
+                    R$ 190,00 / Trimestral
+                </h5>
+                <small class="text-muted">
+                    Valido por 90 dias
+                </small>
+
+            </div>
+        </div>
+        <div class="option">
+            <div class="plan-description">
+                <h5>
+                    R$ 700,00 / Anual
+                </h5>
+                <small class="text-muted">
+                    Valido por 360 dias
+                </small>
+
+            </div>
+        </div>
+    </section>
+
+
+</section>

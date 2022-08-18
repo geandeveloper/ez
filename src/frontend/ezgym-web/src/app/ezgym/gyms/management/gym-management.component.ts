@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AccountModel, AccountTypeEnum } from 'src/app/core/ezgym/models/accout.model';
 import { Store } from 'src/app/core/state/store';
+import { GymPlansComponent } from './gym-plans/gym-plans.component';
 import { GymWalletComponent } from './gym-wallet/gym-wallet.component';
 
 
@@ -34,9 +35,24 @@ export class GymManagementComponent extends Store<GymManagementComponentState> i
 
         this.store$.subscribe()
     }
-    
+
     ngOnInit() {
-        this.openWallet();
+        this.openPlans();
+    }
+
+    openPlans() {
+        this.dialog.open(GymPlansComponent, {
+            data: {
+            },
+            panelClass: 'fullscreen-dialog',
+            maxWidth: '935px',
+            maxHeight: '100vh',
+            height: '100%',
+            width: '100%',
+        })
+            .afterClosed()
+            .subscribe()
+
     }
 
     openWallet() {
