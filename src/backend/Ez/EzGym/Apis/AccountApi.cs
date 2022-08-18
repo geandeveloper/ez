@@ -188,7 +188,18 @@ namespace EzGym.Apis
                 {
                     var eventStream = await handler.Handle(command with { AccountId = accountId }, CancellationToken.None);
 
-                    return Results.Ok(eventStream.GetEvent<AccountUnfollowedEvent>());
+                    return Results.Ok(eventStream.GetEvent<AccountWalletChangedEvent>());
+                });
+
+            app.MapGet("accounts/{accountId}/wallet",
+                [Authorize] async (
+                      [FromServices] IGymQueryStore queryStore,
+                      Guid accountId
+                      ) =>
+                {
+                    var wallet = queryStore.QueryOne<Account>(a => a.Id == accountId).Wallet;
+
+                    return Results.Ok(wallet);
                 });
 
 

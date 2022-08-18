@@ -1,6 +1,8 @@
 <div class="center">
     <section class="header">
-        <button (click)="close()" class="header-btn">Voltar</button>
+        <button (click)="close()" class="header-btn">Fechar</button>
+        <div></div>
+        <button (click)="saveChanges()" class="header-btn btn-save">Salvar</button>
 
     </section>
     <section class="image-header">
@@ -18,16 +20,14 @@
             <div class="input-group">
                 <div class="input-group-prepend">
                     <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">Tipo da chave</button>
+                        aria-haspopup="true" aria-expanded="false">{{state.ui.keyTypeSelected?.key || "TIPO DA CHAVE"}}</button>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item">E-mail</a>
-                        <a class="dropdown-item">Celular</a>
-                        <a class="dropdown-item">Aleatoria</a>
+                        <a *ngFor="let option of state.ui.keyTypeOptions" (click)="keyTypeChanged(option.value!)" class="dropdown-item pointer">{{option.key}}</a>
                     </div>
                 </div>
-                <input type="text" class="form-control" aria-label="Text input with dropdown button">
+                <input type="text" class="form-control" formControlName="value" aria-label="Text input with dropdown button">
             </div>
-           
+
         </form>
     </section>
 

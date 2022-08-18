@@ -25,3 +25,7 @@ export interface AccountFollowedEvent {
 export interface AccountUnfollowedEvent {
     accountId: string
 }
+
+export interface AccountWalletChangedEvent {
+    accountId: string
+}

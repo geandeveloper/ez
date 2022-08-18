@@ -21,6 +21,14 @@
     &:hover {
         color: $secondary;
     }
+
+
+}
+
+.btn-save {
+    font-weight: bold;
+    color: $primary;
+    cursor: pointer;
 }
 
 .header-title {
@@ -77,4 +85,8 @@
     display: block;
     color: $primary;
     border-bottom: 2px dotted #ccc;
+}
+
+.pointer {
+    cursor: pointer;
 }

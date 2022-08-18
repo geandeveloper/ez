@@ -2,9 +2,10 @@ import { Observable, of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { VerifyAccountResponseDto } from './dto/verify-account-response.dto';
-import { AccountCreatedEvent, AccountFollowedEvent, AccountUnfollowedEvent, AvatarImageAccountChanged, StartFollowAccountEvent } from './events/account.events';
+import { AccountCreatedEvent, AccountFollowedEvent, AccountUnfollowedEvent, AccountWalletChangedEvent, AvatarImageAccountChanged, StartFollowAccountEvent } from './events/account.events';
 import { ProfileChangedEvent } from './events/profile.events';
 import { AccountModel } from './models/accout.model';
+import { Pix, PixTypeEnum, Wallet } from './models/wallet.model';
 
 @Injectable({
     providedIn: 'root'
@@ -67,5 +68,14 @@ export class AccountService {
     unfollowAccount(command: { userAccountId: string, unfollowAccountId: string }): Observable<AccountUnfollowedEvent> {
         return this.http
             .post<AccountUnfollowedEvent>(`accounts/${command.unfollowAccountId}/unfollow`, command)
+    }
+
+    updateWallet(command: { accountId: string, pix: Pix }): Observable<AccountWalletChangedEvent> {
+        return this.http
+            .post<AccountWalletChangedEvent>(`accounts/${command.accountId}/wallet`, command)
+    }
+
+    getWallet(accountId: string): Observable<Wallet> {
+        return this.http.get<Wallet>(`accounts/${accountId}/wallet`)
     }
 }

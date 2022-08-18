@@ -3,8 +3,8 @@
     public struct Pix
     {
 
-        public PixTypeEnum Type { get; private set; }
-        public string Value { get; private set; }
+        public PixTypeEnum Type { get; set; }
+        public string Value { get; set; }
         public Pix(PixTypeEnum type, string value)
         {
             Type = type;

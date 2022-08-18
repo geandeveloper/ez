@@ -5,6 +5,7 @@ using EzGym.Features.Accounts.ChangeAvatar;
 using EzGym.Features.Accounts.CreateAccount;
 using EzGym.Features.Accounts.FollowAccount;
 using EzGym.Features.Accounts.UnfollowAccount;
+using EzGym.Features.Accounts.UpdateWallet;
 using EzGym.Features.Accounts.UpInsertAccountProfile;
 using EzGym.Features.Gyms.CreateGym;
 using EzGym.Infra.Storage;
@@ -29,6 +30,7 @@ namespace EzGym
             services.AddTransient<UpInsertAccountProfileCommandHandler>();
             services.AddTransient<FollowAccountCommandHandler>();
             services.AddTransient<UnfollowAccountCommandHandler>();
+            services.AddTransient<UpdateWalletCommandHandler>();
 
             services.AddHostedService<KafkaConsumerBackgroundService>();
 

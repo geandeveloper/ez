@@ -133,7 +133,7 @@ namespace EzGym.Models
             UserId = @event.UserId;
             AccountType = @event.AccountType;
             IsDefault = @event.IsDefault;
-            Wallet = new Wallet(Id, new Pix());
+            Wallet = new Wallet(0, new Pix());
         }
     }
 }
