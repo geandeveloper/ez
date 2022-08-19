@@ -6,3 +6,15 @@ export interface GymCreatedEvent {
     cnpj: string,
     addresses: AddressModel[]
 }
+
+export interface PlanCreatedEvent {
+    id: string,
+    command: {
+        accountId: string,
+        gymId: string,
+        name: string
+        days: string
+        price: string
+        active: string
+    }
+}

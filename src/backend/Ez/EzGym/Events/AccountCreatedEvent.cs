@@ -1,8 +1,8 @@
 ﻿using EzCommon.Events;
-using EzGym.Models;
+using EzGym.Features.Accounts.CreateAccount;
 using System;
 
 namespace EzGym.Events
 {
-    public record AccountCreatedEvent(Guid Id, Guid UserId, string AccountName, AccountTypeEnum AccountType, bool IsDefault) : Event;
+    public record AccountCreatedEvent(Guid Id, CreateAccountCommand Command) : Event;
 }

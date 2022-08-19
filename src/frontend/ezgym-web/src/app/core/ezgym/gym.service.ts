@@ -1,7 +1,8 @@
-import { GymCreatedEvent } from './events/gym.events';
+import { GymCreatedEvent, PlanCreatedEvent } from './events/gym.events';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
+import { GymPlanModel } from './models/gym.model';
 
 @Injectable({
     providedIn: 'root'
@@ -9,4 +10,12 @@ import { HttpClient } from "@angular/common/http";
 export class GymService {
     constructor(private http: HttpClient) { }
 
+    createPlan(command: any): Observable<PlanCreatedEvent> {
+        return this.http
+            .put<PlanCreatedEvent>(`gyms/${command.gymId}/plans`, command)
+    }
+
+    loadPlans(gymId: string) {
+        return this.http.get<GymPlanModel[]>(`gyms/${gymId}/plans`)
+    }
 }

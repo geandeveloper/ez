@@ -1,11 +1,22 @@
-﻿namespace EzGym.Models
+﻿using System;
+
+namespace EzGym.Models
 {
     public class GymPlan
     {
+        public Guid Id { get; init; }
+        public string Name { get; init; }
+        public int Days { get; init; }
+        public decimal Price { get; init; }
+        public bool Active { get; init; }
 
-        public string Name { get; set; }
-        public int Days { get; set; }
-        public decimal Price { get; set; }
-        public bool Active { get; set; }
+        public GymPlan(Guid id,string name, int days, decimal price, bool active)
+        {
+            Id = id;
+            Name = name;
+            Days = days;
+            Price = price;
+            Active = active;
+        }
     }
 }

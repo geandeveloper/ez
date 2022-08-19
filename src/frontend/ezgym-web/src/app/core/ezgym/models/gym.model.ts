@@ -1,0 +1,13 @@
+export interface GymModel {
+    id: string
+}
+
+export interface GymPlanModel {
+    id: string,
+    accountId: string,
+    guid: string,
+    name: string,
+    days: number,
+    price: number
+    active: boolean
+}

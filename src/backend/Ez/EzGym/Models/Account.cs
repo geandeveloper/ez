@@ -12,12 +12,9 @@ namespace EzGym.Models
     {
         public Guid UserId { get; private set; }
         public string AccountName { get; private set; }
-        public AccountTypeEnum AccountType { get; private set; }
         public bool IsDefault { get; private set; }
         public string AvatarUrl { get; private set; }
-
         public Profile Profile { get; private set; }
-
         public IList<Follower> Following { get; set; }
         public IList<Follower> Followers { get; set; }
 
@@ -37,10 +34,7 @@ namespace EzGym.Models
         {
             RaiseEvent(new AccountCreatedEvent(
                     Id: Guid.NewGuid(),
-                    UserId: command.UserId,
-                    AccountName: command.AccountName,
-                    AccountType: command.AccountType,
-                    IsDefault: command.IsDefault
+                    command
            ));
         }
 
@@ -129,10 +123,9 @@ namespace EzGym.Models
         protected void Apply(AccountCreatedEvent @event)
         {
             Id = @event.Id;
-            AccountName = @event.AccountName;
-            UserId = @event.UserId;
-            AccountType = @event.AccountType;
-            IsDefault = @event.IsDefault;
+            AccountName = @event.Command.AccountName;
+            UserId = @event.Command.UserId;
+            IsDefault = @event.Command.IsDefault;
             Wallet = new Wallet(0, new Pix());
         }
     }

@@ -1,12 +1,8 @@
 ﻿using EzCommon.Events;
-using EzGym.Models;
+using EzGym.Features.Gyms.CreateGym;
 using System;
 
 namespace EzGym.Events
 {
-    public record GymCreatedEvent(
-         Guid Id,
-         Guid AccountId,
-         Address[] Addresses
-        ) : Event;
+    public record GymCreatedEvent(Guid Id, CreateGymCommand Command) : Event;
 }

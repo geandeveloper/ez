@@ -8,6 +8,7 @@ using EzGym.Features.Accounts.UnfollowAccount;
 using EzGym.Features.Accounts.UpdateWallet;
 using EzGym.Features.Accounts.UpInsertAccountProfile;
 using EzGym.Features.Gyms.CreateGym;
+using EzGym.Features.Gyms.CreatePlan;
 using EzGym.Infra.Storage;
 using EzGym.Models;
 using EzIdentity.Models;
@@ -31,8 +32,9 @@ namespace EzGym
             services.AddTransient<FollowAccountCommandHandler>();
             services.AddTransient<UnfollowAccountCommandHandler>();
             services.AddTransient<UpdateWalletCommandHandler>();
+            services.AddTransient<CreatePlanCommandHandler>();
 
-            services.AddHostedService<KafkaConsumerBackgroundService>();
+            //services.AddHostedService<KafkaConsumerBackgroundService>();
 
             eventRegister
                 .Register<AccountCreatedEvent>()
@@ -54,17 +56,15 @@ namespace EzGym
                               c.ForTenant()
                                   .CheckAgainstPgDatabase()
                                   .WithOwner("postgres")
-                                  .WithEncoding("UTF-8")
-                                  .ConnectionLimit(-1)
-                                  .OnDatabaseCreated(_ =>
-                                  {
-                                  });
+                                  .ConnectionLimit(-1);
                           });
 
 
                           options.UseDefaultSerialization(nonPublicMembersStorage: NonPublicMembersStorage.NonPublicSetters);
+
                           options.Projections.SelfAggregate<User>();
                           options.Projections.SelfAggregate<Account>();
+                          options.Projections.SelfAggregate<Gym>();
                       });
 
 

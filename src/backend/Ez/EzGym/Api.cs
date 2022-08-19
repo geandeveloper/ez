@@ -23,7 +23,8 @@ namespace EzGym
                       var userInfo = new
                       {
                           principal.UserName,
-                          Accounts = queryStorage.Query<Account>(account => account.UserId == principal.Id).ToList()
+                          Accounts = queryStorage.Where<Account>(account => account.UserId == principal.Id).ToList(),
+                          Gym = queryStorage.Where<Gym>(gym => gym.UserId == principal.Id).FirstOrDefault(),
                       };
 
                       return Results.Ok(userInfo);
@@ -31,7 +32,8 @@ namespace EzGym
 
 
 
-            app.UseEzGymAccountApi();
+            app.UseEzGymAccountApi()
+                .UseEzGymGymsApi();
 
             return app;
         }

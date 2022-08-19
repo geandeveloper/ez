@@ -1,42 +1,45 @@
 ﻿using EzCommon.Models;
 using EzGym.Events;
 using EzGym.Features.Gyms.CreateGym;
+using EzGym.Features.Gyms.CreatePlan;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace EzGym.Models
 {
     public class Gym : AggregateRoot
     {
-        public Guid AccountId { get; protected set; }
+        public Guid UserId { get; protected set; }
         public IList<Address> Addresses { get; protected set; }
-        public IEnumerable<GymPlan> Plans { get; set; }
-        public IEnumerable<GymUser> Users { get; set; }
+        public IList<GymPlan> Plans { get; set; }
+        public IList<GymUser> Users { get; set; }
 
-        private Gym() { }
-        public Gym(CreateGymCommand command)
+        public Gym()
         {
-            RaiseEvent(new GymCreatedEvent(
-                Id = Guid.NewGuid(),
-                AccountId: command.AccountId,
-                Addresses: command.Addresses.Select(address => new Address(
-                    Cep: address.Cep,
-                    Street: address.Street,
-                    Number: address.Number,
-                    City: address.City,
-                    State: address.State,
-                    ExtraInformation: address.ExtraInformation)).ToArray()
-           ));
+            Addresses = new List<Address>();
+            Plans = new List<GymPlan>();
+            Users = new List<GymUser>();
+        }
 
+        public Gym(CreateGymCommand command) : this()
+        {
+            RaiseEvent(new GymCreatedEvent(Id = Guid.NewGuid(), command));
+        }
 
+        public void AddPlan(CreatePlanCommand command)
+        {
+            RaiseEvent(new PlanCreatedEvent(Guid.NewGuid(), command));
+        }
+
+        protected void Apply(PlanCreatedEvent @event)
+        {
+            Plans.Add(new GymPlan(@event.Id, @event.Command.Name, @event.Command.Days, @event.Command.Price, @event.Command.Active));
         }
 
         protected void Apply(GymCreatedEvent @event)
         {
             Id = @event.Id;
-            AccountId = @event.AccountId;
-            Addresses = @event.Addresses;
+            UserId = @event.Command.UserId;
         }
     }
 }

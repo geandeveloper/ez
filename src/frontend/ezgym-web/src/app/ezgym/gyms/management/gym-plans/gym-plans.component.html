@@ -5,7 +5,7 @@
     <section class="register-header">
         <img src="assets/img/fill-forms.svg">
         <h3>
-            Gerenciar Planos 
+            Gerenciar Planos
         </h3>
     </section>
     <form [formGroup]="planFormGroup">
@@ -47,41 +47,22 @@
     <h5 class="step-header">
         Planos
     </h5>
+    <blockquote *ngIf="!state.plans.length" class="blockquote">
+        <p class="mb-0">Voce ainda nao possui nenhum plano</p>
+    </blockquote>
     <section class="plan-options">
-        <div class="option selected">
+        <div *ngFor="let plan of state.plans" class="option selected">
             <div class="plan-description">
                 <h5>
-                    R$ 70,00 / Mes
+                    R$ {{ plan.price }} / Mes
                 </h5>
                 <small class="text-muted">
-                    Valido por 30 dias
+                    Valido por {{plan.days}} dias
                 </small>
 
             </div>
         </div>
 
-        <div class="option">
-            <div class="plan-description">
-                <h5>
-                    R$ 190,00 / Trimestral
-                </h5>
-                <small class="text-muted">
-                    Valido por 90 dias
-                </small>
-
-            </div>
-        </div>
-        <div class="option">
-            <div class="plan-description">
-                <h5>
-                    R$ 700,00 / Anual
-                </h5>
-                <small class="text-muted">
-                    Valido por 360 dias
-                </small>
-
-            </div>
-        </div>
     </section>
 
 

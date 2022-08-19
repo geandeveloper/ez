@@ -17,9 +17,11 @@ namespace EzGym.Features.Gyms.CreateGym
             _eventStore = eventStore;
         }
 
-        public Task<EventStream> Handle(CreateGymCommand request, CancellationToken cancellationToken)
+        public async Task<EventStream> Handle(CreateGymCommand request, CancellationToken cancellationToken)
         {
-            throw new System.Exception();
+            var gym = new Gym(request);
+
+            return await _eventStore.SaveAggregateAsync(gym);
         }
     }
 }

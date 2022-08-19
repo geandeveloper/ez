@@ -4,6 +4,7 @@ export interface AccountModel {
     id: string,
     accountType: AccountTypeEnum,
     profile?: ProfileModel,
+    gymId?: string,
     accountName: string,
     isDefault: boolean,
     avatarUrl?: string,

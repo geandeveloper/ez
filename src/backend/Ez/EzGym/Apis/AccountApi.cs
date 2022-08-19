@@ -88,7 +88,7 @@ namespace EzGym.Apis
                   {
                       var response = new
                       {
-                          Exists = queryStorage.Query<Account>(account => account.AccountName == accountName).FirstOrDefault() != null
+                          Exists = queryStorage.Where<Account>(account => account.AccountName == accountName).FirstOrDefault() != null
                       };
 
                       return Results.Ok(response);
@@ -100,7 +100,7 @@ namespace EzGym.Apis
                               string query
                               ) =>
                         {
-                            var accounts = queryStorage.Query<Account>(a => a.AccountName.Contains(query))
+                            var accounts = queryStorage.Where<Account>(a => a.AccountName.Contains(query))
                             .Take(20)
                             .ToList();
 
@@ -108,13 +108,13 @@ namespace EzGym.Apis
                         });
 
             app.MapGet("accounts/{accountName}",
-            //[Authorize] 
+            [Authorize]
             (
                       [FromServices] IGymQueryStore queryStorage,
                       string accountName
                       ) =>
                 {
-                    var account = queryStorage.Query<Account>(a => a.AccountName == accountName).FirstOrDefault();
+                    var account = queryStorage.Where<Account>(a => a.AccountName == accountName).FirstOrDefault();
 
                     return Results.Ok(account);
                 });
@@ -192,7 +192,7 @@ namespace EzGym.Apis
                 });
 
             app.MapGet("accounts/{accountId}/wallet",
-                [Authorize] async (
+                [Authorize] (
                       [FromServices] IGymQueryStore queryStore,
                       Guid accountId
                       ) =>

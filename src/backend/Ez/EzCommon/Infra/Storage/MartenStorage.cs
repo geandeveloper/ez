@@ -53,7 +53,7 @@ namespace EzCommon.Infra.Storage
             return _session.Query<TAggregate>().SingleAsync(query);
         }
 
-        public IQueryable<T> Query<T>(Expression<Func<T, bool>> query)
+        public IQueryable<T> Where<T>(Expression<Func<T, bool>> query)
         {
 
             return _session.Query<T>().Where(query);
