@@ -24,7 +24,6 @@ namespace EzGym
                       {
                           principal.UserName,
                           Accounts = queryStorage.Where<Account>(account => account.UserId == principal.Id).ToList(),
-                          Gym = queryStorage.Where<Gym>(gym => gym.UserId == principal.Id).FirstOrDefault(),
                       };
 
                       return Results.Ok(userInfo);

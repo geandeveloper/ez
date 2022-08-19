@@ -42,7 +42,6 @@ namespace EzGym.Apis
                 {
                     var plans = query
                     .Where<Gym>(gym => gym.Id == gymId)
-                    .Where(gym => gym.UserId == principal.Id)
                     .FirstOrDefault()?.Plans;
 
                     return Results.Ok(plans);

@@ -17,7 +17,7 @@ namespace EzGym.EventHandlers
 
         public async Task Handle(AccountCreatedEvent notification, CancellationToken cancellationToken)
         {
-            var command = new CreateGymCommand(UserId: notification.Command.UserId);
+            var command = new CreateGymCommand(AccountId: notification.Id);
             await _handler.Handle(command, cancellationToken);
         }
     }

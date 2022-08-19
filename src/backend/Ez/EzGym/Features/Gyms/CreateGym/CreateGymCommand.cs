@@ -3,6 +3,6 @@ using System;
 
 namespace EzGym.Features.Gyms.CreateGym
 {
-    public record CreateGymCommand(Guid UserId) : ICommand;
+    public record CreateGymCommand(Guid AccountId) : ICommand;
 
 }

@@ -10,15 +10,15 @@ namespace EzGym.Models
 {
     public class Account : AggregateRoot
     {
-        public Guid UserId { get; private set; }
-        public string AccountName { get; private set; }
+        public Guid UserId { get; protected set; }
+        public string AccountName { get; protected set; }
         public bool IsDefault { get; private set; }
         public string AvatarUrl { get; private set; }
         public Profile Profile { get; private set; }
-        public IList<Follower> Following { get; set; }
-        public IList<Follower> Followers { get; set; }
-
+        public IList<Follower> Following { get; private set; }
+        public IList<Follower> Followers { get; private set; }
         public Wallet Wallet { get; private set; }
+        public AccountTypeEnum AccountType { get; private set; }
 
         public int? FollowingCount => Following?.Count;
         public int? FollowersCount => Followers?.Count;
@@ -127,6 +127,7 @@ namespace EzGym.Models
             UserId = @event.Command.UserId;
             IsDefault = @event.Command.IsDefault;
             Wallet = new Wallet(0, new Pix());
+            AccountType = AccountTypeEnum.User;
         }
     }
 }

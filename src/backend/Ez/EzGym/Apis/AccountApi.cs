@@ -202,6 +202,17 @@ namespace EzGym.Apis
                     return Results.Ok(wallet);
                 });
 
+            app.MapGet("accounts/{accountId}/gym",
+                [Authorize] (
+                      [FromServices] IGymQueryStore queryStore,
+                      Guid accountId
+                      ) =>
+                {
+                    var gym = queryStore.QueryOne<Gym>(a => a.AccountId == accountId);
+
+                    return Results.Ok(gym);
+                });
+
 
             return app;
         }

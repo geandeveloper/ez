@@ -9,7 +9,7 @@ namespace EzGym.Models
 {
     public class Gym : AggregateRoot
     {
-        public Guid UserId { get; protected set; }
+        public Guid AccountId { get; private set; }
         public IList<Address> Addresses { get; protected set; }
         public IList<GymPlan> Plans { get; set; }
         public IList<GymUser> Users { get; set; }
@@ -39,7 +39,7 @@ namespace EzGym.Models
         protected void Apply(GymCreatedEvent @event)
         {
             Id = @event.Id;
-            UserId = @event.Command.UserId;
+            AccountId = @event.Command.AccountId;
         }
     }
 }

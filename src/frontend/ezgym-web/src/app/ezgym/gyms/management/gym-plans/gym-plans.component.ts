@@ -1,13 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { finalize, switchMap, tap } from 'rxjs';
 import { UserStore } from 'src/app/core/authentication/user.store';
+import { AccountService } from 'src/app/core/ezgym/account.service';
 import { GymService } from 'src/app/core/ezgym/gym.service';
-import { GymPlanModel } from 'src/app/core/ezgym/models/gym.model';
+import { GymModel, GymPlanModel } from 'src/app/core/ezgym/models/gym.model';
 import { Store } from 'src/app/core/state/store';
 import { PreLoaderStore } from 'src/app/shared/components/pre-loader/pre-loader.store';
 
 interface GymPlansComponentState {
+    gym: GymModel,
     plans: GymPlanModel[]
 }
 
@@ -25,56 +28,77 @@ export class GymPlansComponent extends Store<GymPlansComponentState>  {
         private modal: MatDialogRef<GymPlansComponent>,
         private fb: FormBuilder,
         private gymService: GymService,
+        private accountService: AccountService,
         private userStore: UserStore,
         private preloader: PreLoaderStore,
     ) {
         super({
+            gym: {} as GymModel,
             plans: []
         })
 
 
         this.planFormGroup = this.fb.group({
             name: [''],
-            gymId: [this.userStore.state.userInfo?.gym?.id!],
+            gymId: [],
             days: [30],
             price: [70],
             active: [true]
         })
 
-        this.gymService
-            .loadPlans(this.userStore.state.userInfo?.gym?.id!)
-            .subscribe(plans => {
-                this.setState(state => ({
-                    ...state,
-                    plans: plans
-                }))
+        this.store$.subscribe(state => {
+            this.planFormGroup.patchValue({
+                gymId: state.gym.id
             })
+        })
+
+
+        this.accountService
+            .getGym(this.userStore.state.activeAccount?.id!)
+            .pipe(
+                switchMap(gym => {
+                    this.setState(state => ({
+                        ...state,
+                        gym: gym
+                    }))
+
+                    return this.gymService.loadPlans(gym.id)
+                }),
+                tap(plans => {
+                    this.setState(state => ({
+                        ...state,
+                        plans: plans
+                    }))
+                })
+            ).subscribe()
     }
 
     createPlan() {
         this.preloader.show();
         this.gymService.createPlan({
             ...this.planFormGroup.value
-        }).subscribe(response => {
-            this.setState(state => ({
-                ...state,
-                plans: [
-                    ...state.plans,
-                    {
-                        id: response.id,
-                        accountId: response.command.accountId,
-                        active: Boolean(response.command.active),
-                        days: parseInt(response.command.days),
-                        name: response.command.name,
-                        price: parseFloat(response.command.price)
-                    }
-                ]
-            }))
-
-            this.preloader.close();
-        })
+        }).pipe(
+            tap(response => {
+                this.setState(state => ({
+                    ...state,
+                    plans: [
+                        ...state.plans,
+                        {
+                            id: response.id,
+                            accountId: response.command.accountId,
+                            active: Boolean(response.command.active),
+                            days: parseInt(response.command.days),
+                            name: response.command.name,
+                            price: parseFloat(response.command.price)
+                        }
+                    ]
+                }))
+            }),
+            finalize(() => {
+                this.preloader.close();
+            })
+        ).subscribe()
     }
-
 
     close() {
         this.modal.close();

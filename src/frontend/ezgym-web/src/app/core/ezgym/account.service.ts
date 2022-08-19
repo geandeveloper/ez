@@ -6,6 +6,7 @@ import { AccountCreatedEvent, AccountFollowedEvent, AccountUnfollowedEvent, Acco
 import { ProfileChangedEvent } from './events/profile.events';
 import { AccountModel } from './models/accout.model';
 import { Pix, PixTypeEnum, Wallet } from './models/wallet.model';
+import { GymModel } from './models/gym.model';
 
 @Injectable({
     providedIn: 'root'
@@ -77,5 +78,9 @@ export class AccountService {
 
     getWallet(accountId: string): Observable<Wallet> {
         return this.http.get<Wallet>(`accounts/${accountId}/wallet`)
+    }
+
+    getGym(accountId: string): Observable<GymModel> {
+        return this.http.get<GymModel>(`accounts/${accountId}/gym`)
     }
 }

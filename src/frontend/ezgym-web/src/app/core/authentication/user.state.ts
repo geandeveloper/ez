@@ -1,9 +1,7 @@
 import { AccountModel } from "../ezgym/models/accout.model"
-import { GymModel } from "../ezgym/models/gym.model"
 
 export interface UserInfoState {
-  accounts: AccountModel[],
-  gym?: GymModel
+  accounts: AccountModel[]
 }
 
 export interface UserState {

@@ -2,7 +2,6 @@
 using EzCommon.Models;
 using EzGym.Infra.Storage;
 using EzGym.Models;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
