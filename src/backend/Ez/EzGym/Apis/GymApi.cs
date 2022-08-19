@@ -26,7 +26,6 @@ namespace EzGym.Apis
                 [Authorize] async (
                 [FromServices] CreatePlanCommandHandler handler,
                 CreatePlanCommand command,
-                Guid accountId,
                 Guid gymId) =>
                 {
                     var eventStream = await handler.Handle(command, CancellationToken.None);

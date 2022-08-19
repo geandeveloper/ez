@@ -8,33 +8,28 @@
             Gerenciar Planos
         </h3>
     </section>
-    <form [formGroup]="planFormGroup">
+    <form [formGroup]="planFormGroup" (submit)="createPlan()">
         <div class="card">
             <h5 class="step-header">
                 Criar novo plano
             </h5>
             <div class="form-group-inline">
                 <div class="form-group">
-                    <label for="exampleFormControlSelect2">Valor Plano</label>
+                    <label>Valor Plano</label>
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text bg-primary text-white">R$</span>
                         </div>
-                        <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                        <input type="text" class="form-control" formControlName="price"
+                            aria-label="Amount (to the nearest dollar)">
                         <div class="input-group-append">
                             <span class="input-group-text">.00</span>
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="exampleFormControlSelect2">Meses</label>
-                    <select class="form-control" id="exampleFormControlSelect2">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                    </select>
+                    <label>Dias</label>
+                    <input type="number" class="form-control" formControlName="days">
                 </div>
 
             </div>
@@ -51,10 +46,10 @@
         <p class="mb-0">Voce ainda nao possui nenhum plano</p>
     </blockquote>
     <section class="plan-options">
-        <div *ngFor="let plan of state.plans" class="option selected">
+        <div *ngFor="let plan of state.plans" class="option">
             <div class="plan-description">
                 <h5>
-                    R$ {{ plan.price }} / Mes
+                    Valor R$ {{ plan.price }}
                 </h5>
                 <small class="text-muted">
                     Valido por {{plan.days}} dias

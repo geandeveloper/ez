@@ -12,7 +12,7 @@ export class GymService {
 
     createPlan(command: any): Observable<PlanCreatedEvent> {
         return this.http
-            .put<PlanCreatedEvent>(`gyms/${command.gymId}/plans`, command)
+            .post<PlanCreatedEvent>(`gyms/${command.gymId}/plans`, command)
     }
 
     loadPlans(gymId: string) {

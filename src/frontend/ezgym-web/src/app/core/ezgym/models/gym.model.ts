@@ -5,9 +5,8 @@ export interface GymModel {
 export interface GymPlanModel {
     id: string,
     accountId: string,
-    guid: string,
     name: string,
     days: number,
-    price: number
+    price: number,
     active: boolean
 }
