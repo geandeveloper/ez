@@ -14,4 +14,9 @@
 		<Watch Remove="wwwroot\**\*" />	
 	</ItemGroup>
 
+	<ItemGroup>
+	  <PackageReference Include="Gerencianet.NETCore.SDK" Version="3.0.0" />
+	  <PackageReference Include="Refit.HttpClientFactory" Version="6.3.2" />
+	</ItemGroup>
+
 </Project>

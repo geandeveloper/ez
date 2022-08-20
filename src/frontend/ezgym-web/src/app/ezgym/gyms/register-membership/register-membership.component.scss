@@ -105,6 +105,10 @@
             margin: 0px;
         }
 
+        &:hover {
+            @extend .selected
+        }
+
     }
 }
 
@@ -127,12 +131,17 @@
             font-size: large;
             color: $white;
         }
+
+        &:disabled {
+            background-color: #ccc;
+        }
     }
 
     .btn-back {
         background: none;
         color: $primary;
     }
+
 
     .btn-back {
         color: $primary;
@@ -151,5 +160,9 @@
 ::ng-deep {
     .mat-step-icon {
         background-color: $primary  !important;
+    }
+
+    .mat-horizontal-stepper-header {
+        pointer-events: none !important;
     }
 }

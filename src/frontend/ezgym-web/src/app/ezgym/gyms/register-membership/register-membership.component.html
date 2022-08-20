@@ -20,54 +20,29 @@
                     <h5 class="step-header">
                         Selecione um plano
                     </h5>
+
+                    <blockquote *ngIf="!state.plans.length" class="blockquote">
+                        <p class="mb-0">Essa academia ainda nao possui nenhum plano disponivel, tenta novamente mais tarde</p>
+                    </blockquote>
                     <section class="plan-options">
-                        <div class="option selected">
+                        <div *ngFor="let plan of state.plans" (click)="planSelected(plan.value.id)" [ngClass]="{'selected': plan.selected }" class="option">
                             <div class="icon">
                                 <i class="material-icons">radio_button_checked</i>
                             </div>
                             <div class="plan-description">
                                 <h5>
-                                    R$ 70,00 / Mes
+                                    Valor R$ {{plan.value.price}}
                                 </h5>
                                 <small class="text-muted">
-                                    Valido por 30 dias
-                                </small>
-
-                            </div>
-                        </div>
-
-                        <div class="option">
-                            <div class="icon">
-                                <i class="material-icons">radio_button_unchecked</i>
-                            </div>
-                            <div class="plan-description">
-                                <h5>
-                                    R$ 190,00 / Trimestral
-                                </h5>
-                                <small class="text-muted">
-                                    Valido por 90 dias
-                                </small>
-
-                            </div>
-                        </div>
-                        <div class="option">
-                            <div class="icon">
-                                <i class="material-icons">radio_button_unchecked</i>
-                            </div>
-                            <div class="plan-description">
-                                <h5>
-                                    R$ 700,00 / Anual
-                                </h5>
-                                <small class="text-muted">
-                                    Valido por 360 dias
+                                    Valido por {{plan.value.days}} dias
                                 </small>
 
                             </div>
                         </div>
                     </section>
 
-                    <section class="register-btn">
-                        <button mat-button matStepperNext>Continuar</button>
+                    <section *ngIf="state.plans.length"  class="register-btn">
+                        <button [disabled]="!state.ui?.planSelected" mat-button matStepperNext>Continuar</button>
                     </section>
                 </form>
             </mat-step>
@@ -102,9 +77,9 @@
             </mat-step>
             <mat-step>
                 <ng-template matStepLabel>Finalizar</ng-template>
-                    <h5 class="step-header">
-                        Obrigado :)
-                    </h5>
+                <h5 class="step-header">
+                    Obrigado :)
+                </h5>
                 <section class="register-btn">
                     <button mat-button matStepperNext>Finalizar</button>
                     <button class="btn-back" mat-button matStepperPrevious>Voltar</button>

@@ -8,7 +8,6 @@ namespace EzCommon.Models
 {
     public abstract class AggregateRoot
     {
-
         private static readonly int SnapShotInterval = 1;
 
         public Guid Id { get; protected set; }

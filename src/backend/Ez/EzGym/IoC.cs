@@ -9,11 +9,18 @@ using EzGym.Features.Accounts.UpdateWallet;
 using EzGym.Features.Accounts.UpInsertAccountProfile;
 using EzGym.Features.Gyms.CreateGym;
 using EzGym.Features.Gyms.CreatePlan;
+using EzGym.Features.Payments;
+using EzGym.Features.Payments.Gateways.GerenciaNet.Middlwares;
+using EzGym.Features.Payments.Gateways.GerenciaNet.RequestPayment;
+using EzGym.Features.Payments.Pix;
 using EzGym.Infra.Storage;
 using EzGym.Models;
 using EzIdentity.Models;
 using Marten;
 using Microsoft.Extensions.DependencyInjection;
+using Refit;
+using System;
+using System.Net.Http;
 using Weasel.Core;
 
 namespace EzGym
@@ -33,6 +40,7 @@ namespace EzGym
             services.AddTransient<UnfollowAccountCommandHandler>();
             services.AddTransient<UpdateWalletCommandHandler>();
             services.AddTransient<CreatePlanCommandHandler>();
+            services.AddTransient<CreatePixCommandHandler>();
 
             //services.AddHostedService<KafkaConsumerBackgroundService>();
 
@@ -65,8 +73,8 @@ namespace EzGym
                           options.Projections.SelfAggregate<User>();
                           options.Projections.SelfAggregate<Account>();
                           options.Projections.SelfAggregate<Gym>();
+                          options.Projections.SelfAggregate<Payment>();
                       });
-
 
             return services;
         }

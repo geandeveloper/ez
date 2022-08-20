@@ -41,10 +41,8 @@ export class CreateAccountComponent extends Store<CreateAccountComponentState> {
         super()
 
         this.createAccountFromGroup = fb.group({
-            fantasyName: '',
             accountName: this.fb.control('', [Validators.pattern(`^[a-z0-9_-]{2,15}$`), Validators.required]),
             accountType: [AccountTypeEnum.Gym]
-
         });
 
 
@@ -98,16 +96,16 @@ export class CreateAccountComponent extends Store<CreateAccountComponentState> {
                                 ...user?.userInfo?.accounts!,
                                 {
                                     id: response.id,
-                                    accountName: response.accountName,
-                                    accountType: response.accountType,
+                                    accountName: response.command.accountName,
+                                    accountType: response.command.accountType,
                                     isDefault: false
                                 }]
                         }
                     }))
-                    this.userStore.setActiveAccount(response.accountName)
-                    this.router.navigate(['/', response.accountName])
+                    this.userStore.setActiveAccount(response.command.accountName)
+                    this.router.navigate(['/', response.command.accountName])
                     this.modal.success({
-                        title: `Conta ${response.accountName} criada com sucesso`,
+                        title: `Conta ${response.command.accountName} criada com sucesso`,
                         description: 'Agora você pode gerenciar sua academia de maneira simples :)'
                     })
 

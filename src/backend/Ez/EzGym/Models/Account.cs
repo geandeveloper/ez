@@ -124,10 +124,10 @@ namespace EzGym.Models
         {
             Id = @event.Id;
             AccountName = @event.Command.AccountName;
+            AccountType = @event.Command.AccountType;
             UserId = @event.Command.UserId;
             IsDefault = @event.Command.IsDefault;
             Wallet = new Wallet(0, new Pix());
-            AccountType = AccountTypeEnum.User;
         }
     }
 }
