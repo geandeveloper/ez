@@ -1,5 +1,4 @@
-﻿using EzCommon.Integrations.Services.SearchByCep;
-using Refit;
+﻿using Refit;
 using System.Threading.Tasks;
 
 namespace EzCommon.Integrations.Services.SearchAddress

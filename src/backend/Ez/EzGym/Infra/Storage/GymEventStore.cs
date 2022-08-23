@@ -1,6 +1,6 @@
 ﻿using EzCommon.Infra.Bus;
 using EzCommon.Infra.Storage;
-using EzGym.Models;
+using EzGym.Accounts;
 using LiteDB;
 using Marten;
 using MongoDB.Driver;

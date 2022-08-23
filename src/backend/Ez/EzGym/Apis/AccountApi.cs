@@ -1,14 +1,9 @@
 ﻿using EzCommon.Models;
-using EzGym.Events;
-using EzGym.Features.Accounts.ChangeAvatar;
-using EzGym.Features.Accounts.CreateAccount;
-using EzGym.Features.Accounts.FollowAccount;
-using EzGym.Features.Accounts.UnfollowAccount;
-using EzGym.Features.Accounts.UpdateWallet;
-using EzGym.Features.Accounts.UpInsertAccountProfile;
-using EzGym.Features.Gyms.CreateGym;
+using EzGym.Accounts;
+using EzGym.Accounts.Events;
+using EzGym.Gyms;
+using EzGym.Gyms.Events;
 using EzGym.Infra.Storage;
-using EzGym.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -17,6 +12,14 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using EzGym.Accounts.ChangeAvatar;
+using EzGym.Accounts.CreateAccount;
+using EzGym.Accounts.FollowAccount;
+using EzGym.Accounts.UnfollowAccount;
+using EzGym.Accounts.UpInsertAccountProfile;
+using EzGym.Gyms.CreateGym;
+using EzGym.Wallets;
+using EzGym.Wallets.UpdateWallet;
 
 namespace EzGym.Apis
 {
@@ -197,7 +200,7 @@ namespace EzGym.Apis
                       Guid accountId
                       ) =>
                 {
-                    var wallet = queryStore.QueryOne<Account>(a => a.Id == accountId).Wallet;
+                    var wallet = queryStore.QueryOne<Wallet>(a => a.AccountId == accountId);
 
                     return Results.Ok(wallet);
                 });

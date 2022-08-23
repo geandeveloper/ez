@@ -1,11 +1,12 @@
-﻿using EzCommon.CommandHandlers;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using EzCommon.CommandHandlers;
 using EzCommon.Infra.Storage;
 using EzCommon.Models;
-using EzIdentity.Features.RevokeToken;
 using EzIdentity.Infra.Storage;
 using EzIdentity.Models;
-using System.Threading;
-using System.Threading.Tasks;
+
+namespace EzIdentity.Features.RevokeToken;
 
 public class RevokeTokenCommandHandler : ICommandHandler<RevokeTokenCommand>
 {
@@ -25,4 +26,3 @@ public class RevokeTokenCommandHandler : ICommandHandler<RevokeTokenCommand>
         return await _eventStore.SaveAggregateAsync(user);
     }
 }
-

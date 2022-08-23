@@ -1,10 +1,10 @@
-﻿using EzGym.Features.Payments;
-using EzGym.Features.Payments.Pix;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading;
+using EzGym.Payments.CreatePayment;
+using EzGym.Payments.Events;
+using EzGym.Wallets.Events;
 
 namespace EzGym.Apis;
 
@@ -12,18 +12,17 @@ public static class PaymentApi
 {
     public static WebApplication UsePaymentApi(this WebApplication app)
     {
-        app.MapPost("/payments/pix",
+        app.MapPost("/payments",
              async (
-                  [FromServices] CreatePixCommandHandler hanlder,
-                  [FromServices] CreatePixCommand command) =>
+                  [FromServices] CreatePaymentCommandHandler handler,
+                   CreatePaymentCommand command) =>
               {
 
-                  var eventStream = await hanlder.Handle(command, CancellationToken.None);
-                  var @event = eventStream.GetEvent<PixCreatedEvent>();
+                  var eventStream = await handler.Handle(command, CancellationToken.None);
+                  var @event = eventStream.GetEvent<PaymentCreatedEvent>();
 
                   return Results.Ok(@event);
               });
-
 
         return app;
     }

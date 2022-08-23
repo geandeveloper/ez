@@ -1,8 +1,9 @@
 ﻿using EzCommon.EventHandlers;
-using EzGym.Features.Accounts.CreateAccount;
+using EzGym.Accounts;
 using EzIdentity.Events;
 using System.Threading;
 using System.Threading.Tasks;
+using EzGym.Accounts.CreateAccount;
 
 namespace EzGym.EventHandlers
 {
@@ -17,7 +18,7 @@ namespace EzGym.EventHandlers
 
         public async Task Handle(UserCreatedEvent notification, CancellationToken cancellationToken)
         {
-            await _handler.Handle(new CreateAccountCommand(notification.Id, notification.UserName, Models.AccountTypeEnum.User, true), cancellationToken);
+            await _handler.Handle(new CreateAccountCommand(notification.Id, notification.UserName, AccountTypeEnum.User, true), cancellationToken);
         }
     }
 }

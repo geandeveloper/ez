@@ -1,7 +1,7 @@
 ﻿using EzCommon.Models;
+using EzGym.Accounts;
 using EzGym.Apis;
 using EzGym.Infra.Storage;
-using EzGym.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;

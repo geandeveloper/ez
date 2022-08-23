@@ -1,5 +1,5 @@
 ﻿using EzCommon.Infra.Storage;
-using EzGym.Models;
+using EzGym.Accounts;
 using System.Collections.Generic;
 
 namespace EzGym.Infra.Storage

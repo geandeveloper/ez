@@ -1,8 +1,8 @@
 ﻿using EzCommon.EventHandlers;
-using EzGym.Events;
-using EzGym.Features.Gyms.CreateGym;
+using EzGym.Accounts.Events;
 using System.Threading;
 using System.Threading.Tasks;
+using EzGym.Gyms.CreateGym;
 
 namespace EzGym.EventHandlers
 {

@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+	</PropertyGroup>
+
+
+	<ItemGroup>
+		<ProjectReference Include="..\EzCommon\EzCommon.csproj" />
+		<ProjectReference Include="..\EzIdentity\EzIdentity.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Gerencianet.NETCore.SDK" Version="3.0.0" />
+	  <PackageReference Include="Refit.HttpClientFactory" Version="6.3.2" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="wwwroot\" />
+	</ItemGroup>
+
+</Project>

@@ -11,12 +11,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Watch Remove="wwwroot\**\*" />	
+	  <PackageReference Include="Gerencianet.NETCore.SDK" Version="3.0.0" />
+	  <PackageReference Include="Refit.HttpClientFactory" Version="6.3.2" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="Gerencianet.NETCore.SDK" Version="3.0.0" />
-	  <PackageReference Include="Refit.HttpClientFactory" Version="6.3.2" />
+	  <Folder Include="wwwroot\" />
 	</ItemGroup>
 
 </Project>

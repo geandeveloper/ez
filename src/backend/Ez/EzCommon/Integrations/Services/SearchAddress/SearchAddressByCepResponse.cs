@@ -1,4 +1,4 @@
-﻿namespace EzCommon.Integrations.Services.SearchByCep
+﻿namespace EzCommon.Integrations.Services.SearchAddress
 {
     public record SearchAddressByCepResponse(
         string Cep,

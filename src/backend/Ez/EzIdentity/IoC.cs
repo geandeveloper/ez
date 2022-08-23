@@ -7,6 +7,7 @@ using EzIdentity.Features.RefreshToken;
 using EzIdentity.Infra.Storage;
 using EzCommon.Events;
 using EzIdentity.Events;
+using EzIdentity.Features.RevokeToken;
 using EzIdentity.Models;
 
 namespace EzIdentity;
