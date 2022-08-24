@@ -11,8 +11,7 @@
 
     <section class="register-step">
         <mat-horizontal-stepper [linear]="false" #stepper="matHorizontalStepper">
-            <mat-step [stepControl]="planFormGroup">
-                <form [formGroup]="planFormGroup">
+            <mat-step >
                     <ng-template matStepLabel>
                         Plano
                     </ng-template>
@@ -22,12 +21,15 @@
                     </h5>
 
                     <blockquote *ngIf="!state.plans.length" class="blockquote">
-                        <p class="mb-0">Essa academia ainda nao possui nenhum plano disponivel, tenta novamente mais tarde</p>
+                        <p class="mb-0">Essa academia ainda nao possui nenhum plano disponivel, tenta novamente mais
+                            tarde</p>
                     </blockquote>
                     <section class="plan-options">
-                        <div *ngFor="let plan of state.plans" (click)="planSelected(plan.value.id)" [ngClass]="{'selected': plan.selected }" class="option">
+                        <div *ngFor="let plan of state.plans" (click)="planSelected(plan.value.id)"
+                            [ngClass]="{'selected': plan.selected }" class="option">
                             <div class="icon">
-                                <i class="material-icons">radio_button_checked</i>
+                                <i *ngIf="plan.selected" class="material-icons">radio_button_checked</i>
+                                <i *ngIf="!plan.selected" class="material-icons">radio_button_unchecked</i>
                             </div>
                             <div class="plan-description">
                                 <h5>
@@ -41,47 +43,81 @@
                         </div>
                     </section>
 
-                    <section *ngIf="state.plans.length"  class="register-btn">
+                    <section *ngIf="state.plans.length" class="register-btn">
                         <button [disabled]="!state.ui?.planSelected" mat-button matStepperNext>Continuar</button>
                     </section>
-                </form>
             </mat-step>
             <mat-step>
-                <form>
-                    <ng-template matStepLabel>Pagamento</ng-template>
+                <ng-template matStepLabel>Pagamento</ng-template>
 
-                    <h5 class="step-header">
-                        Forma de pagamento
-                    </h5>
-                    <section class="plan-options">
-                        <div class="option ">
-                            <div class="icon">
-                                <i class="material-icons">radio_button_unchecked</i>
-                            </div>
-                            <div class="plan-description">
-                                <h5>
-                                    PIX
-                                </h5>
-                                <small class="text-muted">
-                                    Pagamento instantaneo
-                                </small>
-
-                            </div>
-                        </div>
-                    </section>
-                    <section class="register-btn">
-                        <button mat-button matStepperNext>Continuar</button>
-                        <button class="btn-back" mat-button matStepperPrevious>Voltar</button>
-                    </section>
-                </form>
-            </mat-step>
-            <mat-step>
-                <ng-template matStepLabel>Finalizar</ng-template>
                 <h5 class="step-header">
-                    Obrigado :)
+                    Forma de pagamento
                 </h5>
+                <section class="plan-options">
+                    <div *ngFor="let payment of state.paymentTypes" (click)="paymentSelected(payment.value)"
+                        [ngClass]="{'selected': payment.selected }" class="option ">
+                        <div class="icon">
+                            <i *ngIf="payment.selected" class="material-icons">radio_button_checked</i>
+                            <i *ngIf="!payment.selected" class="material-icons">radio_button_unchecked</i>
+                        </div>
+                        <div class="plan-description">
+                            <h5>
+                                PIX
+                            </h5>
+                            <small class="text-muted">
+                                Pagamento instantaneo
+                            </small>
+
+                        </div>
+                    </div>
+                </section>
                 <section class="register-btn">
-                    <button mat-button matStepperNext>Finalizar</button>
+                    <button [disabled]="!state.ui?.paymentSelected" mat-button matStepperNext>Continuar</button>
+                    <button class="btn-back" mat-button matStepperPrevious>Voltar</button>
+                </section>
+            </mat-step>
+            <mat-step>
+                <ng-template matStepLabel>Revisar</ng-template>
+                <div class="review-item">
+                    <h5 class="step-header">
+                        Informacoes da academia
+                    </h5>
+                    <p>
+                        <span class="font-weight-bold">Codigo da academia</span>
+                        {{state.gym.id}}
+                    </p>
+                </div>
+                <div class="review-item">
+                    <h5 class="step-header">
+                        Informacoes do plano
+                    </h5>
+                    <p>
+                        <span class="font-weight-bold">Validate do plano</span>
+                        {{state.ui?.planSelected?.days}} / Dias
+                    </p>
+                    <p>
+                        <span class="font-weight-bold">Valor do plano</span>
+                        {{state.ui?.planSelected?.price}} R$
+                    </p>
+                </div>
+                <div class="review-item">
+                    <h5 class="step-header">
+                        Informacoes do pagamento
+                    </h5>
+                    <p>
+                        <span class="font-weight-bold">Forma de pagamento</span>
+                        PIX
+                    </p>
+                    <p>
+                        <span class="font-weight-bold">Valor do plano</span>
+                        {{state.ui?.planSelected?.price}} R$
+                    </p>
+
+                </div>
+                <hr />
+                <small class="text-muted">*O Plano so passa a ser valido apos a confirmacao do pagamento</small>
+                <section class="register-btn">
+                    <button (click)="confirmRegister()" mat-button matStepperNext>Confirmar</button>
                     <button class="btn-back" mat-button matStepperPrevious>Voltar</button>
                 </section>
             </mat-step>

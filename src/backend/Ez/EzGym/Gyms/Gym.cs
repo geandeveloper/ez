@@ -1,6 +1,5 @@
 ﻿using EzCommon.Models;
 using EzGym.Gyms.Events;
-using System;
 using System.Collections.Generic;
 using EzGym.Gyms.CreateGym;
 using EzGym.Gyms.CreatePlan;
@@ -9,31 +8,25 @@ namespace EzGym.Gyms
 {
     public class Gym : AggregateRoot
     {
-        public Guid AccountId { get; private set; }
-        public IList<Address> Addresses { get; protected set; }
-        public IList<GymPlan> Plans { get; set; }
-        public IList<GymUser> Users { get; set; }
+        public string AccountId { get; private set; }
+        public IList<Address> Addresses { get; protected set; } = new List<Address>();
+        public IList<GymPlan> GymPlans { get; set; } = new List<GymPlan>();
 
-        public Gym()
-        {
-            Addresses = new List<Address>();
-            Plans = new List<GymPlan>();
-            Users = new List<GymUser>();
-        }
+        public Gym() { }
 
         public Gym(CreateGymCommand command) : this()
         {
-            RaiseEvent(new GymCreatedEvent(Id = Guid.NewGuid(), command));
+            RaiseEvent(new GymCreatedEvent(Id = GenerateNewId(), command));
         }
 
-        public void AddPlan(CreatePlanCommand command)
+        public void CreatePlan(CreatePlanCommand command)
         {
-            RaiseEvent(new PlanCreatedEvent(Guid.NewGuid(), command));
+            RaiseEvent(new PlanCreatedEvent(GenerateNewId(), command));
         }
 
         protected void Apply(PlanCreatedEvent @event)
         {
-            Plans.Add(new GymPlan(@event.Id, @event.Command.Name, @event.Command.Days, @event.Command.Price, @event.Command.Active));
+            GymPlans.Add(GymPlan.CreateFromEvent(@event));
         }
 
         protected void Apply(GymCreatedEvent @event)

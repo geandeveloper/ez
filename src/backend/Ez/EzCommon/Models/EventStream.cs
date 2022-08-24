@@ -7,14 +7,14 @@ namespace EzCommon.Models
 {
     public class EventStream
     {
-        public Guid Id { get; protected set; }
+        public string Id { get; protected set; }
         public int Version { get; protected set; } = 0;
         public List<IEvent> Events { get; set; } = new List<IEvent>();
 
         private EventStream() { }
         public EventStream(EventStreamId id, IReadOnlyList<IEvent> events)
         {
-            Id = Guid.Parse(id.ToString());
+            Id = id.ToString();
             Events = events.ToList();
             Version = events.Any() ? events.Max(e => e.Version) : 0;
         }

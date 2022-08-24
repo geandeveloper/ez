@@ -4,5 +4,5 @@ using EzCommon.Commands;
 
 namespace EzGym.Accounts.ChangeAvatar
 {
-    public record ChangeAvatarCommand(Guid UserId, Guid AccountId, string FileName, MemoryStream AvatarStream) : ICommand;
+    public record ChangeAvatarCommand(string UserId, string AccountId, string FileName, MemoryStream AvatarStream) : ICommand;
 }

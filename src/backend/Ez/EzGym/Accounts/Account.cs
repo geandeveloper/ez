@@ -1,6 +1,5 @@
 ﻿using EzCommon.Models;
 using EzGym.Accounts.Events;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using EzGym.Accounts.CreateAccount;
@@ -10,7 +9,7 @@ namespace EzGym.Accounts
 {
     public class Account : AggregateRoot
     {
-        public Guid UserId { get; protected set; }
+        public string UserId { get; protected set; }
         public string AccountName { get; protected set; }
         public bool IsDefault { get; private set; }
         public string AvatarUrl { get; private set; }
@@ -31,7 +30,7 @@ namespace EzGym.Accounts
         public Account(CreateAccountCommand command)
         {
             RaiseEvent(new AccountCreatedEvent(
-                    Id: Guid.NewGuid(),
+                    Id: GenerateNewId(),
                     command
            ));
         }

@@ -8,7 +8,7 @@ namespace EzCommon.Infra.Storage;
 
 public interface IEventStore
 {
-    Task<TAggregate> LoadAggregateAsync<TAggregate>(Guid aggregateId)
+    Task<TAggregate> LoadAggregateAsync<TAggregate>(string aggregateId)
       where TAggregate : AggregateRoot;
 
     Task<EventStream> SaveAggregateAsync<TAggregate>(TAggregate aggregate)

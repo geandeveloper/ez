@@ -20,7 +20,7 @@ public static class AuthWithJwtBearerExtensions
             var user = httpAccessor.HttpContext.User;
 
             return new EzPrincipal(
-                id: user.Claims.First(c => c.Type == nameof(EzPrincipal.Id)).Value.ToGuid(),
+                id: user.Claims.First(c => c.Type == nameof(EzPrincipal.Id)).Value,
                 name: user.Claims.First(c => c.Type == ClaimTypes.Name).Value,
                 userName: user.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value,
                 email: user.Claims.First(c => c.Type == ClaimTypes.Email).Value

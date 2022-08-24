@@ -1,4 +1,4 @@
-import { GymCreatedEvent, PlanCreatedEvent } from './events/gym.events';
+import { GymCreatedEvent, GymMemberShipRegisteredEvent, PlanCreatedEvent } from './events/gym.events';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
@@ -13,6 +13,11 @@ export class GymService {
     createPlan(command: any): Observable<PlanCreatedEvent> {
         return this.http
             .post<PlanCreatedEvent>(`gyms/${command.gymId}/plans`, command)
+    }
+
+    registerMemberShip(command: any): Observable<GymMemberShipRegisteredEvent> {
+        return this.http
+            .post<GymMemberShipRegisteredEvent>(`gyms/${command.gymId}/memberships`, command)
     }
 
     loadPlans(gymId: string) {

@@ -19,8 +19,7 @@ namespace EzGym.Gyms.CreatePlan
         public async Task<EventStream> Handle(CreatePlanCommand request, CancellationToken cancellationToken)
         {
             var gym = await _eventStore.LoadAggregateAsync<Gym>(request.GymId);
-
-            gym.AddPlan(request);
+            gym.CreatePlan(request);
 
             return await _eventStore.SaveAggregateAsync(gym);
         }

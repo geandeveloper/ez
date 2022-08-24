@@ -2,20 +2,20 @@
 
 namespace EzCommon.Models
 {
-    public struct EventStreamId
+    public readonly struct EventStreamId
     {
         private readonly Type _streamType;
-        private readonly Guid _id;
+        private readonly string _id;
 
-        public EventStreamId(Type streamType, Guid Id)
+        public EventStreamId(Type streamType, string id)
         {
             _streamType = streamType;
-            _id = Id;
+            _id = id;
         }
 
         public override string ToString()
         {
-            return _id.ToString();
+            return _id;
         }
     }
 }

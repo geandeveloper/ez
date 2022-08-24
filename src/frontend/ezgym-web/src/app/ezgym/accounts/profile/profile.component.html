@@ -61,6 +61,6 @@
             </div>
         </div>
     </section>
-    <gym-profile  *ngIf="state?.account?.accountType == 2">
+    <gym-profile [accountId]="state?.account?.id"  *ngIf="state?.account?.accountType == 2">
     </gym-profile>
 </div>

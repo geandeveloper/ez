@@ -3,5 +3,5 @@ using EzCommon.Commands;
 
 namespace EzGym.Accounts.FollowAccount
 {
-    public record FollowAccountCommand(Guid UserAccountId, Guid FollowAccountId) : ICommand;
+    public record FollowAccountCommand(string UserAccountId, string FollowAccountId) : ICommand;
 }

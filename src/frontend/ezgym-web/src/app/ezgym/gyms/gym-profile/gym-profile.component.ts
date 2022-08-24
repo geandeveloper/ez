@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { RegisterMembershipComponent } from '../register-membership/register-membership.component';
 
@@ -13,6 +13,9 @@ export class GymProfileComponent implements OnInit {
         public dialog: MatDialog
     ) { }
 
+    @Input()
+    accountId: string | undefined
+
     ngOnInit() {
         this.registerNewMemberShip()
     }
@@ -20,6 +23,7 @@ export class GymProfileComponent implements OnInit {
 
         this.dialog.open(RegisterMembershipComponent, {
             data: {
+                accountId: this.accountId
             },
             panelClass: 'fullscreen-dialog',
             maxWidth: '935px',
@@ -27,7 +31,7 @@ export class GymProfileComponent implements OnInit {
             height: '100%',
             width: '100%',
         })
-        .afterClosed()
-        .subscribe()
+            .afterClosed()
+            .subscribe()
     }
 }

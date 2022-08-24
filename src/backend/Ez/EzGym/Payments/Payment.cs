@@ -1,33 +1,41 @@
 ﻿using EzCommon.Models;
-using System;
-using EzGym.Payments.CreatePayment;
+using EzGym.Payments.CreatePix;
 using EzGym.Payments.Events;
 
 namespace EzGym.Payments
 {
+
     public class Payment : AggregateRoot
     {
-        public Payer Payer { get; private set; }
-        public Receiver Receiver { get; private set; }
-        public PaymentMethodEnum PaymentMethod { get; private set; }
-        public decimal Value { get; private set; }
-        public PaymentReceipt Receipt { get; private set; }
+        public string Description { get; set; }
+        public decimal Value { get; protected set; }
+        public PaymentStatusEnum PaymentStatus { get; private set; }
+        public Pix Pix { get; private set; }
 
         public Payment() { }
 
-        public Payment(CreatePaymentCommand command, PaymentReceipt receipt)
+        public Payment(CreatePaymentCommand command)
         {
-            RaiseEvent(new PaymentCreatedEvent(Guid.NewGuid(), command, receipt));
+            RaiseEvent(new PaymentCreatedEvent(GenerateNewId(), command));
+        }
+
+        public Payment CreatePix(Pix pix)
+        {
+            RaiseEvent(new PixPaymentCreatedEvent(Id, pix));
+            return this;
         }
 
         protected void Apply(PaymentCreatedEvent @event)
         {
             Id = @event.Id;
-            Payer = new Payer(@event.Command.PayerAccountId);
-            Receiver = new Receiver(@event.Command.ReceiverAccountId);
-            PaymentMethod = PaymentMethodEnum.Pix;
+            Description = @event.Command.Description;
+            PaymentStatus = PaymentStatusEnum.Pending;
             Value = @event.Command.Value;
-            Receipt = @event.Receipt;
+        }
+
+        protected void Apply(PixPaymentCreatedEvent @event)
+        {
+            Pix = @event.Pix;
         }
     }
 }

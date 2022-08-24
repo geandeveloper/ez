@@ -1,22 +1,29 @@
-﻿using System;
+﻿using EzCommon.Models;
+using EzGym.Gyms.Events;
 
 namespace EzGym.Gyms
 {
-    public class GymPlan
+    public class GymPlan : AggregateRoot
     {
-        public Guid Id { get; init; }
-        public string Name { get; init; }
-        public int Days { get; init; }
-        public decimal Price { get; init; }
-        public bool Active { get; init; }
+        public string GymId { get; set; }
+        public string Name { get; private init; }
+        public int Days { get; private init; }
+        public decimal Price { get; private init; }
+        public bool Active { get; private init; }
 
-        public GymPlan(Guid id, string name, int days, decimal price, bool active)
+        public GymPlan() { }
+
+        public static GymPlan CreateFromEvent(PlanCreatedEvent @event)
         {
-            Id = id;
-            Name = name;
-            Days = days;
-            Price = price;
-            Active = active;
+            return new GymPlan
+            {
+                Id = @event.Id,
+                GymId = @event.Command.GymId,
+                Name = @event.Command.Name,
+                Days = @event.Command.Days,
+                Price = @event.Command.Price,
+                Active = @event.Command.Active,
+            };
         }
     }
 }

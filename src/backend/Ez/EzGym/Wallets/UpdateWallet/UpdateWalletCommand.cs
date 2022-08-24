@@ -3,5 +3,5 @@ using EzCommon.Commands;
 
 namespace EzGym.Wallets.UpdateWallet
 {
-    public record UpdateWalletCommand(Guid AccountId, Pix Pix) : ICommand;
+    public record UpdateWalletCommand(string AccountId, Pix Pix) : ICommand;
 }

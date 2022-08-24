@@ -3,5 +3,5 @@ using System;
 
 namespace EzGym.Accounts.Events
 {
-    public record AvatarImageAccountChangedEvent(Guid AccountId, string AvatarUrl) : Event;
+    public record AvatarImageAccountChangedEvent(string AccountId, string AvatarUrl) : Event;
 }

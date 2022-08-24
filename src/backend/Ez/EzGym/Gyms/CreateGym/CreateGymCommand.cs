@@ -1,8 +1,8 @@
-﻿using System;
+﻿
 using EzCommon.Commands;
 
 namespace EzGym.Gyms.CreateGym
 {
-    public record CreateGymCommand(Guid AccountId) : ICommand;
+    public record CreateGymCommand(string AccountId) : ICommand;
 
 }

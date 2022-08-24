@@ -3,6 +3,6 @@ using System;
 
 namespace EzGym.Accounts.Events
 {
-    public record RemovedAccountFollowerEvent(Guid AccountId) : Event;
+    public record RemovedAccountFollowerEvent(string AccountId) : Event;
 
 }

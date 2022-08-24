@@ -18,3 +18,10 @@ export interface PlanCreatedEvent {
         active: string
     }
 }
+
+export interface GymMemberShipRegisteredEvent {
+    id: string,
+    gymMemberShip: {
+        paymentId: string
+    }
+}

@@ -2,6 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
+		<UserSecretsId>3cc7de75-fc7e-4cd8-a754-3c697813754a</UserSecretsId>
 	</PropertyGroup>
 
 
@@ -16,6 +17,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Folder Include="Wallets\Events\" />
 	  <Folder Include="wwwroot\" />
 	</ItemGroup>
 

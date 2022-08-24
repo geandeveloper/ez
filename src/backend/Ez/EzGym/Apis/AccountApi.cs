@@ -52,7 +52,7 @@ namespace EzGym.Apis
             async (
                       [FromServices] ChangeAvatarCommandHandler handler,
                       [FromServices] EzPrincipal principal,
-                      Guid accountId,
+                      string accountId,
                       HttpRequest request) =>
                   {
                       using (var avatarMemoryStream = new MemoryStream())
@@ -150,7 +150,7 @@ namespace EzGym.Apis
                 [Authorize] async (
                       [FromServices] UpInsertAccountProfileCommandHandler handler,
                       UpInsertAccountProfileCommand command,
-                      Guid accountId
+                      string accountId
                       ) =>
                 {
                     var eventStream = await handler.Handle(command, CancellationToken.None);
@@ -162,7 +162,7 @@ namespace EzGym.Apis
                 [Authorize] async (
                       [FromServices] FollowAccountCommandHandler handler,
                       FollowAccountCommand command,
-                      Guid followAccountId
+                      string followAccountId
                       ) =>
                 {
                     var eventStream = await handler.Handle(command with { FollowAccountId = followAccountId }, CancellationToken.None);
@@ -174,7 +174,7 @@ namespace EzGym.Apis
                 [Authorize] async (
                       [FromServices] UnfollowAccountCommandHandler handler,
                       UnfollowAccountCommand command,
-                      Guid unfollowAccountId
+                      string unfollowAccountId
                       ) =>
                 {
                     var eventStream = await handler.Handle(command with { UnfollowAccountId = unfollowAccountId }, CancellationToken.None);
@@ -186,7 +186,7 @@ namespace EzGym.Apis
                 [Authorize] async (
                       [FromServices] UpdateWalletCommandHandler handler,
                       UpdateWalletCommand command,
-                      Guid accountId
+                      string accountId
                       ) =>
                 {
                     var eventStream = await handler.Handle(command with { AccountId = accountId }, CancellationToken.None);
@@ -197,7 +197,7 @@ namespace EzGym.Apis
             app.MapGet("accounts/{accountId}/wallet",
                 [Authorize] (
                       [FromServices] IGymQueryStore queryStore,
-                      Guid accountId
+                      string accountId
                       ) =>
                 {
                     var wallet = queryStore.QueryOne<Wallet>(a => a.AccountId == accountId);
@@ -208,7 +208,7 @@ namespace EzGym.Apis
             app.MapGet("accounts/{accountId}/gym",
                 [Authorize] (
                       [FromServices] IGymQueryStore queryStore,
-                      Guid accountId
+                      string accountId
                       ) =>
                 {
                     var gym = queryStore.QueryOne<Gym>(a => a.AccountId == accountId);

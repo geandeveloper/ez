@@ -19,7 +19,7 @@ namespace EzCommon.Infra.Storage
             _session = session;
         }
 
-        public async Task<TAggregate> LoadAggregateAsync<TAggregate>(Guid aggregateId) where TAggregate : AggregateRoot
+        public async Task<TAggregate> LoadAggregateAsync<TAggregate>(string aggregateId) where TAggregate : AggregateRoot
         {
             var eventStreamId = new EventStreamId(typeof(TAggregate), aggregateId);
             var aggregate = Activator.CreateInstance<TAggregate>();
@@ -32,6 +32,7 @@ namespace EzCommon.Infra.Storage
         {
             var eventStreamId = new EventStreamId(aggregate.GetType(), aggregate.Id);
             var eventStream = new EventStream(eventStreamId, aggregate.GetEvents().ToList());
+            var uncommitedEvents = eventStream.GetUncommitedEvents().ToList();
 
             if (!eventStream.GetUncommitedEvents().Any())
                 return eventStream;

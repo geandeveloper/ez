@@ -2,5 +2,5 @@
 
 namespace EzGym.Payments
 {
-    public record Payer(Guid PayerId);
+    public record Payer(string PayerId);
 }

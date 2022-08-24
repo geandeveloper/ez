@@ -8,13 +8,10 @@ namespace EzCommon.Models
 {
     public abstract class AggregateRoot
     {
-        private static readonly int SnapShotInterval = 1;
-
-        public Guid Id { get; protected set; }
+        public string Id { get; protected set; }
         public int Version { get; protected set; }
 
         private readonly Queue<IEvent> _events;
-
 
         protected AggregateRoot()
         {
@@ -45,8 +42,13 @@ namespace EzCommon.Models
 
         public EventStream ToEventStream()
         {
-            var eventStreamId = new EventStreamId(GetType(), Id);
+            var eventStreamId = new EventStreamId(GetType(), Id.ToString());
             return new EventStream(eventStreamId, GetEvents().ToList());
+        }
+
+        protected static string GenerateNewId()
+        {
+            return Guid.NewGuid().ToString();
         }
     }
 }

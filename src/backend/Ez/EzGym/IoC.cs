@@ -11,14 +11,18 @@ using EzGym.Gyms;
 using EzGym.Gyms.CreateGym;
 using EzGym.Gyms.CreatePlan;
 using EzGym.Gyms.Events;
+using EzGym.Gyms.Users.CreateGymUser;
+using EzGym.Gyms.Users.RegisterGymMemberShip;
 using EzGym.Infra.Storage;
 using EzGym.Payments;
-using EzGym.Payments.CreatePayment;
+using EzGym.Payments.CreatePix;
 using EzGym.Payments.Gateways;
 using EzGym.Wallets;
 using EzGym.Wallets.UpdateWallet;
 using EzIdentity.Models;
 using Marten;
+using Marten.Events;
+using Marten.Events.Projections;
 using Microsoft.Extensions.DependencyInjection;
 using Weasel.Core;
 
@@ -41,7 +45,9 @@ namespace EzGym
             services.AddTransient<UnfollowAccountCommandHandler>();
             services.AddTransient<UpdateWalletCommandHandler>();
             services.AddTransient<CreatePlanCommandHandler>();
-            services.AddTransient<CreatePaymentCommandHandler>();
+            services.AddTransient<CreatePixCommandHandler>();
+            services.AddTransient<CreateGymUserCommandHandler>();
+            services.AddTransient<RegisterGymMemberShipCommandHandler>();
 
             //services.AddHostedService<KafkaConsumerBackgroundService>();
 
@@ -76,11 +82,12 @@ namespace EzGym
 
                           options.UseDefaultSerialization(nonPublicMembersStorage: NonPublicMembersStorage.NonPublicSetters);
 
-                          options.Projections.SelfAggregate<User>();
-                          options.Projections.SelfAggregate<Account>();
-                          options.Projections.SelfAggregate<Gym>();
-                          options.Projections.SelfAggregate<Payment>();
-                          options.Projections.SelfAggregate<Wallet>();
+                          options.Events.StreamIdentity = StreamIdentity.AsString;
+                          options.Projections.SelfAggregate<User>(ProjectionLifecycle.Inline);
+                          options.Projections.SelfAggregate<Account>(ProjectionLifecycle.Inline);
+                          options.Projections.SelfAggregate<Gym>(ProjectionLifecycle.Inline);
+                          options.Projections.SelfAggregate<Payment>(ProjectionLifecycle.Inline);
+                          options.Projections.SelfAggregate<Wallet>(ProjectionLifecycle.Inline);
                       });
 
             return services;

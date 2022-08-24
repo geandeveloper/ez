@@ -3,5 +3,5 @@ using System;
 
 namespace EzGym.Accounts.Events
 {
-    public record ProfileChangedEvent(Guid AccountId, string Name, string JobDescription, string BioDescription) : Event;
+    public record ProfileChangedEvent(string AccountId, string Name, string JobDescription, string BioDescription) : Event;
 }

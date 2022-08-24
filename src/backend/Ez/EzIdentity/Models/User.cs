@@ -20,14 +20,14 @@ namespace EzIdentity.Models
 
         public User(CreateUserCommand command)
         {
-            RaiseEvent(new UserCreatedEvent(Guid.NewGuid(), command.Name, command.UserName, command.Email, command.Password));
+            RaiseEvent(new UserCreatedEvent(GenerateNewId(), command.Name, command.UserName, command.Email, command.Password));
         }
 
         public void Login()
         {
             var accessToken = TokenService.GenerateAccessToken(() => new Claim[]
             {
-                    new Claim(nameof(Id), Id.ToString()),
+                    new Claim(nameof(Id), Id),
                     new Claim(ClaimTypes.Email, Email),
                     new Claim(ClaimTypes.NameIdentifier, UserName),
                     new Claim(ClaimTypes.Name, Name ?? UserName)
@@ -45,7 +45,7 @@ namespace EzIdentity.Models
 
             var accessToken = TokenService.GenerateAccessToken(() => new Claim[]
                 {
-                    new Claim(nameof(Id), Id.ToString()),
+                    new Claim(nameof(Id), Id),
                     new Claim(ClaimTypes.Email, Email),
                     new Claim(ClaimTypes.NameIdentifier, UserName),
                     new Claim(ClaimTypes.Name, Name ?? UserName)

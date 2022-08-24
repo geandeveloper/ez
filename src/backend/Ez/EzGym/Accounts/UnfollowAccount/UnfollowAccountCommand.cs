@@ -3,5 +3,5 @@ using EzCommon.Commands;
 
 namespace EzGym.Accounts.UnfollowAccount
 {
-    public record UnfollowAccountCommand(Guid UserAccountId, Guid UnfollowAccountId) : ICommand;
+    public record UnfollowAccountCommand(string UserAccountId, string UnfollowAccountId) : ICommand;
 }

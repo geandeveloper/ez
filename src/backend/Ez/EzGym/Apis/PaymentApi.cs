@@ -2,9 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading;
-using EzGym.Payments.CreatePayment;
+using EzGym.Payments.CreatePix;
 using EzGym.Payments.Events;
-using EzGym.Wallets.Events;
 
 namespace EzGym.Apis;
 
@@ -14,7 +13,7 @@ public static class PaymentApi
     {
         app.MapPost("/payments",
              async (
-                  [FromServices] CreatePaymentCommandHandler handler,
+                  [FromServices] CreatePixCommandHandler handler,
                    CreatePaymentCommand command) =>
               {
 

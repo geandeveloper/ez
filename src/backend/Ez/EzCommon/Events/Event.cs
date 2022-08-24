@@ -6,6 +6,6 @@ namespace EzCommon.Events
     {
         public int Version { get; set; } = 1;
         public DateTime TimeStamp { get; set; } = DateTime.UtcNow;
-        public Guid AggregateId { get; set; }
+        public string AggregateId { get; set; }
     }
 }
