@@ -1,5 +1,6 @@
 export interface GymModel {
     id: string
+    accountId: string
 }
 
 export enum PaymentTypeEnum {

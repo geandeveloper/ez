@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using EzCommon.Models;
 using EzGym.Gyms.Events;
 using EzGym.Gyms.Users.CreateGymUser;

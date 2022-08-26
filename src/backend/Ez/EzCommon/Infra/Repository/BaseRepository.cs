@@ -56,7 +56,7 @@ namespace EzCommon.Infra.Repository
         public async Task<TAggregate> QueryAsync<TAggregate>(Expression<Func<TAggregate, bool>> query)
         {
             await using var session = _storage.OpenSession();
-            return await session.Query<TAggregate>().Where(query).SingleAsync(CancellationToken.None);
+            return await session.Query<TAggregate>().Where(query).FirstOrDefaultAsync(CancellationToken.None);
         }
 
         public IQueryable<T> Where<T>(Expression<Func<T, bool>> query)

@@ -24,20 +24,18 @@ namespace EzGym.EventHandlers
         public async Task Handle(GymMemberShipRegisteredEvent notification, CancellationToken cancellationToken)
         {
             var payment = await _repository.LoadAggregateAsync<Payment>(notification.GymMemberShip.PaymentId);
-            var gym = await _repository.QueryAsync<Gym>(g => g.Id == notification.GymMemberShip.GymId);
-            var gymUser = await _repository.QueryAsync<GymUser>(g => g.Id == notification.GymMemberShip.GymUserId);
 
-            var gymWallet = await _repository.QueryAsync<Wallet>(w => w.AccountId == gym.AccountId);
-            var userWallet = await _repository.QueryAsync<Wallet>(w => w.AccountId == gymUser.AccountId);
+            var payerWallet= await _repository.QueryAsync<Wallet>(w => w.AccountId == notification.GymMemberShip.PayerAccountId);
+            var receiverWallet = await _repository.QueryAsync<Wallet>(w => w.AccountId == notification.GymMemberShip.ReceiverAccountId);
 
-            userWallet.AddReceipt(payment.Id, true, payment.PaymentMethod, payment.PaymentStatus, payment.PaymentDateTime, payment.Value, payment.Description);
+            payerWallet.AddReceipt(payment.Id, true, payment.PaymentMethod, payment.PaymentStatus, payment.PaymentDateTime, payment.Value, payment.Description);
 
-            gymWallet.AddReceipt(payment.Id, true, payment.PaymentMethod, payment.PaymentStatus, payment.PaymentDateTime, payment.Value, payment.Description);
+            receiverWallet.AddReceipt(payment.Id, true, payment.PaymentMethod, payment.PaymentStatus, payment.PaymentDateTime, payment.Value, payment.Description);
 
-            userWallet.AddReceipt(payment.Id, false, payment.PaymentMethod, payment.PaymentStatus, payment.PaymentDateTime, payment.Value, payment.Description);
+            payerWallet.AddReceipt(payment.Id, false, payment.PaymentMethod, payment.PaymentStatus, payment.PaymentDateTime, payment.Value, payment.Description);
 
-            await _repository.SaveAggregateAsync(gymWallet);
-            await _repository.SaveAggregateAsync(userWallet);
+            await _repository.SaveAggregateAsync(receiverWallet);
+            await _repository.SaveAggregateAsync(payerWallet);
         }
     }
 }

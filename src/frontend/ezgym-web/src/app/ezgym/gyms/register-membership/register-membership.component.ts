@@ -105,8 +105,8 @@ export class RegisterMembershipComponent extends Store<ComponentState> implement
 
     confirmRegister() { 
         this.gymService.registerMemberShip({
+            payerAccountId: this.userStore.state.activeAccount?.id,
             gymId: this.state.gym.id,
-            accountId: this.state.accountId,
             planId: this.state.ui?.planSelected.id
         }).subscribe(payment => {
             debugger

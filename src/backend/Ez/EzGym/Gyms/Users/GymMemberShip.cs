@@ -5,8 +5,8 @@ namespace EzGym.Gyms.Users
     public record GymMemberShip
     {
         public string Id { get; private init; }
-        public string GymId { get; private init; }
-        public string GymUserId { get; private init; }
+        public string PayerAccountId { get; private init; }
+        public string ReceiverAccountId { get; private init; }
         public string PlanId { get; private init; }
         public string PaymentId { get; private init; }
         public bool Active { get; private init; }
@@ -15,11 +15,11 @@ namespace EzGym.Gyms.Users
         public DateTime PurchaseDateTime { get; private init; }
         public DateTime? PaymentDateTime { get; } = null;
 
-        public static GymMemberShip CreatePendingMemberShip(string id, string gymId, string gymUserId, string planId, string paymentId, decimal price, int days) => new()
+        public static GymMemberShip CreatePendingMemberShip(string id, string receiverAccountId, string payerAccountId, string planId, string paymentId, decimal price, int days) => new()
         {
             Id = id,
-            GymId = gymId,
-            GymUserId = gymUserId,
+            ReceiverAccountId = receiverAccountId,
+            PayerAccountId = payerAccountId,
             PlanId = planId,
             PaymentId = paymentId,
             Active = false,
