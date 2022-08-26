@@ -7,6 +7,7 @@ using EzCommon.Commands;
 using EzCommon.Models;
 using EzGym.Accounts;
 using EzGym.Gyms.Users.CreateGymUser;
+using EzGym.Infra.Repository;
 using EzGym.Infra.Storage;
 using EzGym.Payments.CreatePix;
 using EzGym.Payments.Events;
@@ -19,31 +20,31 @@ public class RegisterGymMemberShipCommandHandler : ICommandHandler<RegisterGymMe
 {
     private readonly CreateGymUserCommandHandler _createGymUserCommandHandler;
     private readonly CreatePixCommandHandler _createPixCommandHandler;
-    private readonly IGymEventStore _eventStore;
+    private readonly IGymRepository _repository;
 
     public RegisterGymMemberShipCommandHandler(
         CreateGymUserCommandHandler createGymUserCommandHandler,
-        IGymEventStore eventStore,
+        IGymRepository repository,
         CreatePixCommandHandler createPixCommandHandler)
     {
         _createGymUserCommandHandler = createGymUserCommandHandler;
-        _eventStore = eventStore;
+        _repository = repository;
         _createPixCommandHandler = createPixCommandHandler;
     }
 
     public async Task<EventStream> Handle(RegisterGymMemberShipCommand request, CancellationToken cancellationToken)
     {
-        var account = await _eventStore.LoadAggregateAsync<Account>(request.AccountId)!;
+        var account = await _repository.LoadAggregateAsync<Account>(request.AccountId)!;
 
         var eventStream = await _createGymUserCommandHandler.Handle(
             new CreateGymUserCommand(request.GymId, account.Profile?.Name, account.AccountName),
             cancellationToken);
 
-        var gymUser = await _eventStore.LoadAggregateAsync<GymUser>(eventStream.Id);
+        var gymUser = await _repository.LoadAggregateAsync<GymUser>(eventStream.Id);
         gymUser.AssociateGymUserWithAccount(account.Id);
 
 
-        var gym = await _eventStore.LoadAggregateAsync<Gym>(request.GymId);
+        var gym = await _repository.LoadAggregateAsync<Gym>(request.GymId);
         var plan = gym.GymPlans.First(p => p.Id == request.PlanId);
         var paymentStream = await _createPixCommandHandler
             .Handle(new CreatePaymentCommand("", plan.Price, $"Plano de {plan.Days} dias"), cancellationToken);
@@ -52,13 +53,15 @@ public class RegisterGymMemberShipCommandHandler : ICommandHandler<RegisterGymMe
 
         var membership = GymMemberShip.CreatePendingMemberShip(
             Guid.NewGuid().ToString(),
-            payment.Id,
+            gymId: request.GymId,
+            gymUserId: eventStream.Id,
             plan.Id,
+            payment.Id,
             plan.Price,
             plan.Days);
 
         gymUser.AddMemberShip(membership);
 
-        return await _eventStore.SaveAggregateAsync(gymUser);
+        return await _repository.SaveAggregateAsync(gymUser);
     }
 }

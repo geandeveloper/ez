@@ -3,4 +3,4 @@ using System;
 
 namespace EzGym.Wallets;
 
-public record WalletReceipt(string PaymentId, bool Incoming, PaymentMethodEnum PaymentMethod, DateTime PaymentDateTime, decimal Value, string Description);
+public record WalletReceipt(string PaymentId, bool Incoming, PaymentMethodEnum PaymentMethod, PaymentStatusEnum PaymentStatus, DateTime? PaymentDateTime, decimal Value, string Description);

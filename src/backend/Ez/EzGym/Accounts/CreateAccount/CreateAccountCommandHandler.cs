@@ -3,23 +3,29 @@ using System.Threading.Tasks;
 using EzCommon.CommandHandlers;
 using EzCommon.Infra.Storage;
 using EzCommon.Models;
+using EzGym.Infra.Repository;
 using EzGym.Infra.Storage;
+using EzGym.Wallets;
 
 namespace EzGym.Accounts.CreateAccount;
 
 public class CreateAccountCommandHandler : ICommandHandler<CreateAccountCommand>
 {
 
-    private readonly IEventStore _eventStore;
+    private readonly IGymRepository _repository;
 
-    public CreateAccountCommandHandler(IGymEventStore eventStore)
+    public CreateAccountCommandHandler(IGymRepository repository)
     {
-        _eventStore = eventStore;
+        _repository = repository;
     }
 
-    public Task<EventStream> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
+    public async Task<EventStream> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
     {
         var account = new Account(request);
-        return _eventStore.SaveAggregateAsync(account);
+        var wallet = new Wallet(account.Id);
+
+        await _repository.SaveAggregateAsync(wallet);
+
+        return await _repository.SaveAggregateAsync(account);
     }
 }

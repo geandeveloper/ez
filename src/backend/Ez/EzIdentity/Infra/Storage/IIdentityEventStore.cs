@@ -2,5 +2,7 @@
 
 namespace EzIdentity.Infra.Storage
 {
-    public interface IIdentityEventStore: IEventStore { }
+    public interface IIdentityEventStore : IEventStore
+    {
+    }
 }

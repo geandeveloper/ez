@@ -18,6 +18,7 @@ using EzGym.Accounts.FollowAccount;
 using EzGym.Accounts.UnfollowAccount;
 using EzGym.Accounts.UpInsertAccountProfile;
 using EzGym.Gyms.CreateGym;
+using EzGym.Infra.Repository;
 using EzGym.Wallets;
 using EzGym.Wallets.UpdateWallet;
 
@@ -87,11 +88,11 @@ namespace EzGym.Apis
                       });
 
             app.MapGet("/accounts/{accountName}/verify", (
-                      [FromServices] IGymQueryStore queryStorage, string accountName) =>
+                      [FromServices] IGymRepository repository, string accountName) =>
                   {
                       var response = new
                       {
-                          Exists = queryStorage.Where<Account>(account => account.AccountName == accountName).FirstOrDefault() != null
+                          Exists = repository.Where<Account>(account => account.AccountName == accountName).FirstOrDefault() != null
                       };
 
                       return Results.Ok(response);
@@ -99,11 +100,11 @@ namespace EzGym.Apis
 
             app.MapGet("accounts",
                         [Authorize] (
-                              [FromServices] IGymQueryStore queryStorage,
+                              [FromServices] IGymRepository repository,
                               string query
                               ) =>
                         {
-                            var accounts = queryStorage.Where<Account>(a => a.AccountName.Contains(query))
+                            var accounts = repository.Where<Account>(a => a.AccountName.Contains(query))
                             .Take(20)
                             .ToList();
 
@@ -113,37 +114,35 @@ namespace EzGym.Apis
             app.MapGet("accounts/{accountName}",
             [Authorize]
             (
-                      [FromServices] IGymQueryStore queryStorage,
+                      [FromServices] IGymRepository repository,
                       string accountName
                       ) =>
                 {
-                    var account = queryStorage.Where<Account>(a => a.AccountName == accountName).FirstOrDefault();
+                    var account = repository.Where<Account>(a => a.AccountName == accountName).FirstOrDefault();
 
                     return Results.Ok(account);
                 });
 
             app.MapGet("accounts/{accountName}/followers",
                 [Authorize] (
-                     [FromServices] IGymQueryStore queryStorage,
+                     [FromServices] IGymRepository repository,
                      string accountName,
                      string query
                      ) =>
                {
-                   var followers = queryStorage.QueryFollowers(accountName, query);
+                   //var followers = queryStorage.QueryFollowers(accountName, query);
 
-                   return Results.Ok(followers);
+                   return Results.Ok(null);
                });
 
             app.MapGet("accounts/{accountName}/following",
                 [Authorize] (
-                      [FromServices] IGymQueryStore queryStorage,
-                      string accountName,
+                      [FromServices] IGymRepository repository,
+                      string accountName, 
                       string query
                       ) =>
                 {
-                    var following = queryStorage.QueryFollowing(accountName, query);
-
-                    return Results.Ok(following);
+                    return Results.Ok("");
                 });
 
             app.MapPut("accounts/{accountId}/profile",
@@ -196,22 +195,22 @@ namespace EzGym.Apis
 
             app.MapGet("accounts/{accountId}/wallet",
                 [Authorize] (
-                      [FromServices] IGymQueryStore queryStore,
+                      [FromServices] IGymRepository repository,
                       string accountId
                       ) =>
                 {
-                    var wallet = queryStore.QueryOne<Wallet>(a => a.AccountId == accountId);
+                    var wallet = repository.QueryOne<Wallet>(a => a.AccountId == accountId);
 
                     return Results.Ok(wallet);
                 });
 
             app.MapGet("accounts/{accountId}/gym",
                 [Authorize] (
-                      [FromServices] IGymQueryStore queryStore,
+                      [FromServices] IGymRepository repository,
                       string accountId
                       ) =>
                 {
-                    var gym = queryStore.QueryOne<Gym>(a => a.AccountId == accountId);
+                    var gym = repository.QueryOne<Gym>(a => a.AccountId == accountId);
 
                     return Results.Ok(gym);
                 });

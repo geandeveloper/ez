@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading;
 using EzGym.Gyms.CreatePlan;
 using EzGym.Gyms.Users.RegisterGymMemberShip;
+using EzGym.Infra.Repository;
 
 namespace EzGym.Apis
 {
@@ -17,17 +18,6 @@ namespace EzGym.Apis
     {
         public static WebApplication UseEzGymGymsApi(this WebApplication app)
         {
-            app.MapPost("/gyms/{gymId}/plans",
-                [Authorize] async (
-                [FromServices] CreatePlanCommandHandler handler,
-                CreatePlanCommand command,
-                string gymId) =>
-                {
-                    var eventStream = await handler.Handle(command, CancellationToken.None);
-                    var @event = eventStream.GetEvent<PlanCreatedEvent>();
-
-                    return Results.Ok(@event);
-                });
 
             app.MapPost("/gyms/{gymId}/plans",
                 [Authorize] async (
@@ -44,10 +34,10 @@ namespace EzGym.Apis
             app.MapGet("/gyms/{gymId}/plans",
                 [Authorize] (
                 [FromServices] EzPrincipal principal,
-                [FromServices] IGymQueryStore query,
+                [FromServices] IGymRepository repository,
                 string gymId) =>
                 {
-                    var plans = query
+                    var plans = repository
                         .Where<Gym>(gym => gym.Id == gymId)
                         .First().GymPlans;
 

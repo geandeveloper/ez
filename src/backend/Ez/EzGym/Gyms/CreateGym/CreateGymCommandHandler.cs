@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using EzCommon.CommandHandlers;
 using EzCommon.Models;
+using EzGym.Infra.Repository;
 using EzGym.Infra.Storage;
 
 namespace EzGym.Gyms.CreateGym
@@ -9,18 +10,18 @@ namespace EzGym.Gyms.CreateGym
     public class CreateGymCommandHandler : ICommandHandler<CreateGymCommand>
     {
 
-        private readonly IGymEventStore _eventStore;
+        private readonly IGymRepository _repository;
 
-        public CreateGymCommandHandler(IGymEventStore eventStore)
+        public CreateGymCommandHandler(IGymRepository repository)
         {
-            _eventStore = eventStore;
+            _repository = repository;
         }
 
         public async Task<EventStream> Handle(CreateGymCommand request, CancellationToken cancellationToken)
         {
             var gym = new Gym(request);
 
-            return await _eventStore.SaveAggregateAsync(gym);
+            return await _repository.SaveAggregateAsync(gym);
         }
     }
 }

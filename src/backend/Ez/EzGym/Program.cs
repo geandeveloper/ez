@@ -4,37 +4,37 @@ using EzIdentity;
 using Microsoft.AspNetCore.Http;
 using EzGym;
 using Microsoft.Extensions.DependencyInjection;
-using EzCommon.Events;
 
 var builder = WebApplication
     .CreateBuilder();
 
+//EzGym Services
 
 builder.Services.AddCors(c =>
         {
-            c.AddPolicy("localhost", options => options
-            .WithOrigins("http://localhost:4200")
+            c.AddPolicy("frontend", options => options
+            .WithOrigins(builder.Configuration["EzGymSettings:Frontend:EzGymWebUrl"])
             .AllowAnyHeader()
             .AllowAnyMethod());
         });
 
 
-var eventRegister = EventRegister.Factory();
+builder.Services.Configure<EzGymSettings>(builder.Configuration.GetSection("EzGymSettings"));
+builder.Services.Configure<EzIdentitySettings>(builder.Configuration.GetSection("EzIdentitySettings"));
 
-//EzGym Services
+
 builder.Services
     .AddEzCommon(typeof(EzCommon.Api), typeof(EzGym.Api), typeof(EzIdentity.Api))
-    .AddEzIdentity(eventRegister)
-    .AddEzGym(eventRegister)
-    .AddSingleton(eventRegister);
+    .AddEzIdentity(builder.Configuration)
+    .AddEzGym(builder.Configuration);
+
 
 var app = builder.Build();
-
 
 app.UseHttpsRedirection();
 app.UseDefaultFiles();
 app.UseStaticFiles();
-app.UseCors("localhost");
+app.UseCors("frontend");
 app.UsePathBase(new PathString("/api"));
 app.UseRouting();
 

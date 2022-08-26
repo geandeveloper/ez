@@ -1,5 +1,5 @@
 ﻿using EzCommon.Events;
-using EzIdentity.Models;
+using EzIdentity.Users;
 
 namespace EzIdentity.Events
 {

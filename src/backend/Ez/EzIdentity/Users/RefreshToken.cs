@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EzIdentity.Models
+namespace EzIdentity.Users
 {
     public record RefreshToken(string Value, DateTime Created, DateTime Expires);
 }

@@ -7,6 +7,7 @@
 
 
   <ItemGroup>
+    <PackageReference Include="Marten" Version="5.7.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.7" />
@@ -14,6 +15,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EzCommon\EzCommon.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\" />
   </ItemGroup>
 
 </Project>

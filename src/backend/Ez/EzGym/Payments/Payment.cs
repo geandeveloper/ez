@@ -1,4 +1,5 @@
-﻿using EzCommon.Models;
+﻿using System;
+using EzCommon.Models;
 using EzGym.Payments.CreatePix;
 using EzGym.Payments.Events;
 
@@ -10,7 +11,9 @@ namespace EzGym.Payments
         public string Description { get; set; }
         public decimal Value { get; protected set; }
         public PaymentStatusEnum PaymentStatus { get; private set; }
+        public PaymentMethodEnum PaymentMethod { get; private set; }
         public Pix Pix { get; private set; }
+        public DateTime? PaymentDateTime { get; private set; } 
 
         public Payment() { }
 
@@ -31,11 +34,13 @@ namespace EzGym.Payments
             Description = @event.Command.Description;
             PaymentStatus = PaymentStatusEnum.Pending;
             Value = @event.Command.Value;
+            PaymentDateTime = null;
         }
 
         protected void Apply(PixPaymentCreatedEvent @event)
         {
             Pix = @event.Pix;
+            PaymentMethod = PaymentMethodEnum.Pix;
         }
     }
 }

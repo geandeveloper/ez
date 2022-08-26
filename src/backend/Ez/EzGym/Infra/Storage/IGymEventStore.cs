@@ -2,5 +2,8 @@
 
 namespace EzGym.Infra.Storage
 {
-    public interface IGymEventStore: IEventStore { }
+    public interface IGymEventStore : IEventStore
+    {
+     
+    }
 }

@@ -1,11 +1,9 @@
 ﻿using EzCommon.Infra.Bus;
 using EzCommon.Infra.Storage;
 using Google.Cloud.Storage.V1;
-using Marten;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using Weasel.Core;
 
 namespace EzCommon
 {

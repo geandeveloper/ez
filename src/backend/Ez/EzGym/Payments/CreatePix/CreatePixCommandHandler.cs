@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using EzCommon.CommandHandlers;
 using EzCommon.Commands;
 using EzCommon.Models;
+using EzGym.Infra.Repository;
 using EzGym.Infra.Storage;
 using EzGym.Payments.Gateways;
 using EzGym.Payments.Gateways.GerenciaNet.RequestPayment;
@@ -14,12 +15,12 @@ namespace EzGym.Payments.CreatePix
     public record CreatePixCommandHandler : ICommandHandler<CreatePaymentCommand>
     {
         private readonly GatewayFactory _gatewayFactory;
-        private readonly IGymEventStore _eventStore;
+        private readonly IGymRepository _repository;
 
-        public CreatePixCommandHandler(GatewayFactory gatewayFactory, IGymEventStore eventStore)
+        public CreatePixCommandHandler(GatewayFactory gatewayFactory, IGymRepository repository)
         {
             _gatewayFactory = gatewayFactory;
-            _eventStore = eventStore;
+            _repository = repository;
         }
 
         public async Task<EventStream> Handle(CreatePaymentCommand request, CancellationToken cancellationToken)
@@ -40,17 +41,17 @@ namespace EzGym.Payments.CreatePix
                 }
             };
 
-            var paymentResponse = await _gatewayFactory.UseGerenciaNet(gateway => gateway.RequestPaymentAsync(payload));
-            var qrCodeResponse = await _gatewayFactory.UseGerenciaNet(gateway => gateway.GenerateQRCodeAsync(paymentResponse.Loc.Id));
+            //var paymentResponse = await _gatewayFactory.UseGerenciaNet(gateway => gateway.RequestPaymentAsync(payload));
+            //var qrCodeResponse = await _gatewayFactory.UseGerenciaNet(gateway => gateway.GenerateQRCodeAsync(paymentResponse.Loc.Id));
 
             var pix = new Pix(
-                TxId: paymentResponse.Txid,
-                QrCode: qrCodeResponse.Qrcode,
-                QrCodeBase64Image: qrCodeResponse.ImagemQrcode);
+                TxId: payload.Chave,
+                QrCode: payload.Chave,
+                QrCodeBase64Image: payload.Chave);
 
             var payment = new Payment(request).CreatePix(pix);
 
-            return await _eventStore.SaveAggregateAsync(payment);
+            return await _repository.SaveAggregateAsync(payment);
         }
     }
 }

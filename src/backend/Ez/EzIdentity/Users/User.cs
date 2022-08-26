@@ -1,11 +1,9 @@
 ﻿using EzCommon.Models;
 using EzIdentity.Events;
-using EzIdentity.Features.CreateUser;
-using EzIdentity.Services;
 using System;
-using System.Security.Claims;
+using EzIdentity.Users.CreateUser;
 
-namespace EzIdentity.Models
+namespace EzIdentity.Users
 {
     public class User : AggregateRoot
     {
@@ -23,37 +21,15 @@ namespace EzIdentity.Models
             RaiseEvent(new UserCreatedEvent(GenerateNewId(), command.Name, command.UserName, command.Email, command.Password));
         }
 
-        public void Login()
+        public void Login(AccessToken accessTokenModel, RefreshToken refreshToken)
         {
-            var accessToken = TokenService.GenerateAccessToken(() => new Claim[]
-            {
-                    new Claim(nameof(Id), Id),
-                    new Claim(ClaimTypes.Email, Email),
-                    new Claim(ClaimTypes.NameIdentifier, UserName),
-                    new Claim(ClaimTypes.Name, Name ?? UserName)
-            });
 
-            var refreshToken = TokenService.GenereateRefreshToken();
-
-            RaiseEvent(new SucessLoginEvent(accessToken, refreshToken));
+            RaiseEvent(new SuccessLoginEvent(accessTokenModel, refreshToken));
         }
 
-        public void RenewToken()
+        public void RenewToken(AccessToken accessTokenModel, RefreshToken refreshToken)
         {
-            if (RefreshToken.Expires <= DateTime.UtcNow)
-                throw new Exception("Refresh token already expired, please login again");
-
-            var accessToken = TokenService.GenerateAccessToken(() => new Claim[]
-                {
-                    new Claim(nameof(Id), Id),
-                    new Claim(ClaimTypes.Email, Email),
-                    new Claim(ClaimTypes.NameIdentifier, UserName),
-                    new Claim(ClaimTypes.Name, Name ?? UserName)
-                });
-
-            var refreshToken = TokenService.GenereateRefreshToken();
-
-            RaiseEvent(new SucessRenewTokenEvent(accessToken, refreshToken));
+            RaiseEvent(new SucessRenewTokenEvent(accessTokenModel, refreshToken));
         }
 
         public void RevokeToken(string refreshToken)
@@ -69,7 +45,7 @@ namespace EzIdentity.Models
             RefreshToken = null;
         }
 
-        public void Apply(SucessLoginEvent @event)
+        public void Apply(SuccessLoginEvent @event)
         {
             RefreshToken = @event.RefreshToken;
         }
@@ -87,5 +63,5 @@ namespace EzIdentity.Models
             Email = @event.Email;
             Password = @event.Password;
         }
-      }
+    }
 }

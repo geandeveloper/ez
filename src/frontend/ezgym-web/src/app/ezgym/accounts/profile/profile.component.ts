@@ -92,7 +92,9 @@ export class ProfileComponent extends Store<ProfileComponentState> implements On
             width: '100%',
         }).afterClosed()
             .subscribe(() => {
-                this.loadProfile()
+                setTimeout(() => {
+                    this.loadProfile()
+                })
             })
     }
 

@@ -1,6 +1,7 @@
-﻿using EzIdentity.Models;
+﻿using EzIdentity.Users;
 using Microsoft.AspNetCore.Http;
-using System;namespace EzIdentity.Extensions
+using System;
+namespace EzIdentity.Extensions
 {
     public static class HttpRefreshCookieExtensions
     {

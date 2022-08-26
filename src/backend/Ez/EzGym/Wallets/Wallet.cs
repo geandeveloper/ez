@@ -1,17 +1,38 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using EzCommon.Events;
 using EzCommon.Models;
+using EzGym.Payments;
+using EzGym.Wallets.Events;
 
 namespace EzGym.Wallets
 {
     public class Wallet : AggregateRoot
     {
-        public string AccountId { get; init; }
-        public Pix Pix { get; init; }
-        public IEnumerable<WalletReceipt> Receipts { get; init; }
+        public string AccountId { get; private set; }
+        public Pix Pix { get; private set; }
+        public IList<WalletReceipt> Receipts { get; private set; } = new List<WalletReceipt>();
 
-        public Wallet(Pix pix)
+        private Wallet() { }
+
+        public Wallet(string accountId)
         {
-            Pix = pix;
+            RaiseEvent(new WalletCreatedEvent(GenerateNewId(), accountId));
+        }
+
+        public void AddReceipt(string paymentId, bool incoming, PaymentMethodEnum paymentMethod, PaymentStatusEnum paymentStatus, DateTime? paymentDateTime, decimal value, string description)
+        {
+            RaiseEvent(new WalletReceiptReceivedEvent(new WalletReceipt(paymentId, incoming, paymentMethod, paymentStatus, paymentDateTime, value, description)));
+        }
+        protected void Apply(WalletCreatedEvent @event)
+        {
+            Id = @event.Id;
+            AccountId = @event.AccountId;
+        }
+
+        protected void Apply(WalletReceiptReceivedEvent @event)
+        {
+            Receipts.Add(@event.Receipt);
         }
 
     }

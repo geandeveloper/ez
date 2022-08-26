@@ -1,4 +1,4 @@
-﻿namespace EzIdentity.Models
+﻿namespace EzIdentity.Users
 {
     public record AccessToken(string Value);
 }

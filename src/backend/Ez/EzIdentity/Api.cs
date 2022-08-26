@@ -1,13 +1,13 @@
 using EzIdentity.Events;
-using EzIdentity.Features.CreateUser;
-using EzIdentity.Features.Login;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading;
 using EzIdentity.Extensions;
-using EzIdentity.Features.RefreshToken;
-using EzIdentity.Features.RevokeToken;
+using EzIdentity.Users.CreateUser;
+using EzIdentity.Users.Login;
+using EzIdentity.Users.RevokeToken;
+using EzIdentity.Users.UpdateRefreshToken;
 
 namespace EzIdentity;
 
@@ -25,7 +25,7 @@ public static class Api
         {
             var eventStream = await handler.Handle(command, CancellationToken.None);
 
-            var @event = eventStream.GetEvent<SucessLoginEvent>();
+            var @event = eventStream.GetEvent<SuccessLoginEvent>();
             httpContextAccessor.SetRefreshTokenAsCookie(@event.RefreshToken);
 
             return Results.Ok(new
@@ -45,11 +45,11 @@ public static class Api
         });
 
         app.MapPost("/users/refresh-token", async (
-            [FromServices] RefreshTokenCommandHandler handler,
+            [FromServices] UpdateRefreshTokenCommandHandler handler,
             IHttpContextAccessor httpContextAccessor
             ) =>
         {
-            var eventStream = await handler.Handle(new RefreshTokenCommand(httpContextAccessor.GetRefreshTokenFromCookie()), CancellationToken.None);
+            var eventStream = await handler.Handle(new UpdateRefreshTokenCommand(httpContextAccessor.GetRefreshTokenFromCookie()), CancellationToken.None);
             var @event = eventStream.GetEvent<SucessRenewTokenEvent>();
             httpContextAccessor.SetRefreshTokenAsCookie(@event.RefreshToken);
 

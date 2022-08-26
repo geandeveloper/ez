@@ -1,12 +1,12 @@
 ﻿using EzCommon.Models;
 using EzGym.Accounts;
 using EzGym.Apis;
-using EzGym.Infra.Storage;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using EzGym.Infra.Repository;
 
 namespace EzGym
 {
@@ -18,12 +18,12 @@ namespace EzGym
             app.MapGet("/userinfo",
                 [Authorize] (
                       [FromServices] EzPrincipal principal,
-                      [FromServices] IGymQueryStore queryStorage) =>
+                      [FromServices] IGymRepository repository) =>
                   {
                       var userInfo = new
                       {
                           principal.UserName,
-                          Accounts = queryStorage.Where<Account>(account => account.UserId == principal.Id).ToList(),
+                          Accounts = repository.Where<Account>(account => account.UserId == principal.Id).ToList(),
                       };
 
                       return Results.Ok(userInfo);

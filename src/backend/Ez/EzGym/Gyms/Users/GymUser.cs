@@ -9,9 +9,9 @@ namespace EzGym.Gyms.Users
     public class GymUser : AggregateRoot
     {
         public string GymId { get; private set; }
+        public string AccountId { get; private set; }
         public string Name { get; private set; }
         public string Email { get; private set; }
-        public string AccountId { get; private set; }
 
         public IList<GymMemberShip> MemberShips { get; } = new List<GymMemberShip>();
 

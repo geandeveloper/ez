@@ -2,29 +2,30 @@
 using System.Threading.Tasks;
 using EzCommon.CommandHandlers;
 using EzCommon.Models;
+using EzGym.Infra.Repository;
 using EzGym.Infra.Storage;
 
 namespace EzGym.Accounts.FollowAccount
 {
     public class FollowAccountCommandHandler : ICommandHandler<FollowAccountCommand>
     {
-        private readonly IGymEventStore _eventStore;
+        private readonly IGymRepository _repository;
 
-        public FollowAccountCommandHandler(IGymEventStore eventStore)
+        public FollowAccountCommandHandler(IGymRepository repository)
         {
-            _eventStore = eventStore;
+            _repository = repository;
         }
 
         public async Task<EventStream> Handle(FollowAccountCommand request, CancellationToken cancellationToken)
         {
-            var account = await _eventStore.LoadAggregateAsync<Account>(request.UserAccountId);
-            var accountToFollow = await _eventStore.LoadAggregateAsync<Account>(request.FollowAccountId);
+            var account = await _repository.LoadAggregateAsync<Account>(request.UserAccountId);
+            var accountToFollow = await _repository.LoadAggregateAsync<Account>(request.FollowAccountId);
 
             account.FollowAccount(accountToFollow);
             accountToFollow.AddFollower(account);
 
-            await _eventStore.SaveAggregateAsync(accountToFollow);
-            return await _eventStore.SaveAggregateAsync(account);
+            await _repository.SaveAggregateAsync(accountToFollow);
+            return await _repository.SaveAggregateAsync(account);
         }
     }
 }

@@ -1,20 +1,9 @@
-﻿
-using EzCommon.Models;
-using System;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
+﻿using Marten;
 
 namespace EzCommon.Infra.Storage;
 
-public interface IEventStore
+public interface IEventStore: IDocumentStore
 {
-    Task<TAggregate> LoadAggregateAsync<TAggregate>(string aggregateId)
-      where TAggregate : AggregateRoot;
-
-    Task<EventStream> SaveAggregateAsync<TAggregate>(TAggregate aggregate)
-      where TAggregate : AggregateRoot;
-
-    Task<TAggregate> QueryAsync<TAggregate>(Expression<Func<TAggregate, bool>> query);
-
+  
 }
 
