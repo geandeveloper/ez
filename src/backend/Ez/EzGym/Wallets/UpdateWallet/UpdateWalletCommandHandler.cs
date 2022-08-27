@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using EzCommon.CommandHandlers;
 using EzCommon.Models;
 using EzGym.Infra.Repository;
-using EzGym.Infra.Storage;
 
 namespace EzGym.Wallets.UpdateWallet
 {
@@ -19,9 +18,10 @@ namespace EzGym.Wallets.UpdateWallet
 
         public async Task<EventStream> Handle(UpdateWalletCommand request, CancellationToken cancellationToken)
         {
-            var account = await _repository.LoadAggregateAsync<Wallet>(request.AccountId);
+            var wallet = await _repository.LoadAggregateAsync<Wallet>(request.AccountId);
+            wallet.UpdateWallet(request.Pix);
 
-            return await _repository.SaveAggregateAsync(account);
+            return await _repository.SaveAggregateAsync(wallet);
         }
     }
 }

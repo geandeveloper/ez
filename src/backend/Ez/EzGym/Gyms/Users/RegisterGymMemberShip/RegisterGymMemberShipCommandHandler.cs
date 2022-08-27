@@ -23,19 +23,18 @@ public class RegisterGymMemberShipCommandHandler : ICommandHandler<RegisterGymMe
 
     public RegisterGymMemberShipCommandHandler(
         CreateGymUserCommandHandler createGymUserCommandHandler,
-        IGymRepository repository,
-        CreatePixCommandHandler createPixCommandHandler)
+        CreatePixCommandHandler createPixCommandHandler,
+        IGymRepository repository)
     {
         _createGymUserCommandHandler = createGymUserCommandHandler;
-        _repository = repository;
         _createPixCommandHandler = createPixCommandHandler;
+        _repository = repository;
     }
 
     public async Task<EventStream> Handle(RegisterGymMemberShipCommand request, CancellationToken cancellationToken)
     {
         var payerAccount = await _repository.LoadAggregateAsync<Account>(request.PayerAccountId)!;
-        var payerGymUser = await _repository.QueryAsync<GymUser>(g => g.AccountId == request.PayerAccountId); ;
-
+        var payerGymUser = await _repository.QueryAsync<GymUser>(g => g.AccountId == request.PayerAccountId);
 
         if (payerGymUser == null)
         {
@@ -53,7 +52,7 @@ public class RegisterGymMemberShipCommandHandler : ICommandHandler<RegisterGymMe
         var plan = receiverGym.GymPlans.First(p => p.Id == request.PlanId);
 
         var paymentStream = await _createPixCommandHandler
-            .Handle(new CreatePaymentCommand("", plan.Price, $"Plano de {plan.Days} dias"), cancellationToken);
+            .Handle(new CreatePaymentCommand(plan.Price, $"Plano de {plan.Days} dias"), cancellationToken);
 
         var payment = paymentStream.GetEvent<PaymentCreatedEvent>();
 

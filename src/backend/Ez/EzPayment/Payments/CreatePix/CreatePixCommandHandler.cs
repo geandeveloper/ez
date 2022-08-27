@@ -6,33 +6,34 @@ using EzCommon.Models;
 using EzPayment.Infra.Repository;
 using EzPayment.Payments.Gateways;
 using EzPayment.Payments.Gateways.GerenciaNet.RequestPayment;
+using Microsoft.Extensions.Options;
 
 namespace EzPayment.Payments.CreatePix
 {
-    public record CreatePaymentCommand(string PixKey, decimal Value, string Description) : ICommand;
+    public record CreatePaymentCommand(decimal Value, string Description) : ICommand;
 
     public record CreatePixCommandHandler : ICommandHandler<CreatePaymentCommand>
     {
         private readonly GatewayFactory _gatewayFactory;
         private readonly IPaymentRepository _repository;
+        private readonly IOptions<EzPaymentSettings> _settings;
 
-        public CreatePixCommandHandler(GatewayFactory gatewayFactory, IPaymentRepository repository)
+        public CreatePixCommandHandler(GatewayFactory gatewayFactory, IPaymentRepository repository, IOptions<EzPaymentSettings> settings)
         {
             _gatewayFactory = gatewayFactory;
             _repository = repository;
+            _settings = settings;
         }
 
         public async Task<EventStream> Handle(CreatePaymentCommand request, CancellationToken cancellationToken)
         {
-            request = request with { PixKey = "d7d6bd52-0c8a-4b3e-a16c-1c8d267dd68d" };
-
             var payload = new RequestPaymentRequest
             {
                 Calendario = new Calendario
                 {
                     Expiracao = 3600
                 },
-                Chave = request.PixKey,
+                Chave = _settings.Value.GerenciaNet.PixKey,
                 SolicitacaoPagador = request.Description,
                 Valor = new Valor
                 {
