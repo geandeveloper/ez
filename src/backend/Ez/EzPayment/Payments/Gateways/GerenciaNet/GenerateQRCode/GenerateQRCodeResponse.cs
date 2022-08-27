@@ -1,4 +1,4 @@
-﻿namespace EzGym.Payments.Gateways.GerenciaNet.GenerateQRCode
+﻿namespace EzPayment.Payments.Gateways.GerenciaNet.GenerateQRCode
 {
     public class GenerateQRCodeResponse
     {

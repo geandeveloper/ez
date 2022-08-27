@@ -6,7 +6,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Pix\" />
+    <Compile Remove="Features\**" />
+    <Content Remove="Features\**" />
+    <EmbeddedResource Remove="Features\**" />
+    <None Remove="Features\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EzCommon\EzCommon.csproj" />
   </ItemGroup>
 
 </Project>

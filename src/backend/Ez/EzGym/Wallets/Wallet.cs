@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using EzCommon.Models;
 using EzGym.Events.Wallet;
-using EzGym.Payments;
+using EzPayment.Payments;
 
 namespace EzGym.Wallets
 {

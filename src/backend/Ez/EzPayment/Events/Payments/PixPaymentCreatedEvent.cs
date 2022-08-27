@@ -1,6 +1,6 @@
 ﻿using EzCommon.Events;
-using EzGym.Payments;
+using EzPayment.Payments;
 
-namespace EzGym.Events.Payments;
+namespace EzPayment.Events.Payments;
 
 public record PixPaymentCreatedEvent(string PaymentId, Pix Pix) : Event;

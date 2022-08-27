@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EzGym.Payments.Gateways.GerenciaNet.RequestPayment
+namespace EzPayment.Payments.Gateways.GerenciaNet.RequestPayment
 {
     public class RequestPaymentResponse
     {

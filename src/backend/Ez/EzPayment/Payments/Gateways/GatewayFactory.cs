@@ -2,11 +2,11 @@
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Cryptography.X509Certificates;
-using EzGym.Payments.Gateways.GerenciaNet;
-using EzGym.Payments.Gateways.GerenciaNet.OAuthToken;
+using EzPayment.Payments.Gateways.GerenciaNet;
+using EzPayment.Payments.Gateways.GerenciaNet.OAuthToken;
 using Refit;
 
-namespace EzGym.Payments.Gateways
+namespace EzPayment.Payments.Gateways
 {
     public class GatewayFactory
     {

@@ -1,5 +1,5 @@
-﻿using EzGym.Payments;
-using System;
+﻿using System;
+using EzPayment.Payments;
 
 namespace EzGym.Wallets;
 

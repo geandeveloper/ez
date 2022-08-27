@@ -1,14 +1,10 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using EzCommon.EventHandlers;
-using EzCommon.Infra.Storage;
 using EzGym.Events.Gym;
-using EzGym.Gyms;
-using EzGym.Gyms.Users;
 using EzGym.Infra.Repository;
-using EzGym.Infra.Storage;
-using EzGym.Payments;
 using EzGym.Wallets;
+using EzPayment.Payments;
 
 namespace EzGym.EventHandlers
 {

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace EzGym.Payments
+﻿namespace EzPayment.Payments
 {
     public record Payer(string PayerId);
 }

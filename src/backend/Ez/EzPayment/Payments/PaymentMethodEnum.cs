@@ -1,4 +1,4 @@
-﻿namespace EzGym.Payments
+﻿namespace EzPayment.Payments
 {
     public enum PaymentMethodEnum
     {

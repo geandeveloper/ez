@@ -3,21 +3,20 @@ using System.Threading.Tasks;
 using EzCommon.CommandHandlers;
 using EzCommon.Commands;
 using EzCommon.Models;
-using EzGym.Infra.Repository;
-using EzGym.Infra.Storage;
-using EzGym.Payments.Gateways;
-using EzGym.Payments.Gateways.GerenciaNet.RequestPayment;
+using EzPayment.Infra.Repository;
+using EzPayment.Payments.Gateways;
+using EzPayment.Payments.Gateways.GerenciaNet.RequestPayment;
 
-namespace EzGym.Payments.CreatePix
+namespace EzPayment.Payments.CreatePix
 {
     public record CreatePaymentCommand(string PixKey, decimal Value, string Description) : ICommand;
 
     public record CreatePixCommandHandler : ICommandHandler<CreatePaymentCommand>
     {
         private readonly GatewayFactory _gatewayFactory;
-        private readonly IGymRepository _repository;
+        private readonly IPaymentRepository _repository;
 
-        public CreatePixCommandHandler(GatewayFactory gatewayFactory, IGymRepository repository)
+        public CreatePixCommandHandler(GatewayFactory gatewayFactory, IPaymentRepository repository)
         {
             _gatewayFactory = gatewayFactory;
             _repository = repository;

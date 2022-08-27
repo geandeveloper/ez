@@ -1,7 +1,7 @@
 ﻿using EzCommon.Events;
-using EzGym.Payments.CreatePix;
+using EzPayment.Payments.CreatePix;
 
-namespace EzGym.Events.Payments
+namespace EzPayment.Events.Payments
 {
     public record PaymentCreatedEvent(string Id, CreatePaymentCommand Command) : Event;
 }

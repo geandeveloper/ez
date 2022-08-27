@@ -9,6 +9,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\EzCommon\EzCommon.csproj" />
 		<ProjectReference Include="..\EzIdentity\EzIdentity.csproj" />
+		<ProjectReference Include="..\EzPayment\EzPayment.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

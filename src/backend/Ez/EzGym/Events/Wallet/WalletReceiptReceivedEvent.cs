@@ -1,6 +1,5 @@
 ﻿using EzCommon.Events;
 using EzGym.Wallets;
-using EzGym.Wallets.Projections;
 
 namespace EzGym.Events.Wallet
 {

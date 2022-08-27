@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading;
-using EzGym.Payments.CreatePix;
-using EzGym.Events.Payments;
+using EzPayment.Events.Payments;
+using EzPayment.Payments.CreatePix;
 
 namespace EzGym.Apis;
 

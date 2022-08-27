@@ -1,5 +1,5 @@
 ﻿
-namespace EzGym.Payments.Gateways.GerenciaNet.OAuthToken
+namespace EzPayment.Payments.Gateways.GerenciaNet.OAuthToken
 {
     public class OAuthTokenResponse 
     {

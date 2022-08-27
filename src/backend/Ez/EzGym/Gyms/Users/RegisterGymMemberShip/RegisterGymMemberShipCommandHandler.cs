@@ -6,10 +6,10 @@ using EzCommon.CommandHandlers;
 using EzCommon.Commands;
 using EzCommon.Models;
 using EzGym.Accounts;
-using EzGym.Events.Payments;
 using EzGym.Gyms.Users.CreateGymUser;
 using EzGym.Infra.Repository;
-using EzGym.Payments.CreatePix;
+using EzPayment.Events.Payments;
+using EzPayment.Payments.CreatePix;
 
 namespace EzGym.Gyms.Users.RegisterGymMemberShip;
 

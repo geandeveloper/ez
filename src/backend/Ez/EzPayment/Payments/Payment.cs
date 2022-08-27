@@ -1,9 +1,9 @@
 ﻿using System;
 using EzCommon.Models;
-using EzGym.Events.Payments;
-using EzGym.Payments.CreatePix;
+using EzPayment.Events.Payments;
+using EzPayment.Payments.CreatePix;
 
-namespace EzGym.Payments
+namespace EzPayment.Payments
 {
 
     public class Payment : AggregateRoot

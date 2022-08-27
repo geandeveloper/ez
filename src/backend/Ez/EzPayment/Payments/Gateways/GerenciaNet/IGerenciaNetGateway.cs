@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
-using EzGym.Payments.Gateways.GerenciaNet.GenerateQRCode;
-using EzGym.Payments.Gateways.GerenciaNet.OAuthToken;
-using EzGym.Payments.Gateways.GerenciaNet.RequestPayment;
+using EzPayment.Payments.Gateways.GerenciaNet.GenerateQRCode;
+using EzPayment.Payments.Gateways.GerenciaNet.OAuthToken;
+using EzPayment.Payments.Gateways.GerenciaNet.RequestPayment;
 using Refit;
 
-namespace EzGym.Payments.Gateways.GerenciaNet
+namespace EzPayment.Payments.Gateways.GerenciaNet
 {
     public interface IGerenciaNetGateway
     {
