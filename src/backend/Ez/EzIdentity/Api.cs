@@ -1,4 +1,3 @@
-using EzIdentity.Events;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +7,7 @@ using EzIdentity.Users.CreateUser;
 using EzIdentity.Users.Login;
 using EzIdentity.Users.RevokeToken;
 using EzIdentity.Users.UpdateRefreshToken;
+using EzIdentity.Events.Users;
 
 namespace EzIdentity;
 

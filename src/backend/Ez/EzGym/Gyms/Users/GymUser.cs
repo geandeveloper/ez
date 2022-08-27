@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using EzCommon.Models;
-using EzGym.Gyms.Events;
+using EzGym.Events.Gym;
 using EzGym.Gyms.Users.CreateGymUser;
 
 namespace EzGym.Gyms.Users

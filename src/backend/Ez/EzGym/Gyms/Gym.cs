@@ -1,8 +1,8 @@
 ﻿using EzCommon.Models;
-using EzGym.Gyms.Events;
 using System.Collections.Generic;
 using EzGym.Gyms.CreateGym;
 using EzGym.Gyms.CreatePlan;
+using EzGym.Events.Gym;
 
 namespace EzGym.Gyms
 {

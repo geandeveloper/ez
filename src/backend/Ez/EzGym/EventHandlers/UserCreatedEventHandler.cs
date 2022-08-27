@@ -1,9 +1,9 @@
 ﻿using EzCommon.EventHandlers;
 using EzGym.Accounts;
-using EzIdentity.Events;
 using System.Threading;
 using System.Threading.Tasks;
 using EzGym.Accounts.CreateAccount;
+using EzIdentity.Events.Users;
 
 namespace EzGym.EventHandlers
 {

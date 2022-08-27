@@ -1,6 +1,6 @@
 ﻿using EzCommon.Events;
 using EzGym.Gyms.Users;
 
-namespace EzGym.Gyms.Events;
+namespace EzGym.Events.Gym;
 
 public record GymMemberShipRegisteredEvent(string Id, GymMemberShip GymMemberShip) : Event;

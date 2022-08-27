@@ -1,7 +1,7 @@
 ﻿using System;
 using EzCommon.Models;
+using EzGym.Events.Payments;
 using EzGym.Payments.CreatePix;
-using EzGym.Payments.Events;
 
 namespace EzGym.Payments
 {

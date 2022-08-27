@@ -1,5 +1,5 @@
 ﻿using EzCommon.Events;
 
-namespace EzGym.Gyms.Events;
+namespace EzGym.Events.Gym;
 
 public record GymUserAssociateWithAccountEvent(string GymUserId, string AccountId) : Event;

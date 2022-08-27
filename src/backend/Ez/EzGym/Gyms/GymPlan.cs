@@ -1,5 +1,5 @@
 ﻿using EzCommon.Models;
-using EzGym.Gyms.Events;
+using EzGym.Events.Gym;
 
 namespace EzGym.Gyms
 {

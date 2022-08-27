@@ -1,7 +1,7 @@
 ﻿using EzCommon.Models;
-using EzIdentity.Events;
 using System;
 using EzIdentity.Users.CreateUser;
+using EzIdentity.Events.Users;
 
 namespace EzIdentity.Users
 {

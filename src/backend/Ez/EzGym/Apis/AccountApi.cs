@@ -2,7 +2,6 @@
 using EzGym.Accounts;
 using EzGym.Accounts.Events;
 using EzGym.Gyms;
-using EzGym.Gyms.Events;
 using EzGym.Infra.Storage;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -21,6 +20,7 @@ using EzGym.Gyms.CreateGym;
 using EzGym.Infra.Repository;
 using EzGym.Wallets;
 using EzGym.Wallets.UpdateWallet;
+using EzGym.Events.Gym;
 
 namespace EzGym.Apis
 {

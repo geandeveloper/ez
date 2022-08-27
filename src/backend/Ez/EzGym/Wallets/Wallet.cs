@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using EzCommon.Events;
 using EzCommon.Models;
+using EzGym.Events.Wallet;
 using EzGym.Payments;
-using EzGym.Wallets.Events;
 
 namespace EzGym.Wallets
 {

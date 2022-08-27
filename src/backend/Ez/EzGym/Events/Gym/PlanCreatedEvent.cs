@@ -1,7 +1,7 @@
 ﻿using EzCommon.Events;
 using EzGym.Gyms.CreatePlan;
 
-namespace EzGym.Gyms.Events
+namespace EzGym.Events.Gym
 {
     public record PlanCreatedEvent(string Id, CreatePlanCommand Command) : Event;
 }

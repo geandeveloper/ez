@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading;
 using EzGym.Payments.CreatePix;
-using EzGym.Payments.Events;
+using EzGym.Events.Payments;
 
 namespace EzGym.Apis;
 
