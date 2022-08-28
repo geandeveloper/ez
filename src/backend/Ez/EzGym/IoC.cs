@@ -10,7 +10,6 @@ using EzGym.Gyms.CreatePlan;
 using EzGym.Gyms.RegisterGymMemberShip;
 using EzGym.Gyms.Users;
 using EzGym.Gyms.Users.CreateGymUser;
-using EzGym.Gyms.Users.RegisterGymMemberShip;
 using EzGym.Infra.Repository;
 using EzGym.Infra.Storage;
 using EzGym.Wallets;
@@ -75,6 +74,7 @@ namespace EzGym
                     options.Projections.SelfAggregate<GymUser>(ProjectionLifecycle.Inline);
                     options.Projections.SelfAggregate<Payment>(ProjectionLifecycle.Inline);
                     options.Projections.SelfAggregate<Wallet>(ProjectionLifecycle.Inline);
+                    options.Projections.SelfAggregate<GymMemberShip>(ProjectionLifecycle.Inline);
 
                     return options;
                 })

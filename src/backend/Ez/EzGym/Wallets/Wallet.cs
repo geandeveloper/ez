@@ -33,6 +33,7 @@ namespace EzGym.Wallets
 
         public void UpdateReceipt(string paymentId, Func<WalletReceipt, WalletReceipt> updateReceipt)
         {
+
             Receipts.Where(r => r.PaymentId == paymentId).ToList().ForEach(r =>
             {
                 RaiseEvent(new WalletReceiptCreatedEvent(r));

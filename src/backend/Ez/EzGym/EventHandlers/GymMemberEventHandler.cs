@@ -1,29 +1,31 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using EzCommon.EventHandlers;
 using EzGym.Events.Gym;
 using EzGym.Gyms;
 using EzGym.Infra.Repository;
 using EzGym.Wallets;
+using EzPayment.Infra.Repository;
 using EzPayment.Payments;
 
 namespace EzGym.EventHandlers
 {
-    public class GymMemberEventHandler : 
+    public class GymMemberEventHandler :
         IEventHandler<GymMemberShipCreatedEvent>,
         IEventHandler<GymMemberShipPaidEvent>
     {
         private readonly IGymRepository _repository;
+        private readonly IPaymentRepository _paymentRepository;
 
-        public GymMemberEventHandler(IGymRepository repository)
+        public GymMemberEventHandler(IGymRepository repository, IPaymentRepository paymentRepository)
         {
             _repository = repository;
+            _paymentRepository = paymentRepository;
         }
 
         public async Task Handle(GymMemberShipCreatedEvent notification, CancellationToken cancellationToken)
         {
-            var payment = await _repository.LoadAggregateAsync<Payment>(notification.PaymentId);
+            var payment = await _paymentRepository.QueryAsync<Payment>(p => p.Id == notification.PaymentId);
 
             var payerWallet = await _repository.QueryAsync<Wallet>(w => w.AccountId == notification.PayerAccountId);
             var receiverWallet = await _repository.QueryAsync<Wallet>(w => w.AccountId == notification.ReceiverAccountId);

@@ -31,7 +31,7 @@ export class CreditCardCheckoutComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.elementsOptions.clientSecret = "pi_3LbN7uGAlQ5T9hwX0V2xNvK6_secret_8FmgkcnSkD5dzhKbGUIjldJ7w"
+        this.elementsOptions.clientSecret = "pi_3Lbh4rGAlQ5T9hwX0sP7dFj8_secret_3Fbpo7HGlYofaKpXAhKx616nb"
     }
 
     pay() {

@@ -1,6 +1,5 @@
 ﻿using EzCommon.Models;
 using EzGym.Gyms;
-using EzGym.Infra.Storage;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -8,9 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading;
 using EzGym.Gyms.CreatePlan;
-using EzGym.Gyms.Users.RegisterGymMemberShip;
 using EzGym.Infra.Repository;
 using EzGym.Events.Gym;
+using EzGym.Gyms.RegisterGymMemberShip;
 
 namespace EzGym.Apis
 {

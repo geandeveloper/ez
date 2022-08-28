@@ -2,6 +2,7 @@
 {
     public enum PaymentMethodEnum
     {
-        Pix = 1
+        Pix = 1,
+        CreditCard = 2
     }
 }

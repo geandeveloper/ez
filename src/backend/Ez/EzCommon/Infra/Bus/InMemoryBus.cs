@@ -14,9 +14,9 @@ public class InMemoryBus : IBus
         _mediator = mediator;
     }
 
-    public async Task PublishAsync<TEvent>(params TEvent[] events) where TEvent : IEvent
+    public Task PublishAsync<TEvent>(params TEvent[] events) where TEvent : IEvent
     {
-        await Task.WhenAll(events.Select(e => _mediator.Publish(e)));
+        return Task.WhenAll(events.Select(e => _mediator.Publish(e)));
     }
 }
 

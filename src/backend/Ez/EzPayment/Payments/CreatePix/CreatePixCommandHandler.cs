@@ -10,7 +10,7 @@ using Microsoft.Extensions.Options;
 
 namespace EzPayment.Payments.CreatePix
 {
-    public record CreatePaymentCommand(decimal Value, string Description) : ICommand;
+    public record CreatePaymentCommand(long Amount, string Description) : ICommand;
 
     public record CreatePixCommandHandler : ICommandHandler<CreatePaymentCommand>
     {
@@ -37,7 +37,7 @@ namespace EzPayment.Payments.CreatePix
                 SolicitacaoPagador = request.Description,
                 Valor = new Valor
                 {
-                    Original = $"{request.Value:0.00}".Replace(",", ".")
+                    Original = $"{request.Amount:0.00}".Replace(",", ".")
                 }
             };
 
@@ -48,7 +48,7 @@ namespace EzPayment.Payments.CreatePix
                 QrCode: qrCodeResponse.Qrcode,
                 QrCodeBase64Image: qrCodeResponse.ImagemQrcode);
 
-            var payment = new Payment(paymentResponse.Txid, request).CreatePix(pix);
+            var payment = new Payment(paymentResponse.Txid, request).PayWithPix(pix);
 
             return await _repository.SaveAggregateAsync(payment);
         }

@@ -10,10 +10,11 @@ namespace EzPayment.Payments
     {
         public string IntegrationId { get; private set; }
         public string Description { get; set; }
-        public decimal Amount { get; protected set; }
+        public long Amount { get; protected set; }
         public PaymentStatusEnum PaymentStatus { get; private set; }
         public PaymentMethodEnum PaymentMethod { get; private set; }
         public Pix Pix { get; private set; }
+        public CreditCard Card { get; private set; }
         public DateTime? PaymentDateTime { get; private set; }
 
         public Payment() { }
@@ -23,9 +24,15 @@ namespace EzPayment.Payments
             RaiseEvent(new PaymentCreatedEvent(GenerateNewId(), integrationId, command));
         }
 
-        public Payment CreatePix(Pix pix)
+        public Payment PayWithPix(Pix pix)
         {
             RaiseEvent(new PixPaymentCreatedEvent(Id, pix));
+            return this;
+        }
+
+        public Payment PayWithCreditCard(CreditCard card)
+        {
+            RaiseEvent(new CreditCardPaymentCreatedEvent(Id, card));
             return this;
         }
 
@@ -46,7 +53,7 @@ namespace EzPayment.Payments
             IntegrationId = @event.IntegrationId;
             Description = @event.Command.Description;
             PaymentStatus = PaymentStatusEnum.Pending;
-            Amount = @event.Command.Value;
+            Amount = @event.Command.Amount;
             PaymentDateTime = null;
         }
 
@@ -54,6 +61,12 @@ namespace EzPayment.Payments
         {
             Pix = @event.Pix;
             PaymentMethod = PaymentMethodEnum.Pix;
+        }
+
+        protected void Apply(CreditCardPaymentCreatedEvent @event)
+        {
+            Card = @event.Card;
+            PaymentMethod = PaymentMethodEnum.CreditCard;
         }
     }
 }

@@ -2,16 +2,16 @@
 using System.Threading.Tasks;
 using EzCommon.EventHandlers;
 using EzGym.Gyms;
+using EzGym.Infra.Repository;
 using EzPayment.Events.Payments;
-using EzPayment.Infra.Repository;
 
 namespace EzGym.EventHandlers
 {
     public class PaymentsEventHandler : IEventHandler<PaymentReceivedEvent>
     {
-        private readonly IPaymentRepository _repository;
+        private readonly IGymRepository _repository;
 
-        public PaymentsEventHandler(IPaymentRepository repository)
+        public PaymentsEventHandler(IGymRepository repository)
         {
             _repository = repository;
         }

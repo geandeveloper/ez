@@ -7,11 +7,11 @@ using EzGym.Gyms.CreateGym;
 
 namespace EzGym.EventHandlers
 {
-    public class AccountCreatedEventHandler : IEventHandler<AccountCreatedEvent>
+    public class AccountEventHandler : IEventHandler<AccountCreatedEvent>
     {
         private readonly CreateGymCommandHandler _handler;
 
-        public AccountCreatedEventHandler(CreateGymCommandHandler handler)
+        public AccountEventHandler(CreateGymCommandHandler handler)
         {
             _handler = handler;
         }

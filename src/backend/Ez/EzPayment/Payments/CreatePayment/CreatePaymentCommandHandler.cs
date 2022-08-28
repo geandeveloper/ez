@@ -31,8 +31,8 @@ namespace EzPayment.Payments.CreatePayment
 
             var options = new PaymentIntentCreateOptions
             {
-                Amount = request.Amount,
-                Currency = "usd",
+                Amount = request.Amount * 100,
+                Currency = "brl",
                 AutomaticPaymentMethods = new PaymentIntentAutomaticPaymentMethodsOptions
                 {
                     Enabled = true,
@@ -42,6 +42,7 @@ namespace EzPayment.Payments.CreatePayment
             var paymentIntent = _gatewayFactory.UseStripePayment(stripe => stripe.CreatePaymentIntent(options));
 
             var payment = new Payment(paymentIntent.Id, new CreatePix.CreatePaymentCommand(amount, description));
+            payment.PayWithCreditCard(new CreditCard(paymentIntent.ClientSecret));
 
             return _paymentRepository.SaveAggregateAsync(payment);
         }

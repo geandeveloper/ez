@@ -22,8 +22,7 @@ namespace EzPayment.Payments.PaymentReceived
         {
             var payment = await _paymentRepository.QueryAsync<Payment>(p => p.IntegrationId == request.IntegrationId);
 
-            payment.Receive(request.Amount);
-
+            payment.Receive(payment.Amount);
             return await _paymentRepository.SaveAggregateAsync(payment);
         }
     }
