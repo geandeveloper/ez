@@ -42,7 +42,7 @@ export class GymPlansComponent extends Store<GymPlansComponentState>  {
             name: [''],
             gymId: [],
             days: [30],
-            price: [70],
+            amount: [70],
             active: [true]
         })
 
@@ -89,7 +89,7 @@ export class GymPlansComponent extends Store<GymPlansComponentState>  {
                             active: Boolean(response.command.active),
                             days: parseInt(response.command.days),
                             name: response.command.name,
-                            price: parseFloat(response.command.price)
+                            amount: parseFloat(response.command.amount)
                         }
                     ]
                 }))

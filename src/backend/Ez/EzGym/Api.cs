@@ -32,8 +32,7 @@ namespace EzGym
 
 
             app.UseEzGymAccountApi()
-                .UseEzGymGymsApi()
-                .UsePaymentApi();
+                .UseEzGymGymsApi();
 
             return app;
         }

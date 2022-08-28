@@ -4,8 +4,8 @@ using EzCommon.CommandHandlers;
 using EzCommon.Commands;
 using EzCommon.Models;
 using EzPayment.Infra.Repository;
-using EzPayment.Payments.Gateways;
-using EzPayment.Payments.Gateways.GerenciaNet.RequestPayment;
+using EzPayment.Integrations.Gateways;
+using EzPayment.Integrations.Gateways.GerenciaNet.RequestPayment;
 using Microsoft.Extensions.Options;
 
 namespace EzPayment.Payments.CreatePix
@@ -41,15 +41,14 @@ namespace EzPayment.Payments.CreatePix
                 }
             };
 
-            //var paymentResponse = await _gatewayFactory.UseGerenciaNet(gateway => gateway.RequestPaymentAsync(payload));
-            //var qrCodeResponse = await _gatewayFactory.UseGerenciaNet(gateway => gateway.GenerateQRCodeAsync(paymentResponse.Loc.Id));
+            var paymentResponse = await _gatewayFactory.UseGerenciaNet(gateway => gateway.RequestPaymentAsync(payload));
+            var qrCodeResponse = await _gatewayFactory.UseGerenciaNet(gateway => gateway.GenerateQRCodeAsync(paymentResponse.Loc.Id));
 
             var pix = new Pix(
-                TxId: payload.Chave,
-                QrCode: payload.Chave,
-                QrCodeBase64Image: payload.Chave);
+                QrCode: qrCodeResponse.Qrcode,
+                QrCodeBase64Image: qrCodeResponse.ImagemQrcode);
 
-            var payment = new Payment(request).CreatePix(pix);
+            var payment = new Payment(paymentResponse.Txid, request).CreatePix(pix);
 
             return await _repository.SaveAggregateAsync(payment);
         }

@@ -8,18 +8,19 @@ namespace EzPayment.Payments
 
     public class Payment : AggregateRoot
     {
+        public string IntegrationId { get; private set; }
         public string Description { get; set; }
-        public decimal Value { get; protected set; }
+        public decimal Amount { get; protected set; }
         public PaymentStatusEnum PaymentStatus { get; private set; }
         public PaymentMethodEnum PaymentMethod { get; private set; }
         public Pix Pix { get; private set; }
-        public DateTime? PaymentDateTime { get; private set; } 
+        public DateTime? PaymentDateTime { get; private set; }
 
         public Payment() { }
 
-        public Payment(CreatePaymentCommand command)
+        public Payment(string integrationId, CreatePaymentCommand command)
         {
-            RaiseEvent(new PaymentCreatedEvent(GenerateNewId(), command));
+            RaiseEvent(new PaymentCreatedEvent(GenerateNewId(), integrationId, command));
         }
 
         public Payment CreatePix(Pix pix)
@@ -28,12 +29,24 @@ namespace EzPayment.Payments
             return this;
         }
 
+        public void Receive(long amount)
+        {
+            RaiseEvent(new PaymentReceivedEvent(Id, IntegrationId, amount, DateTime.UtcNow));
+        }
+
+        protected void Apply(PaymentReceivedEvent @event)
+        {
+            PaymentStatus = PaymentStatusEnum.Received;
+            PaymentDateTime = @event.PaymentDateTime;
+        }
+
         protected void Apply(PaymentCreatedEvent @event)
         {
             Id = @event.Id;
+            IntegrationId = @event.IntegrationId;
             Description = @event.Command.Description;
             PaymentStatus = PaymentStatusEnum.Pending;
-            Value = @event.Command.Value;
+            Amount = @event.Command.Value;
             PaymentDateTime = null;
         }
 

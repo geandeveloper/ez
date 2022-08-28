@@ -3,5 +3,5 @@ using EzPayment.Payments.CreatePix;
 
 namespace EzPayment.Events.Payments
 {
-    public record PaymentCreatedEvent(string Id, CreatePaymentCommand Command) : Event;
+    public record PaymentCreatedEvent(string Id, string IntegrationId, CreatePaymentCommand Command) : Event;
 }

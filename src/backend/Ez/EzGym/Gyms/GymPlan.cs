@@ -8,7 +8,7 @@ namespace EzGym.Gyms
         public string GymId { get; set; }
         public string Name { get; private init; }
         public int Days { get; private init; }
-        public decimal Price { get; private init; }
+        public long Amount { get; private init; }
         public bool Active { get; private init; }
 
         public GymPlan() { }
@@ -21,7 +21,7 @@ namespace EzGym.Gyms
                 GymId = @event.Command.GymId,
                 Name = @event.Command.Name,
                 Days = @event.Command.Days,
-                Price = @event.Command.Price,
+                Amount = @event.Command.Amount,
                 Active = @event.Command.Active,
             };
         }

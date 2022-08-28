@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using EzPayment.Payments.Gateways.GerenciaNet.GenerateQRCode;
-using EzPayment.Payments.Gateways.GerenciaNet.OAuthToken;
-using EzPayment.Payments.Gateways.GerenciaNet.RequestPayment;
+using EzPayment.Integrations.Gateways.GerenciaNet.GenerateQRCode;
+using EzPayment.Integrations.Gateways.GerenciaNet.OAuthToken;
+using EzPayment.Integrations.Gateways.GerenciaNet.RequestPayment;
 using Refit;
 
 namespace EzPayment.Payments.Gateways.GerenciaNet

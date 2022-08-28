@@ -2,5 +2,5 @@
 
 namespace EzGym.Gyms.CreatePlan
 {
-    public record CreatePlanCommand(string GymId, string Name, int Days, decimal Price, bool Active) : ICommand;
+    public record CreatePlanCommand(string GymId, string Name, int Days, long Amount, bool Active) : ICommand;
 }

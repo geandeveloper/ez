@@ -12,6 +12,6 @@ export interface GymPlanModel {
     accountId: string,
     name: string,
     days: number,
-    price: number,
+    amount: number,
     active: boolean
 }

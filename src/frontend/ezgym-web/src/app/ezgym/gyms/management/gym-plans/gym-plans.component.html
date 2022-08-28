@@ -20,7 +20,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text bg-primary text-white">R$</span>
                         </div>
-                        <input type="text" class="form-control" formControlName="price"
+                        <input type="text" class="form-control" formControlName="amount"
                             aria-label="Amount (to the nearest dollar)">
                         <div class="input-group-append">
                             <span class="input-group-text">.00</span>
@@ -49,7 +49,7 @@
         <div *ngFor="let plan of state.plans" class="option">
             <div class="plan-description">
                 <h5>
-                    Valor R$ {{ plan.price }}
+                    Valor R$ {{ plan.amount }}
                 </h5>
                 <small class="text-muted">
                     Valido por {{plan.days}} dias

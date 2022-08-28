@@ -24,11 +24,11 @@ namespace EzGym.EventHandlers
             var payerWallet= await _repository.QueryAsync<Wallet>(w => w.AccountId == notification.GymMemberShip.PayerAccountId);
             var receiverWallet = await _repository.QueryAsync<Wallet>(w => w.AccountId == notification.GymMemberShip.ReceiverAccountId);
 
-            payerWallet.AddReceipt(payment.Id, true, payment.PaymentMethod, payment.PaymentStatus, payment.PaymentDateTime, payment.Value, payment.Description);
+            payerWallet.AddReceipt(payment.Id, true, payment.PaymentMethod, payment.PaymentStatus, payment.PaymentDateTime, payment.Amount, payment.Description);
 
-            receiverWallet.AddReceipt(payment.Id, true, payment.PaymentMethod, payment.PaymentStatus, payment.PaymentDateTime, payment.Value, payment.Description);
+            receiverWallet.AddReceipt(payment.Id, true, payment.PaymentMethod, payment.PaymentStatus, payment.PaymentDateTime, payment.Amount, payment.Description);
 
-            payerWallet.AddReceipt(payment.Id, false, payment.PaymentMethod, payment.PaymentStatus, payment.PaymentDateTime, payment.Value, payment.Description);
+            payerWallet.AddReceipt(payment.Id, false, payment.PaymentMethod, payment.PaymentStatus, payment.PaymentDateTime, payment.Amount, payment.Description);
 
             await _repository.SaveAggregateAsync(receiverWallet);
             await _repository.SaveAggregateAsync(payerWallet);

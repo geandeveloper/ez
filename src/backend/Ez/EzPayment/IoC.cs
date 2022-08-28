@@ -1,8 +1,11 @@
 ﻿using EzPayment.Infra.Repository;
 using EzPayment.Infra.Storage;
+using EzPayment.Integrations.Gateways;
+using EzPayment.Integrations.Gateways.StripePayments;
 using EzPayment.Payments;
+using EzPayment.Payments.CreatePayment;
 using EzPayment.Payments.CreatePix;
-using EzPayment.Payments.Gateways;
+using EzPayment.Payments.PaymentReceived;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Marten;
@@ -10,6 +13,8 @@ using Marten.Events;
 using Marten.Events.Daemon.Resiliency;
 using Marten.Events.Projections;
 using Microsoft.Extensions.Configuration;
+using Stripe;
+using Stripe.Checkout;
 using StoreOptions = Marten.StoreOptions;
 
 namespace EzPayment
@@ -20,10 +25,14 @@ namespace EzPayment
         {
 
             services.AddScoped<IPaymentRepository, PaymentRepository>();
-
             services.AddSingleton<GatewayFactory>();
+            services.AddSingleton<IStripePaymentGateway>(
+                new StripePaymentGateway(new SessionService(), new PaymentIntentService())
+            );
 
             services.AddTransient<CreatePixCommandHandler>();
+            services.AddTransient<CreatePaymentCommandHandler>();
+            services.AddTransient<PaymentReceivedCommandHandler>();
 
             services
                 .AddMartenStore<IPaymentStore>(serviceProvider =>

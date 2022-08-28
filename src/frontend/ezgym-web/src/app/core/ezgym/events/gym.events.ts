@@ -14,7 +14,7 @@ export interface PlanCreatedEvent {
         gymId: string,
         name: string
         days: string
-        price: string
+        amount: string
         active: string
     }
 }

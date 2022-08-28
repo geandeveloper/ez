@@ -19,6 +19,7 @@ import { Error404Component } from './shared/error-pages/404/error-404.component'
 import { Error500Component } from './shared/error-pages/500/error-500.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { EzPaymentModule } from './ezpayment/ezpayment.module';
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import { environment } from '../environments/environment';
   ],
   imports: [
     FormsModule,
+    EzPaymentModule,
     ReactiveFormsModule,
     AppRoutingModule,
     HttpClientModule,
@@ -54,7 +56,6 @@ import { environment } from '../environments/environment';
     },
     { provide: "BASE_API_URL", useValue: "/api" },
     { provide: HTTP_INTERCEPTORS, useClass: JwtRequestInterceptor, multi: true },
-    // { provide: LocationStrategy, useClass: HashLocationStrategy }
   ],
   bootstrap: [AppComponent]
 })

@@ -2,12 +2,21 @@
   "profiles": {
     "EzGym": {
       "commandName": "Project",
-      "launchBrowser": false,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "GOOGLE_APPLICATION_CREDENTIALS": "C:/Users/geana/dev/ez/src/backend/Ez/secrets/ezgym-358109-bae205ab632a.json"
       },
       "applicationUrl": "http://localhost:5000;"
+    },
+    "WSL": {
+      "commandName": "WSL2",
+      "launchUrl": "http://localhost:5000",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "GOOGLE_APPLICATION_CREDENTIALS": "C:/Users/geana/dev/ez/src/backend/Ez/secrets/ezgym-358109-bae205ab632a.json",
+        "ASPNETCORE_URLS": "http://localhost:5000;"
+      },
+      "distributionName": ""
     }
   }
 }
