@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Baseline.ImTools;
 using EzCommon.Models;
 using EzGym.Events.Wallet;
 using EzPayment.Payments;
@@ -26,7 +28,22 @@ namespace EzGym.Wallets
 
         public void AddReceipt(string paymentId, bool incoming, PaymentMethodEnum paymentMethod, PaymentStatusEnum paymentStatus, DateTime? paymentDateTime, decimal value, string description)
         {
-            RaiseEvent(new WalletReceiptReceivedEvent(new WalletReceipt(paymentId, incoming, paymentMethod, paymentStatus, paymentDateTime, value, description)));
+            RaiseEvent(new WalletReceiptCreatedEvent(new WalletReceipt(paymentId, incoming, paymentMethod, paymentStatus, paymentDateTime, value, description)));
+        }
+
+        public void UpdateReceipt(string paymentId, Func<WalletReceipt, WalletReceipt> updateReceipt)
+        {
+            Receipts.Where(r => r.PaymentId == paymentId).ToList().ForEach(r =>
+            {
+                RaiseEvent(new WalletReceiptCreatedEvent(r));
+            });
+        }
+
+        protected void Apply(WalletReceiptUpdatedEvent @event)
+        {
+            var receipt = Receipts.First(r => r.PaymentId == @event.Receipt.PaymentId);
+            Receipts.Remove(receipt);
+            Receipts.Add(@event.Receipt);
         }
 
         protected void Apply(WalletCreatedEvent @event)
@@ -40,7 +57,7 @@ namespace EzGym.Wallets
             Pix = @event.Pix;
         }
 
-        protected void Apply(WalletReceiptReceivedEvent @event)
+        protected void Apply(WalletReceiptCreatedEvent @event)
         {
             Receipts.Add(@event.Receipt);
         }

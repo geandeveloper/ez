@@ -3,6 +3,6 @@
     public enum PaymentStatusEnum
     {
         Pending = 1,
-        Received = 2
+        Approved = 2
     }
 }

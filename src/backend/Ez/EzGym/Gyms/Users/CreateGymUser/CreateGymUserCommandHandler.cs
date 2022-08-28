@@ -4,7 +4,6 @@ using EzCommon.CommandHandlers;
 using EzCommon.Commands;
 using EzCommon.Models;
 using EzGym.Infra.Repository;
-using EzGym.Infra.Storage;
 
 namespace EzGym.Gyms.Users.CreateGymUser
 {

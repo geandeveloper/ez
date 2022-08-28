@@ -7,6 +7,7 @@ using EzGym.Accounts.UpInsertAccountProfile;
 using EzGym.Gyms;
 using EzGym.Gyms.CreateGym;
 using EzGym.Gyms.CreatePlan;
+using EzGym.Gyms.RegisterGymMemberShip;
 using EzGym.Gyms.Users;
 using EzGym.Gyms.Users.CreateGymUser;
 using EzGym.Gyms.Users.RegisterGymMemberShip;

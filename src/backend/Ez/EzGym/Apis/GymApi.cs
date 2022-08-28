@@ -51,7 +51,7 @@ namespace EzGym.Apis
                 string gymId) =>
                 {
                     var eventStream = await handler.Handle(command, CancellationToken.None);
-                    var @event = eventStream.GetEvent<GymMemberShipRegisteredEvent>();
+                    var @event = eventStream.GetEvent<GymMemberShipCreatedEvent>();
 
                     return Results.Ok(@event);
                 });

@@ -7,11 +7,11 @@ using EzIdentity.Events.Users;
 
 namespace EzGym.EventHandlers
 {
-    public class UserCreatedEventHandler : IEventHandler<UserCreatedEvent>
+    public class UserEventHandler : IEventHandler<UserCreatedEvent>
     {
         private readonly CreateAccountCommandHandler _handler;
 
-        public UserCreatedEventHandler(CreateAccountCommandHandler handler)
+        public UserEventHandler(CreateAccountCommandHandler handler)
         {
             _handler = handler;
         }

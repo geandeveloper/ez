@@ -36,7 +36,7 @@ namespace EzPayment.Payments
 
         protected void Apply(PaymentReceivedEvent @event)
         {
-            PaymentStatus = PaymentStatusEnum.Received;
+            PaymentStatus = PaymentStatusEnum.Approved;
             PaymentDateTime = @event.PaymentDateTime;
         }
 
