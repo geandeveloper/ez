@@ -5,7 +5,6 @@ using EzGym.Events.Gym;
 using EzGym.Gyms;
 using EzGym.Infra.Repository;
 using EzGym.Wallets;
-using EzPayment.Infra.Repository;
 using EzPayment.Payments;
 
 namespace EzGym.EventHandlers
@@ -15,26 +14,24 @@ namespace EzGym.EventHandlers
         IEventHandler<GymMemberShipPaidEvent>
     {
         private readonly IGymRepository _repository;
-        private readonly IPaymentRepository _paymentRepository;
 
-        public GymMemberEventHandler(IGymRepository repository, IPaymentRepository paymentRepository)
+        public GymMemberEventHandler(IGymRepository repository)
         {
             _repository = repository;
-            _paymentRepository = paymentRepository;
         }
 
         public async Task Handle(GymMemberShipCreatedEvent notification, CancellationToken cancellationToken)
         {
-            var payment = await _paymentRepository.QueryAsync<Payment>(p => p.Id == notification.PaymentId);
+            var payment = await _repository.QueryAsync<GymMemberShip>(p => p.PaymentId == notification.PaymentId);
 
             var payerWallet = await _repository.QueryAsync<Wallet>(w => w.AccountId == notification.PayerAccountId);
             var receiverWallet = await _repository.QueryAsync<Wallet>(w => w.AccountId == notification.ReceiverAccountId);
 
-            payerWallet.AddReceipt(payment.Id, true, payment.PaymentMethod, payment.PaymentStatus, payment.PaymentDateTime, payment.Amount, payment.Description);
+            payerWallet.AddReceipt(payment.Id, PaymentStatusEnum.Pending, payment.PaymentDateTime, payment.Amount, "Saldo adicionado");
 
-            receiverWallet.AddReceipt(payment.Id, true, payment.PaymentMethod, payment.PaymentStatus, payment.PaymentDateTime, payment.Amount, payment.Description);
+            receiverWallet.AddReceipt(payment.Id, PaymentStatusEnum.Pending, payment.PaymentDateTime, payment.Amount, $"Recebimento plano");
 
-            payerWallet.AddReceipt(payment.Id, false, payment.PaymentMethod, payment.PaymentStatus, payment.PaymentDateTime, payment.Amount, payment.Description);
+            payerWallet.AddReceipt(payment.Id, PaymentStatusEnum.Pending, payment.PaymentDateTime, -payment.Amount, $"Pagamento plano");
 
             await _repository.SaveAggregateAsync(receiverWallet);
             await _repository.SaveAggregateAsync(payerWallet);

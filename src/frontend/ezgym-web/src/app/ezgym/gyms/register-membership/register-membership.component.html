@@ -11,44 +11,44 @@
 
     <section class="register-step">
         <mat-horizontal-stepper [linear]="false" #stepper="matHorizontalStepper">
-            <mat-step >
-                    <ng-template matStepLabel>
-                        Plano
-                    </ng-template>
+            <mat-step>
+                <ng-template matStepLabel>
+                    Plano
+                </ng-template>
 
-                    <h5 class="step-header">
-                        Selecione um plano
-                    </h5>
+                <h5 class="step-header">
+                    Selecione um plano
+                </h5>
 
-                    <blockquote *ngIf="!state.plans.length" class="blockquote">
-                        <p class="mb-0">Essa academia ainda nao possui nenhum plano disponivel, tenta novamente mais
-                            tarde</p>
-                    </blockquote>
-                    <section class="plan-options">
-                        <div *ngFor="let plan of state.plans" (click)="planSelected(plan.value.id)"
-                            [ngClass]="{'selected': plan.selected }" class="option">
-                            <div class="icon">
-                                <i *ngIf="plan.selected" class="material-icons">radio_button_checked</i>
-                                <i *ngIf="!plan.selected" class="material-icons">radio_button_unchecked</i>
-                            </div>
-                            <div class="plan-description">
-                                <h5>
-                                    Valor R$ {{plan.value.amount}}
-                                </h5>
-                                <small class="text-muted">
-                                    Valido por {{plan.value.days}} dias
-                                </small>
-
-                            </div>
+                <blockquote *ngIf="!state.plans.length" class="blockquote">
+                    <p class="mb-0">Essa academia ainda nao possui nenhum plano disponivel, tenta novamente mais
+                        tarde</p>
+                </blockquote>
+                <section class="plan-options">
+                    <div *ngFor="let plan of state.plans" (click)="planSelected(plan.value.id)"
+                        [ngClass]="{'selected': plan.selected }" class="option">
+                        <div class="icon">
+                            <i *ngIf="plan.selected" class="material-icons">radio_button_checked</i>
+                            <i *ngIf="!plan.selected" class="material-icons">radio_button_unchecked</i>
                         </div>
-                    </section>
+                        <div class="plan-description">
+                            <h5>
+                                Valor R$ {{plan.value.amount}}
+                            </h5>
+                            <small class="text-muted">
+                                Valido por {{plan.value.days}} dias
+                            </small>
 
-                    <section *ngIf="state.plans.length" class="register-btn">
-                        <button [disabled]="!state.ui?.planSelected" mat-button matStepperNext>Continuar</button>
-                    </section>
+                        </div>
+                    </div>
+                </section>
+
+                <section *ngIf="state.plans.length" class="register-btn">
+                    <button [disabled]="!state.ui?.planSelected" mat-button matStepperNext>Continuar</button>
+                </section>
             </mat-step>
             <mat-step>
-                <ng-template matStepLabel>Pagamento</ng-template>
+                <ng-template matStepLabel>Forma de Pagamento</ng-template>
 
                 <h5 class="step-header">
                     Forma de pagamento
@@ -62,10 +62,10 @@
                         </div>
                         <div class="plan-description">
                             <h5>
-                                PIX
+                                {{payment.name}}
                             </h5>
                             <small class="text-muted">
-                                Pagamento instantaneo
+                                {{payment.description}}
                             </small>
 
                         </div>
@@ -106,7 +106,7 @@
                     </h5>
                     <p>
                         <span class="font-weight-bold">Forma de pagamento</span>
-                        PIX
+                        {{state.ui?.paymentSelected?.name }}
                     </p>
                     <p>
                         <span class="font-weight-bold">Valor do plano</span>

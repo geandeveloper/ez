@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Baseline.ImTools;
 using EzCommon.Models;
 using EzGym.Events.Wallet;
 using EzPayment.Payments;
@@ -26,9 +25,9 @@ namespace EzGym.Wallets
             RaiseEvent(new WalletUpdatedEvent(Id, pix));
         }
 
-        public void AddReceipt(string paymentId, bool incoming, PaymentMethodEnum paymentMethod, PaymentStatusEnum paymentStatus, DateTime? paymentDateTime, decimal value, string description)
+        public void AddReceipt(string paymentId, PaymentStatusEnum paymentStatus, DateTime? paymentDateTime, decimal value, string description)
         {
-            RaiseEvent(new WalletReceiptCreatedEvent(new WalletReceipt(paymentId, incoming, paymentMethod, paymentStatus, paymentDateTime, value, description)));
+            RaiseEvent(new WalletReceiptCreatedEvent(new WalletReceipt(paymentId, paymentStatus, paymentDateTime, value, description)));
         }
 
         public void UpdateReceipt(string paymentId, Func<WalletReceipt, WalletReceipt> updateReceipt)

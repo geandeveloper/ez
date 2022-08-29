@@ -27,7 +27,7 @@ namespace EzPayment.Integrations.Gateways
         {
             var httpClient = new HttpClient(CreateHandler())
             {
-                BaseAddress = new Uri(@"https://api-pix.gerencianet.com.br"),
+                BaseAddress = new Uri(@"https://api-pixInfo.gerencianet.com.br"),
             };
 
             var authorizationHeader = Base64Encode($"Client_Id_aefec7d54383324560cb150f51eb5a6cbf6dfa78:Client_Secret_05e2285dc41662b3c6385f48fadd1fcc0beeae74");

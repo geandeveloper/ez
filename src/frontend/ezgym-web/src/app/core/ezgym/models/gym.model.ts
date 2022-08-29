@@ -4,7 +4,8 @@ export interface GymModel {
 }
 
 export enum PaymentTypeEnum {
-    Pix = 1
+    Pix = 1,
+    CreditCard = 2
 }
 
 export interface GymPlanModel {

@@ -8,27 +8,23 @@ using EzCommon.Models;
 using EzGym.Accounts;
 using EzGym.Infra.Repository;
 using EzPayment.Events.Payments;
+using EzPayment.Payments;
 using EzPayment.Payments.CreatePayment;
-using EzPayment.Payments.CreatePix;
 using CreatePaymentCommand = EzPayment.Payments.CreatePayment.CreatePaymentCommand;
 
 namespace EzGym.Gyms.RegisterGymMemberShip;
 
-public record RegisterGymMemberShipCommand(string PayerAccountId, string GymId, string PlanId) : ICommand;
+public record RegisterGymMemberShipCommand(string PayerAccountId, string GymId, string PlanId, PaymentMethodEnum PaymentMethod) : ICommand;
 
 public class RegisterGymMemberShipCommandHandler : ICommandHandler<RegisterGymMemberShipCommand>
 {
-    private readonly CreatePixCommandHandler _createPix;
-    private readonly CreatePaymentCommandHandler _paymentCheckout;
+    private readonly CreatePaymentCommandHandler _createPayment;
     private readonly IGymRepository _repository;
 
-    public RegisterGymMemberShipCommandHandler(
-        CreatePixCommandHandler createPix,
-        IGymRepository repository, CreatePaymentCommandHandler paymentCheckout)
+    public RegisterGymMemberShipCommandHandler(IGymRepository repository, CreatePaymentCommandHandler createPayment)
     {
-        _createPix = createPix;
         _repository = repository;
-        _paymentCheckout = paymentCheckout;
+        _createPayment = createPayment;
     }
 
     public async Task<EventStream> Handle(RegisterGymMemberShipCommand request, CancellationToken cancellationToken)
@@ -38,8 +34,8 @@ public class RegisterGymMemberShipCommandHandler : ICommandHandler<RegisterGymMe
         var receiverGym = await _repository.QueryAsync<Gym>(g => g.Id == request.GymId);
         var plan = receiverGym.GymPlans.First(p => p.Id == request.PlanId);
 
-        var paymentStream = await _paymentCheckout
-            .Handle(new CreatePaymentCommand(plan.Amount, $"Plano de {plan.Days} dias"), cancellationToken);
+        var paymentStream = await _createPayment
+            .Handle(new CreatePaymentCommand(plan.Amount, $"Plano de {plan.Days} dias", request.PaymentMethod), cancellationToken);
 
         var payment = paymentStream.GetEvent<PaymentCreatedEvent>();
 

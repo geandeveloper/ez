@@ -1,6 +1,7 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Threading;
+using EzPayment.Infra.Repository;
+using EzPayment.Payments;
 using EzPayment.Payments.PaymentReceived;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,9 +32,12 @@ public static class PaymentsWebhooks
 
             var paymentIntent = stripeEvent.Data.Object as PaymentIntent;
 
+            var repository = context.RequestServices.GetRequiredService<IPaymentRepository>();
             var handler = context.RequestServices.GetRequiredService<PaymentReceivedCommandHandler>();
-            var command = new PaymentReceivedCommand(paymentIntent!.Id, paymentIntent.Amount);
 
+
+            var payment = repository.QueryOne<Payment>(p => p.CardInfo.IntegrationId == paymentIntent.Id);
+            var command = new PaymentReceivedCommand(payment!.Id, payment.Amount);
             await handler.Handle(command, CancellationToken.None);
         });
 

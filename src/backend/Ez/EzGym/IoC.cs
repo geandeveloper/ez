@@ -16,7 +16,6 @@ using EzGym.Wallets;
 using EzGym.Wallets.UpdateWallet;
 using EzPayment.Integrations.Gateways;
 using EzPayment.Payments;
-using EzPayment.Payments.CreatePix;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Marten;
@@ -45,7 +44,6 @@ namespace EzGym
             services.AddTransient<UnfollowAccountCommandHandler>();
             services.AddTransient<UpdateWalletCommandHandler>();
             services.AddTransient<CreatePlanCommandHandler>();
-            services.AddTransient<CreatePixCommandHandler>();
             services.AddTransient<CreateGymUserCommandHandler>();
             services.AddTransient<RegisterGymMemberShipCommandHandler>();
 

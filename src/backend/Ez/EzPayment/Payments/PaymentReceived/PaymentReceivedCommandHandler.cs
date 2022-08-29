@@ -7,7 +7,7 @@ using EzPayment.Infra.Repository;
 
 namespace EzPayment.Payments.PaymentReceived
 {
-    public record PaymentReceivedCommand(string IntegrationId, long Amount) : ICommand;
+    public record PaymentReceivedCommand(string PaymentId, long Amount) : ICommand;
 
     public class PaymentReceivedCommandHandler : ICommandHandler<PaymentReceivedCommand>
     {
@@ -20,7 +20,7 @@ namespace EzPayment.Payments.PaymentReceived
 
         public async Task<EventStream> Handle(PaymentReceivedCommand request, CancellationToken cancellationToken)
         {
-            var payment = await _paymentRepository.QueryAsync<Payment>(p => p.IntegrationId == request.IntegrationId);
+            var payment = await _paymentRepository.LoadAggregateAsync<Payment>(request.PaymentId);
 
             payment.Receive(payment.Amount);
             return await _paymentRepository.SaveAggregateAsync(payment);

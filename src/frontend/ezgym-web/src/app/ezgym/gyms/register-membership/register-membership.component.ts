@@ -12,7 +12,7 @@ import { Store } from 'src/app/core/state/store';
 interface ComponentState {
     ui?: {
         planSelected: GymPlanModel,
-        paymentSelected: PaymentTypeEnum
+        paymentSelected: any
     }
     accountId: string,
     gym: GymModel,
@@ -50,6 +50,12 @@ export class RegisterMembershipComponent extends Store<ComponentState> implement
                     name: "PIX",
                     description: "Pagamento instantaneo",
                     value: PaymentTypeEnum.Pix,
+                    selected: false
+                },
+                {
+                    name: "Cartao de Credito",
+                    description: "Pagamento com cartao",
+                    value: PaymentTypeEnum.CreditCard,
                     selected: false
                 }
             ]
@@ -94,7 +100,7 @@ export class RegisterMembershipComponent extends Store<ComponentState> implement
             ...state,
             ui: {
                 ...state.ui!,
-                paymentSelected: paymentType
+                paymentSelected: state.paymentTypes.find(p => p.value == paymentType)
             },
             paymentTypes: state.paymentTypes.map(p => ({
                 ...p,
@@ -103,7 +109,7 @@ export class RegisterMembershipComponent extends Store<ComponentState> implement
         }))
     }
 
-    confirmRegister() { 
+    confirmRegister() {
         this.gymService.registerMemberShip({
             payerAccountId: this.userStore.state.activeAccount?.id,
             gymId: this.state.gym.id,

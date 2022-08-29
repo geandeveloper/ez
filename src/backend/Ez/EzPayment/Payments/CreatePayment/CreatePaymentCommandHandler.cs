@@ -1,50 +1,47 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using EzCommon.CommandHandlers;
-using EzCommon.Commands;
 using EzCommon.Models;
 using EzPayment.Infra.Repository;
-using EzPayment.Integrations.Gateways;
-using Stripe;
 
 namespace EzPayment.Payments.CreatePayment
 {
-
-    public record CreatePaymentCommand(long Amount, string Description) : ICommand;
-
     public class CreatePaymentCommandHandler : ICommandHandler<CreatePaymentCommand>
     {
-        private readonly GatewayFactory _gatewayFactory;
         private readonly IPaymentRepository _paymentRepository;
+        private readonly CreatePaymentService _createPaymentService;
 
-        public CreatePaymentCommandHandler(GatewayFactory gatewayFactory, IPaymentRepository paymentRepository)
+        public CreatePaymentCommandHandler(IPaymentRepository paymentRepository, CreatePaymentService createPaymentService)
         {
-            _gatewayFactory = gatewayFactory;
             _paymentRepository = paymentRepository;
+            _createPaymentService = createPaymentService;
         }
 
-
-        public Task<EventStream> Handle(CreatePaymentCommand request, CancellationToken cancellationToken)
+        public async Task<EventStream> Handle(CreatePaymentCommand request, CancellationToken cancellationToken)
         {
-            var (amount, description) = request;
+            var payment = new Payment(request);
 
-
-            var options = new PaymentIntentCreateOptions
+            switch (request.PaymentMethod)
             {
-                Amount = request.Amount * 100,
-                Currency = "brl",
-                AutomaticPaymentMethods = new PaymentIntentAutomaticPaymentMethodsOptions
-                {
-                    Enabled = true,
-                },
-            };
+                case PaymentMethodEnum.CreditCard:
 
-            var paymentIntent = _gatewayFactory.UseStripePayment(stripe => stripe.CreatePaymentIntent(options));
+                    var creditCardInfo = await _createPaymentService.CreateCardIntegrationPaymentAsync(request.Amount, request.Description);
+                    payment.PayWithCreditCard(creditCardInfo);
 
-            var payment = new Payment(paymentIntent.Id, new CreatePix.CreatePaymentCommand(amount, description));
-            payment.PayWithCreditCard(new CreditCard(paymentIntent.ClientSecret));
+                    break;
 
-            return _paymentRepository.SaveAggregateAsync(payment);
+                case PaymentMethodEnum.Pix:
+
+                    var pixInfo = await _createPaymentService.CreatePixIntegrationPaymentAsync(request.Amount, request.Description);
+                    payment.PayWithPix(pixInfo);
+
+                    break;
+
+                default: throw new ArgumentOutOfRangeException();
+            }
+
+            return await _paymentRepository.SaveAggregateAsync(payment);
         }
     }
 }

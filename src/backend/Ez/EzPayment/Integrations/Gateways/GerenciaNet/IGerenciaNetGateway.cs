@@ -18,6 +18,6 @@ namespace EzPayment.Integrations.Gateways.GerenciaNet
 
 
         [Get("/v2/loc/{locationId}/qrcode")]
-        Task<GenerateQRCodeResponse> GenerateQRCodeAsync(int locationId);
+        Task<GenerateQRCodeResponse> GenerateQrCodeAsync(int locationId);
     }
 }

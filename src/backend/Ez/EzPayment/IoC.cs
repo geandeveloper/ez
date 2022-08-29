@@ -4,7 +4,6 @@ using EzPayment.Integrations.Gateways;
 using EzPayment.Integrations.Gateways.StripePayments;
 using EzPayment.Payments;
 using EzPayment.Payments.CreatePayment;
-using EzPayment.Payments.CreatePix;
 using EzPayment.Payments.PaymentReceived;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -30,8 +29,10 @@ namespace EzPayment
                 new StripePaymentGateway(new SessionService(), new PaymentIntentService())
             );
 
-            services.AddTransient<CreatePixCommandHandler>();
-            services.AddTransient<CreatePaymentCommandHandler>();
+            services
+                .AddTransient<CreatePaymentCommandHandler>()
+                .AddTransient<CreatePaymentService>();
+
             services.AddTransient<PaymentReceivedCommandHandler>();
 
             services
