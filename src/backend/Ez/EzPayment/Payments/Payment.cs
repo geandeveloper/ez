@@ -10,13 +10,13 @@ namespace EzPayment.Payments
     {
         public string Description { get; set; }
         public long Amount { get; protected set; }
-        public PaymentStatusEnum PaymentStatus { get; private set; }
-        public PaymentMethodEnum PaymentMethod { get; private set; }
+        public PaymentStatusEnum Status { get; private set; }
+        public PaymentMethodEnum Method { get; private set; }
         public PixInfo PixInfo { get; private set; }
         public CreditCardInfo CardInfo { get; private set; }
         public DateTime? PaymentDateTime { get; private set; }
 
-        private Payment() { }
+        public Payment() { }
 
         public Payment(CreatePaymentCommand command)
         {
@@ -42,7 +42,7 @@ namespace EzPayment.Payments
 
         protected void Apply(PaymentReceivedEvent @event)
         {
-            PaymentStatus = PaymentStatusEnum.Approved;
+            Status = PaymentStatusEnum.Approved;
             PaymentDateTime = @event.PaymentDateTime;
         }
 
@@ -50,7 +50,7 @@ namespace EzPayment.Payments
         {
             Id = @event.Id;
             Description = @event.Command.Description;
-            PaymentStatus = PaymentStatusEnum.Pending;
+            Status = PaymentStatusEnum.Pending;
             Amount = @event.Command.Amount;
             PaymentDateTime = null;
         }
@@ -58,13 +58,13 @@ namespace EzPayment.Payments
         protected void Apply(PixPaymentCreatedEvent @event)
         {
             PixInfo = @event.PixInfo;
-            PaymentMethod = PaymentMethodEnum.Pix;
+            Method = PaymentMethodEnum.Pix;
         }
 
         protected void Apply(CreditCardPaymentCreatedEvent @event)
         {
             CardInfo = @event.CardInfo;
-            PaymentMethod = PaymentMethodEnum.CreditCard;
+            Method = PaymentMethodEnum.CreditCard;
         }
     }
 }

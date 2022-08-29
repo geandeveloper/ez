@@ -17,8 +17,8 @@ export class GymProfileComponent implements OnInit {
     accountId: string | undefined
 
     ngOnInit() {
-        this.registerNewMemberShip()
     }
+    
     registerNewMemberShip() {
 
         this.dialog.open(RegisterMembershipComponent, {

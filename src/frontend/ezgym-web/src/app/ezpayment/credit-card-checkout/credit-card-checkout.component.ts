@@ -2,60 +2,103 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { StripeService, StripePaymentElementComponent } from 'ngx-stripe';
 import {
-    StripeCardElementOptions,
+    Appearance,
     StripeElementsOptions
 } from '@stripe/stripe-js';
 import { FormBuilder, Validators } from '@angular/forms';
+import { PaymentService } from '../core/services/payment.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { finalize, switchMap, tap } from 'rxjs';
+import { PaymentModel } from '../core/models/payment.model';
+import { Store } from 'src/app/core/state/store';
+import { PreLoaderStore } from 'src/app/shared/components/pre-loader/pre-loader.store';
+import { EzGymComponentStore } from 'src/app/ezgym/ezgym.component.store';
+import { EzPaymentStore } from '../ezpayment.store';
 
+
+interface ComponentState {
+    ui?: {
+        redirectRoute: string,
+        stripeElementOptions: StripeElementsOptions
+    },
+    payment?: PaymentModel
+}
 
 @Component({
     selector: 'credit-card-checkout',
     templateUrl: 'credit-card-checkout.component.html',
     styleUrls: ['credit-card-checkout.component.scss']
 })
-export class CreditCardCheckoutComponent implements OnInit {
+export class CreditCardCheckoutComponent extends Store<ComponentState> implements OnInit {
 
     @ViewChild(StripePaymentElementComponent)
     paymentElement!: StripePaymentElementComponent;
-    elementsOptions: StripeElementsOptions = {
-        locale: 'pt-BR'
-    };
 
     paymentForm = this.fb.group({
-        name: ['John doe', [Validators.required]],
-        email: ['support@ngx-stripe.dev', [Validators.required]],
+        name: ['', [Validators.required]],
+        email: ['', [Validators.required]],
         amount: [2500, [Validators.required, Validators.pattern(/d+/)]]
     });
 
     constructor(
         private fb: FormBuilder,
-        private stripeService: StripeService
+        private stripeService: StripeService,
+        private router: Router,
+        private ezPaymentStore: EzPaymentStore,
+        private preloader: PreLoaderStore
     ) {
-
+        super({
+            ui: {
+                redirectRoute: '/',
+                stripeElementOptions: {
+                    locale: 'pt-BR',
+                    appearance: {
+                        theme: 'stripe',
+                        variables: {
+                            fontFamily: 'poppins',
+                            colorTextPlaceholder: '#ccc',
+                            colorTextSecondary: '#000'
+                        }
+                    }
+                }
+            }
+        })
     }
 
     ngOnInit() {
-        this.elementsOptions.appearance = {
-            theme: 'stripe',
-            variables: {
-                fontFamily: 'poppins',
-                colorTextPlaceholder: '#ccc',
-                colorTextSecondary: '#000'
-            } 
 
-        }
-        this.elementsOptions.clientSecret = "pi_3Lbh4rGAlQ5T9hwX0sP7dFj8_secret_3Fbpo7HGlYofaKpXAhKx616nb"
+
+        this.ezPaymentStore.store$
+            .subscribe(paymentState => {
+                this.setState(state => ({
+                    ...state,
+                    payment: paymentState.payment,
+                    ui: {
+                        stripeElementOptions: state.ui?.stripeElementOptions ?? {},
+                        redirectRoute: paymentState.redirecUrl
+                    }
+                }))
+            })
     }
 
-    pay() {
+    confirmPayment() {
+        this.preloader.show()
         this.stripeService.confirmPayment({
             elements: this.paymentElement.elements,
             redirect: 'if_required',
             confirmParams: {
-                return_url: "https://localhost:4200"
+                return_url: this.state.ui?.redirectRoute
             }
-        }).subscribe(teste => {
-            debugger
-        })
+        }).pipe(
+            tap(payment => {
+                if (payment.paymentIntent?.status == "succeeded")
+                    this.router.navigate([`/ezpayment/${this.state.payment?.id}/success-payment`])
+                else
+                    alert("error during payment, try again")
+            }),
+            finalize(() => {
+                this.preloader.close()
+            })
+        ).subscribe()
     }
 }

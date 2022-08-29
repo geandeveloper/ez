@@ -2,12 +2,13 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { switchMap, tap } from 'rxjs';
+import { finalize, switchMap, tap } from 'rxjs';
 import { UserStore } from 'src/app/core/authentication/user.store';
 import { AccountService } from 'src/app/core/ezgym/account.service';
 import { GymService } from 'src/app/core/ezgym/gym.service';
-import { GymModel, GymPlanModel, PaymentTypeEnum } from 'src/app/core/ezgym/models/gym.model';
+import { GymModel, GymPlanModel, PaymentMethodEnum } from 'src/app/core/ezgym/models/gym.model';
 import { Store } from 'src/app/core/state/store';
+import { PreLoaderStore } from 'src/app/shared/components/pre-loader/pre-loader.store';
 
 
 interface ComponentState {
@@ -18,8 +19,8 @@ interface ComponentState {
     accountId: string,
     gym: GymModel,
     plans: { value: GymPlanModel, selected: boolean }[]
-    paymentTypes: {
-        value: PaymentTypeEnum,
+    paymentMethods: {
+        value: PaymentMethodEnum,
         name: string,
         description: string,
         selected: boolean
@@ -40,6 +41,7 @@ export class RegisterMembershipComponent extends Store<ComponentState> implement
         private accountService: AccountService,
         private gymService: GymService,
         private userStore: UserStore,
+        private preloader: PreLoaderStore,
         private router: Router,
         @Inject(MAT_DIALOG_DATA) public data: { accountId: string }) {
 
@@ -47,17 +49,17 @@ export class RegisterMembershipComponent extends Store<ComponentState> implement
             accountId: data.accountId,
             gym: {} as GymModel,
             plans: [],
-            paymentTypes: [
+            paymentMethods: [
                 {
                     name: "PIX",
                     description: "Pagamento instantaneo",
-                    value: PaymentTypeEnum.Pix,
+                    value: PaymentMethodEnum.Pix,
                     selected: false
                 },
                 {
                     name: "Cartao de Credito",
                     description: "Pagamento com cartao",
-                    value: PaymentTypeEnum.CreditCard,
+                    value: PaymentMethodEnum.CreditCard,
                     selected: false
                 }
             ]
@@ -97,14 +99,14 @@ export class RegisterMembershipComponent extends Store<ComponentState> implement
         }))
     }
 
-    paymentSelected(paymentType: PaymentTypeEnum) {
+    paymentSelected(paymentType: PaymentMethodEnum) {
         this.setState(state => ({
             ...state,
             ui: {
                 ...state.ui!,
-                paymentSelected: state.paymentTypes.find(p => p.value == paymentType)
+                paymentSelected: state.paymentMethods.find(p => p.value == paymentType)
             },
-            paymentTypes: state.paymentTypes.map(p => ({
+            paymentMethods: state.paymentMethods.map(p => ({
                 ...p,
                 selected: p.value == paymentType
             }))
@@ -112,17 +114,21 @@ export class RegisterMembershipComponent extends Store<ComponentState> implement
     }
 
     confirmRegister() {
-
-        this.close()
-        this.router.navigate(['/ezpayment/1/credit-card'])
-        // this.gymService.registerMemberShip({
-        //     payerAccountId: this.userStore.state.activeAccount?.id,
-        //     gymId: this.state.gym.id,
-        //     planId: this.state.ui?.planSelected.id
-        // }).subscribe(payment => {
-        //     debugger
-        // })
-
+        this.preloader.show();
+        this.gymService.registerMemberShip({
+            payerAccountId: this.userStore.state.activeAccount?.id,
+            gymId: this.state.gym.id,
+            planId: this.state.ui?.planSelected.id,
+            paymentMethod: this.state.ui?.paymentSelected.value
+        }).pipe(
+            tap(paymentEvent => {
+                this.router.navigate([`/ezpayment/${paymentEvent.paymentId}/credit-card`])
+                this.close();
+            }),
+            finalize(() => {
+                this.preloader.close()
+            })
+        ).subscribe()
     }
 
     ngOnInit() { }

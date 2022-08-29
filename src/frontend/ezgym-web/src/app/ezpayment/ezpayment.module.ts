@@ -6,14 +6,22 @@ import { CreditCardCheckoutComponent } from "./credit-card-checkout/credit-card-
 import { NgxStripeModule } from 'ngx-stripe';
 import { EzPaymentRoutingModule } from "./ezpayment-routing.module";
 import { EzPaymentComponent } from "./ezpayment.component";
+import { PaymentService } from "./core/services/payment.service";
+import { SuccessPaymentComponent } from "./success-payment/success-payment/success-payment.component";
+import { EzPaymentStore } from "./ezpayment.store";
 
 @NgModule({
-  declarations:[
+  declarations: [
     CreditCardCheckoutComponent,
-    EzPaymentComponent
+    EzPaymentComponent,
+    SuccessPaymentComponent
   ],
-  exports:[
+  exports: [
     CreditCardCheckoutComponent
+  ],
+  providers: [
+    PaymentService,
+    EzPaymentStore
   ],
   imports: [
     EzPaymentRoutingModule,

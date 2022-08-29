@@ -6,9 +6,11 @@
 }
 
 .card {
+    padding: 20px;
+    max-width: $screen-md;
+    margin: 0 auto;
     display: flex;
 }
-
 
 .card-right {
     .form-group {

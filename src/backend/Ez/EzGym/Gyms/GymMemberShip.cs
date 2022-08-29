@@ -17,7 +17,7 @@ namespace EzGym.Gyms
 
         public DateTime? PaymentDateTime { get; private set; }
 
-        protected GymMemberShip() { }
+        public GymMemberShip() { }
 
         public GymMemberShip(string receiverAccountId, string payerAccountId, string planId, string paymentId, long amount, int days)
         {

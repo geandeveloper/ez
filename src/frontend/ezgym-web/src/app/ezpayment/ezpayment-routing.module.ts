@@ -4,14 +4,16 @@ import { CreditCardCheckoutComponent } from "./credit-card-checkout/credit-card-
 import { RouterModule, Routes } from "@angular/router";
 import { EzPaymentComponent } from "./ezpayment.component";
 import { AuthGuard } from "../core/authentication/auth.guard";
+import { SuccessPaymentComponent } from "./success-payment/success-payment/success-payment.component";
 
 const routes: Routes = [
   {
     path: ':id',
     component: EzPaymentComponent,
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     children: [
-      { path: 'credit-card', component: CreditCardCheckoutComponent }
+      { path: 'credit-card', component: CreditCardCheckoutComponent },
+      { path: 'success-payment', component: SuccessPaymentComponent },
     ]
   }
 ];

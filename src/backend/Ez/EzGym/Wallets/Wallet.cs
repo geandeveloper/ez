@@ -13,7 +13,7 @@ namespace EzGym.Wallets
         public Pix Pix { get; private set; }
         public IList<WalletReceipt> Receipts { get; } = new List<WalletReceipt>();
 
-        private Wallet() { }
+        public Wallet() { }
 
         public Wallet(string accountId)
         {

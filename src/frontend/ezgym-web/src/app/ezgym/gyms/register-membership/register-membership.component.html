@@ -48,24 +48,24 @@
                 </section>
             </mat-step>
             <mat-step>
-                <ng-template matStepLabel>Forma de Pagamento</ng-template>
+                <ng-template matStepLabel>Pagamento</ng-template>
 
                 <h5 class="step-header">
                     Forma de pagamento
                 </h5>
                 <section class="plan-options">
-                    <div *ngFor="let payment of state.paymentTypes" (click)="paymentSelected(payment.value)"
-                        [ngClass]="{'selected': payment.selected }" class="option ">
+                    <div *ngFor="let paymentMethod of state.paymentMethods" (click)="paymentSelected(paymentMethod.value)"
+                        [ngClass]="{'selected': paymentMethod.selected }" class="option ">
                         <div class="icon">
-                            <i *ngIf="payment.selected" class="material-icons">radio_button_checked</i>
-                            <i *ngIf="!payment.selected" class="material-icons">radio_button_unchecked</i>
+                            <i *ngIf="paymentMethod.selected" class="material-icons">radio_button_checked</i>
+                            <i *ngIf="!paymentMethod.selected" class="material-icons">radio_button_unchecked</i>
                         </div>
                         <div class="plan-description">
                             <h5>
-                                {{payment.name}}
+                                {{paymentMethod.name}}
                             </h5>
                             <small class="text-muted">
-                                {{payment.description}}
+                                {{paymentMethod.description}}
                             </small>
 
                         </div>

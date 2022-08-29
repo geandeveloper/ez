@@ -164,5 +164,10 @@
 
     .mat-horizontal-stepper-header {
         pointer-events: none !important;
+        padding: 0px !important;
+    }
+
+    .mat-horizontal-content-container {
+        padding: 0px !important;
     }
 }

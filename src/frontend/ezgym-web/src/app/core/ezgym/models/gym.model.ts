@@ -3,7 +3,7 @@ export interface GymModel {
     accountId: string
 }
 
-export enum PaymentTypeEnum {
+export enum PaymentMethodEnum {
     Pix = 1,
     CreditCard = 2
 }

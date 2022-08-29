@@ -19,9 +19,7 @@ export interface PlanCreatedEvent {
     }
 }
 
-export interface GymMemberShipRegisteredEvent {
+export interface GymMemberShipCreatedEvent {
     id: string,
-    gymMemberShip: {
-        paymentId: string
-    }
+    paymentId: string
 }

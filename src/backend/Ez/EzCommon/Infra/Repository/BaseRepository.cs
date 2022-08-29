@@ -10,15 +10,15 @@ using Marten;
 
 namespace EzCommon.Infra.Repository
 {
-    public class BaseRepository<TStorage> : IBaseRepository
+    public class BaseRepository<TStorage> : IBaseRepository, IDisposable
         where TStorage : IEventStore
     {
-        private readonly TStorage _storage;
+        private readonly IDocumentSession _session;
         private readonly IBus _bus;
 
         public BaseRepository(TStorage storage, IBus bus)
         {
-            _storage = storage;
+            _session = storage.OpenSession();
             _bus = bus;
         }
 
@@ -28,8 +28,7 @@ namespace EzCommon.Infra.Repository
             var aggregate = Activator.CreateInstance<TAggregate>();
             var eventStream = new EventStream(eventStreamId, aggregate.GetEvents().ToList());
 
-            await using var session = _storage.OpenSession();
-            return await session.Events.AggregateStreamAsync<TAggregate>(eventStream.Id);
+            return await _session.Events.AggregateStreamAsync<TAggregate>(eventStream.Id);
         }
 
         public async Task<EventStream> SaveAggregateAsync<TAggregate>(TAggregate aggregate) where TAggregate : AggregateRoot
@@ -40,13 +39,12 @@ namespace EzCommon.Infra.Repository
             if (!eventStream.GetUncommitedEvents().Any())
                 return eventStream;
 
-            await using var session = _storage.OpenSession();
-            if (session.Load<TAggregate>(eventStream.Id) == null)
-                session.Events.StartStream<TAggregate>(eventStream.Id, eventStream.GetUncommitedEvents().Cast<object>().ToArray());
+            if (_session.Load<TAggregate>(eventStream.Id) == null)
+                _session.Events.StartStream<TAggregate>(eventStream.Id, eventStream.GetUncommitedEvents().Cast<object>().ToArray());
             else
-                await session.Events.AppendOptimistic(eventStream.Id, eventStream.GetUncommitedEvents().Cast<object>().ToArray());
+                await _session.Events.AppendOptimistic(eventStream.Id, eventStream.GetUncommitedEvents().Cast<object>().ToArray());
 
-            await session.SaveChangesAsync();
+            await _session.SaveChangesAsync();
 
             await _bus.PublishAsync(eventStream.GetUncommitedEvents().ToArray());
 
@@ -55,20 +53,22 @@ namespace EzCommon.Infra.Repository
 
         public async Task<TAggregate> QueryAsync<TAggregate>(Expression<Func<TAggregate, bool>> query)
         {
-            await using var session = _storage.OpenSession();
-            return await session.Query<TAggregate>().Where(query).FirstOrDefaultAsync(CancellationToken.None);
+            return await _session.Query<TAggregate>().Where(query).FirstOrDefaultAsync(CancellationToken.None);
         }
 
         public IQueryable<T> Where<T>(Expression<Func<T, bool>> query)
         {
-            using var session = _storage.OpenSession();
-            return session.Query<T>().Where(query);
+            return _session.Query<T>().Where(query);
         }
 
         public T QueryOne<T>(Expression<Func<T, bool>> query)
         {
-            using var session = _storage.OpenSession();
-            return session.Query<T>().Where(query).FirstOrDefault();
+            return _session.Query<T>().Where(query).FirstOrDefault();
+        }
+
+        public void Dispose()
+        {
+            _session?.Dispose();
         }
     }
 }
