@@ -30,7 +30,6 @@ import { EzPaymentModule } from './ezpayment/ezpayment.module';
   ],
   imports: [
     FormsModule,
-    EzPaymentModule,
     ReactiveFormsModule,
     AppRoutingModule,
     HttpClientModule,

@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { switchMap, tap } from 'rxjs';
 import { UserStore } from 'src/app/core/authentication/user.store';
 import { AccountService } from 'src/app/core/ezgym/account.service';
@@ -39,6 +40,7 @@ export class RegisterMembershipComponent extends Store<ComponentState> implement
         private accountService: AccountService,
         private gymService: GymService,
         private userStore: UserStore,
+        private router: Router,
         @Inject(MAT_DIALOG_DATA) public data: { accountId: string }) {
 
         super({
@@ -110,13 +112,16 @@ export class RegisterMembershipComponent extends Store<ComponentState> implement
     }
 
     confirmRegister() {
-        this.gymService.registerMemberShip({
-            payerAccountId: this.userStore.state.activeAccount?.id,
-            gymId: this.state.gym.id,
-            planId: this.state.ui?.planSelected.id
-        }).subscribe(payment => {
-            debugger
-        })
+
+        this.close()
+        this.router.navigate(['/ezpayment/1/credit-card'])
+        // this.gymService.registerMemberShip({
+        //     payerAccountId: this.userStore.state.activeAccount?.id,
+        //     gymId: this.state.gym.id,
+        //     planId: this.state.ui?.planSelected.id
+        // }).subscribe(payment => {
+        //     debugger
+        // })
 
     }
 

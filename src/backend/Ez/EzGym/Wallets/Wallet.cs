@@ -35,7 +35,7 @@ namespace EzGym.Wallets
 
             Receipts.Where(r => r.PaymentId == paymentId).ToList().ForEach(r =>
             {
-                RaiseEvent(new WalletReceiptCreatedEvent(r));
+                RaiseEvent(new WalletReceiptCreatedEvent(updateReceipt(r)));
             });
         }
 

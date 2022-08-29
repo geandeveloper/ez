@@ -6,13 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Features\**" />
-    <Content Remove="Features\**" />
-    <EmbeddedResource Remove="Features\**" />
-    <None Remove="Features\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Stripe.net" Version="40.5.0" />
   </ItemGroup>
 

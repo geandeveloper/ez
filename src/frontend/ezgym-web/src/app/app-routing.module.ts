@@ -12,6 +12,11 @@ const routes: Routes = [
     path: '500',
     component: Error500Component
   },
+  {
+    path: 'ezpayment',
+    loadChildren: () => import("./ezpayment/ezpayment.module").then(m => m.EzPaymentModule)
+
+  }
 ];
 
 @NgModule({

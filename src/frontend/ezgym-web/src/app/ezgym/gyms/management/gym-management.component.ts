@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AccountModel, AccountTypeEnum } from 'src/app/core/ezgym/models/accout.model';
 import { Store } from 'src/app/core/state/store';
+import { EzGymComponentStore } from '../../ezgym.component.store';
 import { GymPlansComponent } from './gym-plans/gym-plans.component';
 import { GymWalletComponent } from './gym-wallet/gym-wallet.component';
 
@@ -19,7 +20,8 @@ interface GymManagementComponentState {
 })
 export class GymManagementComponent extends Store<GymManagementComponentState> implements OnInit {
     constructor(
-        public dialog: MatDialog
+        private dialog: MatDialog,
+        private ezGymComponentStorage: EzGymComponentStore,
     ) {
         super({
             checkinsToValidate: [
@@ -37,6 +39,9 @@ export class GymManagementComponent extends Store<GymManagementComponentState> i
     }
 
     ngOnInit() {
+        setTimeout(() => {
+            this.ezGymComponentStorage.showTopNavBar(true);
+        });
     }
 
     openPlans() {
