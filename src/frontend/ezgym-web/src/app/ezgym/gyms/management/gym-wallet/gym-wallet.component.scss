@@ -90,3 +90,26 @@
 .pointer {
     cursor: pointer;
 }
+
+.btn-default {
+    border: 1px $dark-grey solid
+}
+
+.blockquote {
+    padding: 10px;
+    background: rgb(241, 241, 241);
+
+    .status {
+        background:$dark-grey;
+        padding: 2px 4px;
+    }
+}
+
+.btn-primary {
+    background-color: $primary;
+    border: $primary;
+
+    &:hover {
+        background: $secondary;
+    }
+}

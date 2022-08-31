@@ -8,9 +8,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Stripe;
 
-namespace EzPayment.Webhooks.Payments;
+namespace EzPayment.WebHooks.StripePayments;
 
-public static class PaymentsWebhooks
+public static class PaymentsWebHooks
 {
     public static WebApplication UsePaymentWebHooks(this WebApplication app)
     {

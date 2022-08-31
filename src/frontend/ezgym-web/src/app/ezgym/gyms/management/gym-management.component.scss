@@ -36,6 +36,37 @@
     }
 }
 
+.account-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+
+    .account-configuration {
+        button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+}
+
+.btn-toggle {
+    background: none;
+    border: none;
+
+    .btn-icon {
+        color: $primary;
+        font-size: x-large;
+    }
+
+    &:hover {
+        .btn-icon {
+            color: $secondary;
+        }
+    }
+
+}
+
 .account-balance {
     display: flex;
     justify-content: left;
@@ -73,24 +104,6 @@
     }
 
 
-    .btn-toggle {
-        background: none;
-        border: none;
-
-        .toggle-icon {
-            color: $primary;
-            font-size: x-large;
-        }
-
-        &:hover {
-            .toggle-icon {
-                color: $secondary;
-            }
-
-            ;
-        }
-
-    }
 }
 
 

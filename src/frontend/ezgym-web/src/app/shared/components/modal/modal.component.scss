@@ -2,6 +2,7 @@
 
 ::ng-deep {
   .mat-dialog-container {
+    font-family: $font-family;
     background: url("/assets/img/bg-lines.svg") #fff;
     background-size: cover;
   }
@@ -30,8 +31,16 @@
   background: $secondary;
 }
 
+.btn-default {
+  border: 1px solid $dark-grey;
 
-.modal-actions {
-  justify-content: center !important;
+  &:hover {
+    color: $white;
+    background: $dark-grey;
+  }
 }
 
+
+.modal-actions {
+  justify-content: space-between !important;
+}

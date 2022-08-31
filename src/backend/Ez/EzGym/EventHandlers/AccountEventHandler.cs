@@ -21,8 +21,8 @@ namespace EzGym.EventHandlers
             if (notification.Command.AccountType != AccountTypeEnum.Gym)
                 return;
 
-            var command = new CreateGymCommand(AccountId: notification.Id);
-            await _handler.Handle(command, cancellationToken);
+            var createGymCommand = new CreateGymCommand(AccountId: notification.Id);
+            await _handler.Handle(createGymCommand, cancellationToken);
         }
     }
 }

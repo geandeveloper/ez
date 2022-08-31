@@ -3,11 +3,11 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { finalize, switchMap, tap } from 'rxjs';
 import { UserStore } from 'src/app/core/authentication/user.store';
-import { AccountService } from 'src/app/core/ezgym/account.service';
-import { GymService } from 'src/app/core/ezgym/gym.service';
-import { GymModel, GymPlanModel } from 'src/app/core/ezgym/models/gym.model';
+import { AccountService } from 'src/app/ezgym/core/services/account.service';
+import { GymService } from 'src/app/ezgym/core/services/gym.service';
 import { Store } from 'src/app/core/state/store';
 import { PreLoaderStore } from 'src/app/shared/components/pre-loader/pre-loader.store';
+import { GymModel, GymPlanModel } from 'src/app/ezgym/core/models/gym.model';
 
 interface GymPlansComponentState {
     gym: GymModel,

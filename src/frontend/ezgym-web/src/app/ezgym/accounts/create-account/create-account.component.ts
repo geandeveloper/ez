@@ -1,15 +1,15 @@
 import { ModalStore } from 'src/app/shared/components/modal/modal.store';
 import { PreLoaderStore } from 'src/app/shared/components/pre-loader/pre-loader.store';
-import { AddressModel } from '../../../core/ezgym/models/address.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { finalize, tap, filter } from 'rxjs/operators';
 import { Component } from '@angular/core';
 import { debounceTime, switchMap } from 'rxjs';
 import { Store } from 'src/app/core/state/store';
-import { AccountService } from 'src/app/core/ezgym/account.service';
+import { AccountService } from 'src/app/ezgym/core/services/account.service';
 import { UserStore } from 'src/app/core/authentication/user.store';
 import { Router } from '@angular/router';
-import { AccountTypeEnum } from 'src/app/core/ezgym/models/accout.model';
+import { AccountTypeEnum } from 'src/app/ezgym/core/models/accout.model';
+import { AddressModel } from '../../core/models/address.model';
 
 interface CreateAccountComponentState {
     fantasyName: string,

@@ -2,12 +2,10 @@
 using EzGym.Accounts;
 using EzGym.Accounts.Events;
 using EzGym.Gyms;
-using EzGym.Infra.Storage;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -26,7 +24,7 @@ namespace EzGym.Apis
 {
     public static class AccountApi
     {
-        public static WebApplication UseEzGymAccountApi(this WebApplication app)
+        public static WebApplication UseAccountApi(this WebApplication app)
         {
             app.MapPost("/accounts",
                            [Authorize]

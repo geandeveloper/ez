@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { debounceTime } from 'rxjs';
-import { AccountService } from 'src/app/core/ezgym/account.service';
-import { AccountModel } from 'src/app/core/ezgym/models/accout.model';
+import { AccountService } from 'src/app/ezgym/core/services/account.service';
+import { AccountModel } from 'src/app/ezgym/core/models/accout.model';
 import { Store } from 'src/app/core/state/store';
 
 

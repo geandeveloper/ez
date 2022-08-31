@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using EzPayment.Infra.Repository;
 using EzPayment.Payments;
-using EzPayment.Webhooks.Payments;
+using EzPayment.WebHooks.StripePayments;
 
 namespace EzPayment.Apis
 {
@@ -12,7 +12,9 @@ namespace EzPayment.Apis
     {
         public static WebApplication UseEzPaymentApi(this WebApplication app)
         {
-            app.UsePaymentWebHooks();
+            app.UseAccountPaymentApi()
+                .UsePaymentWebHooks()
+                .UseAccountsWebHooks();
 
             app.MapGet("/payments/{id}",
                 [Authorize] (
@@ -22,6 +24,16 @@ namespace EzPayment.Apis
                     var payment = repository.QueryOne<Payment>(p => p.Id == id);
                     return Results.Ok(@payment);
                 });
+
+            app.MapGet("/payments/{id}",
+                [Authorize] (
+                [FromServices] IPaymentRepository repository,
+                string id) =>
+                {
+                    var payment = repository.QueryOne<Payment>(p => p.Id == id);
+                    return Results.Ok(@payment);
+                });
+
 
 
             return app;

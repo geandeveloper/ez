@@ -11,6 +11,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { MatDialogModule } from "@angular/material/dialog";
 import { ImageCropperModule } from "ngx-image-cropper";
 import { SearchAccountComponent } from "./search/search-account/search-account.component";
+import { WalletService } from "./core/services/wallet.service";
+import { PaymentAccountService } from "../ezpayment/core/services/payment-account.service";
 
 
 @NgModule({
@@ -27,6 +29,10 @@ import { SearchAccountComponent } from "./search/search-account/search-account.c
     MatAutocompleteModule,
     MatFormFieldModule,
     ImageCropperModule
+  ],
+  providers: [
+    WalletService,
+    PaymentAccountService
   ],
   exports: [
     EzGymComponent

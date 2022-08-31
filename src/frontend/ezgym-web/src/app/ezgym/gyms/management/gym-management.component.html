@@ -19,7 +19,7 @@
                 </div>
             </div>
         </header>
-        <section>
+        <section class="account-info">
             <div class="account-balance">
                 <div class="balance-info">
                     <!-- <div class="balance-hidden"> </div> -->
@@ -28,8 +28,15 @@
                 </div>
                 <button class="btn-toggle">
                     <!-- <i class="fa-solid fa-eye toggle-icon "></i> -->
-                    <i class="fa-solid fa-eye-low-vision toggle-icon"></i>
+                    <i class="fa-solid fa-eye-low-vision btn-icon"></i>
                 </button>
+            </div>
+            <div class="account-configuration">
+                <button class="btn-toggle" (click)="openWallet()">
+                    <i class="fa-solid fa-wallet btn-icon"></i>
+                    <small class="text-muted">Configurar</small>
+                </button>
+
             </div>
         </section>
     </div>
@@ -52,12 +59,6 @@
                     <i class="fa-solid fa-file-invoice"></i>
                 </div>
                 <label>Planos</label>
-            </div>
-            <div class="menu-option" (click)="openWallet()">
-                <div class="icon-wrapper">
-                    <i class="fa-solid fa-wallet"></i>
-                </div>
-                <label>Carteira</label>
             </div>
 
         </div>

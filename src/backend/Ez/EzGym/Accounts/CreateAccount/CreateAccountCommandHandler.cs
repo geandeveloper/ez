@@ -1,10 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using EzCommon.CommandHandlers;
-using EzCommon.Infra.Storage;
 using EzCommon.Models;
 using EzGym.Infra.Repository;
-using EzGym.Infra.Storage;
 using EzGym.Wallets;
 
 namespace EzGym.Accounts.CreateAccount;

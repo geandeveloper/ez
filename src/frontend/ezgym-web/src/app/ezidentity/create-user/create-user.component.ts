@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { catchError, debounceTime, filter, finalize, pipe, switchMap, tap } from 'rxjs';
 import { UserStore } from 'src/app/core/authentication/user.store';
-import { AccountService } from 'src/app/core/ezgym/account.service';
+import { AccountService } from 'src/app/ezgym/core/services/account.service';
 import { ModalStore } from 'src/app/shared/components/modal/modal.store';
 import { PreLoaderStore } from 'src/app/shared/components/pre-loader/pre-loader.store';
 

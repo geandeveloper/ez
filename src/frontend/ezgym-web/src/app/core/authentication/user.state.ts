@@ -1,4 +1,4 @@
-import { AccountModel } from "../ezgym/models/accout.model"
+import { AccountModel } from "../../ezgym/core/models/accout.model"
 
 export interface UserInfoState {
   accounts: AccountModel[]

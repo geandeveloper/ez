@@ -4,7 +4,7 @@ import { Store } from '../state/store';
 import { UserInfoState, UserState } from './user.state';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AccountModel } from '../ezgym/models/accout.model';
+import { AccountModel } from '../../ezgym/core/models/accout.model';
 
 @Injectable({
   providedIn: 'root'

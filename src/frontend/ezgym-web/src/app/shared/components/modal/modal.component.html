@@ -8,5 +8,6 @@
   </div>
 </section>
 <div mat-dialog-actions class="modal-actions">
-  <button mat-dialog-close class="btn btn-secondary">{{state.button}}</button>
+  <button mat-dialog-close class="btn btn-default">Cancelar</button>
+  <button (click)="state.onConfirm()" class="btn btn-primary">{{state.confirmButtonLabel}}</button>
 </div>

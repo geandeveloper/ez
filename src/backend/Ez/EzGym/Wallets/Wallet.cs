@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using EzCommon.Models;
 using EzGym.Events.Wallet;
+using EzPayment.PaymentAccounts;
 using EzPayment.Payments;
 
 namespace EzGym.Wallets
@@ -11,6 +12,7 @@ namespace EzGym.Wallets
     {
         public string AccountId { get; private set; }
         public Pix Pix { get; private set; }
+        public PaymentAccount PaymentAccount { get; private set; }
         public IList<WalletReceipt> Receipts { get; } = new List<WalletReceipt>();
 
         public Wallet() { }
@@ -39,6 +41,16 @@ namespace EzGym.Wallets
             });
         }
 
+        public void UpdatePaymentAccount(string paymentAccountId, string onBoardingLink, PaymentAccountStatusEnum paymentAccountStatus)
+        {
+            RaiseEvent(new PaymentAccountChangedEvent(Id, paymentAccountId, onBoardingLink, paymentAccountStatus));
+        }
+
+        protected void Apply(PaymentAccountChangedEvent @event)
+        {
+            PaymentAccount = new PaymentAccount(@event.PaymentAccountId, @event.OnBoardingLink, @event.PaymentAccountStatus);
+        }
+
         protected void Apply(WalletReceiptUpdatedEvent @event)
         {
             var receipt = Receipts.First(r => r.PaymentId == @event.Receipt.PaymentId);
@@ -50,6 +62,7 @@ namespace EzGym.Wallets
         {
             Id = @event.Id;
             AccountId = @event.AccountId;
+            PaymentAccount = null;
         }
 
         protected void Apply(WalletUpdatedEvent @event)

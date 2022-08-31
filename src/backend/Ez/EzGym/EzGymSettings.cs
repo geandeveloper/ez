@@ -9,6 +9,7 @@ public class EzGymSettings
 public class Frontend
 {
     public string EzGymWebUrl { get; set; }
+    public string EzGymProductionWebUrl { get; set; }
 }
 
 public class Storage

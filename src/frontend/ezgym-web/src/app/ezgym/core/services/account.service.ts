@@ -1,12 +1,12 @@
 import { Observable, of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
-import { VerifyAccountResponseDto } from './dto/verify-account-response.dto';
-import { AccountCreatedEvent, AccountFollowedEvent, AccountUnfollowedEvent, AccountWalletChangedEvent, AvatarImageAccountChanged, StartFollowAccountEvent } from './events/account.events';
-import { ProfileChangedEvent } from './events/profile.events';
-import { AccountModel } from './models/accout.model';
-import { Pix, PixTypeEnum, Wallet } from './models/wallet.model';
-import { GymModel } from './models/gym.model';
+import { VerifyAccountResponseDto } from '../dto/verify-account-response.dto';
+import { AccountCreatedEvent, AccountFollowedEvent, AccountUnfollowedEvent, AccountWalletChangedEvent, AvatarImageAccountChanged, StartFollowAccountEvent } from '../events/account.events';
+import { AccountModel } from '../models/accout.model';
+import { ProfileChangedEvent } from '../events/profile.events';
+import { GymModel } from '../models/gym.model';
+import { Pix, WalletModel } from '../models/wallet.model';
 
 @Injectable({
     providedIn: 'root'
@@ -76,8 +76,8 @@ export class AccountService {
             .post<AccountWalletChangedEvent>(`accounts/${command.accountId}/wallet`, command)
     }
 
-    getWallet(accountId: string): Observable<Wallet> {
-        return this.http.get<Wallet>(`accounts/${accountId}/wallet`)
+    getWallet(accountId: string): Observable<WalletModel> {
+        return this.http.get<WalletModel>(`accounts/${accountId}/wallet`)
     }
 
     getGym(accountId: string): Observable<GymModel> {

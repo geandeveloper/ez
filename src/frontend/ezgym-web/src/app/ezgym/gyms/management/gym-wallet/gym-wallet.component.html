@@ -13,23 +13,52 @@
     </section>
 
     <section class="pix-management">
-        <h5 class="text-section">
-            Minha chave PIX
-        </h5>
-        <small class="text-muted">Chave que voce ira usar para resgatar seus pagamentos</small>
-        <form class="edit-profile-form" [formGroup]="pixFormGroup">
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">{{state.ui.keyTypeSelected?.key || "TIPO DA CHAVE"}}</button>
-                    <div class="dropdown-menu">
-                        <a *ngFor="let option of state.ui.keyTypeOptions" (click)="keyTypeChanged(option.value!)" class="dropdown-item pointer">{{option.key}}</a>
-                    </div>
-                </div>
-                <input type="text" class="form-control" formControlName="value" aria-label="Text input with dropdown button">
+        <ng-container>
+            <h5 class="text-section">
+                Configurar Meio de Recebimento
+            </h5>
+            <small class="text-muted">Conta que voce ira usar para receber seus pagamentos</small>
+            <div class="configure-payment-account">
+                <button type="button" *ngIf="state.wallet?.paymentAccount?.paymentAccountStatus != 2" (click)="setupPaymentAccount()" class="btn-primary btn btn-info btn-block">
+                    Finalizar Cadastro
+                </button>
+                <button type="button" *ngIf="state.wallet?.paymentAccount?.paymentAccountStatus == 2" (click)="setupPaymentAccount()" class="btn-primary btn btn-info btn-block">
+                    Alterar Dados
+                </button>
+                <blockquote class="blockquote" *ngIf="state.wallet?.paymentAccount?.paymentAccountStatus != 2">
+                    <p><b>Status da conta: </b> <b class="text-warning status">Pendente</b></p>
+                    <p class="mb-0">Por favor, click no link acima para finalizar o cadastro</p>
+                </blockquote>
+                <blockquote class="blockquote" *ngIf="state.wallet?.paymentAccount?.paymentAccountStatus == 2">
+                    <p><b>Status da conta: </b> <b class="text-success status">Aprovada</b></p>
+                    <p class="mb-0">Conta aprovada, click no botao acima, caso queira alterar seus dados de pagamento !</p>
+                </blockquote>
             </div>
 
-        </form>
+        </ng-container>
+        <ng-container *ngIf="false">
+            <h5 class="text-section">
+                Minha chave PIX
+            </h5>
+            <small class="text-muted">Chave que voce ira usar para resgatar seus pagamentos</small>
+            <form class="edit-profile-form" [formGroup]="pixFormGroup">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button"
+                            data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">{{state.ui.keyTypeSelected?.key || "TIPO DA CHAVE"}}</button>
+                        <div class="dropdown-menu">
+                            <a *ngFor="let option of state.ui.keyTypeOptions" (click)="keyTypeChanged(option.value!)"
+                                class="dropdown-item pointer">{{option.key}}</a>
+                        </div>
+                    </div>
+                    <input type="text" class="form-control" formControlName="value"
+                        aria-label="Text input with dropdown button">
+                </div>
+
+            </form>
+
+        </ng-container>
     </section>
 
 

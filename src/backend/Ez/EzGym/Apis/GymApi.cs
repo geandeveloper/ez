@@ -15,7 +15,7 @@ namespace EzGym.Apis
 {
     public static class GymApi
     {
-        public static WebApplication UseEzGymGymsApi(this WebApplication app)
+        public static WebApplication UseGymApi(this WebApplication app)
         {
 
             app.MapPost("/gyms/{gymId}/plans",

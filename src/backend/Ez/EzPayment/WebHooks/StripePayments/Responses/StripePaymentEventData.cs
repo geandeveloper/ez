@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace EzPayment.Webhooks.Payments.Responses
+namespace EzPayment.WebHooks.StripePayments.Responses
 {
     public record StripePaymentEventData(
         string Id,

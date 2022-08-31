@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Http;
 using EzGym;
 using EzPayment;
 using EzPayment.Apis;
-using EzPayment.Webhooks.Payments;
 using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication

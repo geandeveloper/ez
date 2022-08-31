@@ -14,12 +14,9 @@ namespace EzGym.Accounts
         public bool IsDefault { get; private set; }
         public string AvatarUrl { get; private set; }
         public Profile Profile { get; private set; }
-        public IList<Follower> Following { get; private set; }
-        public IList<Follower> Followers { get; private set; }
         public AccountTypeEnum AccountType { get; private set; }
-
-        public int? FollowingCount => Following?.Count;
-        public int? FollowersCount => Followers?.Count;
+        public IList<Follower> Following { get; }
+        public IList<Follower> Followers { get; }
 
         public Account()
         {

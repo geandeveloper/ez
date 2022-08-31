@@ -1,8 +1,8 @@
-import { GymCreatedEvent, GymMemberShipCreatedEvent, PlanCreatedEvent } from './events/gym.events';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
-import { GymPlanModel } from './models/gym.model';
+import { GymPlanModel } from '../models/gym.model';
+import { PlanCreatedEvent, GymMemberShipCreatedEvent } from '../events/gym.events';
 
 @Injectable({
     providedIn: 'root'

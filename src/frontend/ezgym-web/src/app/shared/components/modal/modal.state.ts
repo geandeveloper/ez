@@ -1,8 +1,9 @@
 export interface ModalState {
   title: string,
   description: string,
-  button?: string,
+  confirmButtonLabel?: string,
   opened?: boolean,
   fixed?: boolean,
   iconSrc?: string
+  onConfirm: () => void
 }

@@ -9,6 +9,7 @@ import { EzPaymentComponent } from "./ezpayment.component";
 import { PaymentService } from "./core/services/payment.service";
 import { SuccessPaymentComponent } from "./success-payment/success-payment/success-payment.component";
 import { EzPaymentStore } from "./ezpayment.store";
+import { PaymentAccountService } from "./core/services/payment-account.service";
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { EzPaymentStore } from "./ezpayment.store";
   ],
   providers: [
     PaymentService,
-    EzPaymentStore
+    EzPaymentStore,
+    PaymentAccountService
   ],
   imports: [
     EzPaymentRoutingModule,

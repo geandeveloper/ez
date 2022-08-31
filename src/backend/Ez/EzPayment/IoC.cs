@@ -2,6 +2,10 @@
 using EzPayment.Infra.Storage;
 using EzPayment.Integrations.Gateways;
 using EzPayment.Integrations.Gateways.StripePayments;
+using EzPayment.PaymentAccounts;
+using EzPayment.PaymentAccounts.CreatePaymentAccount;
+using EzPayment.PaymentAccounts.CreatePaymentAccountSetupLink;
+using EzPayment.PaymentAccounts.VerifyPaymentAccount;
 using EzPayment.Payments;
 using EzPayment.Payments.CreatePayment;
 using EzPayment.Payments.PaymentReceived;
@@ -23,15 +27,25 @@ namespace EzPayment
         public static IServiceCollection AddEzPayment(this IServiceCollection services, IConfiguration configuration)
         {
 
+            services.AddSingleton<PaymentGatewayFactory>();
+            services.AddSingleton<IStripePaymentGateway>(new StripePaymentGateway(new SessionService(), new PaymentIntentService(), new AccountService(), new AccountLinkService()));
+
             services.AddScoped<IPaymentRepository, PaymentRepository>();
-            services.AddSingleton<GatewayFactory>();
-            services.AddSingleton<IStripePaymentGateway>(
-                new StripePaymentGateway(new SessionService(), new PaymentIntentService())
-            );
+
+            services
+                .AddTransient<VerifyPaymentAccountCommandHandler>();
 
             services
                 .AddTransient<CreatePaymentCommandHandler>()
                 .AddTransient<CreatePaymentService>();
+
+            services
+                .AddTransient<CreatePaymentAccountCommandHandler>()
+                .AddTransient<CreatePaymentAccountService>();
+
+            services
+                .AddTransient<CreatePaymentAccountSetupLinkCommandHandler>()
+                .AddTransient<CreatePaymentAccountSetupLinkService>();
 
             services.AddTransient<PaymentReceivedCommandHandler>();
 
@@ -55,7 +69,8 @@ namespace EzPayment
                     options.UseDefaultSerialization(nonPublicMembersStorage: NonPublicMembersStorage.NonPublicSetters);
                     options.Events.StreamIdentity = StreamIdentity.AsString;
 
-                    options.Projections.SelfAggregate<Payment>(ProjectionLifecycle.Inline);
+                    options.Projections.SelfAggregate<Payment>(ProjectionLifecycle.Async);
+                    options.Projections.SelfAggregate<PaymentAccount>(ProjectionLifecycle.Async);
 
                     return options;
                 })

@@ -1,11 +1,9 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using EzCommon.CommandHandlers;
 using EzCommon.Commands;
 using EzCommon.Models;
-using EzGym.Accounts;
 using EzGym.Infra.Repository;
 using EzPayment.Events.Payments;
 using EzPayment.Payments;
@@ -29,7 +27,7 @@ public class RegisterGymMemberShipCommandHandler : ICommandHandler<RegisterGymMe
 
     public async Task<EventStream> Handle(RegisterGymMemberShipCommand request, CancellationToken cancellationToken)
     {
-        var payerAccount = await _repository.LoadAggregateAsync<Account>(request.PayerAccountId)!;
+        var payerAccount = await _repository.LoadAggregateAsync<Accounts.Account>(request.PayerAccountId)!;
 
         var receiverGym = await _repository.QueryAsync<Gym>(g => g.Id == request.GymId);
         var plan = receiverGym.GymPlans.First(p => p.Id == request.PlanId);

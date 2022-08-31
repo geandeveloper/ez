@@ -13,9 +13,10 @@ using EzGym.Gyms.Users.CreateGymUser;
 using EzGym.Infra.Repository;
 using EzGym.Infra.Storage;
 using EzGym.Wallets;
+using EzGym.Wallets.SetupPaymentAccount;
 using EzGym.Wallets.UpdateWallet;
 using EzPayment.Integrations.Gateways;
-using EzPayment.Payments;
+using EzPayment.PaymentAccounts;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Marten;
@@ -34,7 +35,7 @@ namespace EzGym
 
             services.AddScoped<IGymRepository, GymRepository>();
 
-            services.AddSingleton<GatewayFactory>();
+            services.AddSingleton<PaymentGatewayFactory>();
 
             services.AddTransient<CreateAccountCommandHandler>();
             services.AddTransient<CreateGymCommandHandler>();
@@ -46,6 +47,7 @@ namespace EzGym
             services.AddTransient<CreatePlanCommandHandler>();
             services.AddTransient<CreateGymUserCommandHandler>();
             services.AddTransient<RegisterGymMemberShipCommandHandler>();
+            services.AddTransient<SetupPaymentAccountCommandHandler>();
 
             services
                 .AddMartenStore<IGymEventStore>(serviceProvider =>
@@ -70,7 +72,6 @@ namespace EzGym
                     options.Projections.SelfAggregate<Account>(ProjectionLifecycle.Inline);
                     options.Projections.SelfAggregate<Gym>(ProjectionLifecycle.Inline);
                     options.Projections.SelfAggregate<GymUser>(ProjectionLifecycle.Inline);
-                    options.Projections.SelfAggregate<Payment>(ProjectionLifecycle.Inline);
                     options.Projections.SelfAggregate<Wallet>(ProjectionLifecycle.Inline);
                     options.Projections.SelfAggregate<GymMemberShip>(ProjectionLifecycle.Inline);
 

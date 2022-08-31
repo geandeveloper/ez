@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { debounceTime, tap } from 'rxjs';
-import { AccountService } from 'src/app/core/ezgym/account.service';
-import { AccountModel } from 'src/app/core/ezgym/models/accout.model';
+import { AccountService } from 'src/app/ezgym/core/services/account.service';
+import { AccountModel } from 'src/app/ezgym/core/models/accout.model';
 import { Store } from 'src/app/core/state/store';
 import { EzGymComponentStore } from '../../ezgym.component.store';
 

@@ -11,13 +11,13 @@ using Stripe;
 
 namespace EzPayment.Integrations.Gateways
 {
-    public class GatewayFactory
+    public class PaymentGatewayFactory
     {
         public OAuthTokenResponse Authorization { get; private set; }
 
         private readonly IStripePaymentGateway _stripePaymentGateway;
 
-        public GatewayFactory(IOptions<EzPaymentSettings> settings, IStripePaymentGateway stripePaymentGateway)
+        public PaymentGatewayFactory(IOptions<EzPaymentSettings> settings, IStripePaymentGateway stripePaymentGateway)
         {
             StripeConfiguration.ApiKey = settings.Value.StripePayments.ApiSecretKey;
             _stripePaymentGateway = stripePaymentGateway;

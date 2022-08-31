@@ -21,11 +21,12 @@ export class ModalStore extends Store<ModalState> {
 
   constructor(private dialog: MatDialog) {
     super({
-      button: 'Confirmar',
+      confirmButtonLabel: 'Confirmar',
       opened: false,
       fixed: false,
       title: '',
-      description: ''
+      description: '',
+      onConfirm: () => { this.close() }
     })
 
     this.opened$.subscribe(state => {
@@ -55,13 +56,15 @@ export class ModalStore extends Store<ModalState> {
     }))
   }
 
-  success(config?: { title: string, description: string }) {
+  success(config?: { title: string, description: string, onConfirm?: () => void, confirmButtonLabel?: string }) {
     this.setState(state => ({
       ...state,
       opened: true,
       title: config?.title || 'Show de bola !',
       description: config?.description || 'Operação realizada com sucesso',
-      iconSrc: 'assets/img/success.svg'
+      iconSrc: 'assets/img/success.svg',
+      confirmButtonLabel: config?.confirmButtonLabel || state.confirmButtonLabel,
+      onConfirm: config?.onConfirm || state.onConfirm!
     }))
   }
 

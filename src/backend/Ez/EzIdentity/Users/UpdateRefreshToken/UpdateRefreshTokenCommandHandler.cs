@@ -30,8 +30,6 @@ public class UpdateRefreshTokenCommandHandler : ICommandHandler<UpdateRefreshTok
         if (user == null)
             throw new Exception("Invalid refresh token value");
 
-        if (user.RefreshToken.Expires <= DateTime.UtcNow)
-            throw new Exception("Refresh token already expired, please login again");
 
         var accessToken = TokenService.GenerateAccessToken(() => new Claim[]
             {
@@ -42,9 +40,17 @@ public class UpdateRefreshTokenCommandHandler : ICommandHandler<UpdateRefreshTok
 
             }, _settings.Value.TokenSecurityKey, _settings.Value.EzIdentityUrl);
 
+
+        if (user.RefreshToken.Expires > DateTime.UtcNow)
+        {
+            user.RenewToken(accessToken, user.RefreshToken);
+            return user.ToEventStream();
+        }
+
+        if (user.RefreshToken.Expires <= DateTime.UtcNow)
+            throw new Exception("Refresh token already expired, please login again");
+
         var refreshToken = TokenService.GenerateRefreshToken();
-
-
         user.RenewToken(accessToken, refreshToken);
 
         return await _repository.SaveAggregateAsync(user);

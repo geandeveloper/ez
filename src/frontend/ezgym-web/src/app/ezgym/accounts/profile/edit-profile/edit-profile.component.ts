@@ -4,11 +4,11 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ImageCroppedEvent, base64ToFile } from 'ngx-image-cropper';
 import { combineLatest, finalize, map, merge, switchMap, tap } from 'rxjs';
 import { UserStore } from 'src/app/core/authentication/user.store';
-import { AccountService } from 'src/app/core/ezgym/account.service';
-import { AccountModel } from 'src/app/core/ezgym/models/accout.model';
-import { ProfileModel } from 'src/app/core/ezgym/models/profile.model';
+import { AccountService } from 'src/app/ezgym/core/services/account.service';
+import { AccountModel } from 'src/app/ezgym/core/models/accout.model';
 import { Store } from 'src/app/core/state/store';
 import { PreLoaderStore } from 'src/app/shared/components/pre-loader/pre-loader.store';
+import { ProfileModel } from 'src/app/ezgym/core/models/profile.model';
 
 
 interface EditProfileState {

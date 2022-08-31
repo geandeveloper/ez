@@ -9,12 +9,12 @@ namespace EzPayment.Payments.CreatePayment
     public class CreatePaymentService
     {
         private readonly IOptions<EzPaymentSettings> _settings;
-        private readonly GatewayFactory _gatewayFactory;
+        private readonly PaymentGatewayFactory _paymentGatewayFactory;
 
-        public CreatePaymentService(IOptions<EzPaymentSettings> settings, GatewayFactory gatewayFactory)
+        public CreatePaymentService(IOptions<EzPaymentSettings> settings, PaymentGatewayFactory paymentGatewayFactory)
         {
             _settings = settings;
-            _gatewayFactory = gatewayFactory;
+            _paymentGatewayFactory = paymentGatewayFactory;
         }
 
         public async Task<PixInfo> CreatePixIntegrationPaymentAsync(long amount, string description)
@@ -33,8 +33,8 @@ namespace EzPayment.Payments.CreatePayment
                 }
             };
 
-            var pixPayment = await _gatewayFactory.UseGerenciaNet(gateway => gateway.RequestPaymentAsync(pixPayload));
-            var qrCode = await _gatewayFactory.UseGerenciaNet(gateway => gateway.GenerateQrCodeAsync(pixPayment.Loc.Id));
+            var pixPayment = await _paymentGatewayFactory.UseGerenciaNet(gateway => gateway.RequestPaymentAsync(pixPayload));
+            var qrCode = await _paymentGatewayFactory.UseGerenciaNet(gateway => gateway.GenerateQrCodeAsync(pixPayment.Loc.Id));
 
             return new PixInfo(pixPayment.Txid, qrCode.Qrcode, qrCode.ImagemQrcode);
         }
@@ -53,9 +53,10 @@ namespace EzPayment.Payments.CreatePayment
                 Description = description
             };
 
-            var cardPayment = _gatewayFactory.UseStripePayment(gateway => gateway.CreatePaymentIntent(cardPayload));
+            var cardPayment = _paymentGatewayFactory.UseStripePayment(gateway => gateway.CreatePaymentIntent(cardPayload));
 
             return Task.FromResult(new CreditCardInfo(cardPayment.Id, cardPayment.ClientSecret));
         }
-    }
+
+         }
 }
