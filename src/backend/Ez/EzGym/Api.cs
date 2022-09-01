@@ -15,21 +15,6 @@ namespace EzGym
         public static WebApplication UseEzGymApi(this WebApplication app)
         {
 
-            app.MapGet("/userinfo",
-                [Authorize] (
-                      [FromServices] EzPrincipal principal,
-                      [FromServices] IGymRepository repository) =>
-                  {
-                      var userInfo = new
-                      {
-                          principal.UserName,
-                          Accounts = repository.Where<Account>(account => account.UserId == principal.Id).ToList(),
-                      };
-
-                      return Results.Ok(userInfo);
-                  });
-
-
             app.MapGet("/my/accounts",
                        [Authorize] (
                              [FromServices] EzPrincipal principal,

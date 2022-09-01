@@ -27,12 +27,28 @@
   }
 }
 
+.btn {
+  height: 40px;
+  width: 100px;
+}
+
 .btn-secondary {
   background: $secondary;
 }
 
+.primary {
+  background: $primary;
+  color: $white;
+  border: 1px solid $primary !important;
+
+  &:hover {
+    background: $secondary !important;
+  }
+}
+
 .btn-default {
   border: 1px solid $dark-grey;
+  padding: 5px;
 
   &:hover {
     color: $white;

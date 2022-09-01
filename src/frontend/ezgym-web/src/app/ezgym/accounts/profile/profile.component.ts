@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, debounce, debounceTime, finalize, switchMap, tap } from 'rxjs';
+import { catchError, debounce, debounceTime, filter, finalize, switchMap, tap } from 'rxjs';
 import { AccountService } from 'src/app/ezgym/core/services/account.service';
 import { AccountModel } from 'src/app/ezgym/core/models/accout.model';
 import { Store } from 'src/app/core/state/store';
@@ -49,7 +49,7 @@ export class ProfileComponent extends Store<ProfileComponentState> implements On
                         ...state,
                         account: account,
                         ui: {
-                            isOwner: account.id == this.ezGymStore.state.accountActive.id,
+                            isOwner: this.ezGymStore.state.accounts.some(a => a.id == account.id),
                             isFollowing: this.ezGymStore.state.accountActive?.following?.some(f => f.accountId === account.id)!,
                         }
                     }))
@@ -79,10 +79,13 @@ export class ProfileComponent extends Store<ProfileComponentState> implements On
                         ...state,
                         account: response,
                         ui: {
-                            isOwner: response.id == this.ezGymStore.state.accountActive.id,
+                            isOwner: this.ezGymStore.state.accounts.some(a => a.id == response.id),
                             isFollowing: this.ezGymStore.state.accountActive?.following?.some(f => f.accountId === response.id)!,
                         }
                     }))
+
+                    if (this.state.ui.isOwner)
+                        this.ezGymStore.setActiveAccount(accountName)
 
                 }),
                 catchError((error) => {

@@ -124,6 +124,31 @@ export class GymWalletComponent extends Store<GymWalletComponentState> implement
             })
             .pipe(
                 tap(paymentAccountEvent => {
+                    if (this.state.wallet?.paymentAccount?.paymentAccountStatus == PaymentAccountStatusEnum.Pending &&
+                        paymentAccountEvent.paymentAccountStatus == PaymentAccountStatusEnum.Approved) {
+                        this.preLoader.close();
+                        this.modalStore.success({
+                            title: "Sua conta ja foi aprovada!",
+                            description: "Caso queira modificar seus dados voce pode clicar no botao continuar",
+                            confirmButtonLabel: "Continuar",
+                            onConfirm: () => {
+                                window.location.href = paymentAccountEvent.onBoardingLink;
+                            }
+                        })
+
+                        this.setState(state => ({
+                            ...state,
+                            wallet: {
+                                ...state.wallet!,
+                                paymentAccount: {
+                                    paymentAccountStatus: paymentAccountEvent.paymentAccountStatus,
+                                    id: paymentAccountEvent.paymentAccountId,
+                                }
+                            }
+                        }))
+                        return;
+                    }
+
                     this.setState(state => ({
                         ...state,
                         wallet: {
@@ -137,8 +162,10 @@ export class GymWalletComponent extends Store<GymWalletComponentState> implement
 
                     window.location.href = paymentAccountEvent.onBoardingLink;
                 }),
+                finalize(() => {
+                    this.modalStore.close();
+                }),
                 catchError((error) => {
-                    this.preLoader.close();
                     return error;
                 })
             )
