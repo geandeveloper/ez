@@ -2,13 +2,13 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ImageCroppedEvent, base64ToFile } from 'ngx-image-cropper';
-import { combineLatest, finalize, map, merge, switchMap, tap } from 'rxjs';
 import { UserStore } from 'src/app/core/authentication/user.store';
 import { AccountService } from 'src/app/ezgym/core/services/account.service';
 import { AccountModel } from 'src/app/ezgym/core/models/accout.model';
 import { Store } from 'src/app/core/state/store';
 import { PreLoaderStore } from 'src/app/shared/components/pre-loader/pre-loader.store';
 import { ProfileModel } from 'src/app/ezgym/core/models/profile.model';
+import { EzGymStore } from 'src/app/ezgym/ezgym.store';
 
 
 interface EditProfileState {
@@ -40,6 +40,7 @@ export class EditProfileComponent extends Store<EditProfileState> implements OnI
         private fb: FormBuilder,
         private modal: MatDialogRef<EditProfileComponent>,
         private preloader: PreLoaderStore,
+        private ezGymStore: EzGymStore,
         @Inject(MAT_DIALOG_DATA) public data: { account: AccountModel, profile: ProfileModel }) {
         super({
             account: { ...data.account },
@@ -131,18 +132,17 @@ export class EditProfileComponent extends Store<EditProfileState> implements OnI
                     }
                 }))
 
-                this.userStorage
-                    .updateActiveAccount(account => ({
-                        ...account,
-                        avatarUrl: avatar.avatarUrl,
-                    }))
+                this.ezGymStore.updateAccountActive(account => ({
+                    ...account,
+                    avatarUrl: avatar.avatarUrl,
+                }))
             })
 
         this.accountService
             .upInsertProfile({ ...this.editProfileForm.value })
             .subscribe(profile => {
-                this.userStorage
-                    .updateActiveAccount(account => ({
+                this.ezGymStore
+                    .updateAccountActive(account => ({
                         ...account,
                         profile: profile
                     }))

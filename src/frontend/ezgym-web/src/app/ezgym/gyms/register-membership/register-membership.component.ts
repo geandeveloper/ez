@@ -1,14 +1,13 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { finalize, switchMap, tap } from 'rxjs';
-import { UserStore } from 'src/app/core/authentication/user.store';
 import { AccountService } from 'src/app/ezgym/core/services/account.service';
 import { GymService } from 'src/app/ezgym/core/services/gym.service';
 import { Store } from 'src/app/core/state/store';
 import { PreLoaderStore } from 'src/app/shared/components/pre-loader/pre-loader.store';
 import { GymPlanModel, GymModel, PaymentMethodEnum } from '../../core/models/gym.model';
+import { EzGymStore } from '../../ezgym.store';
 
 
 interface ComponentState {
@@ -37,10 +36,9 @@ export class RegisterMembershipComponent extends Store<ComponentState> implement
 
     constructor(
         private modal: MatDialogRef<RegisterMembershipComponent>,
-        private fb: FormBuilder,
         private accountService: AccountService,
         private gymService: GymService,
-        private userStore: UserStore,
+        private ezGymStore: EzGymStore,
         private preloader: PreLoaderStore,
         private router: Router,
         @Inject(MAT_DIALOG_DATA) public data: { accountId: string }) {
@@ -116,7 +114,7 @@ export class RegisterMembershipComponent extends Store<ComponentState> implement
     confirmRegister() {
         this.preloader.show();
         this.gymService.registerMemberShip({
-            payerAccountId: this.userStore.state.activeAccount?.id,
+            payerAccountId: this.ezGymStore.state.accountActive?.id,
             gymId: this.state.gym.id,
             planId: this.state.ui?.planSelected.id,
             paymentMethod: this.state.ui?.paymentSelected.value

@@ -6,10 +6,10 @@ import { Component } from '@angular/core';
 import { debounceTime, switchMap } from 'rxjs';
 import { Store } from 'src/app/core/state/store';
 import { AccountService } from 'src/app/ezgym/core/services/account.service';
-import { UserStore } from 'src/app/core/authentication/user.store';
 import { Router } from '@angular/router';
 import { AccountTypeEnum } from 'src/app/ezgym/core/models/accout.model';
 import { AddressModel } from '../../core/models/address.model';
+import { EzGymStore } from '../../ezgym.store';
 
 interface CreateAccountComponentState {
     fantasyName: string,
@@ -31,11 +31,11 @@ export class CreateAccountComponent extends Store<CreateAccountComponentState> {
     }
 
     constructor(
-        private userStore: UserStore,
         private accountService: AccountService,
         private fb: FormBuilder,
         private preloader: PreLoaderStore,
         private modal: ModalStore,
+        private ezGymStore: EzGymStore,
         private router: Router,
     ) {
         super()
@@ -88,27 +88,22 @@ export class CreateAccountComponent extends Store<CreateAccountComponentState> {
             })
             .pipe(
                 tap(response => {
-                    this.userStore.setState(user => ({
-                        ...user,
-                        userInfo: {
-                            ...user.userInfo!,
-                            accounts: [
-                                ...user?.userInfo?.accounts!,
-                                {
-                                    id: response.id,
-                                    accountName: response.command.accountName,
-                                    accountType: response.command.accountType,
-                                    isDefault: false
-                                }]
-                        }
-                    }))
-                    this.userStore.setActiveAccount(response.command.accountName)
+
+                    this.ezGymStore.addAccount({
+                        id: response.id,
+                        accountName: response.command.accountName,
+                        accountType: response.command.accountType,
+                        isDefault: false
+                    })
+
+                    this.ezGymStore.setActiveAccount(response.command.accountName)
+
                     this.router.navigate(['/', response.command.accountName])
+
                     this.modal.success({
                         title: `Conta ${response.command.accountName} criada com sucesso`,
                         description: 'Agora você pode gerenciar sua academia de maneira simples :)'
                     })
-
                 }),
                 finalize(() => {
                     this.preloader.close()

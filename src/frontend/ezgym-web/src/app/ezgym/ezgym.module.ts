@@ -13,6 +13,7 @@ import { ImageCropperModule } from "ngx-image-cropper";
 import { SearchAccountComponent } from "./search/search-account/search-account.component";
 import { WalletService } from "./core/services/wallet.service";
 import { PaymentAccountService } from "../ezpayment/core/services/payment-account.service";
+import { EzGymStore } from "./ezgym.store";
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { PaymentAccountService } from "../ezpayment/core/services/payment-accoun
   ],
   providers: [
     WalletService,
-    PaymentAccountService
+    PaymentAccountService,
+    EzGymStore
   ],
   exports: [
     EzGymComponent

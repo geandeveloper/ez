@@ -2,14 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, finalize, switchMap, tap } from 'rxjs';
-import { UserStore } from 'src/app/core/authentication/user.store';
 import { AccountService } from 'src/app/ezgym/core/services/account.service';
 import { AccountModel } from 'src/app/ezgym/core/models/accout.model';
 import { Store } from 'src/app/core/state/store';
 import { PreLoaderStore } from 'src/app/shared/components/pre-loader/pre-loader.store';
-import { EzGymComponentStore } from '../../ezgym.component.store';
 import { FollowerListComponent } from '../follower-list/follower-list.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import { EzGymStore } from '../../ezgym.store';
 
 interface ProfileComponentState {
     account: AccountModel,
@@ -31,8 +30,7 @@ export class ProfileComponent extends Store<ProfileComponentState> implements On
         private router: Router,
         private preloader: PreLoaderStore,
         private accountService: AccountService,
-        private userStore: UserStore,
-        private ezGymComponentStore: EzGymComponentStore,
+        private ezGymStore: EzGymStore,
         public dialog: MatDialog
     ) {
         super({
@@ -47,7 +45,7 @@ export class ProfileComponent extends Store<ProfileComponentState> implements On
 
     ngOnInit() {
         setTimeout(() => {
-            this.ezGymComponentStore.showTopNavBar(true)
+            this.ezGymStore.showTopNavBar(true)
         })
         this.loadProfile()
     }
@@ -64,8 +62,8 @@ export class ProfileComponent extends Store<ProfileComponentState> implements On
                         ...state,
                         account: response,
                         ui: {
-                            isOwner: response.id == this.userStore.user.activeAccount?.id,
-                            isFollowing: this.userStore.user.activeAccount?.following?.some(f => f.accountId === response.id)!
+                            isOwner: response.id == this.ezGymStore.state.accountActive.id,
+                            isFollowing: this.ezGymStore.state.accountActive?.following?.some(f => f.accountId === response.id)!
                         }
                     }))
 
@@ -101,7 +99,7 @@ export class ProfileComponent extends Store<ProfileComponentState> implements On
     followAccount(accountId: string) {
         this.preloader.show();
         this.accountService.followAccount({
-            userAccountId: this.userStore.state.activeAccount?.id!,
+            userAccountId: this.ezGymStore.state.accountActive?.id!,
             followAccountId: accountId
         }).pipe(
             tap((response) => {
@@ -116,15 +114,6 @@ export class ProfileComponent extends Store<ProfileComponentState> implements On
                         isFollowing: true
                     }
                 }))
-
-                this.userStore.setState(state => ({
-                    ...state,
-                    activeAccount: {
-                        ...state.activeAccount!,
-                        following: [...state.activeAccount?.followers!, { accountId: response.accountId }],
-                        followingCount: state.activeAccount?.followersCount! + 1
-                    }
-                }))
             }),
             finalize(() => {
                 this.preloader.close()
@@ -135,10 +124,10 @@ export class ProfileComponent extends Store<ProfileComponentState> implements On
     unfollowAccount(accountId: string) {
         this.preloader.show();
         this.accountService.unfollowAccount({
-            userAccountId: this.userStore.state.activeAccount?.id!,
+            userAccountId: this.ezGymStore.state.accountActive.id!,
             unfollowAccountId: accountId
         }).pipe(
-            tap((response) => {
+            tap(() => {
                 this.setState(state => ({
                     ...state,
                     account: {
@@ -148,15 +137,6 @@ export class ProfileComponent extends Store<ProfileComponentState> implements On
                     ui: {
                         ...state.ui,
                         isFollowing: false
-                    }
-                }))
-
-                this.userStore.setState(state => ({
-                    ...state,
-                    activeAccount: {
-                        ...state.activeAccount!,
-                        following: state.activeAccount?.following?.filter(f => f.accountId !== response.accountId),
-                        followingCount: state.activeAccount?.followersCount! - 1
                     }
                 }))
             }),

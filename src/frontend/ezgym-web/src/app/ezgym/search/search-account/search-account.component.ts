@@ -4,7 +4,7 @@ import { debounceTime, tap } from 'rxjs';
 import { AccountService } from 'src/app/ezgym/core/services/account.service';
 import { AccountModel } from 'src/app/ezgym/core/models/accout.model';
 import { Store } from 'src/app/core/state/store';
-import { EzGymComponentStore } from '../../ezgym.component.store';
+import { EzGymStore } from '../../ezgym.store';
 
 interface SearchAccountState {
     accounts: AccountModel[]
@@ -21,13 +21,13 @@ export class SearchAccountComponent extends Store<SearchAccountState> {
 
 
     constructor(
-        private ezGymComponentStorage: EzGymComponentStore,
         private accountService: AccountService,
-        private fb: FormBuilder
+        private fb: FormBuilder,
+        private ezGymStore: EzGymStore,
     ) {
         super({ accounts: [] })
 
-        this.ezGymComponentStorage.showTopNavBar(false)
+        this.ezGymStore.showTopNavBar(false)
 
         this.searchForm = this.fb.group({
             accountName: ['']

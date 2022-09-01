@@ -8,6 +8,7 @@ import { GymService } from 'src/app/ezgym/core/services/gym.service';
 import { Store } from 'src/app/core/state/store';
 import { PreLoaderStore } from 'src/app/shared/components/pre-loader/pre-loader.store';
 import { GymModel, GymPlanModel } from 'src/app/ezgym/core/models/gym.model';
+import { EzGymStore } from 'src/app/ezgym/ezgym.store';
 
 interface GymPlansComponentState {
     gym: GymModel,
@@ -29,8 +30,8 @@ export class GymPlansComponent extends Store<GymPlansComponentState>  {
         private fb: FormBuilder,
         private gymService: GymService,
         private accountService: AccountService,
-        private userStore: UserStore,
         private preloader: PreLoaderStore,
+        private ezGymStore: EzGymStore
     ) {
         super({
             gym: {} as GymModel,
@@ -54,7 +55,7 @@ export class GymPlansComponent extends Store<GymPlansComponentState>  {
 
 
         this.accountService
-            .getGym(this.userStore.state.activeAccount?.id!)
+            .getGym(this.ezGymStore.state.accountActive?.id!)
             .pipe(
                 switchMap(gym => {
                     this.setState(state => ({

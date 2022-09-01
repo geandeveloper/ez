@@ -2,17 +2,14 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { StripeService, StripePaymentElementComponent } from 'ngx-stripe';
 import {
-    Appearance,
     StripeElementsOptions
 } from '@stripe/stripe-js';
 import { FormBuilder, Validators } from '@angular/forms';
-import { PaymentService } from '../core/services/payment.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { finalize, switchMap, tap } from 'rxjs';
+import { Router } from '@angular/router';
+import { finalize, tap } from 'rxjs';
 import { PaymentModel } from '../core/models/payment.model';
 import { Store } from 'src/app/core/state/store';
 import { PreLoaderStore } from 'src/app/shared/components/pre-loader/pre-loader.store';
-import { EzGymComponentStore } from 'src/app/ezgym/ezgym.component.store';
 import { EzPaymentStore } from '../ezpayment.store';
 
 

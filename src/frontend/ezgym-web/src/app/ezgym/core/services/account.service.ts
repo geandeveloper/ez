@@ -83,4 +83,12 @@ export class AccountService {
     getGym(accountId: string): Observable<GymModel> {
         return this.http.get<GymModel>(`accounts/${accountId}/gym`)
     }
+
+    //refactoring....
+
+    myAccounts() {
+        return this.http
+            .get<AccountModel[]>(`my/accounts`)
+
+    }
 }

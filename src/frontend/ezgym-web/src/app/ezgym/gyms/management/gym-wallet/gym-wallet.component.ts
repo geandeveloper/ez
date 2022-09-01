@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { catchError, finalize, of, switchMap, tap } from 'rxjs';
+import { catchError, finalize, tap } from 'rxjs';
 import { UserStore } from 'src/app/core/authentication/user.store';
 import { AccountService } from 'src/app/ezgym/core/services/account.service';
 import { Store } from 'src/app/core/state/store';
@@ -9,8 +9,8 @@ import { PixTypeEnum, WalletModel } from 'src/app/ezgym/core/models/wallet.model
 import { WalletService } from 'src/app/ezgym/core/services/wallet.service';
 import { PreLoaderStore } from 'src/app/shared/components/pre-loader/pre-loader.store';
 import { PaymentAccountStatusEnum } from 'src/app/ezpayment/core/models/payment-account.model';
-import { PaymentAccountService } from 'src/app/ezpayment/core/services/payment-account.service';
 import { ModalStore } from 'src/app/shared/components/modal/modal.store';
+import { EzGymStore } from 'src/app/ezgym/ezgym.store';
 
 
 interface GymWalletComponentState {
@@ -38,7 +38,7 @@ export class GymWalletComponent extends Store<GymWalletComponentState> implement
         private accountService: AccountService,
         private preLoader: PreLoaderStore,
         private modalStore: ModalStore,
-        private userStore: UserStore,
+        private ezGymStore: EzGymStore,
         private walletService: WalletService,
     ) {
         super({
@@ -76,7 +76,7 @@ export class GymWalletComponent extends Store<GymWalletComponentState> implement
         })
 
         this.accountService.getWallet(
-            this.userStore.state.activeAccount?.id!
+            this.ezGymStore.state.accountActive?.id!
         ).pipe(
             tap(wallet => {
                 this.setState(state => ({
@@ -119,22 +119,11 @@ export class GymWalletComponent extends Store<GymWalletComponentState> implement
         return this.walletService
             .setupPaymentAccount({
                 walletId: this.state.wallet?.id!,
-                refreshUrl: `http://localhost:4200/${this.userStore.state.activeAccount?.accountName}`,
-                returnUrl: `http://localhost:4200/${this.userStore.state.activeAccount?.accountName}`
+                refreshUrl: `http://localhost:4200/${this.ezGymStore.state.accountActive?.accountName}`,
+                returnUrl: `http://localhost:4200/${this.ezGymStore.state.accountActive?.accountName}`
             })
             .pipe(
                 tap(paymentAccountEvent => {
-                    if (paymentAccountEvent.paymentAccountStatus == PaymentAccountStatusEnum.Approved && this.state.wallet?.paymentAccount?.paymentAccountStatus != PaymentAccountStatusEnum.Approved) {
-                        this.modalStore.success({
-                            title: "Verificamos que sua conta acabou de ser aprovada!",
-                            description: "Caso queira modificar seus dados voce pode clicar no botao continuar",
-                            confirmButtonLabel: "Continuar",
-                            onConfirm: () => {
-                                window.location.href = paymentAccountEvent.onBoardingLink;
-                            }
-                        })
-                    }
-
                     this.setState(state => ({
                         ...state,
                         wallet: {
@@ -177,7 +166,7 @@ export class GymWalletComponent extends Store<GymWalletComponentState> implement
         this.preLoader.show();
 
         this.accountService.updateWallet({
-            accountId: this.userStore.state.activeAccount?.id!,
+            accountId: this.ezGymStore.state.accountActive?.id!,
             pix: this.pixFormGroup.value
         }).pipe(
             finalize(() => {

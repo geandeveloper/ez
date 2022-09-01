@@ -30,6 +30,16 @@ namespace EzGym
                   });
 
 
+            app.MapGet("/my/accounts",
+                       [Authorize] (
+                             [FromServices] EzPrincipal principal,
+                             [FromServices] IGymRepository repository) =>
+                       {
+                           var accounts = repository.Where<Account>(account => account.UserId == principal.Id).ToList();
+
+                             return Results.Ok(accounts);
+                         });
+
 
             app.UseAccountApi()
                 .UseGymApi()

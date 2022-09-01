@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
       .pipe(
         tap(user => {
           if (user?.authenticated) {
-            this.router.navigate(['/', user.activeAccount?.accountName])
+            this.router.navigate(['/'])
           }
         }),
         finalize(() => {

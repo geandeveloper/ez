@@ -5,12 +5,12 @@
             <ul class="navbar-nav navbar-nav-left">
                 <li class="nav-item dropdown">
                     <a class="nav-link  dropdown-toggle" id="gymsDropdown" href="#" data-toggle="dropdown">
-                        <span><b>@{{userState.activeAccount?.accountName}}</b></span>
+                        <span><b>@{{state.activeAccount?.accountName}}</b></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-left navbar-dropdown preview-list"
                         aria-labelledby="gymsDropdown">
                         <p class="mb-0 font-weight-normal float-left dropdown-header">Academias</p>
-                        <div *ngFor="let account of userState?.userInfo?.accounts">
+                        <div *ngFor="let account of state?.accounts">
                             <a class="dropdown-item preview-item" (click)="switchAccount(account.accountName)">
                                 <i class="material-icons"> {{account.accountType == 1 ? 'account_circle' : 'domain'}}
                                 </i>
@@ -100,7 +100,7 @@
 
                     <li>
                         <a class="nav-link" routerLinkActive="link-active"
-                            [routerLink]="['/', userState.activeAccount?.accountName]">
+                            [routerLink]="['/', state.activeAccount?.accountName]">
                             <i class="material-icons">account_circle</i>
                         </a>
                     </li>
