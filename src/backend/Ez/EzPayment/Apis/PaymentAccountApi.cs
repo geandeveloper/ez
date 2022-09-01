@@ -1,7 +1,6 @@
 ﻿using System.Threading;
 using EzPayment.Events.Accounts;
 using EzPayment.PaymentAccounts.VerifyPaymentAccount;
-using EzPayment.WebHooks.StripePayments;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -13,8 +12,6 @@ public static class PaymentAccountApi
 {
     public static WebApplication UseAccountPaymentApi(this WebApplication app)
     {
-        app.UsePaymentWebHooks().UsePaymentWebHooks().UseAccountsWebHooks();
-
         app.MapPost("/payment-accounts/{id}/verify",
             [Authorize] async (
                 [FromServices] VerifyPaymentAccountCommandHandler handler,

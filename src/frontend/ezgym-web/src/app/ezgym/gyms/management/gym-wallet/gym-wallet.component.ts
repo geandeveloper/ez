@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { finalize, of, switchMap, tap } from 'rxjs';
+import { catchError, finalize, of, switchMap, tap } from 'rxjs';
 import { UserStore } from 'src/app/core/authentication/user.store';
 import { AccountService } from 'src/app/ezgym/core/services/account.service';
 import { Store } from 'src/app/core/state/store';
@@ -104,19 +104,19 @@ export class GymWalletComponent extends Store<GymWalletComponentState> implement
                 description: "Caso queira modificar seus dados voce pode clicar no botao continuar",
                 confirmButtonLabel: "Continuar",
                 onConfirm: () => {
-                    this.redirectToConfigureAccount();
+                    this.redirectToConfigureAccount().subscribe();
                 }
             })
 
         } else {
-            this.redirectToConfigureAccount();
+            this.redirectToConfigureAccount().subscribe();
         }
 
     }
 
     redirectToConfigureAccount() {
         this.preLoader.show();
-        this.walletService
+        return this.walletService
             .setupPaymentAccount({
                 walletId: this.state.wallet?.id!,
                 refreshUrl: `http://localhost:4200/${this.userStore.state.activeAccount?.accountName}`,
@@ -124,7 +124,7 @@ export class GymWalletComponent extends Store<GymWalletComponentState> implement
             })
             .pipe(
                 tap(paymentAccountEvent => {
-                    if (paymentAccountEvent.paymentAccountStatus == PaymentAccountStatusEnum.Approved && this.state.wallet?.paymentAccount?.paymentAccountStatus != PaymentAccountStatusEnum.Approved)
+                    if (paymentAccountEvent.paymentAccountStatus == PaymentAccountStatusEnum.Approved && this.state.wallet?.paymentAccount?.paymentAccountStatus != PaymentAccountStatusEnum.Approved) {
                         this.modalStore.success({
                             title: "Verificamos que sua conta acabou de ser aprovada!",
                             description: "Caso queira modificar seus dados voce pode clicar no botao continuar",
@@ -133,6 +133,7 @@ export class GymWalletComponent extends Store<GymWalletComponentState> implement
                                 window.location.href = paymentAccountEvent.onBoardingLink;
                             }
                         })
+                    }
 
                     this.setState(state => ({
                         ...state,
@@ -145,11 +146,13 @@ export class GymWalletComponent extends Store<GymWalletComponentState> implement
                         }
                     }))
 
+                    window.location.href = paymentAccountEvent.onBoardingLink;
                 }),
-                finalize(() => {
+                catchError((error) => {
                     this.preLoader.close();
+                    return error;
                 })
-            ).subscribe()
+            )
     }
 
     keyTypeChanged(pixType: PixTypeEnum) {
