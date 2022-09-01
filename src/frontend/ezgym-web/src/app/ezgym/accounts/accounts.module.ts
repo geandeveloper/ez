@@ -12,6 +12,7 @@ import { EditProfileComponent } from './profile/edit-profile/edit-profile.compon
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { MatStepperModule } from '@angular/material/stepper'
 import { GymModule } from '../gyms/gyms.module';
+import { ContentLoaderModule } from '@ngneat/content-loader';
 
 @NgModule({
     imports: [
@@ -22,7 +23,8 @@ import { GymModule } from '../gyms/gyms.module';
         MatTabsModule,
         ImageCropperModule,
         MatStepperModule,
-        GymModule
+        GymModule,
+        ContentLoaderModule
     ],
     declarations: [
         AccountsComponent,

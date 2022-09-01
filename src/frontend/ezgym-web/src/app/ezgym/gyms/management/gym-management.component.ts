@@ -40,7 +40,7 @@ export class GymManagementComponent extends Store<GymManagementComponentState> i
 
     ngOnInit() {
         setTimeout(() => {
-            this.ezGymStore.showTopNavBar(true);
+            // this.ezGymStore.showTopNavBar(true);
         });
     }
 

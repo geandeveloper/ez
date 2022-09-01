@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { map, tap } from "rxjs";
+import { filter, map, tap } from "rxjs";
 import { Store } from "src/app/core/state/store";
 import { AccountModel } from "./core/models/accout.model";
 import { AccountService } from "./core/services/account.service";
@@ -9,6 +9,7 @@ import { EzGymState } from "./ezgym.state";
 export class EzGymStore extends Store<EzGymState> {
 
     active$ = this.store$.pipe(
+        filter(a => Boolean(a?.accountActive)),
         map(a => a.accountActive)
     )
 
@@ -16,7 +17,6 @@ export class EzGymStore extends Store<EzGymState> {
         private readonly accountService: AccountService
     ) {
         super();
-
     }
 
 
@@ -37,7 +37,7 @@ export class EzGymStore extends Store<EzGymState> {
                     this.setState(state => ({
                         ...state,
                         accounts,
-                        accountActive: accounts.find(a => a.isDefault)!
+                        accountActive: state?.accountActive || accounts.find(a => a.isDefault)!
                     }))
                 })
             )
