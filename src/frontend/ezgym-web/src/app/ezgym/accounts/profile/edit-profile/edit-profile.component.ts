@@ -4,19 +4,19 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ImageCroppedEvent, base64ToFile } from 'ngx-image-cropper';
 import { UserStore } from 'src/app/core/authentication/user.store';
 import { AccountService } from 'src/app/ezgym/core/services/account.service';
-import { AccountModel } from 'src/app/ezgym/core/models/accout.model';
 import { Store } from 'src/app/core/state/store';
 import { PreLoaderStore } from 'src/app/shared/components/pre-loader/pre-loader.store';
-import { ProfileModel } from 'src/app/ezgym/core/models/profile.model';
 import { EzGymStore } from 'src/app/ezgym/ezgym.store';
+import { finalize, of, switchMap, tap } from 'rxjs';
+import { AccountProfileProjection } from 'src/app/ezgym/core/projections/account-profile.projection';
 
 
 interface EditProfileState {
     ui?: {
-        avatarChanged: boolean
+        avatarChanged: boolean,
+        loading?: boolean
     },
-    account: AccountModel,
-    profile: ProfileModel
+    accountProfile: AccountProfileProjection
 }
 
 @Component({
@@ -31,31 +31,26 @@ export class EditProfileComponent extends Store<EditProfileState> implements OnI
     showPreview = false;
     imageChangedEvent: any = '';
 
-    account: AccountModel
-    profile: ProfileModel
+    accountProfile: AccountProfileProjection
 
     constructor(
         private accountService: AccountService,
-        private userStorage: UserStore,
         private fb: FormBuilder,
         private modal: MatDialogRef<EditProfileComponent>,
-        private preloader: PreLoaderStore,
         private ezGymStore: EzGymStore,
-        @Inject(MAT_DIALOG_DATA) public data: { account: AccountModel, profile: ProfileModel }) {
+        @Inject(MAT_DIALOG_DATA) public data: { accountProfile: AccountProfileProjection }) {
         super({
-            account: { ...data.account },
-            profile: { ...data.profile }
+            accountProfile: { ...data.accountProfile },
         })
 
-        this.account = data.account;
-        this.profile = data.profile;
+        this.accountProfile = data.accountProfile;
 
         this.editProfileForm = this.fb.group({
-            avatar: [this.state.account.avatarUrl],
-            name: [this.state.profile?.name],
-            accountId: [this.state.account.id],
-            jobDescription: [this.state.profile?.jobDescription],
-            bioDescription: [this.state.profile?.bioDescription]
+            avatar: [this.state.accountProfile.avatarUrl],
+            name: [this.state.accountProfile?.profile?.name],
+            accountId: [this.state.accountProfile.id],
+            jobDescription: [this.state.accountProfile.profile?.jobDescription],
+            bioDescription: [this.state.accountProfile.profile?.bioDescription]
         })
     }
 
@@ -73,8 +68,8 @@ export class EditProfileComponent extends Store<EditProfileState> implements OnI
     }
 
     imageCropped(event: ImageCroppedEvent) {
-        this.account = {
-            ...this.account,
+        this.accountProfile = {
+            ...this.accountProfile,
             avatarUrl: event.base64!
         }
 
@@ -92,9 +87,9 @@ export class EditProfileComponent extends Store<EditProfileState> implements OnI
                 ...state.ui,
                 avatarChanged: false,
             },
-            account: {
-                ...state.account,
-                avatarUrl: this.data.account.avatarUrl
+            accountProfile: {
+                ...state.accountProfile,
+                avatarUrl: this.data.accountProfile.avatarUrl
             }
         }))
     }
@@ -106,9 +101,9 @@ export class EditProfileComponent extends Store<EditProfileState> implements OnI
                 ...state.ui,
                 avatarChanged: true
             },
-            account: {
-                ...state.account,
-                avatarUrl: this.account.avatarUrl
+            accountProfile: {
+                ...state.accountProfile,
+                avatarUrl: this.accountProfile.avatarUrl
             }
         }))
 
@@ -118,36 +113,56 @@ export class EditProfileComponent extends Store<EditProfileState> implements OnI
 
     saveProfile() {
 
-        this.preloader.show();
-
-        if (this.state.ui?.avatarChanged)
-            this.accountService.changeAvatar({
-                accountId: this.data.account.id,
-                avatar: this.editProfileForm.get('avatar')?.value
-            }).subscribe(avatar => {
-                this.setState(state => ({
-                    ...state,
-                    ui: {
-                        avatarChanged: false
-                    }
-                }))
-
-                this.ezGymStore.updateAccountActive(account => ({
-                    ...account,
-                    avatarUrl: avatar.avatarUrl,
-                }))
-            })
+        this.setLoading(true)
 
         this.accountService
             .upInsertProfile({ ...this.editProfileForm.value })
-            .subscribe(profile => {
-                this.ezGymStore
-                    .updateAccountActive(account => ({
-                        ...account,
-                        profile: profile
-                    }))
-                this.preloader.close()
-            })
+            .pipe(
+                tap(profile => {
+                    this.ezGymStore
+                        .updateAccountActive(account => ({
+                            ...account,
+                            profile: profile
+                        }))
+                }),
+                switchMap(profile => {
+                    if (this.state.ui?.avatarChanged) {
+                        return this.accountService.changeAvatar({
+                            accountId: this.data.accountProfile.id,
+                            avatar: this.editProfileForm.get('avatar')?.value
+                        }).pipe(
+                            tap(avatar => {
+                                this.setState(state => ({
+                                    ...state,
+                                    ui: {
+                                        avatarChanged: false
+                                    }
+                                }))
+
+                                this.ezGymStore.updateAccountActive(account => ({
+                                    ...account,
+                                    avatarUrl: avatar.avatarUrl,
+                                }))
+                            })
+                        )
+                    }
+                    return of(profile)
+                }),
+                finalize(() => {
+                    this.setLoading(false)
+                })
+
+            ).subscribe()
+    }
+    
+    setLoading(loading: boolean) {
+        this.setState(state => ({
+            ...state,
+            ui: {
+                ...state.ui!,
+                loading: loading
+            }
+        }))
     }
 }
 

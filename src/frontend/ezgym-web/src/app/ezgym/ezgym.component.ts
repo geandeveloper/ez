@@ -33,6 +33,9 @@ export class EzGymComponent extends Store<ComponentState> implements OnInit {
     private router: Router) {
     super()
 
+  }
+
+  ngOnInit(): void {
     this.ezGymStore.active$.subscribe(activeAccount => {
       this.setState(state => ({
         ...state,
@@ -53,16 +56,13 @@ export class EzGymComponent extends Store<ComponentState> implements OnInit {
         showTopNavBar: true
       }
     }))
-  }
-
-  ngOnInit(): void {
     import("src/assets/templates/skydash/skydash")
 
   }
 
   switchAccount(accountName: string): void {
-    this.ezGymStore.setActiveAccount(accountName)
     this.router.navigate(['/', accountName])
+    this.ezGymStore.setActiveAccount(accountName)
   }
 
   logout() {

@@ -43,7 +43,7 @@ namespace EzGym
             //    eventStore.UseDaemonProjectionAsync(daemon =>
             //    {
             //        daemon.RebuildProjection<AccountFollowersProjection>(CancellationToken.None).Wait();
-            //        daemon.RebuildProjection<AccountFollowing>(CancellationToken.None).Wait();
+            //        daemon.RebuildProjection<AccountFollowingProjection>(CancellationToken.None).Wait();
 
             //    }).Wait();
 

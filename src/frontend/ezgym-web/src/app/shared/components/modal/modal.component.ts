@@ -8,5 +8,8 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./modal.component.scss']
 })
 export class ModalComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public state: ModalState) { }
+  constructor( @Inject(MAT_DIALOG_DATA) public state: ModalState
+  ) {
+  }
+
 }

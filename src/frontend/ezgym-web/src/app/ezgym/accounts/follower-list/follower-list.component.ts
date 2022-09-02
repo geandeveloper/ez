@@ -6,6 +6,7 @@ import { debounceTime } from 'rxjs';
 import { AccountService } from 'src/app/ezgym/core/services/account.service';
 import { AccountModel } from 'src/app/ezgym/core/models/accout.model';
 import { Store } from 'src/app/core/state/store';
+import { AccountProfileProjection } from '../../core/projections/account-profile.projection';
 
 
 interface FollowerListComponentState {
@@ -31,7 +32,7 @@ export class FollowerListComponent extends Store<FollowerListComponentState> imp
         private accountService: AccountService,
         private fb: FormBuilder,
         private router: Router,
-        @Inject(MAT_DIALOG_DATA) public data: { account: AccountModel, ui: any }
+        @Inject(MAT_DIALOG_DATA) public data: { accountProfile: AccountProfileProjection, ui: any }
     ) {
         super({
             ui: {
@@ -43,14 +44,14 @@ export class FollowerListComponent extends Store<FollowerListComponentState> imp
         })
 
         if (data.ui.activeTab == 'followers') {
-            this.searchFollowers(data.account.id, '')
+            this.searchFollowers(data.accountProfile.id, '')
                 .subscribe(followers => {
                     this.setState(state => ({ ...state, followers: followers }))
                 })
         }
 
         if (data.ui.activeTab == 'following') {
-            this.searchFollowing(data.account.id, '').subscribe(following => {
+            this.searchFollowing(data.accountProfile.id, '').subscribe(following => {
                 this.setState(state => ({ ...state, following: following }))
             })
         }
@@ -67,7 +68,7 @@ export class FollowerListComponent extends Store<FollowerListComponentState> imp
                 debounceTime(500)
             )
             .subscribe(query => {
-                this.searchFollowers(data.account.id, query)
+                this.searchFollowers(data.accountProfile.id, query)
                     .subscribe(followers => {
                         this.setState(state => ({ ...state, followers: followers }))
                     })
@@ -80,7 +81,7 @@ export class FollowerListComponent extends Store<FollowerListComponentState> imp
                 debounceTime(500)
             )
             .subscribe(query => {
-                this.searchFollowing(data.account.id, query)
+                this.searchFollowing(data.accountProfile.id, query)
                     .subscribe(following => {
                         this.setState(state => ({ ...state, following: following }))
                     })
@@ -109,14 +110,14 @@ export class FollowerListComponent extends Store<FollowerListComponentState> imp
         }))
 
         if (this.state.ui.activeTab == 'followers') {
-            this.searchFollowers(this.data.account.id, '')
+            this.searchFollowers(this.data.accountProfile.id, '')
                 .subscribe(followers => {
                     this.setState(state => ({ ...state, followers: followers }))
                 })
         }
 
         if (this.state.ui.activeTab == 'following') {
-            this.searchFollowing(this.data.account.id, '').subscribe(following => {
+            this.searchFollowing(this.data.accountProfile.id, '').subscribe(following => {
                 this.setState(state => ({ ...state, following: following }))
             })
         }

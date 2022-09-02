@@ -7,6 +7,7 @@ import { AccountModel } from '../models/accout.model';
 import { ProfileChangedEvent } from '../events/profile.events';
 import { GymModel } from '../models/gym.model';
 import { Pix, WalletModel } from '../models/wallet.model';
+import { AccountProfileProjection } from '../projections/account-profile.projection';
 
 @Injectable({
     providedIn: 'root'
@@ -41,9 +42,9 @@ export class AccountService {
             .put<ProfileChangedEvent>(`accounts/${command.accountId}/profile`, command)
     }
 
-    loadAccount(accountName: string) {
+    loadAccountProfile(accountName: string) {
         return this.http
-            .get<AccountModel>(`accounts/${accountName}`)
+            .get<AccountProfileProjection>(`accounts/${accountName}/profile`)
     }
 
     searchAccounts(query: string) {

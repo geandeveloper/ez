@@ -6,21 +6,31 @@
     </section>
     <div class="line"></div>
     <section class="edit-form">
-        <div class="form-group form-group-avatar">
+
+        <content-loader *ngIf="state.ui?.loading">
+            <svg:rect x="156" y="60" rx="3" ry="3" width="88" height="6" />
+            <svg:rect x="175" y="72" rx="3" ry="3" width="52" height="6" />
+            <svg:rect x="337" y="197" rx="3" ry="3" width="410" height="6" />
+            <svg:rect x="452" y="191" rx="3" ry="3" width="380" height="6" />
+            <svg:rect x="416" y="195" rx="3" ry="3" width="178" height="6" />
+            <svg:circle cx="200" cy="34" r="20" />
+        </content-loader>
+        <div *ngIf="!state.ui?.loading" class="form-group form-group-avatar">
 
             <div class="profile-bio-image">
-                <img [src]="state.account.avatarUrl" />
+                <img [src]="state.accountProfile.avatarUrl" />
             </div>
             <label class="header-btn btn-save">
                 Trocar imagem
-                <input class="input-upload" type="file" #inputUpload (change)="fileChangeEvent($event)" accept="image/*" />
+                <input class="input-upload" type="file" #inputUpload (change)="fileChangeEvent($event)"
+                    accept="image/*" />
             </label>
 
             <div class="crop-component" *ngIf="showPreview">
                 <p class="header-title">Ajustar imagem</p>
                 <div class="preview-image">
                     <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
-                        [aspectRatio]="4 / 4" [resizeToWidth]="100" format="png" (imageCropped)="imageCropped($event)" >
+                        [aspectRatio]="4 / 4" [resizeToWidth]="100" format="png" (imageCropped)="imageCropped($event)">
                     </image-cropper>
                 </div>
                 <div class="crop-buttons">
@@ -29,14 +39,25 @@
                 </div>
             </div>
         </div>
-        <form class="edit-profile-form" [formGroup]="editProfileForm">
+        <content-loader *ngIf="state.ui?.loading">
+            <svg:circle cx="584" cy="226" r="8" /> 
+            <svg:rect x="93" y="16" rx="5" ry="5" width="220" height="10" /> 
+            <svg:circle cx="571" cy="224" r="8" /> 
+            <svg:rect x="93" y="46" rx="5" ry="5" width="220" height="10" /> 
+            <svg:circle cx="578" cy="224" r="8" /> 
+            <svg:rect x="93" y="76" rx="5" ry="5" width="220" height="10" /> 
+            <svg:circle cx="584" cy="221" r="8" /> 
+            <svg:rect x="93" y="106" rx="5" ry="5" width="220" height="10" />
+        </content-loader>
+        <form *ngIf="!state.ui?.loading" class="edit-profile-form" [formGroup]="editProfileForm">
             <div class="form-group">
                 <label>Nome</label>
                 <input type="text" formControlName="name" class="form-control" placeholder="Nome">
             </div>
             <div class="form-group">
                 <label for="job">Profissão ou Ramo de atividade</label>
-                <input type="text" formControlName="jobDescription" class="form-control" placeholder="Profissão ou Ramo de atividade">
+                <input type="text" formControlName="jobDescription" class="form-control"
+                    placeholder="Profissão ou Ramo de atividade">
             </div>
             <div class="form-group">
                 <label for="bio">Bio</label>

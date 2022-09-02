@@ -2,9 +2,9 @@
 {
     public class Profile
     {
-        public string Name { get; private set; }
-        public string JobDescription { get; private set; }
-        public string BioDescription { get; private set; }
+        public string Name { get; }
+        public string JobDescription { get; }
+        public string BioDescription { get; }
 
         private Profile() { }
 

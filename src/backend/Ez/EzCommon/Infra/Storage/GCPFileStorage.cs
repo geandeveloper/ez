@@ -1,4 +1,5 @@
-﻿using Google.Cloud.Storage.V1;
+﻿using System;
+using Google.Cloud.Storage.V1;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -19,9 +20,18 @@ namespace EzCommon.Infra.Storage
         public async Task<string> UploadFileAsync(MemoryStream stream, string fileName, string extension)
         {
             const string contentType = "application/octet-stream";
-            var uploadedFIle  = await _storageClient.UploadObjectAsync(_bucketName, $"{fileName}{extension}", contentType, stream);
+            try
+            {
 
-            return uploadedFIle.MediaLink;
+                var uploadedFIle = await _storageClient.UploadObjectAsync(_bucketName, $"{fileName}{extension}", contentType, stream);
+                return uploadedFIle.MediaLink;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
         }
 
     }

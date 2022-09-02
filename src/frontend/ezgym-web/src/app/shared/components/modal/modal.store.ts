@@ -26,11 +26,11 @@ export class ModalStore extends Store<ModalState> {
       fixed: false,
       title: '',
       description: '',
-      onConfirm: () => { this.close() }
+      onConfirm: () => { dialog.closeAll() }
     })
 
     this.opened$.subscribe(state => {
-      this.dialog.open(ModalComponent, { data: state, hasBackdrop: state.fixed })
+      this.dialog.open(ModalComponent, { data: state, hasBackdrop: state.fixed, disableClose: true })
     })
 
     this.dialog.afterAllClosed.subscribe(() => this.close())
@@ -42,7 +42,7 @@ export class ModalStore extends Store<ModalState> {
       opened: true,
       title: config?.title || "Opsss",
       description: config?.description || "Um erro não esperado ocorreu, por favor tente novamente !",
-      iconSrc: 'assets/img/error.svg'
+      iconSrc: 'assets/img/error.svg',
     }))
   }
 
@@ -52,11 +52,12 @@ export class ModalStore extends Store<ModalState> {
       opened: true,
       title: config?.title || 'Falha durante autentição',
       description: config?.description || 'Houve uma falha durante a verificação do usuario e senha, por favor tente novamente !',
-      iconSrc: 'assets/img/access-denied.svg'
+      iconSrc: 'assets/img/access-denied.svg',
     }))
   }
 
   success(config?: { title: string, description: string, onConfirm?: () => void, confirmButtonLabel?: string }) {
+
     this.setState(state => ({
       ...state,
       opened: true,
@@ -64,7 +65,7 @@ export class ModalStore extends Store<ModalState> {
       description: config?.description || 'Operação realizada com sucesso',
       iconSrc: 'assets/img/success.svg',
       confirmButtonLabel: config?.confirmButtonLabel || state.confirmButtonLabel,
-      onConfirm: config?.onConfirm || state.onConfirm!
+      onConfirm: config?.onConfirm || this.state.onConfirm
     }))
   }
 

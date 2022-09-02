@@ -1,9 +1,7 @@
 ﻿
 using System.Linq;
-using System.Threading.Tasks;
 using EzGym.Accounts;
 using EzGym.Accounts.Events;
-using Marten;
 using Marten.Events.Aggregation;
 
 namespace EzGym.Projections

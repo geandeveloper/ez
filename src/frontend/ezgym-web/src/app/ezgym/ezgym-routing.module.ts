@@ -8,33 +8,27 @@ import { SearchAccountComponent } from './search/search-account/search-account.c
 
 const routes: Routes = [
   {
-    path: ':accountName',
-    component: EzGymComponent,
-    canActivate: [AuthGuard],
-    children: [
-      {
-        path: '',
-        component: ProfileComponent,
-        outlet: 'content'
-      },
-      {
-        path: 'search',
-        component: SearchAccountComponent,
-        outlet: 'content'
-      },
-    ]
-  },
-  {
-    path: 'accounts',
-    canActivate: [AuthGuard],
-    component: EzGymComponent,
-    loadChildren: () => import("./accounts/accounts.module").then(m => m.AccountsModule)
-  },
-  {
-    path: 'gyms',
+    path: 'gyms/management',
     canActivate: [AuthGuard],
     component: EzGymComponent,
     loadChildren: () => import("./gyms/gyms.module").then(m => m.GymModule)
+  },
+  {
+    path: 'accounts/search',
+    component: EzGymComponent,
+    children: [
+      {
+        path: '',
+        component: SearchAccountComponent,
+        outlet: 'content'
+      }
+    ]
+  },
+  {
+    path: ':accountName',
+    component: EzGymComponent,
+    canActivate: [AuthGuard],
+    loadChildren: () => import("./accounts/accounts.module").then(m => m.AccountsModule)
   },
   {
     path: '',

@@ -46,6 +46,7 @@ export class GymManagementComponent extends Store<GymManagementComponentState> i
 
     openPlans() {
         this.dialog.open(GymPlansComponent, {
+            disableClose: true,
             data: {
             },
             panelClass: 'fullscreen-dialog',
@@ -62,6 +63,7 @@ export class GymManagementComponent extends Store<GymManagementComponentState> i
     openWallet() {
 
         this.dialog.open(GymWalletComponent, {
+            disableClose: true,
             data: {
             },
             panelClass: 'fullscreen-dialog',

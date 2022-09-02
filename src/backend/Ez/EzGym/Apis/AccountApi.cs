@@ -49,6 +49,7 @@ namespace EzGym.Apis
                   });
 
             app.MapPost("/accounts/{accountId}/avatar",
+                [Authorize]
             async (
                       [FromServices] ChangeAvatarCommandHandler handler,
                       [FromServices] EzPrincipal principal,
@@ -104,7 +105,7 @@ namespace EzGym.Apis
                               ) =>
                         {
                             var accounts = repository
-                                .Where<SearchAccountsProjection>(a => a.AccountName.Contains(query))
+                                .Where<SearchAccounts>(a => a.AccountName.Contains(query))
                                 .Where(a => a.ProfileName.Contains(query))
                             .Take(20)
                             .ToList();
@@ -112,20 +113,22 @@ namespace EzGym.Apis
                             return Results.Ok(accounts);
                         });
 
-            app.MapGet("accounts/{accountName}",
+            app.MapGet("accounts/{accountName}/profile",
             [Authorize]
             (
+                      [FromServices] EzPrincipal principal,
                       [FromServices] IGymRepository repository,
                       string accountName
                       ) =>
                 {
-                    var account = repository.Where<Account>(a => a.AccountName == accountName).FirstOrDefault();
+                    var accountProfile = repository.Where<AccountProfile>(a => a.AccountName == accountName).FirstOrDefault();
 
-                    return Results.Ok(account);
+                    return Results.Ok(accountProfile);
                 });
 
             app.MapGet("accounts/{id}/followers",
-                [Authorize] (
+                [Authorize]
+            (
                      [FromServices] IGymRepository repository,
                      string id,
                      string query
@@ -144,7 +147,8 @@ namespace EzGym.Apis
                 });
 
             app.MapGet("accounts/{id}/following",
-                [Authorize] (
+                [Authorize]
+            (
                       [FromServices] IGymRepository repository,
                       string id,
                       string query

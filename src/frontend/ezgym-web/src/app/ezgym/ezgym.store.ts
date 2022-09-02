@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { filter, map, tap } from "rxjs";
 import { Store } from "src/app/core/state/store";
 import { AccountModel } from "./core/models/accout.model";
+import { GymModel } from "./core/models/gym.model";
 import { AccountService } from "./core/services/account.service";
 import { EzGymState } from "./ezgym.state";
 
@@ -55,16 +56,24 @@ export class EzGymStore extends Store<EzGymState> {
     }
 
     setActiveAccount(accountName: string) {
+        console.log("chamou")
         this.setState(state => ({
             ...state,
-            accountActive: state.accounts.find(a => a.accountName == accountName)!,
+            accountActive: { ...state.accounts.find(a => a.accountName == accountName)! },
         }))
     }
 
     updateAccountActive(updateFn: (state: AccountModel) => AccountModel) {
         this.setState(state => ({
             ...state,
-            accountActive: updateFn(state.accountActive)
+            accountActive: { ...updateFn(state.accountActive) }
+        }))
+    }
+
+    updateActiveGym(updateFn: (state?: GymModel) => GymModel) {
+        this.setState(state => ({
+            ...state,
+            activeGym: { ...updateFn(state.activeGym) }
         }))
     }
 }

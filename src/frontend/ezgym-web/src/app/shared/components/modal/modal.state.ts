@@ -5,5 +5,5 @@ export interface ModalState {
   opened?: boolean,
   fixed?: boolean,
   iconSrc?: string
-  onConfirm: () => void
+  onConfirm: Function
 }

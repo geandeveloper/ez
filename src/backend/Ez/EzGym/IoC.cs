@@ -35,7 +35,6 @@ namespace EzGym
         {
 
             services.AddScoped<IGymRepository, GymRepository>();
-
             services.AddSingleton<PaymentGatewayFactory>();
 
             services.AddTransient<CreateAccountCommandHandler>();
@@ -76,9 +75,12 @@ namespace EzGym
                     options.Projections.SelfAggregate<Wallet>(ProjectionLifecycle.Inline);
                     options.Projections.SelfAggregate<GymMemberShip>(ProjectionLifecycle.Inline);
 
-                    options.Projections.SelfAggregate<SearchAccountsProjection>(ProjectionLifecycle.Async);
+
+                    //Custom Projections
+                    options.Projections.Add<SearchAccountsProjection>(ProjectionLifecycle.Async);
                     options.Projections.Add<AccountFollowersProjection>(ProjectionLifecycle.Async);
                     options.Projections.Add<AccountFollowingsProjection>(ProjectionLifecycle.Async);
+                    options.Projections.Add<AccountProfileProjection>(ProjectionLifecycle.Async);
 
                     return options;
                 })

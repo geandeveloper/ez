@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using EzGym.Accounts;
 using EzGym.Accounts.Events;
-using Marten;
 using Marten.Events.Aggregation;
 
 namespace EzGym.Projections

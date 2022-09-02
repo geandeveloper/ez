@@ -9,9 +9,10 @@ import { PreLoaderStore } from 'src/app/shared/components/pre-loader/pre-loader.
 import { FollowerListComponent } from '../follower-list/follower-list.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { EzGymStore } from '../../ezgym.store';
+import { AccountProfileProjection } from '../../core/projections/account-profile.projection';
 
 interface ProfileComponentState {
-    account: AccountModel,
+    accountProfile: AccountProfileProjection,
     ui: {
         isOwner: boolean,
         isFollowing: boolean,
@@ -29,38 +30,34 @@ export class ProfileComponent extends Store<ProfileComponentState> implements On
     constructor(
         private activeRoute: ActivatedRoute,
         private router: Router,
-        private preloader: PreLoaderStore,
         private accountService: AccountService,
         private ezGymStore: EzGymStore,
         public dialog: MatDialog
     ) {
         super({
-            account: {} as AccountModel,
+            accountProfile: {} as AccountProfileProjection,
             ui: {
                 isOwner: false,
                 isFollowing: false
             }
         })
-
-        this.ezGymStore.active$
-            .pipe(
-                tap(account => {
-                    this.setState(state => ({
-                        ...state,
-                        account: account,
-                        ui: {
-                            isOwner: this.ezGymStore.state.accountActive.id == account.id,
-                            isFollowing: this.ezGymStore.state.accountActive?.following?.some(f => f.accountId === account.id)!,
-                        }
-                    }))
-                }))
-            .subscribe()
     }
 
     ngOnInit() {
         setTimeout(() => {
             this.ezGymStore.showTopNavBar(true)
         })
+
+        this.ezGymStore.active$.subscribe(activeAccount => {
+            if (activeAccount.id == this.state.accountProfile.id)
+                this.setState(state => ({
+                    ...state,
+                    accountProfile: {
+                        ...activeAccount
+                    }
+                }))
+        })
+
         this.activeRoute.params
             .pipe(
                 switchMap(params => {
@@ -72,21 +69,25 @@ export class ProfileComponent extends Store<ProfileComponentState> implements On
     loadAccount(accountName: string) {
         this.setLoading(true)
         return this.accountService
-            .loadAccount(accountName)
+            .loadAccountProfile(accountName)
             .pipe(
-                tap(response => {
+                tap(accountProfile => {
                     this.setState(state => ({
                         ...state,
-                        account: response,
-                        ui: {
-                            isOwner: this.ezGymStore.state.accountActive.id == response.id,
-                            isFollowing: this.ezGymStore.state.accountActive?.following?.some(f => f.accountId === response.id)!,
-                        }
+                        accountProfile: accountProfile,
                     }))
 
-                    if (this.state.ui.isOwner)
-                        this.ezGymStore.setActiveAccount(accountName)
 
+                }),
+                switchMap(() => this.ezGymStore.active$),
+                tap(activeAccount => {
+                    this.setState(state => ({
+                        ...state,
+                        ui: {
+                            isOwner: activeAccount.id == state.accountProfile.id,
+                            isFollowing: activeAccount?.following?.some(f => f.accountId === activeAccount.id)!
+                        }
+                    }))
                 }),
                 catchError((error) => {
                     this.router.navigate(['/404'])
@@ -100,9 +101,9 @@ export class ProfileComponent extends Store<ProfileComponentState> implements On
 
     editProfile() {
         this.dialog.open(EditProfileComponent, {
+            disableClose: true,
             data: {
-                account: this.state?.account,
-                profile: this.state?.account.profile || {}
+                accountProfile: this.state?.accountProfile,
             },
             panelClass: 'fullscreen-dialog',
             maxWidth: '935px',
@@ -118,12 +119,12 @@ export class ProfileComponent extends Store<ProfileComponentState> implements On
             userAccountId: this.ezGymStore.state.accountActive?.id!,
             followAccountId: accountId
         }).pipe(
-            tap((response) => {
+            tap((_response) => {
                 this.setState(state => ({
                     ...state,
-                    account: {
-                        ...state.account,
-                        followersCount: state.account.followersCount! + 1
+                    accountProfile: {
+                        ...state.accountProfile,
+                        followersCount: state.accountProfile.followersCount! + 1
                     },
                     ui: {
                         ...state.ui,
@@ -137,7 +138,6 @@ export class ProfileComponent extends Store<ProfileComponentState> implements On
     }
 
     unfollowAccount(accountId: string) {
-        this.preloader.show();
         this.accountService.unfollowAccount({
             userAccountId: this.ezGymStore.state.accountActive.id!,
             unfollowAccountId: accountId
@@ -145,9 +145,9 @@ export class ProfileComponent extends Store<ProfileComponentState> implements On
             tap(() => {
                 this.setState(state => ({
                     ...state,
-                    account: {
-                        ...state.account,
-                        followersCount: state.account.followersCount! - 1
+                    accountProfile: {
+                        ...state.accountProfile,
+                        followersCount: state.accountProfile.followersCount! - 1
                     },
                     ui: {
                         ...state.ui,
@@ -156,15 +156,15 @@ export class ProfileComponent extends Store<ProfileComponentState> implements On
                 }))
             }),
             finalize(() => {
-                this.preloader.close()
             })
         ).subscribe()
     }
 
     openFollowerList() {
         this.dialog.open(FollowerListComponent, {
+            disableClose: true,
             data: {
-                account: this.state?.account,
+                accountProfile: this.state?.accountProfile,
                 ui: {
                     activeTab: 'followers',
                 }
@@ -182,8 +182,9 @@ export class ProfileComponent extends Store<ProfileComponentState> implements On
 
     openFollowingList() {
         this.dialog.open(FollowerListComponent, {
+            disableClose: true,
             data: {
-                account: this.state?.account,
+                accountProfile: this.state?.accountProfile,
                 ui: {
                     activeTab: 'following',
                 }
