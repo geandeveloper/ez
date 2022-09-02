@@ -7,15 +7,16 @@ public class EzPaymentSettings
     public Storage Storage { get; set; }
 }
 
-public class GerenciaNet 
+public class GerenciaNet
 {
     public string PixKey { get; set; }
 }
 
-public class StripePayments 
+public class StripePayments
 {
     public string ApiSecretKey { get; set; }
     public string WebhookSecret { get; set; }
+    public double EzPaymentFeeAmount { get; set; }
 }
 
 public class Storage

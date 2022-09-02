@@ -2,5 +2,5 @@
 
 namespace EzGym.Accounts.Events
 {
-    public record AccountFollowedEvent(string AccountId) : Event;
+    public record AccountFollowedEvent(string AccountId, string FollowedAccountId) : Event;
 }

@@ -5,6 +5,7 @@ using EzCommon.CommandHandlers;
 using EzCommon.Commands;
 using EzCommon.Models;
 using EzGym.Infra.Repository;
+using EzGym.Wallets;
 using EzPayment.Events.Payments;
 using EzPayment.Payments;
 using EzPayment.Payments.CreatePayment;
@@ -30,10 +31,11 @@ public class RegisterGymMemberShipCommandHandler : ICommandHandler<RegisterGymMe
         var payerAccount = await _repository.LoadAggregateAsync<Accounts.Account>(request.PayerAccountId)!;
 
         var receiverGym = await _repository.QueryAsync<Gym>(g => g.Id == request.GymId);
+        var wallet = await _repository.QueryAsync<Wallet>(w => w.AccountId == receiverGym.AccountId);
         var plan = receiverGym.GymPlans.First(p => p.Id == request.PlanId);
 
         var paymentStream = await _createPayment
-            .Handle(new CreatePaymentCommand(plan.Amount, $"Plano de {plan.Days} dias", request.PaymentMethod), cancellationToken);
+            .Handle(new CreatePaymentCommand(plan.Amount, $"Plano de {plan.Days} dias", request.PaymentMethod, wallet.PaymentAccount.Id), cancellationToken);
 
         var payment = paymentStream.GetEvent<PaymentCreatedEvent>();
 

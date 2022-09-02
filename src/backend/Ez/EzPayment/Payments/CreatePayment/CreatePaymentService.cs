@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using EzPayment.Integrations.Gateways;
 using EzPayment.Integrations.Gateways.GerenciaNet.RequestPayment;
 using Microsoft.Extensions.Options;
@@ -39,18 +40,26 @@ namespace EzPayment.Payments.CreatePayment
             return new PixInfo(pixPayment.Txid, qrCode.Qrcode, qrCode.ImagemQrcode);
         }
 
-        public Task<CreditCardInfo> CreateCardIntegrationPaymentAsync(long amount, string description)
+        public Task<CreditCardInfo> CreateCardIntegrationPaymentAsync(long amount, string description, string destinationPaymentAccountId)
         {
+
+            var paymentAmount = amount * 100;
+            var paymentFeeAmount = Convert.ToInt64(paymentAmount * _settings.Value.StripePayments.EzPaymentFeeAmount);
 
             var cardPayload = new PaymentIntentCreateOptions
             {
-                Amount = amount * 100,
+                Amount = paymentAmount,
                 Currency = "brl",
                 AutomaticPaymentMethods = new PaymentIntentAutomaticPaymentMethodsOptions
                 {
                     Enabled = true,
                 },
-                Description = description
+                Description = description,
+                ApplicationFeeAmount = paymentFeeAmount,
+                TransferData = new PaymentIntentTransferDataOptions
+                {
+                    Destination = destinationPaymentAccountId
+                }
             };
 
             var cardPayment = _paymentGatewayFactory.UseStripePayment(gateway => gateway.CreatePaymentIntent(cardPayload));
@@ -58,5 +67,5 @@ namespace EzPayment.Payments.CreatePayment
             return Task.FromResult(new CreditCardInfo(cardPayment.Id, cardPayment.ClientSecret));
         }
 
-         }
+    }
 }

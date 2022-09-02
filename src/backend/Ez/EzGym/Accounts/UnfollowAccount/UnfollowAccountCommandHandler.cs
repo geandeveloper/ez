@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using EzCommon.CommandHandlers;
 using EzCommon.Models;
 using EzGym.Infra.Repository;
-using EzGym.Infra.Storage;
 
 namespace EzGym.Accounts.UnfollowAccount
 {

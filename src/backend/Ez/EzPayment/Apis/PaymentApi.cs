@@ -25,17 +25,6 @@ namespace EzPayment.Apis
                     return Results.Ok(@payment);
                 });
 
-            app.MapGet("/payments/{id}",
-                [Authorize] (
-                [FromServices] IPaymentRepository repository,
-                string id) =>
-                {
-                    var payment = repository.QueryOne<Payment>(p => p.Id == id);
-                    return Results.Ok(@payment);
-                });
-
-
-
             return app;
         }
     }

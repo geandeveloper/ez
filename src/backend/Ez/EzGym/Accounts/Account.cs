@@ -18,6 +18,9 @@ namespace EzGym.Accounts
         public IList<Follower> Following { get; }
         public IList<Follower> Followers { get; }
 
+        public long FollowersCount => Followers.Count;
+        public long FollowingCount => Following.Count;
+
         public Account()
         {
             Followers = new List<Follower>();
@@ -50,23 +53,23 @@ namespace EzGym.Accounts
         public void AddFollower(Account account)
         {
             if (!Followers.Select(a => a.AccountId).Contains(account.Id))
-                RaiseEvent(new AddedAccountFollowerEvent(account.Id));
+                RaiseEvent(new AddedAccountFollowerEvent(Id, account.Id));
         }
         public void RemoveFollower(Account account)
         {
-            RaiseEvent(new RemovedAccountFollowerEvent(account.Id));
+            RaiseEvent(new RemovedAccountFollowerEvent(Id, account.Id));
         }
 
         public void FollowAccount(Account account)
         {
 
             if (!Following.Select(a => a.AccountId).Contains(account.Id))
-                RaiseEvent(new AccountFollowedEvent(account.Id));
+                RaiseEvent(new AccountFollowedEvent(Id, account.Id));
         }
 
         public void UnfollowAccount(Account account)
         {
-            RaiseEvent(new AccountUnfollowedEvent(account.Id));
+            RaiseEvent(new AccountUnfollowedEvent(Id, account.Id));
         }
 
         protected void Apply(ProfileChangedEvent @event)

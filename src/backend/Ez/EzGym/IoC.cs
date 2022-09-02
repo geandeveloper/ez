@@ -12,6 +12,7 @@ using EzGym.Gyms.Users;
 using EzGym.Gyms.Users.CreateGymUser;
 using EzGym.Infra.Repository;
 using EzGym.Infra.Storage;
+using EzGym.Projections;
 using EzGym.Wallets;
 using EzGym.Wallets.SetupPaymentAccount;
 using EzGym.Wallets.UpdateWallet;
@@ -74,6 +75,10 @@ namespace EzGym
                     options.Projections.SelfAggregate<GymUser>(ProjectionLifecycle.Inline);
                     options.Projections.SelfAggregate<Wallet>(ProjectionLifecycle.Inline);
                     options.Projections.SelfAggregate<GymMemberShip>(ProjectionLifecycle.Inline);
+
+                    options.Projections.SelfAggregate<SearchAccountsProjection>(ProjectionLifecycle.Async);
+                    options.Projections.Add<AccountFollowersProjection>(ProjectionLifecycle.Async);
+                    options.Projections.Add<AccountFollowingsProjection>(ProjectionLifecycle.Async);
 
                     return options;
                 })

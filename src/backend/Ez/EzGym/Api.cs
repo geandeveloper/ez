@@ -6,7 +6,12 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Threading;
+using EzCommon.Infra.Storage;
 using EzGym.Infra.Repository;
+using EzGym.Infra.Storage;
+using EzGym.Projections;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace EzGym
 {
@@ -22,13 +27,29 @@ namespace EzGym
                        {
                            var accounts = repository.Where<Account>(account => account.UserId == principal.Id).ToList();
 
-                             return Results.Ok(accounts);
-                         });
+                           return Results.Ok(accounts);
+                       });
 
 
             app.UseAccountApi()
                 .UseGymApi()
                 .UseWalletApi();
+
+            //app.Use((context, next) =>
+            //{
+
+            //    var eventStore = context.RequestServices.GetService<IGymEventStore>();
+
+            //    eventStore.UseDaemonProjectionAsync(daemon =>
+            //    {
+            //        daemon.RebuildProjection<AccountFollowersProjection>(CancellationToken.None).Wait();
+            //        daemon.RebuildProjection<AccountFollowing>(CancellationToken.None).Wait();
+
+            //    }).Wait();
+
+
+            //    return next(context);
+            //});
 
             return app;
         }

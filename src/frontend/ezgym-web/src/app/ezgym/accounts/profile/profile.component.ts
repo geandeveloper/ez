@@ -49,7 +49,7 @@ export class ProfileComponent extends Store<ProfileComponentState> implements On
                         ...state,
                         account: account,
                         ui: {
-                            isOwner: this.ezGymStore.state.accounts.some(a => a.id == account.id),
+                            isOwner: this.ezGymStore.state.accountActive.id == account.id,
                             isFollowing: this.ezGymStore.state.accountActive?.following?.some(f => f.accountId === account.id)!,
                         }
                     }))
@@ -79,7 +79,7 @@ export class ProfileComponent extends Store<ProfileComponentState> implements On
                         ...state,
                         account: response,
                         ui: {
-                            isOwner: this.ezGymStore.state.accounts.some(a => a.id == response.id),
+                            isOwner: this.ezGymStore.state.accountActive.id == response.id,
                             isFollowing: this.ezGymStore.state.accountActive?.following?.some(f => f.accountId === response.id)!,
                         }
                     }))

@@ -28,9 +28,8 @@ namespace EzPayment.PaymentAccounts.CreatePaymentAccount
                 {
                     Name = accountName,
                     Mcc = mcc,
-                    Url = profileUrl
+                    Url = profileUrl.ToLower()
                 }
-                
             };
 
             var account = _paymentGatewayFactory.UseStripePayment(gateway => gateway.CreateAccount(accountOptions));

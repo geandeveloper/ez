@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using EzCommon.CommandHandlers;
 using EzCommon.Models;
 using EzPayment.Infra.Repository;
+using EzPayment.PaymentAccounts;
 
 namespace EzPayment.Payments.CreatePayment
 {
@@ -21,12 +22,14 @@ namespace EzPayment.Payments.CreatePayment
         public async Task<EventStream> Handle(CreatePaymentCommand request, CancellationToken cancellationToken)
         {
             var payment = new Payment(request);
+            var paymentAccount =
+                await _paymentRepository.QueryAsync<PaymentAccount>(p => p.Id == request.DestinationPaymentAccountId);
 
             switch (request.PaymentMethod)
             {
                 case PaymentMethodEnum.CreditCard:
 
-                    var creditCardInfo = await _createPaymentService.CreateCardIntegrationPaymentAsync(request.Amount, request.Description);
+                    var creditCardInfo = await _createPaymentService.CreateCardIntegrationPaymentAsync(request.Amount, request.Description, paymentAccount.IntegrationInfo.Id);
                     payment.PayWithCreditCard(creditCardInfo);
 
                     break;

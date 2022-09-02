@@ -19,6 +19,7 @@ using EzGym.Infra.Repository;
 using EzGym.Wallets;
 using EzGym.Wallets.UpdateWallet;
 using EzGym.Events.Gym;
+using EzGym.Projections;
 
 namespace EzGym.Apis
 {
@@ -102,7 +103,9 @@ namespace EzGym.Apis
                               string query
                               ) =>
                         {
-                            var accounts = repository.Where<Account>(a => a.AccountName.Contains(query))
+                            var accounts = repository
+                                .Where<SearchAccountsProjection>(a => a.AccountName.Contains(query))
+                                .Where(a => a.ProfileName.Contains(query))
                             .Take(20)
                             .ToList();
 
@@ -121,33 +124,49 @@ namespace EzGym.Apis
                     return Results.Ok(account);
                 });
 
-            app.MapGet("accounts/{accountName}/followers",
+            app.MapGet("accounts/{id}/followers",
                 [Authorize] (
                      [FromServices] IGymRepository repository,
-                     string accountName,
+                     string id,
                      string query
                      ) =>
-               {
-                   //var followers = queryStorage.QueryFollowers(accountName, query);
+                {
+                    var followers = repository
+                        .Where<AccountFollower>(a => a.Id == id)
+                        .Where(a =>
+                            a.AccountName.Contains(query) ||
+                            a.ProfileName.Contains(query)
+                            )
+                        .Take(20)
+                        .ToList();
 
-                   return Results.Ok(null);
-               });
+                    return Results.Ok(followers);
+                });
 
-            app.MapGet("accounts/{accountName}/following",
+            app.MapGet("accounts/{id}/following",
                 [Authorize] (
                       [FromServices] IGymRepository repository,
-                      string accountName, 
+                      string id,
                       string query
                       ) =>
                 {
-                    return Results.Ok("");
+                    var following = repository
+                        .Where<AccountFollowing>(a => a.Id == id)
+                        .Where(a =>
+                            a.AccountName.Contains(query) ||
+                            a.ProfileName.Contains(query)
+                            )
+                        .Take(20)
+                        .ToList();
+
+                    return Results.Ok(following);
                 });
 
-            app.MapPut("accounts/{accountId}/profile",
+            app.MapPut("accounts/{id}/profile",
                 [Authorize] async (
                       [FromServices] UpInsertAccountProfileCommandHandler handler,
                       UpInsertAccountProfileCommand command,
-                      string accountId
+                      string id
                       ) =>
                 {
                     var eventStream = await handler.Handle(command, CancellationToken.None);

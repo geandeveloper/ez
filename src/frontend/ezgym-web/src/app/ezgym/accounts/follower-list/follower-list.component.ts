@@ -43,14 +43,14 @@ export class FollowerListComponent extends Store<FollowerListComponentState> imp
         })
 
         if (data.ui.activeTab == 'followers') {
-            this.searchFollowers(data.account.accountName, '')
+            this.searchFollowers(data.account.id, '')
                 .subscribe(followers => {
                     this.setState(state => ({ ...state, followers: followers }))
                 })
         }
 
         if (data.ui.activeTab == 'following') {
-            this.searchFollowing(data.account.accountName, '').subscribe(following => {
+            this.searchFollowing(data.account.id, '').subscribe(following => {
                 this.setState(state => ({ ...state, following: following }))
             })
         }
@@ -67,7 +67,7 @@ export class FollowerListComponent extends Store<FollowerListComponentState> imp
                 debounceTime(500)
             )
             .subscribe(query => {
-                this.searchFollowers(data.account.accountName, query)
+                this.searchFollowers(data.account.id, query)
                     .subscribe(followers => {
                         this.setState(state => ({ ...state, followers: followers }))
                     })
@@ -80,7 +80,7 @@ export class FollowerListComponent extends Store<FollowerListComponentState> imp
                 debounceTime(500)
             )
             .subscribe(query => {
-                this.searchFollowing(data.account.accountName, query)
+                this.searchFollowing(data.account.id, query)
                     .subscribe(following => {
                         this.setState(state => ({ ...state, following: following }))
                     })
@@ -109,14 +109,14 @@ export class FollowerListComponent extends Store<FollowerListComponentState> imp
         }))
 
         if (this.state.ui.activeTab == 'followers') {
-            this.searchFollowers(this.data.account.accountName, '')
+            this.searchFollowers(this.data.account.id, '')
                 .subscribe(followers => {
                     this.setState(state => ({ ...state, followers: followers }))
                 })
         }
 
         if (this.state.ui.activeTab == 'following') {
-            this.searchFollowing(this.data.account.accountName, '').subscribe(following => {
+            this.searchFollowing(this.data.account.id, '').subscribe(following => {
                 this.setState(state => ({ ...state, following: following }))
             })
         }
