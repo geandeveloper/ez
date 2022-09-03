@@ -14,9 +14,7 @@ export class EzPaymentStore extends Store<EzPaymentState> {
     constructor(
         private paymentService: PaymentService
     ) {
-        super({
-            payment: {} as PaymentModel,
-        })
+        super()
     }
 
     loadPayment(id: string) {

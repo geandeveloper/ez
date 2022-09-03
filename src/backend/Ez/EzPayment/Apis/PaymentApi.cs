@@ -17,11 +17,11 @@ namespace EzPayment.Apis
                 .UseAccountsWebHooks();
 
             app.MapGet("/payments/{id}",
-                [Authorize] (
+                [Authorize] async (
                 [FromServices] IPaymentRepository repository,
                 string id) =>
                 {
-                    var payment = repository.QueryOne<Payment>(p => p.Id == id);
+                    var payment = await repository.LoadAggregateAsync<Payment>(id);
                     return Results.Ok(@payment);
                 });
 

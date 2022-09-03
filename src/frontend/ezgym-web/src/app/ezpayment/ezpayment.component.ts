@@ -15,7 +15,11 @@ export class EzPaymentComponent implements OnInit {
         private activeRoute: ActivatedRoute,
         private router: Router,
         private ezPaymentStore: EzPaymentStore
-    ) { }
+    ) {
+
+
+
+    }
 
     ngOnInit() {
         this.activeRoute.params

@@ -30,7 +30,6 @@ export class AppComponent {
   setupDeepLinks() {
     App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
       this.zone.run(() => {
-        debugger
         const domain = 'io.ezgym.app';
 
         const pathArray = event.url.split(domain);
