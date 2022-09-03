@@ -115,8 +115,8 @@ export class GymWalletComponent extends Store<GymWalletComponentState> implement
         return this.walletService
             .setupPaymentAccount({
                 walletId: this.state.wallet?.id!,
-                refreshUrl: `http://192.168.15.136:4200/${this.ezGymStore.state.accountActive?.accountName}`,
-                returnUrl: `http://192.168.15.136:4200/${this.ezGymStore.state.accountActive?.accountName}`
+                refreshUrl: `http://192.168.15.136:4200/close`,
+                returnUrl: `http://192.168.15.136:4200/close`
             })
             .pipe(
                 tap(async paymentAccountEvent => {

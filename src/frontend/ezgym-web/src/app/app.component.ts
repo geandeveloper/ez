@@ -14,7 +14,6 @@ export class AppComponent {
   signUpMode = false;
 
   constructor(private router: Router, private zone: NgZone) {
-    this.setupDeepLinks()
   }
 
   signUpModeToggle() {
@@ -27,22 +26,5 @@ export class AppComponent {
     return outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'];
   }
 
-  setupDeepLinks() {
-    App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
-      this.zone.run(() => {
-        const domain = 'io.ezgym.app';
-
-        const pathArray = event.url.split(domain);
-
-        const appPath = pathArray.pop();
-        if (appPath) {
-          this.router.navigateByUrl(appPath);
-        } else {
-          this.router.navigateByUrl('/');
-        }
-      });
-
-    });
-  }
 
 }

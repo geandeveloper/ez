@@ -6,6 +6,8 @@ import { GymPlansComponent } from './gym-plans/gym-plans.component';
 import { GymWalletComponent } from './gym-wallet/gym-wallet.component';
 import { EzGymStore } from '../../ezgym.store';
 
+import { Browser } from '@capacitor/browser';
+
 interface GymManagementComponentState {
     checkinsToValidate: AccountModel[],
     checkinsValidated: AccountModel[]
@@ -19,7 +21,6 @@ interface GymManagementComponentState {
 export class GymManagementComponent extends Store<GymManagementComponentState> implements OnInit {
     constructor(
         private dialog: MatDialog,
-        private ezGymStore: EzGymStore,
     ) {
         super({
             checkinsToValidate: [
@@ -33,10 +34,11 @@ export class GymManagementComponent extends Store<GymManagementComponentState> i
             checkinsValidated: []
         })
 
-        this.store$.subscribe()
     }
 
-    async ngOnInit() {
+    ngOnInit() {
+        this.openWallet();
+        this.store$.subscribe()
     }
 
     openPlans() {
