@@ -105,8 +105,9 @@ namespace EzGym.Apis
                               ) =>
                         {
                             var accounts = repository
-                                .Where<SearchAccounts>(a => a.AccountName.Contains(query))
-                                .Where(a => a.ProfileName.Contains(query))
+                                .Where<SearchAccounts>(a => 
+                                    a.AccountName.ToLower().Contains(query.ToLower()) || 
+                                    a.ProfileName.ToLower().Contains(query.ToLower()))
                             .Take(20)
                             .ToList();
 
@@ -137,8 +138,8 @@ namespace EzGym.Apis
                     var followers = repository
                         .Where<AccountFollower>(a => a.Id == id)
                         .Where(a =>
-                            a.AccountName.Contains(query) ||
-                            a.ProfileName.Contains(query)
+                            a.AccountName.ToLower().Contains(query.ToLower()) ||
+                            a.ProfileName.ToLower().Contains(query.ToLower())
                             )
                         .Take(20)
                         .ToList();
@@ -157,8 +158,8 @@ namespace EzGym.Apis
                     var following = repository
                         .Where<AccountFollowing>(a => a.Id == id)
                         .Where(a =>
-                            a.AccountName.Contains(query) ||
-                            a.ProfileName.Contains(query)
+                            a.AccountName.ToLower().Contains(query.ToLower()) ||
+                            a.ProfileName.ToLower().Contains(query.ToLower())
                             )
                         .Take(20)
                         .ToList();

@@ -154,9 +154,10 @@
 .form-group-inline {
     display: flex;
     flex-direction: row;
-    gap: 10px;
 
     .form-group {
-        flex: 1
+        flex: 1;
+        margin-right: 10px;
+        
     }
 }

@@ -27,7 +27,7 @@ namespace EzGym.Projections
             {
                 var following = session
                     .Query<Account>()
-                    .First(a => a.Id == @event.AccountId);
+                    .First(a => a.Id == @event.FollowedAccountId);
 
                 state.Id = @event.AccountId;
                 state.AccountName = following.AccountName;

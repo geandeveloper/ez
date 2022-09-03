@@ -112,12 +112,11 @@ export class GymWalletComponent extends Store<GymWalletComponentState> implement
     }
 
     redirectToConfigureAccount() {
-        this.preLoader.show();
         return this.walletService
             .setupPaymentAccount({
                 walletId: this.state.wallet?.id!,
-                refreshUrl: `http://localhost:4200/${this.ezGymStore.state.accountActive?.accountName}`,
-                returnUrl: `http://localhost:4200/${this.ezGymStore.state.accountActive?.accountName}`
+                refreshUrl: `http://io.ezgym.app/${this.ezGymStore.state.accountActive?.accountName}`,
+                returnUrl: `http://io.ezgym.app/${this.ezGymStore.state.accountActive?.accountName}`
             })
             .pipe(
                 tap(async paymentAccountEvent => {
@@ -129,7 +128,7 @@ export class GymWalletComponent extends Store<GymWalletComponentState> implement
                             description: "Caso queira modificar seus dados voce pode clicar no botao continuar",
                             confirmButtonLabel: "Continuar",
                             onConfirm: async () => {
-                                await Browser.open({ url: paymentAccountEvent.onBoardingLink });
+                                await Browser.open({ url: paymentAccountEvent.onBoardingLink })
                             }
                         })
 
@@ -157,11 +156,9 @@ export class GymWalletComponent extends Store<GymWalletComponentState> implement
                         }
                     }))
 
-                    await Browser.open({ url: paymentAccountEvent.onBoardingLink });
+                    await Browser.open({ url: paymentAccountEvent.onBoardingLink })
                 }),
-                finalize(() => {
-                    this.modalStore.close();
-                }),
+
                 catchError((error) => {
                     return error;
                 })
