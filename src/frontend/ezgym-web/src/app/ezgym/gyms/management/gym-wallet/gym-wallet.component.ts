@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { catchError, finalize, tap } from 'rxjs';
-import { UserStore } from 'src/app/core/authentication/user.store';
 import { AccountService } from 'src/app/ezgym/core/services/account.service';
 import { Store } from 'src/app/core/state/store';
 import { PixTypeEnum, WalletModel } from 'src/app/ezgym/core/models/wallet.model';
@@ -11,6 +10,8 @@ import { PreLoaderStore } from 'src/app/shared/components/pre-loader/pre-loader.
 import { PaymentAccountStatusEnum } from 'src/app/ezpayment/core/models/payment-account.model';
 import { ModalStore } from 'src/app/shared/components/modal/modal.store';
 import { EzGymStore } from 'src/app/ezgym/ezgym.store';
+
+import { Browser } from '@capacitor/browser';
 
 
 interface GymWalletComponentState {
@@ -71,10 +72,6 @@ export class GymWalletComponent extends Store<GymWalletComponentState> implement
     }
 
     ngOnInit() {
-        setTimeout(() => {
-            this.preLoader.show();
-        })
-
         this.accountService.getWallet(
             this.ezGymStore.state.accountActive?.id!
         ).pipe(
@@ -89,7 +86,7 @@ export class GymWalletComponent extends Store<GymWalletComponentState> implement
                 }))
             }),
             finalize(() => {
-                this.preLoader.close();
+
             })
         ).subscribe()
 
@@ -123,7 +120,7 @@ export class GymWalletComponent extends Store<GymWalletComponentState> implement
                 returnUrl: `http://localhost:4200/${this.ezGymStore.state.accountActive?.accountName}`
             })
             .pipe(
-                tap(paymentAccountEvent => {
+                tap(async paymentAccountEvent => {
                     if (this.state.wallet?.paymentAccount?.paymentAccountStatus == PaymentAccountStatusEnum.Pending &&
                         paymentAccountEvent.paymentAccountStatus == PaymentAccountStatusEnum.Approved) {
                         this.preLoader.close();
@@ -131,8 +128,8 @@ export class GymWalletComponent extends Store<GymWalletComponentState> implement
                             title: "Sua conta ja foi aprovada!",
                             description: "Caso queira modificar seus dados voce pode clicar no botao continuar",
                             confirmButtonLabel: "Continuar",
-                            onConfirm: () => {
-                                window.location.href = paymentAccountEvent.onBoardingLink;
+                            onConfirm: async () => {
+                                await Browser.open({ url: paymentAccountEvent.onBoardingLink });
                             }
                         })
 
@@ -160,7 +157,7 @@ export class GymWalletComponent extends Store<GymWalletComponentState> implement
                         }
                     }))
 
-                    window.location.href = paymentAccountEvent.onBoardingLink;
+                    await Browser.open({ url: paymentAccountEvent.onBoardingLink });
                 }),
                 finalize(() => {
                     this.modalStore.close();

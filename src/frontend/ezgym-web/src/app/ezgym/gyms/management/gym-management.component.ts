@@ -6,8 +6,6 @@ import { GymPlansComponent } from './gym-plans/gym-plans.component';
 import { GymWalletComponent } from './gym-wallet/gym-wallet.component';
 import { EzGymStore } from '../../ezgym.store';
 
-
-
 interface GymManagementComponentState {
     checkinsToValidate: AccountModel[],
     checkinsValidated: AccountModel[]
@@ -38,10 +36,7 @@ export class GymManagementComponent extends Store<GymManagementComponentState> i
         this.store$.subscribe()
     }
 
-    ngOnInit() {
-        setTimeout(() => {
-            // this.ezGymStore.showTopNavBar(true);
-        });
+    async ngOnInit() {
     }
 
     openPlans() {

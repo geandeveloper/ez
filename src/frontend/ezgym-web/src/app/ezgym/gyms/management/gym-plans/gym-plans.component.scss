@@ -67,7 +67,6 @@
     margin-top: 15px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
 
     .selected {
         background: $primary;
@@ -83,6 +82,7 @@
     }
 
     .option {
+        margin-bottom: 10px;
         border: 2px solid $primary;
         border-radius: 20px;
         padding: 20px;

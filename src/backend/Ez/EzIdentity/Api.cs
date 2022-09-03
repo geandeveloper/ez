@@ -26,7 +26,6 @@ public static class Api
             var eventStream = await handler.Handle(command, CancellationToken.None);
 
             var @event = eventStream.GetEvent<SuccessLoginEvent>();
-            httpContextAccessor.SetRefreshTokenAsCookie(@event.RefreshToken);
 
             return Results.Ok(new
             {
@@ -46,12 +45,12 @@ public static class Api
 
         app.MapPost("/users/refresh-token", async (
             [FromServices] UpdateRefreshTokenCommandHandler handler,
-            IHttpContextAccessor httpContextAccessor
+            UpdateRefreshTokenCommand command
+
             ) =>
         {
-            var eventStream = await handler.Handle(new UpdateRefreshTokenCommand(httpContextAccessor.GetRefreshTokenFromCookie()), CancellationToken.None);
+            var eventStream = await handler.Handle(command, CancellationToken.None);
             var @event = eventStream.GetEvent<SucessRenewTokenEvent>();
-            httpContextAccessor.SetRefreshTokenAsCookie(@event.RefreshToken);
 
             return Results.Ok(new
             {
@@ -63,13 +62,13 @@ public static class Api
 
         app.MapPost("/users/revoke-token", async (
             [FromServices] RevokeTokenCommandHandler handler,
-            IHttpContextAccessor httpContextAccessor
+            RevokeTokenCommand command
             ) =>
         {
-            var eventStream = await handler.Handle(new RevokeTokenCommand(httpContextAccessor.GetRefreshTokenFromCookie()), CancellationToken.None);
-            httpContextAccessor.DeleteRefreshCookie();
+            var eventStream = await handler.Handle(command, CancellationToken.None);
+            var @event = eventStream.GetEvent<SucessRevokeTokenEvent>();
 
-            return Results.Ok();
+            return Results.Ok(@event);
         });
 
         return app;

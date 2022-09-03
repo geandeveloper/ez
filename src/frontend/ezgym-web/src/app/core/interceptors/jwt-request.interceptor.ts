@@ -8,16 +8,13 @@ export class JwtRequestInterceptor implements HttpInterceptor {
   constructor(private userStore: UserStore) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (this.userStore.user.authenticated) {
+    if (this.userStore.state.authenticated) {
       request = request.clone({
         setHeaders: {
-          Authorization: `Bearer ${this.userStore.user.accessToken}`
+          Authorization: `Bearer ${this.userStore.state.accessToken}`
         }
       });
-
-    } else {
-
-    }
+    } 
 
     return next.handle(request);
   }

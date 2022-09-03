@@ -16,7 +16,7 @@
     background: $white;
     display: flex;
     flex-direction: row;
-    justify-content: left;
+    justify-content: space-between;
 
     .ezgym-logo {
         height: 35px;
@@ -30,13 +30,12 @@
     .gym-counts {
         display: flex;
         flex-direction: row;
-        flex: 1;
         justify-content: right;
-        gap: 10px;
 
         .gym-header-info {
             border-right: 1px solid #eee;
             padding-right: 10px;
+            padding-left: 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -69,6 +68,7 @@
 .btn-toggle {
     background: none;
     border: none;
+    margin-left: 10px;
 
     .btn-icon {
         color: $primary;
@@ -132,7 +132,6 @@
     flex-wrap: wrap;
     display: flex;
     flex-direction: rows;
-    gap: 10px;
     margin-bottom: 20px;
     background: $white;
     padding: 10px;
@@ -149,7 +148,7 @@
         border-radius: 10px;
         align-items: center;
         justify-content: center;
-        gap: 10px;
+        margin-right: 10px;
         cursor: pointer;
 
 
@@ -185,7 +184,6 @@
         align-self: center;
         display: flex;
         flex-direction: row;
-        gap: 5px;
     }
 
     .btn-validate {
@@ -193,6 +191,7 @@
         background: $secondary;
         color: $white;
         padding: 5px 30px;
+        margin-right: 5px;
         height: 35px;
         align-self: center;
         border-radius: 20px;

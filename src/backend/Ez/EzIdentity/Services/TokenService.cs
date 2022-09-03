@@ -21,7 +21,6 @@ public static class TokenService
             ValidateAudience = false,
             ValidateLifetime = true,
             ClockSkew = TimeSpan.Zero,
-
         };
     }
 
