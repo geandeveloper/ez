@@ -55,7 +55,6 @@ export class EzGymStore extends Store<EzGymState> {
     }
 
     setActiveAccount(accountName: string) {
-        console.log("chamou")
         this.setState(state => ({
             ...state,
             accountActive: { ...state.accounts.find(a => a.accountName == accountName)! },

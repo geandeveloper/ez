@@ -15,6 +15,7 @@ namespace EzPayment.Payments
         public PixInfo PixInfo { get; private set; }
         public CreditCardInfo CardInfo { get; private set; }
         public DateTime? PaymentDateTime { get; private set; }
+        public string RedirectUrl { get; set; }
 
         public Payment() { }
 
@@ -53,6 +54,7 @@ namespace EzPayment.Payments
             Status = PaymentStatusEnum.Pending;
             Amount = @event.Command.Amount;
             PaymentDateTime = null;
+            RedirectUrl = @event.Command.RedirectUrl;
         }
 
         protected void Apply(PixPaymentCreatedEvent @event)

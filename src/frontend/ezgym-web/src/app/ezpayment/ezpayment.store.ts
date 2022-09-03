@@ -5,8 +5,7 @@ import { PaymentModel } from "./core/models/payment.model";
 import { PaymentService } from "./core/services/payment.service";
 
 export interface EzPaymentState {
-    payment: PaymentModel,
-    redirecUrl: string
+    payment: PaymentModel
 }
 
 @Injectable()
@@ -17,7 +16,6 @@ export class EzPaymentStore extends Store<EzPaymentState> {
     ) {
         super({
             payment: {} as PaymentModel,
-            redirecUrl: 'http://localhost:4200'
         })
     }
 

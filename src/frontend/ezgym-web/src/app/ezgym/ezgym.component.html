@@ -43,10 +43,6 @@
                         <span class="icon-menu"></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="optionsDropDown">
-                        <a class="dropdown-item">
-                            <i class="ti-wallet text-primary"></i>
-                            Carteira
-                        </a>
                         <a (click)="logout()" class="dropdown-item">
                             <i class="ti-power-off text-primary"></i>
                             Sair
@@ -92,14 +88,14 @@
                         </a>
                     </li>
                     <li *ngIf="state.activeAccount?.accountType == 2">
-                        <a class="nav-link"  routerLinkActive="link-active"
-                            [routerLink]="['/', 'gyms', 'management'  ]">
+                        <a class="nav-link" [routerLinkActiveOptions]="{exact: true}"  routerLinkActive="link-active"
+                            [routerLink]="['/', state.activeAccount?.accountName, 'management'  ]">
                             <i class="material-icons"> apps </i>
                         </a>
                     </li>
 
                     <li>
-                        <a class="nav-link" routerLinkActive="link-active"
+                        <a class="nav-link" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="link-active"
                             [routerLink]="['/', state.activeAccount?.accountName]">
                             <i class="material-icons">account_circle</i>
                         </a>

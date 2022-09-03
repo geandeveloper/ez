@@ -13,7 +13,7 @@ using CreatePaymentCommand = EzPayment.Payments.CreatePayment.CreatePaymentComma
 
 namespace EzGym.Gyms.RegisterGymMemberShip;
 
-public record RegisterGymMemberShipCommand(string PayerAccountId, string GymId, string PlanId, PaymentMethodEnum PaymentMethod) : ICommand;
+public record RegisterGymMemberShipCommand(string PayerAccountId, string GymId, string PlanId, PaymentMethodEnum PaymentMethod, string RedirectUrl) : ICommand;
 
 public class RegisterGymMemberShipCommandHandler : ICommandHandler<RegisterGymMemberShipCommand>
 {
@@ -35,7 +35,7 @@ public class RegisterGymMemberShipCommandHandler : ICommandHandler<RegisterGymMe
         var plan = receiverGym.GymPlans.First(p => p.Id == request.PlanId);
 
         var paymentStream = await _createPayment
-            .Handle(new CreatePaymentCommand(plan.Amount, $"Plano de {plan.Days} dias", request.PaymentMethod, wallet.PaymentAccount.Id), cancellationToken);
+            .Handle(new CreatePaymentCommand(plan.Amount, $"Plano de {plan.Days} dias", request.PaymentMethod, wallet.PaymentAccount.Id, request.RedirectUrl), cancellationToken);
 
         var payment = paymentStream.GetEvent<PaymentCreatedEvent>();
 

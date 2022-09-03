@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { tap, catchError, finalize, mergeMap, map } from 'rxjs';
 import { UserStore } from '../core/authentication/user.store';
 import { Store } from '../core/state/store';
-import { ModalStore } from '../shared/components/modal/modal.store';
 import { PreLoaderStore } from '../shared/components/pre-loader/pre-loader.store';
 import { AccountModel } from './core/models/accout.model';
 import { EzGymStore } from './ezgym.store';
@@ -27,7 +26,6 @@ export class EzGymComponent extends Store<ComponentState> implements OnInit {
 
   constructor(
     private userStore: UserStore,
-    private modalStore: ModalStore,
     private preLoaderStore: PreLoaderStore,
     private ezGymStore: EzGymStore,
     private router: Router,
@@ -79,7 +77,8 @@ export class EzGymComponent extends Store<ComponentState> implements OnInit {
   }
 
   switchAccount(accountName: string): void {
-    this.router.navigate(['/', accountName])
+    var navigateTo = this.activeRoute.routeConfig?.path?.replace(":accountName", accountName)
+    this.router.navigateByUrl(`/${navigateTo}`)
     this.ezGymStore.setActiveAccount(accountName)
   }
 
@@ -91,10 +90,7 @@ export class EzGymComponent extends Store<ComponentState> implements OnInit {
           this.router.navigate(['/ezidentity/login'])
         }),
         catchError((error) => {
-          this.modalStore.error({
-            title: "Algo deu errado !",
-            description: "Por favor tente novamente"
-          })
+          this.router.navigate(['/ezidentity/login'])
           return error
         }),
         finalize(() => {

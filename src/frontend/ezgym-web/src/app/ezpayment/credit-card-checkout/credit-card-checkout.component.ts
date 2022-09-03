@@ -15,7 +15,6 @@ import { EzPaymentStore } from '../ezpayment.store';
 
 interface ComponentState {
     ui?: {
-        redirectRoute: string,
         stripeElementOptions: StripeElementsOptions
     },
     payment?: PaymentModel
@@ -46,7 +45,6 @@ export class CreditCardCheckoutComponent extends Store<ComponentState> implement
     ) {
         super({
             ui: {
-                redirectRoute: '/',
                 stripeElementOptions: {
                     locale: 'pt-BR',
                     appearance: {
@@ -72,7 +70,6 @@ export class CreditCardCheckoutComponent extends Store<ComponentState> implement
                     payment: paymentState.payment,
                     ui: {
                         stripeElementOptions: state.ui?.stripeElementOptions ?? {},
-                        redirectRoute: paymentState.redirecUrl
                     }
                 }))
             })
@@ -84,7 +81,7 @@ export class CreditCardCheckoutComponent extends Store<ComponentState> implement
             elements: this.paymentElement.elements,
             redirect: 'if_required',
             confirmParams: {
-                return_url: this.state.ui?.redirectRoute
+                return_url: this.state.payment?.redirectUrl
             }
         }).pipe(
             tap(payment => {

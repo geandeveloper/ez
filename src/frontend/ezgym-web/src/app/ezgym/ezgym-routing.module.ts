@@ -7,12 +7,6 @@ import { SearchAccountComponent } from './search/search-account/search-account.c
 
 const routes: Routes = [
   {
-    path: 'gyms/management',
-    canActivate: [AuthGuard],
-    component: EzGymComponent,
-    loadChildren: () => import("./gyms/gyms.module").then(m => m.GymModule)
-  },
-  {
     path: 'accounts/search',
     component: EzGymComponent,
     children: [
@@ -28,6 +22,12 @@ const routes: Routes = [
     component: EzGymComponent,
     canActivate: [AuthGuard],
     loadChildren: () => import("./accounts/accounts.module").then(m => m.AccountsModule)
+  },
+  {
+    path: ':accountName/management',
+    canActivate: [AuthGuard],
+    component: EzGymComponent,
+    loadChildren: () => import("./gyms/gyms.module").then(m => m.GymModule)
   },
   {
     path: '',

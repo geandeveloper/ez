@@ -25,7 +25,7 @@
                 </ngx-stripe-payment>
                 <section class="card-btn">
                     <button (click)="confirmPayment()">Pagar {{state.payment?.amount}} R$</button>
-                    <button [routerLink]="state.ui?.redirectRoute" class="btn-back">Voltar</button>
+                    <a [href]="state.payment?.redirectUrl" class="btn-back">Voltar</a>
                 </section>
             </form>
         </section>

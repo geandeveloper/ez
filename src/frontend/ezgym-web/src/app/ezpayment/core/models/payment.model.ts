@@ -4,7 +4,8 @@ export interface PaymentModel {
     description: string,
     cardInfo: CreditCardInfo,
     amount: number
-    status: PaymentStatusEnum
+    status: PaymentStatusEnum,
+    redirectUrl: string
 }
 
 export enum PaymentStatusEnum {
