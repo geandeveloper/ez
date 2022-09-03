@@ -95,18 +95,32 @@ export class GymWalletComponent extends Store<GymWalletComponentState> implement
 
     setupPaymentAccount() {
         if (this.state.wallet?.paymentAccount?.paymentAccountStatus == PaymentAccountStatusEnum.Approved) {
-
             this.modalStore.success({
                 title: "Sua conta ja foi aprovada!",
                 description: "Caso queira modificar seus dados voce pode clicar no botao continuar",
                 confirmButtonLabel: "Continuar",
                 onConfirm: () => {
-                    this.redirectToConfigureAccount().subscribe();
+                    this.preLoader.show()
+                    this.redirectToConfigureAccount()
+                        .pipe(
+                            finalize(() => {
+                                this.preLoader.close()
+                            })
+                        )
+                        .subscribe();
                 }
             })
 
         } else {
-            this.redirectToConfigureAccount().subscribe();
+            this.preLoader.show()
+            this.redirectToConfigureAccount()
+                .pipe(
+                    finalize(() => {
+                        this.preLoader.close()
+                    })
+                )
+
+                .subscribe();
         }
 
     }

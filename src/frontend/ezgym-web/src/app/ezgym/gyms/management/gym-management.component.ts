@@ -37,7 +37,6 @@ export class GymManagementComponent extends Store<GymManagementComponentState> i
     }
 
     ngOnInit() {
-        this.openWallet();
         this.store$.subscribe()
     }
 
