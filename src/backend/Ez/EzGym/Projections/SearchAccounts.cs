@@ -8,6 +8,7 @@ namespace EzGym.Projections
         public string Id { get; set; }
         public string AccountName { get; set; }
         public string ProfileName { get; set; }
+        public string AvatarUrl { get; set; }
 
     }
 
@@ -25,6 +26,11 @@ namespace EzGym.Projections
             ProjectEvent<ProfileChangedEvent>((state, @event) =>
             {
                 state.ProfileName = @event.Name;
+            });
+
+            ProjectEvent<AvatarImageAccountChangedEvent>((state, @event) =>
+            {
+                state.AvatarUrl = @event.AvatarUrl;
             });
 
         }

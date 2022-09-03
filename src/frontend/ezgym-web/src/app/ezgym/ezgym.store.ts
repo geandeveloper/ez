@@ -37,8 +37,7 @@ export class EzGymStore extends Store<EzGymState> {
                 tap(accounts => {
                     this.setState(state => ({
                         ...state,
-                        accounts,
-                        accountActive: state?.accountActive || accounts.find(a => a.isDefault)!
+                        accounts
                     }))
                 })
             )

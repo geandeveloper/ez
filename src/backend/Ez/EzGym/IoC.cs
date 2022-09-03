@@ -77,10 +77,10 @@ namespace EzGym
 
 
                     //Custom Projections
+                    options.Projections.Add<AccountProfileProjection>(ProjectionLifecycle.Inline);
                     options.Projections.Add<SearchAccountsProjection>(ProjectionLifecycle.Async);
                     options.Projections.Add<AccountFollowersProjection>(ProjectionLifecycle.Async);
                     options.Projections.Add<AccountFollowingsProjection>(ProjectionLifecycle.Async);
-                    options.Projections.Add<AccountProfileProjection>(ProjectionLifecycle.Async);
 
                     return options;
                 })

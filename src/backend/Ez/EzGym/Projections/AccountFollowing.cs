@@ -14,7 +14,6 @@ namespace EzGym.Projections
         public string AvatarUrl { get; set; }
         public string AccountName { get; set; }
         public string ProfileName { get; set; }
-
     }
 
     public class AccountFollowingsProjection : SingleStreamAggregation<AccountFollowing>
@@ -35,6 +34,12 @@ namespace EzGym.Projections
                 state.AvatarUrl = following.AvatarUrl;
                 state.AccountName = following.AccountName;
                 state.ProfileName = following.Profile?.Name;
+            });
+
+
+            ProjectEvent<AvatarImageAccountChangedEvent>((state, @event) =>
+            {
+                state.AvatarUrl = @event.AvatarUrl;
             });
         }
     }

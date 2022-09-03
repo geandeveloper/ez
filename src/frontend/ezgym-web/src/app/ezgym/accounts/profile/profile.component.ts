@@ -62,7 +62,7 @@ export class ProfileComponent extends Store<ProfileComponentState> implements On
             .pipe(
                 switchMap(params => {
                     return this.loadAccount(params['accountName'])
-                }),
+                })
             ).subscribe()
     }
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { tap, catchError, finalize } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { tap, catchError, finalize, mergeMap, map } from 'rxjs';
 import { UserStore } from '../core/authentication/user.store';
 import { Store } from '../core/state/store';
 import { ModalStore } from '../shared/components/modal/modal.store';
@@ -30,7 +30,9 @@ export class EzGymComponent extends Store<ComponentState> implements OnInit {
     private modalStore: ModalStore,
     private preLoaderStore: PreLoaderStore,
     private ezGymStore: EzGymStore,
-    private router: Router) {
+    private router: Router,
+    private activeRoute: ActivatedRoute
+  ) {
     super()
 
   }
@@ -43,12 +45,26 @@ export class EzGymComponent extends Store<ComponentState> implements OnInit {
       }))
     })
 
-    this.ezGymStore.loadAccounts().subscribe(accounts => {
-      this.setState(state => ({
-        ...state,
-        accounts: accounts
-      }))
-    })
+    this.ezGymStore
+      .loadAccounts()
+      .pipe(
+        mergeMap(accounts => this.activeRoute.params
+          .pipe(
+            tap(params => {
+              var accountName = params['accountName']
+              if (accounts.some(a => a.accountName == accountName))
+                this.ezGymStore.setActiveAccount(accountName)
+            }),
+            map(() => accounts)
+          ))
+      )
+      .subscribe(accounts => {
+        this.setState(state => ({
+          ...state,
+          accounts: accounts
+        }))
+
+      })
 
     this.setState(state => ({
       ...state,
@@ -56,6 +72,8 @@ export class EzGymComponent extends Store<ComponentState> implements OnInit {
         showTopNavBar: true
       }
     }))
+
+   
     import("src/assets/templates/skydash/skydash")
 
   }

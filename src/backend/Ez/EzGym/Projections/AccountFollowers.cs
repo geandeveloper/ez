@@ -35,6 +35,11 @@ namespace EzGym.Projections
                 state.AccountName = follower.AccountName;
                 state.ProfileName = follower.Profile?.Name;
             });
+            ProjectEvent<AvatarImageAccountChangedEvent>((state, @event) =>
+            { 
+                state.AvatarUrl = @event.AvatarUrl;
+            });
+
         }
     }
 }

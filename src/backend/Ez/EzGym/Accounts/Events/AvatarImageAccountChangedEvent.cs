@@ -1,5 +1,4 @@
 ﻿using EzCommon.Events;
-using System;
 
 namespace EzGym.Accounts.Events
 {

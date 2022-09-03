@@ -20,6 +20,7 @@ using EzGym.Wallets;
 using EzGym.Wallets.UpdateWallet;
 using EzGym.Events.Gym;
 using EzGym.Projections;
+using Marten;
 
 namespace EzGym.Apis
 {
@@ -105,9 +106,9 @@ namespace EzGym.Apis
                               ) =>
                         {
                             var accounts = repository
-                                .Where<SearchAccounts>(a => 
-                                    a.AccountName.ToLower().Contains(query.ToLower()) || 
-                                    a.ProfileName.ToLower().Contains(query.ToLower()))
+                                .Where<SearchAccounts>(a =>
+                                    a.AccountName.NgramSearch(query) ||
+                                    a.ProfileName.NgramSearch(query))
                             .Take(20)
                             .ToList();
 
@@ -134,18 +135,15 @@ namespace EzGym.Apis
                      string id,
                      string query
                      ) =>
-                {
-                    var followers = repository
-                        .Where<AccountFollower>(a => a.Id == id)
-                        .Where(a =>
-                            a.AccountName.ToLower().Contains(query.ToLower()) ||
-                            a.ProfileName.ToLower().Contains(query.ToLower())
-                            )
-                        .Take(20)
-                        .ToList();
+            {
+                var queryable = repository
+                    .Where<AccountFollower>(a => a.Id == id);
 
-                    return Results.Ok(followers);
-                });
+                if (!string.IsNullOrEmpty(query))
+                    queryable = queryable.Where(a => a.ProfileName.NgramSearch(query));
+
+                return Results.Ok(queryable.Take(20).ToList());
+            });
 
             app.MapGet("accounts/{id}/following",
                 [Authorize]
@@ -155,16 +153,13 @@ namespace EzGym.Apis
                       string query
                       ) =>
                 {
-                    var following = repository
-                        .Where<AccountFollowing>(a => a.Id == id)
-                        .Where(a =>
-                            a.AccountName.ToLower().Contains(query.ToLower()) ||
-                            a.ProfileName.ToLower().Contains(query.ToLower())
-                            )
-                        .Take(20)
-                        .ToList();
+                    var queryable = repository
+                     .Where<AccountFollowing>(a => a.Id == id);
 
-                    return Results.Ok(following);
+                    if (!string.IsNullOrEmpty(query))
+                        queryable = queryable.Where(a => a.ProfileName.NgramSearch(query));
+
+                    return Results.Ok(queryable.Take(20).ToList());
                 });
 
             app.MapPut("accounts/{id}/profile",
