@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { PaymentAccountChangedEvent } from "../events/wallet.events";
+import { WalletModel } from "../models/wallet.model";
 
 @Injectable()
 export class WalletService {
@@ -10,5 +11,10 @@ export class WalletService {
     setupPaymentAccount(command: { walletId: string, refreshUrl: string, returnUrl: string }): Observable<PaymentAccountChangedEvent> {
         return this.http.put<PaymentAccountChangedEvent>(`wallets/${command.walletId}/setup-payment-account`, command)
     }
+
+    getWallet(id: string): Observable<WalletModel> {
+        return this.http.get<WalletModel>(`wallets/${id}`)
+    }
+
 
 }

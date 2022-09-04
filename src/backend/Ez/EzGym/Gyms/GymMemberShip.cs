@@ -11,6 +11,7 @@ namespace EzGym.Gyms
         public string PlanId { get; private set; }
         public string PaymentId { get; private set; }
         public long Amount { get; private set; }
+        public long ApplicationFeeAmount { get; private set; }
         public int Days { get; private set; }
         public bool Active { get; private set; }
         public DateTime PurchaseDateTime { get; private set; }
@@ -19,7 +20,7 @@ namespace EzGym.Gyms
 
         public GymMemberShip() { }
 
-        public GymMemberShip(string receiverAccountId, string payerAccountId, string planId, string paymentId, long amount, int days)
+        public GymMemberShip(string receiverAccountId, string payerAccountId, string planId, string paymentId, long amount, long applicationFeeAmount, int days)
         {
             RaiseEvent(new GymMemberShipCreatedEvent(
                 Id: GenerateNewId(),
@@ -29,6 +30,7 @@ namespace EzGym.Gyms
                 PlanId: planId,
                 PaymentId: paymentId,
                 Amount: amount,
+                ApplicationFeeAmount: applicationFeeAmount,
                 Days: days
                 )
             );
@@ -42,12 +44,14 @@ namespace EzGym.Gyms
         protected void Apply(GymMemberShipPaidEvent @event)
         {
             PaymentDateTime = @event.PaymentDateTime;
+            Active = true;
         }
 
         protected void Apply(GymMemberShipCreatedEvent @event)
         {
             Id = @event.Id;
             ReceiverAccountId = @event.ReceiverAccountId;
+            ApplicationFeeAmount = @event.ApplicationFeeAmount;
             PayerAccountId = @event.PayerAccountId;
             PurchaseDateTime = @event.PurchaseDateTime;
             PlanId = @event.PlanId;

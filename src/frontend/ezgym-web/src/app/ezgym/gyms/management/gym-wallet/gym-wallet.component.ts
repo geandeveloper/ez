@@ -12,6 +12,7 @@ import { ModalStore } from 'src/app/shared/components/modal/modal.store';
 import { EzGymStore } from 'src/app/ezgym/ezgym.store';
 
 import { Browser } from '@capacitor/browser';
+import { GymManagementStore } from '../gym-management.store';
 
 
 interface GymWalletComponentState {
@@ -41,6 +42,7 @@ export class GymWalletComponent extends Store<GymWalletComponentState> implement
         private modalStore: ModalStore,
         private ezGymStore: EzGymStore,
         private walletService: WalletService,
+        private gymManagementStore: GymManagementStore
     ) {
         super({
             ui: {
@@ -69,26 +71,22 @@ export class GymWalletComponent extends Store<GymWalletComponentState> implement
                 })
             }
         })
+
+        this.gymManagementStore.store$.subscribe(management => {
+            this.setState(state => ({
+                ...state,
+                ui: {
+                    ...state.ui,
+                    keyTypeSelected: state.ui.keyTypeOptions.find(k => k.value == management.wallet?.pix.type)
+                },
+                wallet: management.wallet
+            }))
+
+        })
     }
 
     ngOnInit() {
-        this.accountService.getWallet(
-            this.ezGymStore.state.accountActive?.id!
-        ).pipe(
-            tap(wallet => {
-                this.setState(state => ({
-                    ...state,
-                    ui: {
-                        ...state.ui,
-                        keyTypeSelected: state.ui.keyTypeOptions.find(k => k.value == wallet.pix.type)
-                    },
-                    wallet: wallet
-                }))
-            }),
-            finalize(() => {
 
-            })
-        ).subscribe()
 
 
     }

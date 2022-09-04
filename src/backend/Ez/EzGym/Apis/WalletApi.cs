@@ -1,6 +1,8 @@
 ﻿using System.Threading;
 using EzCommon.Models;
 using EzGym.Events.Wallet;
+using EzGym.Infra.Repository;
+using EzGym.Wallets;
 using EzGym.Wallets.SetupPaymentAccount;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;

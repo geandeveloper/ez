@@ -9,6 +9,7 @@ using EzPayment.PaymentAccounts.VerifyPaymentAccount;
 using EzPayment.Payments;
 using EzPayment.Payments.CreatePayment;
 using EzPayment.Payments.PaymentReceived;
+using EzPayment.Payments.VerifyCardPayments;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Marten;
@@ -31,6 +32,9 @@ namespace EzPayment
             services.AddSingleton<IStripePaymentGateway>(new StripePaymentGateway(new SessionService(), new PaymentIntentService(), new AccountService(), new AccountLinkService()));
 
             services.AddScoped<IPaymentRepository, PaymentRepository>();
+
+            services
+                .AddTransient<VerifyCardPaymentsCommandHandler>();
 
             services
                 .AddTransient<VerifyPaymentAccountCommandHandler>();

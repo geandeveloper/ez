@@ -32,6 +32,11 @@ public class StripePaymentGateway : IStripePaymentGateway
         return _accountService.Get(accountId);
     }
 
+    public PaymentIntent GetPaymentIntent(string paymentId)
+    {
+        return _paymentIntentService.Get(paymentId);
+    }
+
     public AccountLink CreateAccountLink(AccountLinkCreateOptions options)
     {
         return _accountLinkService.Create(options);

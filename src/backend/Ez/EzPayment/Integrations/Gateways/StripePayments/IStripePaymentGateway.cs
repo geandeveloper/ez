@@ -10,5 +10,6 @@ namespace EzPayment.Integrations.Gateways.StripePayments
         AccountLink CreateAccountLink(AccountLinkCreateOptions options);
         Session CreateCheckoutSession(SessionCreateOptions options);
         PaymentIntent CreatePaymentIntent(PaymentIntentCreateOptions options);
+        PaymentIntent GetPaymentIntent(string paymentId);
     }
 }

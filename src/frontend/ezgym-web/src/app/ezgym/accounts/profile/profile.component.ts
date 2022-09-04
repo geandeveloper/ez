@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, debounce, debounceTime, filter, finalize, switchMap, tap } from 'rxjs';
+import { catchError, finalize, switchMap, tap } from 'rxjs';
 import { AccountService } from 'src/app/ezgym/core/services/account.service';
-import { AccountModel } from 'src/app/ezgym/core/models/accout.model';
 import { Store } from 'src/app/core/state/store';
-import { PreLoaderStore } from 'src/app/shared/components/pre-loader/pre-loader.store';
 import { FollowerListComponent } from '../follower-list/follower-list.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { EzGymStore } from '../../ezgym.store';

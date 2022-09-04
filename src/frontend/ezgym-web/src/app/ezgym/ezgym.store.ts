@@ -3,6 +3,7 @@ import { filter, map, tap } from "rxjs";
 import { Store } from "src/app/core/state/store";
 import { AccountModel } from "./core/models/accout.model";
 import { GymModel } from "./core/models/gym.model";
+import { WalletModel } from "./core/models/wallet.model";
 import { AccountService } from "./core/services/account.service";
 import { EzGymState } from "./ezgym.state";
 
@@ -72,6 +73,13 @@ export class EzGymStore extends Store<EzGymState> {
         this.setState(state => ({
             ...state,
             activeGym: { ...updateFn(state.activeGym) }
+        }))
+    }
+
+    updateWallet(wallet: WalletModel) {
+        this.setState(state => ({
+            ...state,
+            wallet: wallet
         }))
     }
 }

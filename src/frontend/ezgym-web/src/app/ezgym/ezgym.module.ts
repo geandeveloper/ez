@@ -15,6 +15,7 @@ import { WalletService } from "./core/services/wallet.service";
 import { PaymentAccountService } from "../ezpayment/core/services/payment-account.service";
 import { EzGymStore } from "./ezgym.store";
 import { ContentLoaderModule } from "@ngneat/content-loader";
+import { GymManagementStore } from "./gyms/management/gym-management.store";
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { ContentLoaderModule } from "@ngneat/content-loader";
   providers: [
     WalletService,
     PaymentAccountService,
-    EzGymStore
+    EzGymStore,
+    GymManagementStore
   ],
   exports: [
     EzGymComponent

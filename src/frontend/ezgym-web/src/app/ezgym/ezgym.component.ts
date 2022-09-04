@@ -50,7 +50,7 @@ export class EzGymComponent extends Store<ComponentState> implements OnInit {
           .pipe(
             tap(params => {
               var accountName = params['accountName']
-              if (accounts.some(a => a.accountName == accountName))
+              if (accounts.some(a => a.accountName == accountName) && !this.ezGymStore.state.accountActive)
                 this.ezGymStore.setActiveAccount(accountName)
             }),
             map(() => accounts)

@@ -20,6 +20,8 @@ using EzGym.Wallets;
 using EzGym.Wallets.UpdateWallet;
 using EzGym.Events.Gym;
 using EzGym.Projections;
+using EzPayment.Payments;
+using EzPayment.Payments.VerifyCardPayments;
 using Marten;
 
 namespace EzGym.Apis
@@ -211,12 +213,25 @@ namespace EzGym.Apis
                 });
 
             app.MapGet("accounts/{accountId}/wallet",
-                [Authorize] (
+                [Authorize] async (
                       [FromServices] IGymRepository repository,
+                    [FromServices] VerifyCardPaymentsCommandHandler handler,
                       string accountId
                       ) =>
                 {
+
+                    repository
+                        .Where<GymMemberShip>(m => m.ReceiverAccountId == accountId)
+                        .Where(m => !m.Active)
+                        .ToList()
+                        .ForEach(m =>
+                        {
+                            handler.Handle(new VerifyCardPaymentsCommand(m.PaymentId), CancellationToken.None).Wait();
+                        });
+
+
                     var wallet = repository.QueryOne<Wallet>(a => a.AccountId == accountId);
+
 
                     return Results.Ok(wallet);
                 });

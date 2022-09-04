@@ -42,10 +42,12 @@ public class RegisterGymMemberShipCommandHandler : ICommandHandler<RegisterGymMe
         var membership = new GymMemberShip(
             receiverAccountId: receiverGym.AccountId,
             payerAccountId: payerAccount.Id,
-            plan.Id,
-            payment.Id,
-            plan.Amount,
-            plan.Days);
+            planId: plan.Id,
+            paymentId: payment.Id,
+            amount: plan.Amount,
+            applicationFeeAmount: payment.ApplicationFeeAmount,
+            days: plan.Days
+            );
 
         return await _repository.SaveAggregateAsync(membership);
     }

@@ -40,15 +40,12 @@ namespace EzPayment.Payments.CreatePayment
             return new PixInfo(pixPayment.Txid, qrCode.Qrcode, qrCode.ImagemQrcode);
         }
 
-        public Task<CreditCardInfo> CreateCardIntegrationPaymentAsync(long amount, string description, string destinationPaymentAccountId)
+        public Task<CreditCardInfo> CreateCardIntegrationPaymentAsync(long amount, long paymentFeeAmount, string description, string destinationPaymentAccountId)
         {
-
-            var paymentAmount = amount * 100;
-            var paymentFeeAmount = Convert.ToInt64(paymentAmount * _settings.Value.StripePayments.EzPaymentFeeAmount);
 
             var cardPayload = new PaymentIntentCreateOptions
             {
-                Amount = paymentAmount,
+                Amount = amount,
                 Currency = "brl",
                 AutomaticPaymentMethods = new PaymentIntentAutomaticPaymentMethodsOptions
                 {

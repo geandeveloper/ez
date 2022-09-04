@@ -15,6 +15,8 @@ namespace EzGym.Wallets
         public PaymentAccount PaymentAccount { get; private set; }
         public IList<WalletReceipt> Receipts { get; } = new List<WalletReceipt>();
 
+        public decimal Balance => Receipts.Select(r => r.Amount - r.ApplicationFeeAmount).Sum();
+
         public Wallet() { }
 
         public Wallet(string accountId)
@@ -27,9 +29,9 @@ namespace EzGym.Wallets
             RaiseEvent(new WalletUpdatedEvent(Id, pix));
         }
 
-        public void AddReceipt(string paymentId, PaymentStatusEnum paymentStatus, DateTime? paymentDateTime, decimal value, string description)
+        public void AddReceipt(string paymentId, PaymentStatusEnum paymentStatus, DateTime? paymentDateTime, long amount, long applicationFeeAmount, string description)
         {
-            RaiseEvent(new WalletReceiptCreatedEvent(new WalletReceipt(paymentId, paymentStatus, paymentDateTime, value, description)));
+            RaiseEvent(new WalletReceiptCreatedEvent(new WalletReceipt(paymentId, paymentStatus, paymentDateTime, amount, applicationFeeAmount, description)));
         }
 
         public void UpdateReceipt(string paymentId, Func<WalletReceipt, WalletReceipt> updateReceipt)
@@ -37,7 +39,7 @@ namespace EzGym.Wallets
 
             Receipts.Where(r => r.PaymentId == paymentId).ToList().ForEach(r =>
             {
-                RaiseEvent(new WalletReceiptCreatedEvent(updateReceipt(r)));
+                RaiseEvent(new WalletReceiptUpdatedEvent(updateReceipt(r)));
             });
         }
 

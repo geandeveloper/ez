@@ -9,7 +9,8 @@ namespace EzPayment.Payments
     public class Payment : AggregateRoot
     {
         public string Description { get; set; }
-        public long Amount { get; protected set; }
+        public long Amount { get; private set; }
+        public long ApplicationFeeAmount { get; private set; }
         public PaymentStatusEnum Status { get; private set; }
         public PaymentMethodEnum Method { get; private set; }
         public PixInfo PixInfo { get; private set; }
@@ -19,9 +20,9 @@ namespace EzPayment.Payments
 
         public Payment() { }
 
-        public Payment(CreatePaymentCommand command)
+        public Payment(CreatePaymentCommand command, long applicationFeeAmount)
         {
-            RaiseEvent(new PaymentCreatedEvent(GenerateNewId(), command));
+            RaiseEvent(new PaymentCreatedEvent(GenerateNewId(), applicationFeeAmount, command));
         }
 
         public Payment PayWithPix(PixInfo pixInfo)
@@ -53,6 +54,7 @@ namespace EzPayment.Payments
             Description = @event.Command.Description;
             Status = PaymentStatusEnum.Pending;
             Amount = @event.Command.Amount;
+            ApplicationFeeAmount = @event.ApplicationFeeAmount;
             PaymentDateTime = null;
             RedirectUrl = @event.Command.RedirectUrl;
         }
