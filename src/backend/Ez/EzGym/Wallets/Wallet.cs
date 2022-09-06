@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using EzCommon.Models;
+﻿using EzCommon.Models;
 using EzGym.Events.Wallet;
 using EzPayment.PaymentAccounts;
-using EzPayment.Payments;
 
 namespace EzGym.Wallets
 {
@@ -13,11 +9,10 @@ namespace EzGym.Wallets
         public string AccountId { get; private set; }
         public Pix Pix { get; private set; }
         public PaymentAccount PaymentAccount { get; private set; }
-        public IList<WalletReceipt> Receipts { get; } = new List<WalletReceipt>();
 
-        public decimal Balance => Receipts.Select(r => r.Amount - r.ApplicationFeeAmount).Sum();
-
-        public Wallet() { }
+        public Wallet()
+        {
+        }
 
         public Wallet(string accountId)
         {
@@ -29,35 +24,16 @@ namespace EzGym.Wallets
             RaiseEvent(new WalletUpdatedEvent(Id, pix));
         }
 
-        public void AddReceipt(string paymentId, PaymentStatusEnum paymentStatus, DateTime? paymentDateTime, long amount, long applicationFeeAmount, string description)
-        {
-            RaiseEvent(new WalletReceiptCreatedEvent(new WalletReceipt(paymentId, paymentStatus, paymentDateTime, amount, applicationFeeAmount, description)));
-        }
-
-        public void UpdateReceipt(string paymentId, Func<WalletReceipt, WalletReceipt> updateReceipt)
-        {
-
-            Receipts.Where(r => r.PaymentId == paymentId).ToList().ForEach(r =>
-            {
-                RaiseEvent(new WalletReceiptUpdatedEvent(updateReceipt(r)));
-            });
-        }
-
-        public void UpdatePaymentAccount(string paymentAccountId, string onBoardingLink, PaymentAccountStatusEnum paymentAccountStatus)
+        public void UpdatePaymentAccount(string paymentAccountId, string onBoardingLink,
+            PaymentAccountStatusEnum paymentAccountStatus)
         {
             RaiseEvent(new PaymentAccountChangedEvent(Id, paymentAccountId, onBoardingLink, paymentAccountStatus));
         }
 
         protected void Apply(PaymentAccountChangedEvent @event)
         {
-            PaymentAccount = new PaymentAccount(@event.PaymentAccountId, @event.OnBoardingLink, @event.PaymentAccountStatus);
-        }
-
-        protected void Apply(WalletReceiptUpdatedEvent @event)
-        {
-            var receipt = Receipts.First(r => r.PaymentId == @event.Receipt.PaymentId);
-            Receipts.Remove(receipt);
-            Receipts.Add(@event.Receipt);
+            PaymentAccount = new PaymentAccount(@event.PaymentAccountId, @event.OnBoardingLink,
+                @event.PaymentAccountStatus);
         }
 
         protected void Apply(WalletCreatedEvent @event)
@@ -71,11 +47,5 @@ namespace EzGym.Wallets
         {
             Pix = @event.Pix;
         }
-
-        protected void Apply(WalletReceiptCreatedEvent @event)
-        {
-            Receipts.Add(@event.Receipt);
-        }
-
     }
 }

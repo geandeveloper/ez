@@ -2,9 +2,9 @@ import { PaymentAccountStatusEnum } from "src/app/ezpayment/core/models/payment-
 
 export interface WalletModel {
     id: string,
-    balance: number
     pix: Pix,
-    paymentAccount?: PaymentAccountModel
+    paymentAccount?: PaymentAccountModel,
+    statement: WalletStatementModel
 }
 
 export interface PaymentAccountModel {
@@ -21,4 +21,17 @@ export enum PixTypeEnum {
     PhoneNumber = 1,
     Email = 2,
     Random = 3
+}
+
+export interface WalletReceiptModel {
+    id: string,
+    balance: number
+    pix: Pix,
+    paymentAccount?: PaymentAccountModel
+}
+
+export interface WalletStatementModel {
+    totalApproved: number,
+    totalPending: number,
+    balance: number
 }

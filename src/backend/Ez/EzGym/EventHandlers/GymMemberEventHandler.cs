@@ -24,8 +24,11 @@ namespace EzGym.EventHandlers
         {
             var payment = await _repository.QueryAsync<GymMemberShip>(p => p.PaymentId == notification.PaymentId);
             var payerWallet = await _repository.QueryAsync<Wallet>(w => w.AccountId == payment.PayerAccountId);
-            payerWallet.AddReceipt(payment.PaymentId, PaymentStatusEnum.Pending, payment.PaymentDateTime, payment.Amount, 0, "Saldo adicionado");
-            await _repository.SaveAggregateAsync(payerWallet);
+
+            var walletReceipt = new WalletReceipt(payerWallet.Id, payment.PaymentId, PaymentStatusEnum.Pending,
+                payment.PaymentDateTime, payment.Amount, 0, "Saldo Adicionado");
+
+            await _repository.SaveAggregateAsync(walletReceipt);
         }
 
         public async Task Handle(GymMemberShipPaidEvent notification, CancellationToken cancellationToken)
@@ -34,17 +37,16 @@ namespace EzGym.EventHandlers
             var payerWallet = await _repository.QueryAsync<Wallet>(w => w.AccountId == memberShip.PayerAccountId);
             var receiverWallet = await _repository.QueryAsync<Wallet>(w => w.AccountId == memberShip.ReceiverAccountId);
 
-            payerWallet.UpdateReceipt(memberShip.PaymentId, state => state with
-            {
-                PaymentStatus = PaymentStatusEnum.Approved,
-                PaymentDateTime = notification.PaymentDateTime,
-            });
+            var payerReceipt = await _repository.QueryAsync<WalletReceipt>(w => w.WalletId == payerWallet.Id && w.PaymentId == memberShip.PaymentId);
+            payerReceipt.UpdateReceipt(PaymentStatusEnum.Approved, notification.PaymentDateTime);
 
-            payerWallet.AddReceipt(memberShip.PaymentId, PaymentStatusEnum.Approved, notification.PaymentDateTime, -memberShip.Amount, 0, $"Pagamento efetuado, plano {memberShip.PaymentId}");
-            receiverWallet.AddReceipt(memberShip.PaymentId, PaymentStatusEnum.Approved, notification.PaymentDateTime, memberShip.Amount, memberShip.ApplicationFeeAmount, $"Pagamento recebido, plano {memberShip.PlanId}");
 
-            await _repository.SaveAggregateAsync(receiverWallet);
-            await _repository.SaveAggregateAsync(payerWallet);
+            var payerPaymentReceipt = new WalletReceipt(payerWallet.Id, memberShip.PaymentId, PaymentStatusEnum.Approved, notification.PaymentDateTime, -memberShip.Amount, 0, $"Pagamento efetuado, plano {memberShip.PaymentId}");
+            var receiverPaymentReceipt = new WalletReceipt(receiverWallet.Id, memberShip.PaymentId, PaymentStatusEnum.Approved, notification.PaymentDateTime, memberShip.Amount, memberShip.ApplicationFeeAmount, $"Pagamento recebido, plano {memberShip.PlanId}");
+
+            await _repository.SaveAggregateAsync(payerReceipt);
+            await _repository.SaveAggregateAsync(payerPaymentReceipt);
+            await _repository.SaveAggregateAsync(receiverPaymentReceipt);
         }
     }
 }

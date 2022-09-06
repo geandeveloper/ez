@@ -23,7 +23,7 @@
             <div class="account-balance">
                 <div class="balance-info">
                     <!-- <div class="balance-hidden"> </div> -->
-                    <p>{{state.wallet.balance | currency : 'BRL'}}</p>
+                    <p>{{state.wallet?.statement?.balance | currency : 'BRL'}}</p>
                     <button>Ver extrato</button>
                 </div>
                 <button class="btn-toggle">

@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { PaymentAccountChangedEvent } from "../events/wallet.events";
-import { WalletModel } from "../models/wallet.model";
+import { WalletModel, WalletReceiptModel, WalletStatementModel } from "../models/wallet.model";
 
 @Injectable()
 export class WalletService {
@@ -16,5 +16,12 @@ export class WalletService {
         return this.http.get<WalletModel>(`wallets/${id}`)
     }
 
+    getReceipts(walletId: string): Observable<WalletReceiptModel[]> {
+        return this.http.get<WalletReceiptModel[]>(`wallets/${walletId}/receipts`)
+    }
+
+    getStatement(walletId: string): Observable<WalletStatementModel> {
+        return this.http.get<WalletStatementModel>(`wallets/${walletId}/statement`)
+    }
 
 }

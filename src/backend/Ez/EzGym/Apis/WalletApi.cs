@@ -1,9 +1,12 @@
-﻿using System.Threading;
+﻿using System.Linq;
+using System.Threading;
 using EzCommon.Models;
 using EzGym.Events.Wallet;
-using EzGym.Infra.Repository;
 using EzGym.Wallets;
 using EzGym.Wallets.SetupPaymentAccount;
+using EzPayment.Infra.Repository;
+using EzPayment.Payments;
+using Marten;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -27,6 +30,34 @@ namespace EzGym.Apis
                     var @event = eventStream.GetEvent<PaymentAccountChangedEvent>();
 
                     return Results.Ok(@event);
+                });
+
+            app.MapGet("/wallets/{id}/receipts",
+                [Authorize] async (
+                      [FromServices] IPaymentRepository repository,
+                      string id
+                     ) =>
+                {
+                    var receipts = await repository.Where<WalletReceipt>(w => w.WalletId == id).ToListAsync();
+
+                    return Results.Ok(receipts);
+                });
+
+            app.MapGet("/wallets/{id}/statement",
+                [Authorize] async (
+                      [FromServices] IPaymentRepository repository,
+                      string id) =>
+                {
+                    var receipts = await repository.Where<WalletReceipt>(w => w.WalletId == id).ToListAsync();
+
+                    var statement = new
+                    {
+                        TotalApproved = receipts.Where(r => r.PaymentStatus == PaymentStatusEnum.Approved).Sum(r => r.Amount),
+                        TotalPending = receipts.Where(r => r.PaymentStatus == PaymentStatusEnum.Pending).Sum(r => r.Amount),
+                        Balance = receipts.Sum(r => r.Amount),
+                    };
+
+                    return Results.Ok(statement);
                 });
 
             return app;

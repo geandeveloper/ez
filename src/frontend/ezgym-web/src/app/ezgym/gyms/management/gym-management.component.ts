@@ -6,14 +6,14 @@ import { GymPlansComponent } from './gym-plans/gym-plans.component';
 import { GymWalletComponent } from './gym-wallet/gym-wallet.component';
 import { EzGymStore } from '../../ezgym.store';
 
-import { filter, first, switchMap, tap } from 'rxjs';
+import { filter, switchMap, tap } from 'rxjs';
 import { GymManagementStore } from './gym-management.store';
-import { WalletModel } from '../../core/models/wallet.model';
+import { WalletModel, WalletStatementModel } from '../../core/models/wallet.model';
 
 interface GymManagementComponentState {
     checkinsToValidate: AccountModel[],
     checkinsValidated: AccountModel[],
-    wallet: WalletModel,
+    wallet?: WalletModel,
     activeAccount: AccountModel
 }
 
@@ -41,7 +41,6 @@ export class GymManagementComponent extends Store<GymManagementComponentState> i
             wallet: {} as WalletModel,
             activeAccount: {} as AccountModel
         })
-
     }
 
     ngOnInit() {

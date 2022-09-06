@@ -17,7 +17,6 @@ using EzGym.Wallets;
 using EzGym.Wallets.SetupPaymentAccount;
 using EzGym.Wallets.UpdateWallet;
 using EzPayment.Integrations.Gateways;
-using EzPayment.PaymentAccounts;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Marten;
@@ -73,6 +72,7 @@ namespace EzGym
                     options.Projections.SelfAggregate<Gym>(ProjectionLifecycle.Inline);
                     options.Projections.SelfAggregate<GymUser>(ProjectionLifecycle.Inline);
                     options.Projections.SelfAggregate<Wallet>(ProjectionLifecycle.Inline);
+                    options.Projections.SelfAggregate<WalletReceipt>(ProjectionLifecycle.Inline);
                     options.Projections.SelfAggregate<GymMemberShip>(ProjectionLifecycle.Inline);
 
 
