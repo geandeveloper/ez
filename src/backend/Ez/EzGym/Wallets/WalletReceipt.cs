@@ -15,6 +15,11 @@ public class WalletReceipt : AggregateRoot
     public long ApplicationFeeAmount { get; private set; }
     public string Description { get; private set; }
 
+    public WalletReceipt()
+    {
+        
+    }
+
     public WalletReceipt(string walletId, string paymentId, PaymentStatusEnum paymentStatus, DateTime? paymentDateTime, long amount, long applicationFeeAmount, string description)
     {
         RaiseEvent(new WalletReceiptCreatedEvent(GenerateNewId(), walletId, paymentId, paymentStatus, paymentDateTime, amount, applicationFeeAmount, description));

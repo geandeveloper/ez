@@ -2,6 +2,7 @@
 using System.Threading;
 using EzCommon.Models;
 using EzGym.Events.Wallet;
+using EzGym.Infra.Repository;
 using EzGym.Wallets;
 using EzGym.Wallets.SetupPaymentAccount;
 using EzPayment.Infra.Repository;
@@ -45,10 +46,10 @@ namespace EzGym.Apis
 
             app.MapGet("/wallets/{id}/statement",
                 [Authorize] async (
-                      [FromServices] IPaymentRepository repository,
+                      [FromServices] IGymRepository repository,
                       string id) =>
                 {
-                    var receipts = await repository.Where<WalletReceipt>(w => w.WalletId == id).ToListAsync();
+                    var receipts = repository.Where<WalletReceipt>(w => w.WalletId == id).ToList();
 
                     var statement = new
                     {
