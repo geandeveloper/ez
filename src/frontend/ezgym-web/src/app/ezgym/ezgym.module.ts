@@ -16,12 +16,14 @@ import { PaymentAccountService } from "../ezpayment/core/services/payment-accoun
 import { EzGymStore } from "./ezgym.store";
 import { ContentLoaderModule } from "@ngneat/content-loader";
 import { GymManagementStore } from "./gyms/management/gym-management.store";
+import { WalletStatementComponet } from "./wallet/wallet-statement/wallet-statement.component";
 
 
 @NgModule({
   declarations: [
     EzGymComponent,
-    SearchAccountComponent
+    SearchAccountComponent,
+    WalletStatementComponet
   ],
   imports: [
     FormsModule,

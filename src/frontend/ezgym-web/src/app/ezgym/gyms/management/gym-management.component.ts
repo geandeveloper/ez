@@ -9,6 +9,7 @@ import { EzGymStore } from '../../ezgym.store';
 import { filter, switchMap, tap } from 'rxjs';
 import { GymManagementStore } from './gym-management.store';
 import { WalletModel, WalletStatementModel } from '../../core/models/wallet.model';
+import { WalletStatementComponet } from '../../wallet/wallet-statement/wallet-statement.component';
 
 interface GymManagementComponentState {
     checkinsToValidate: AccountModel[],
@@ -56,7 +57,10 @@ export class GymManagementComponent extends Store<GymManagementComponentState> i
                 tap(wallet => {
                     this.setState(state => ({ ...state, wallet: wallet }))
                 })
-            ).subscribe()
+            ).subscribe(() => {
+
+
+            })
 
         this.store$.subscribe()
     }
@@ -90,6 +94,22 @@ export class GymManagementComponent extends Store<GymManagementComponentState> i
         })
             .afterClosed()
             .subscribe()
+    }
+
+    openWalletStatement() {
+        this.dialog.open(WalletStatementComponet, {
+            disableClose: true,
+            data: {
+            },
+            panelClass: 'fullscreen-dialog',
+            maxWidth: '935px',
+            maxHeight: '100vh',
+            height: '100%',
+            width: '100%',
+        })
+            .afterClosed()
+            .subscribe()
+
     }
 
 }

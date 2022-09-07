@@ -1,0 +1,62 @@
+<div class="center">
+    <section class="header">
+        <button (click)="close()" class="header-btn">Fechar</button>
+        <div></div>
+
+    </section>
+    <section class="image-header">
+        <img src="assets/img/receipt.svg">
+        <h3>
+            Extrato da conta
+        </h3>
+    </section>
+
+    <section class="content-modal">
+        <ng-container>
+
+            <section class="balance">
+                <p>Saldo disponivel</p>
+                <h3>{{state.wallet.statement.balance | currency : 'BRL'}}</h3>
+
+            </section>
+
+            <section class="receipts">
+                <h4>Extrato</h4>
+                <hr />
+
+                <ul>
+                    <li *ngFor="let receipt of state.receipts">
+                        <div class="receipt-info">
+                            <div class="icon-wrapper">
+                                <i class="fa-solid fa-file-invoice"></i>
+                            </div>
+                            <div >
+                                <p>Pagamento recebido</p>
+                                <p class="text-description">{{receipt.description}}</p>
+                                <div class="split-payments">
+                                    <div>
+                                        <p class="text-primary">{{receipt.amount + receipt.applicationFeeAmount|
+                                            currency:
+                                            'BRL'
+                                            }} </p>
+                                        <p class="text-secondary">{{receipt.applicationFeeAmount | currency: 'BRL' }}
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <p class="text-amount"> > {{receipt.amount | currency: 'BRL' }}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <button>></button>
+                    </li>
+                </ul>
+
+            </section>
+
+        </ng-container>
+    </section>
+
+
+</div>

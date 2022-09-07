@@ -1,4 +1,5 @@
 import { PaymentAccountStatusEnum } from "src/app/ezpayment/core/models/payment-account.model"
+import { PaymentStatusEnum } from "src/app/ezpayment/core/models/payment.model"
 
 export interface WalletModel {
     id: string,
@@ -25,9 +26,12 @@ export enum PixTypeEnum {
 
 export interface WalletReceiptModel {
     id: string,
-    balance: number
-    pix: Pix,
-    paymentAccount?: PaymentAccountModel
+    paymentId: string,
+    amount: number,
+    applicationFeeAmount: number,
+    paymentStatus: PaymentStatusEnum,
+    paymentDateTime: Date,
+    description: string
 }
 
 export interface WalletStatementModel {

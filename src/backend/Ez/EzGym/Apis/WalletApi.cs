@@ -35,7 +35,7 @@ namespace EzGym.Apis
 
             app.MapGet("/wallets/{id}/receipts",
                 [Authorize] async (
-                      [FromServices] IPaymentRepository repository,
+                      [FromServices] IGymRepository repository,
                       string id
                      ) =>
                 {
@@ -49,7 +49,7 @@ namespace EzGym.Apis
                       [FromServices] IGymRepository repository,
                       string id) =>
                 {
-                    var receipts = repository.Where<WalletReceipt>(w => w.WalletId == id).ToList();
+                    var receipts = await repository.Where<WalletReceipt>(w => w.WalletId == id).ToListAsync();
 
                     var statement = new
                     {

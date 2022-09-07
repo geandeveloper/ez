@@ -1,0 +1,148 @@
+@import 'variables';
+
+:host {
+    font-family: $font-family !important;
+}
+
+.header {
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    font-family: $font-family;
+    font-size: small;
+    padding: 10px;
+    align-items: flex-start;
+}
+
+.header-btn {
+    border: none;
+    background: none;
+
+    &:hover {
+        color: $secondary;
+    }
+
+
+}
+
+.btn-save {
+    font-weight: bold;
+    color: $primary;
+    cursor: pointer;
+}
+
+.header-title {
+    font-weight: bold;
+}
+
+.image-header {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+
+    img {
+        display: block;
+        height: 120px;
+    }
+}
+
+.line {
+    flex: 1;
+    border-top: 1px solid #ccc;
+    width: 100%;
+}
+
+.content-modal {
+    margin-top: 20px;
+}
+
+//TODO: PLEASE MOVE ALL THESE CSS ABOVE FOR A MODAL-COMPONET :)
+
+.balance {
+    border: 1px solid #eee;
+    padding: 10px;
+    border-radius: 15px;
+
+
+}
+
+.receipts {
+    margin-top: 10px;
+    padding: 10px;
+
+    ul {
+        color: $dark-grey;
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+
+
+        li {
+            margin-bottom: 30px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+
+            .receipt-info {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+
+                .icon-wrapper {
+                    margin-right: 30px;
+                }
+            }
+
+            .text-description {
+                font-size: xx-small;
+                white-space: nowrap;
+                width: 150px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+
+            i {
+                font-size: 30px;
+            }
+
+            p {
+                line-height: 10px;
+
+                &:first-child {
+                    font-weight: bold;
+                }
+
+                .description {
+                    text-overflow: clip;
+                }
+
+            }
+
+            .split-payments {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+
+                .text-amount {
+                    font-size: 20px;
+                    font-weight: normal;
+                    margin-left: 5px;
+                }
+            }
+
+            button {
+                border: none;
+                background: none;
+                color: $primary;
+                font-size: 40px;
+            }
+
+        }
+    }
+}

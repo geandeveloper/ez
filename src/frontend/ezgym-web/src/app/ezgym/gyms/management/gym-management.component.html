@@ -24,7 +24,7 @@
                 <div class="balance-info">
                     <!-- <div class="balance-hidden"> </div> -->
                     <p>{{state.wallet?.statement?.balance | currency : 'BRL'}}</p>
-                    <button>Ver extrato</button>
+                    <button (click)="openWalletStatement()">Ver extrato</button>
                 </div>
                 <button class="btn-toggle">
                     <!-- <i class="fa-solid fa-eye toggle-icon "></i> -->
