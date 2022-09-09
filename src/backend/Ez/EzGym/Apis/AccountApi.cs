@@ -139,7 +139,7 @@ namespace EzGym.Apis
                      ) =>
             {
                 var queryable = repository
-                    .Where<AccountFollower>(a => a.Id == id);
+                    .Where<AccountFollower>(a => a.AccountId == id);
 
                 if (!string.IsNullOrEmpty(query))
                     queryable = queryable.Where(a => a.ProfileName.NgramSearch(query));
@@ -156,7 +156,7 @@ namespace EzGym.Apis
                       ) =>
                 {
                     var queryable = repository
-                     .Where<AccountFollowing>(a => a.Id == id);
+                     .Where<AccountFollowing>(a => a.AccountId == id);
 
                     if (!string.IsNullOrEmpty(query))
                         queryable = queryable.Where(a => a.ProfileName.NgramSearch(query));

@@ -1,4 +1,6 @@
 ﻿
+using System;
+using System.Data;
 using System.Linq;
 using EzGym.Accounts;
 using EzGym.Accounts.Events;
@@ -10,6 +12,7 @@ namespace EzGym.Projections
     public class AccountFollowing
     {
         public string Id { get; set; }
+        public string AccountId { get; set; }
         public string FollowerAccountId { get; set; }
         public string AvatarUrl { get; set; }
         public string AccountName { get; set; }
@@ -20,7 +23,7 @@ namespace EzGym.Projections
     {
         public AccountFollowingsProjection()
         {
-            DeleteEvent<AccountUnfollowedEvent>();
+            DeleteEvent<AccountUnfollowedEvent>((state, @event) => state.FollowerAccountId == @event.UnfollowedAccountId);
 
             ProjectEvent<AccountFollowedEvent>((session, state, @event) =>
             {
@@ -28,7 +31,8 @@ namespace EzGym.Projections
                     .Query<Account>()
                     .First(a => a.Id == @event.FollowedAccountId);
 
-                state.Id = @event.AccountId;
+                state.Id = Guid.NewGuid().ToString();
+                state.AccountId = @event.AccountId;
                 state.AccountName = following.AccountName;
                 state.FollowerAccountId = following.Id;
                 state.AvatarUrl = following.AvatarUrl;

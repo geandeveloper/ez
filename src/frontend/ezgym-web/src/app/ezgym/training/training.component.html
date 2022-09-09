@@ -1,0 +1,19 @@
+<section class="training">
+    <header>
+        <img src="assets/img/activity_tracker.svg">
+        <h1>Central de treinamento</h1>
+    </header>
+    <nav class="weekdays">
+        <ul>
+            <li *ngFor="let week of state.ui.weekDays" (click)="switchDay(week.day)"
+                [ngClass]="{'active': week.day == state.today}">
+                <p class="day-status">Feito!</p>
+                <p class="day-name">
+                    {{week.name}}
+                </p>
+
+            </li>
+        </ul>
+    </nav>
+
+</section>

@@ -17,13 +17,15 @@ import { EzGymStore } from "./ezgym.store";
 import { ContentLoaderModule } from "@ngneat/content-loader";
 import { GymManagementStore } from "./gyms/management/gym-management.store";
 import { WalletStatementComponet } from "./wallet/wallet-statement/wallet-statement.component";
+import { TrainingComponent } from "./training/training.component";
 
 
 @NgModule({
   declarations: [
     EzGymComponent,
     SearchAccountComponent,
-    WalletStatementComponet
+    WalletStatementComponet,
+    TrainingComponent
   ],
   imports: [
     FormsModule,
@@ -42,7 +44,8 @@ import { WalletStatementComponet } from "./wallet/wallet-statement/wallet-statem
     GymManagementStore
   ],
   exports: [
-    EzGymComponent
+    EzGymComponent,
+    TrainingComponent
   ]
 })
 export class EzGymModule { }
