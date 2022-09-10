@@ -4,6 +4,11 @@
     margin-top: 20px;
 }
 
+
+h4 {
+    margin-left: 10px;
+    color: $dark-grey !important;
+}
 .account-menu-options {
     flex: 1;
     flex-wrap: wrap;
@@ -17,10 +22,12 @@
     .menu-option {
         display: flex;
         flex-direction: column;
-        padding: 15px 0px;
-        width: 23%;
-        height: 20%;
-        background: #fff;
+        width: 100px;
+        height: 100px;
+        box-shadow:
+            inset 0 -3em 3em rgba(0, 0, 0, 0.1),
+            0 0 0 2px rgb(255, 255, 255),
+            0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
         border: 1px solid #ccc;
         border-radius: 10px;
         align-items: center;

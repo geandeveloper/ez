@@ -1,19 +1,52 @@
 <section class="training">
-    <header>
-        <img src="assets/img/activity_tracker.svg">
-        <h1>Central de treinamento</h1>
+    <header class="card">
+
+        <section class="profile">
+            <div class="avatar">
+                <img
+                    src="https://m.media-amazon.com/images/S/dmp-catalog-images-prod/images/31029f2a-104e-4f75-8518-f25be9924074/c718fdf4-275b-4241-bb6a-eeca1db90c17-5222142._SX576_SY576_BL0_QL100__UXNaN_FMjpg_QL85_.jpeg">
+            </div>
+            <div class="profile-info">
+
+                <div class="name-and-progress">
+                    <h4>Renato Cariani</h4>
+                    <small class="text-muted">9/10 Checkins</small>
+                    <div class="progress-level" style="--progress: 90%"></div>
+                </div>
+                <div class="name-level">
+                    <div class="level-badge">
+                        <img src="assets/img/trophy.svg">
+                        <small>Level 10</small>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+        <!-- <small class="text-muted">
+            Para subir de level, você precisa complentar os treinos diariamente
+        </small> -->
+
     </header>
-    <nav class="weekdays">
-        <ul>
+    <nav>
+        <h4>Progresso Semanal</h4>
+        <ul >
             <li *ngFor="let week of state.ui.weekDays" (click)="switchDay(week.day)"
                 [ngClass]="{'active': week.day == state.today}">
-                <p class="day-status">Feito!</p>
+
+                <img *ngIf="week.day == 2 || week.day == 4" src="assets/img/medal_gray.svg">
+                <img *ngIf="week.day != 2 && week.day != 4" src="assets/img/medal.svg">
                 <p class="day-name">
                     {{week.name}}
                 </p>
 
             </li>
+            <ol></ol>
         </ul>
     </nav>
+
+    <section class="training-plans">
+        <h4>Aplicativos</h4>
+
+    </section>
 
 </section>

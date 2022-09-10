@@ -77,8 +77,7 @@ export class EzGymComponent extends Store<ComponentState> implements OnInit {
   }
 
   switchAccount(accountName: string): void {
-    var navigateTo = this.activeRoute.routeConfig?.path?.replace(":accountName", accountName)
-    this.router.navigateByUrl(`/${navigateTo}`)
+    this.router.navigateByUrl(`/${accountName}`)
     this.ezGymStore.setActiveAccount(accountName)
   }
 

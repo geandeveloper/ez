@@ -1,8 +1,7 @@
 <div class="row profile-component">
     <section class="profile-container">
 
-        <div class="card profile-container">
-            <div class="card-body">
+        <div class="card profile-body">
                 <facebook-content-loader *ngIf="state.ui.loading"></facebook-content-loader>
                 <section *ngIf="!state.ui.loading" class="profile-section">
                     <div class="d-flex justify-content-between">
@@ -64,7 +63,6 @@
 
                 </section>
             </div>
-        </div>
     </section>
     <gym-profile [accountId]="state.accountProfile.id" *ngIf="state.accountProfile.accountType == 2 && !state.ui.loading">
     </gym-profile>

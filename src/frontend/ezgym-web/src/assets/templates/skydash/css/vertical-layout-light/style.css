@@ -15842,6 +15842,8 @@ input[type="button"].btn-block {
     background-clip: border-box;
     border: 1px solid #e3e3e3;
     border-radius: 20px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+
 }
 
 .card>hr {
@@ -32956,13 +32958,17 @@ div.tagsinput span.tag a {
 }
 
 .content-wrapper {
-    background: #F5F7FF;
+    background: #fff;
     padding: 20px 0px;
-    width: 100%;
     -webkit-flex-grow: 1;
     flex-grow: 1;
     justify-content: center;
     display: flex;
+
+}
+
+.content-wrapper-main {
+    width: 100%;
 }
 
 @media (max-width: 767px) {

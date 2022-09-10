@@ -4,6 +4,7 @@ import { AuthGuard } from 'src/app/core/authentication/auth.guard';
 
 import { EzGymComponent } from './ezgym.component';
 import { SearchAccountComponent } from './search/search-account/search-account.component';
+import { TrainingComponent } from './training/training.component';
 
 const routes: Routes = [
   {
@@ -28,6 +29,19 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     component: EzGymComponent,
     loadChildren: () => import("./gyms/gyms.module").then(m => m.GymModule)
+  },
+  {
+    path: ':accountName/training',
+    canActivate: [AuthGuard],
+    component: EzGymComponent,
+    children: [
+      {
+        path: '',
+        component: TrainingComponent,
+        outlet: 'content'
+      }
+    ]
+
   },
   {
     path: '',
