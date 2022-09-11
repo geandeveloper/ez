@@ -40,71 +40,60 @@
             </div>
         </section>
     </div>
-    <div class="account-apps">
-        <div clas="center">
-            <h4 class="text-primary">Gerenciar</h4>
-        </div>
+    <nav class="account-menu-apps">
+        <h4>Aplicativos</h4>
+        <ul>
+            <li (click)="openPlans()">
+                <img src="assets/img/contract.svg" />
+                <p>Planos</p>
+            </li>
+            <li>
+                <img src="assets/img/gym-plan.svg" />
+                <p>Treinos</p>
+            </li>
+        </ul>
+    </nav>
 
-        <div class="account-menu-options">
 
-            <div class="menu-option">
-                <div class="icon-wrapper">
-                    <i class="fa-solid fa-address-card"></i>
+    <div class="checkins">
+        <h4>Entradas</h4>
+        <mat-tab-group mat-align-tabs="center" mat-stretch-tabs>
+            <mat-tab label="Validar" class="tab-label">
+                <div class="center">
+                    <ul class="icon-data-list">
+                        <li *ngFor="let account of state.checkinsToValidate">
+                            <div class="d-flex account-item-list">
+                                <img [src]="account?.avatarUrl || '/assets/img/default-user-img.png'" alt="user">
+                                <div class="account-item-description">
+                                    <p class="text-primary font-weight-bold">{{account.accountName}}</p>
+                                    <small>{{account.accountType == 1 ? 'Usuario' : 'Academia'}} </small>
+                                </div>
+                            </div>
+                            <div class="buttons">
+                                <button class="btn-validate">Validar</button>
+                                <button class="btn-validate btn-remove">X</button>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
-                <label>Alunos</label>
-            </div>
-            <div class="menu-option" (click)="openPlans()">
-                <div class="icon-wrapper">
-                    <i class="fa-solid fa-file-invoice"></i>
+            </mat-tab>
+            <mat-tab label="Validados">
+                <div class="center">
+                    <ul class="icon-data-list">
+                        <li *ngFor="let account of state.checkinsValidated">
+                            <div class="d-flex account-item-list">
+                                <img [src]="account?.avatarUrl || '/assets/img/default-user-img.png'" alt="user">
+                                <div class="account-item-description">
+                                    <p class="text-primary font-weight-bold">{{account.accountName}}</p>
+                                    <small>{{account.accountType == 1 ? 'Usuario' : 'Academia'}} </small>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
-                <label>Planos</label>
-            </div>
+            </mat-tab>
+        </mat-tab-group>
 
-        </div>
-
-        <div clas="center">
-            <h4 class="text-primary">Entradas</h4>
-        </div>
-
-        <div class="checkins">
-            <mat-tab-group mat-align-tabs="center" mat-stretch-tabs>
-                <mat-tab label="Validar" class="tab-label">
-                    <div class="center">
-                        <ul class="icon-data-list">
-                            <li *ngFor="let account of state.checkinsToValidate">
-                                <div class="d-flex account-item-list">
-                                    <img [src]="account?.avatarUrl || '/assets/img/default-user-img.png'" alt="user">
-                                    <div class="account-item-description">
-                                        <p class="text-primary font-weight-bold">{{account.accountName}}</p>
-                                        <small>{{account.accountType == 1 ? 'Usuario' : 'Academia'}} </small>
-                                    </div>
-                                </div>
-                                <div class="buttons">
-                                    <button class="btn-validate">Validar</button>
-                                    <button class="btn-validate btn-remove">X</button>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </mat-tab>
-                <mat-tab label="Validados">
-                    <div class="center">
-                        <ul class="icon-data-list">
-                            <li *ngFor="let account of state.checkinsValidated">
-                                <div class="d-flex account-item-list">
-                                    <img [src]="account?.avatarUrl || '/assets/img/default-user-img.png'" alt="user">
-                                    <div class="account-item-description">
-                                        <p class="text-primary font-weight-bold">{{account.accountName}}</p>
-                                        <small>{{account.accountType == 1 ? 'Usuario' : 'Academia'}} </small>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </mat-tab>
-            </mat-tab-group>
-
-        </div>
     </div>
 
 

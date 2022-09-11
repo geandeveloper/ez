@@ -5,8 +5,113 @@
     max-width: $screen-md;
     margin: 0 auto;
     font-family: $font-family  !important;
-
 }
+
+.apps {
+    margin-top: 20px;
+
+    ul {
+        display: flex;
+        list-style: none;
+        margin-top: 20px;
+        margin-left: 10px;
+
+        li {
+            width: 75px;
+            cursor: pointer;
+            height: 75px;
+            box-shadow:
+                inset 0 -3em 3em rgba(0, 0, 0, 0.1),
+                0 0 0 2px rgb(255, 255, 255),
+                0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+            padding: 10px;
+
+            color: $white;
+            margin-right: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+
+            &:hover {
+                background: $white;
+            }
+
+            img {
+                height: 50px;
+
+            }
+
+            p {
+                font-size: 12px;
+                text-align: center;
+                margin-bottom: 0px;
+                color: $dark-grey;
+            }
+
+        }
+    }
+}
+
+
+ul {
+    padding-left: 0px;
+}
+
+.goals {
+
+    h4 {
+        margin-bottom: 20px;
+    }
+
+    ul {
+        margin: 0 10px;
+
+        li {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            line-height: 10px !important;
+            margin-bottom: 10px;
+
+            .image {
+                margin-right: 10px;
+
+                img {
+                    height: 60px;
+                }
+            }
+
+            .status {
+                justify-self: flex-end;
+
+                img {
+                    height: 30px;
+                }
+            }
+
+
+            .details {
+                width: 60%;
+
+                p {
+                    font-size: 15px;
+                    font-weight: bold;
+                    line-height: 15px;
+                    margin-bottom: 5px;
+                }
+
+                small {
+                    margin-bottom: 0px;
+                }
+            }
+
+        }
+    }
+}
+
 
 .options {
     display: flex;
@@ -159,7 +264,7 @@ h4 {
     color: $dark-grey
 }
 
-nav {
+.daily-mission {
     margin-top: 10px;
     display: flex;
     border-radius: 5px;

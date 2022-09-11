@@ -21,13 +21,22 @@
             </div>
 
         </section>
-        <!-- <small class="text-muted">
-            Para subir de level, você precisa complentar os treinos diariamente
-        </small> -->
-
     </header>
-    <nav>
-        <h4>Progresso Semanal</h4>
+    <nav class="apps">
+        <h4>Aplicativos</h4>
+        <ul>
+            <li>
+                <img src="assets/img/contract.svg" />
+                <p>Matriculas</p>
+            </li>
+            <li>
+                <img src="assets/img/gym-plan.svg" />
+                <p>Treinos</p>
+            </li>
+        </ul>
+    </nav>
+    <nav class="daily-mission">
+        <h4>Missão Diaria</h4>
         <ul>
             <li *ngFor="let week of state.ui.weekDays" (click)="switchDay(week.day)"
                 [ngClass]="{'active': week.day == state.today}">
@@ -43,8 +52,40 @@
         </ul>
     </nav>
 
-    <section class="training-plans">
-        <h4>Aplicativos</h4>
+    <section class="goals">
+        <h4>Objetivos
+            <br />
+            <small class="text-muted">Realize pelo menos um dos objetivos abaixo para completar a missão diaria</small>
+        </h4>
+
+        <ul>
+            <li class="card">
+                <div class="image">
+
+                    <img src="assets/img/checkIn.svg" />
+                </div>
+                <div class="details">
+                    <p>Completar um checkin</p>
+                    <small class="text-muted">Valide uma entrada em pelo menos uma academia</small>
+                </div>
+                <div class="status">
+                    <img src="assets/img/checked-success_gray.svg" />
+                </div>
+            </li>
+            <li class="card">
+                <div class="image">
+                    <img src="assets/img/fitness-icon.svg" />
+
+                </div>
+                <div class="details">
+                    <p>Realizar um treino</p>
+                    <small class="text-muted">Realize pelo menos um treino da sua ficha</small>
+                </div>
+                <div class="status">
+                    <img src="assets/img/checked-success_gray.svg" />
+                </div>
+            </li>
+        </ul>
 
     </section>
 

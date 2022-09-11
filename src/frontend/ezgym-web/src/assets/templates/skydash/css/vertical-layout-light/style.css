@@ -15841,9 +15841,7 @@ input[type="button"].btn-block {
     background-color: #fff;
     background-clip: border-box;
     border: 1px solid #e3e3e3;
-    border-radius: 20px;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-
+    border-radius: 21px;
 }
 
 .card>hr {
@@ -32969,6 +32967,7 @@ div.tagsinput span.tag a {
 
 .content-wrapper-main {
     width: 100%;
+    margin-bottom: 70px;
 }
 
 @media (max-width: 767px) {
@@ -33367,10 +33366,9 @@ div.tagsinput span.tag a {
     -moz-transition: width 0.25s ease;
     -ms-transition: width 0.25s ease;
     color: #6C7383;
-    padding-right: 2.375rem;
-    padding-left: 2.375rem;
     max-width: 935px;
     width: calc(100%);
+    padding: 0px 15px;
     height: 60px;
 }
 
@@ -33416,11 +33414,9 @@ div.tagsinput span.tag a {
 }
 
 .sidebar-dark .navbar .navbar-menu-wrapper .navbar-toggler {
-    padding-left: 2.375rem;
 }
 
 .navbar .navbar-menu-wrapper .navbar-nav .nav-item {
-    margin-left: 1rem;
     margin-right: 1rem;
 }
 

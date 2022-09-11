@@ -67,8 +67,6 @@
     -moz-transition: width $action-transition-duration $action-transition-timing-function;
     -ms-transition: width $action-transition-duration $action-transition-timing-function;
     color: $navbar-menu-color;
-    padding-right: 2.375rem;
-    padding-left: 2.375rem;
     width: calc(100% - #{$sidebar-width-lg});
     height: $navbar-height;
     @media (max-width: 991px) {
@@ -99,9 +97,7 @@
           padding-right: 0;
         }
       }
-      .sidebar-dark & {
-        padding-left: 2.375rem;
-      }
+  
     }
 
     .navbar-nav {
