@@ -11,8 +11,6 @@ using System.Linq;
 using System.Threading;
 using EzGym.Accounts.ChangeAvatar;
 using EzGym.Accounts.CreateAccount;
-using EzGym.Accounts.FollowAccount;
-using EzGym.Accounts.UnfollowAccount;
 using EzGym.Accounts.UpInsertAccountProfile;
 using EzGym.Gyms.CreateGym;
 using EzGym.Infra.Repository;
@@ -23,6 +21,8 @@ using EzGym.Projections;
 using EzPayment.Payments;
 using EzPayment.Payments.VerifyCardPayments;
 using Marten;
+using EzGym.Accounts.Followers.FollowAccount;
+using EzGym.Accounts.Followers.UnfollowAccount;
 
 namespace EzGym.Apis
 {
@@ -147,6 +147,39 @@ namespace EzGym.Apis
                 return Results.Ok(queryable.Take(20).ToList());
             });
 
+            app.MapGet("accounts/{id}/followers/count",
+                [Authorize] async (
+                     [FromServices] IGymRepository repository,
+                     string id
+                     ) =>
+                {
+                    var total = await repository
+                        .Where<AccountFollower>(a => a.AccountId == id).CountAsync();
+
+                    return Results.Ok(new
+                    {
+                        Total = total
+                    });
+                });
+
+            app.MapGet("accounts/{id}/followers/{followerAccountId}",
+                [Authorize] async (
+                     [FromServices] IGymRepository repository,
+                     string id,
+                     string followerAccountId
+                     ) =>
+                {
+                    var isFollowing = await repository
+                        .Where<AccountFollower>(a => a.AccountId == id)
+                        .Where(f => f.FollowerAccountId == followerAccountId)
+                        .AnyAsync();
+
+                    return Results.Ok(new
+                    {
+                        IsFollowing = isFollowing
+                    });
+                });
+
             app.MapGet("accounts/{id}/following",
                 [Authorize]
             (
@@ -162,6 +195,21 @@ namespace EzGym.Apis
                         queryable = queryable.Where(a => a.ProfileName.NgramSearch(query));
 
                     return Results.Ok(queryable.Take(20).ToList());
+                });
+
+            app.MapGet("accounts/{id}/following/count",
+                [Authorize] async (
+                     [FromServices] IGymRepository repository,
+                     string id
+                     ) =>
+                {
+                    var total = await repository
+                        .Where<AccountFollowing>(a => a.AccountId == id).CountAsync();
+
+                    return Results.Ok(new
+                    {
+                        Total = total
+                    });
                 });
 
             app.MapPut("accounts/{id}/profile",
@@ -185,7 +233,7 @@ namespace EzGym.Apis
                 {
                     var eventStream = await handler.Handle(command with { FollowAccountId = followAccountId }, CancellationToken.None);
 
-                    return Results.Ok(eventStream.GetEvent<AccountFollowedEvent>());
+                    return Results.Ok(eventStream.GetEvent<FollowerCreatedEvent>());
                 });
 
             app.MapPost("accounts/{unfollowAccountId}/unfollow",
@@ -197,7 +245,7 @@ namespace EzGym.Apis
                 {
                     var eventStream = await handler.Handle(command with { UnfollowAccountId = unfollowAccountId }, CancellationToken.None);
 
-                    return Results.Ok(eventStream.GetEvent<AccountUnfollowedEvent>());
+                    return Results.Ok(eventStream.GetEvent<FollowDeleteEvent>());
                 });
 
             app.MapPost("accounts/{accountId}/wallet",

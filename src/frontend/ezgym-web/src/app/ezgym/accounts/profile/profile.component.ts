@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, finalize, switchMap, tap } from 'rxjs';
+import { catchError, finalize, forkJoin, map, switchMap, tap } from 'rxjs';
 import { AccountService } from 'src/app/ezgym/core/services/account.service';
 import { Store } from 'src/app/core/state/store';
 import { FollowerListComponent } from '../follower-list/follower-list.component';
@@ -11,6 +11,10 @@ import { AccountProfileProjection } from '../../core/projections/account-profile
 
 interface ProfileComponentState {
     accountProfile: AccountProfileProjection,
+    friendship: {
+        totalFollowers: number,
+        totalFollowing: number
+    },
     ui: {
         isOwner: boolean,
         isFollowing: boolean,
@@ -34,6 +38,10 @@ export class ProfileComponent extends Store<ProfileComponentState> implements On
     ) {
         super({
             accountProfile: {} as AccountProfileProjection,
+            friendship: {
+                totalFollowers: 0,
+                totalFollowing: 0
+            },
             ui: {
                 isOwner: false,
                 isFollowing: false
@@ -57,15 +65,35 @@ export class ProfileComponent extends Store<ProfileComponentState> implements On
         })
 
         this.activeRoute.params
-            .pipe(
-                switchMap(params => {
-                    return this.loadAccount(params['accountName'])
-                })
-            ).subscribe()
+            .subscribe(params => {
+                this.setLoading(true)
+                this.loadAccount(params['accountName'])
+                    .pipe(
+                        finalize(() => {
+                            this.setLoading(false)
+                        })
+                    ).subscribe()
+            })
+    }
+
+    loadFriendShip(id: string) {
+        return forkJoin([
+            this.accountService.loadTotalFollowers(id),
+            this.accountService.loadTotalFollowing(id)
+        ]).pipe(
+            tap(([followers, following]) => {
+                this.setState(state => ({
+                    ...state,
+                    friendship: {
+                        totalFollowers: followers.total,
+                        totalFollowing: following.total
+                    }
+                }))
+            })
+        )
     }
 
     loadAccount(accountName: string) {
-        this.setLoading(true)
         return this.accountService
             .loadAccountProfile(accountName)
             .pipe(
@@ -74,26 +102,32 @@ export class ProfileComponent extends Store<ProfileComponentState> implements On
                         ...state,
                         accountProfile: accountProfile,
                     }))
-
-
                 }),
-                switchMap(() => this.ezGymStore.active$),
-                tap(activeAccount => {
-                    this.setState(state => ({
-                        ...state,
-                        ui: {
-                            isOwner: activeAccount.id == state.accountProfile.id,
-                            isFollowing: activeAccount?.following?.some(f => f.accountId === activeAccount.id)!
-                        }
-                    }))
+                switchMap(account => {
+                    return this.loadFriendShip(account.id)
+                }),
+                switchMap(_ => {
+                    return this.accountService
+                        .isFollowing(this.state.accountProfile.id, this.ezGymStore.state.accountActive.id)
+                        .pipe(
+                            tap(response => {
+                                this.setState(state => ({
+                                    ...state,
+                                    ui: {
+                                        ...state.ui,
+                                        isFollowing: response.isFollowing,
+                                        isOwner: this.ezGymStore.state.accountActive.id == state.accountProfile.id,
+                                    }
+                                }))
+
+                            }),
+                        )
                 }),
                 catchError((error) => {
                     this.router.navigate(['/404'])
                     return error
-                }),
-                finalize(() => {
-                    this.setLoading(false)
                 })
+
             )
     }
 
@@ -122,11 +156,14 @@ export class ProfileComponent extends Store<ProfileComponentState> implements On
                     ...state,
                     accountProfile: {
                         ...state.accountProfile,
-                        followersCount: state.accountProfile.followersCount! + 1
                     },
                     ui: {
                         ...state.ui,
                         isFollowing: true
+                    },
+                    friendship: {
+                        ...state.friendship,
+                        totalFollowers: state.friendship.totalFollowers + 1
                     }
                 }))
             }),
@@ -145,7 +182,10 @@ export class ProfileComponent extends Store<ProfileComponentState> implements On
                     ...state,
                     accountProfile: {
                         ...state.accountProfile,
-                        followersCount: state.accountProfile.followersCount! - 1
+                    },
+                    friendship: {
+                        ...state.friendship,
+                        totalFollowers: state.friendship.totalFollowers - 1
                     },
                     ui: {
                         ...state.ui,
@@ -207,4 +247,8 @@ export class ProfileComponent extends Store<ProfileComponentState> implements On
             }
         }))
     }
+}
+
+function of(response: { isFollowing: boolean; }): any {
+    throw new Error('Function not implemented.');
 }

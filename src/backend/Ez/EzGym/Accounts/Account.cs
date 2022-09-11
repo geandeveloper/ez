@@ -1,7 +1,5 @@
 ﻿using EzCommon.Models;
 using EzGym.Accounts.Events;
-using System.Collections.Generic;
-using System.Linq;
 using EzGym.Accounts.CreateAccount;
 using EzGym.Accounts.UpInsertAccountProfile;
 
@@ -15,17 +13,8 @@ namespace EzGym.Accounts
         public string AvatarUrl { get; private set; }
         public Profile Profile { get; private set; }
         public AccountTypeEnum AccountType { get; private set; }
-        public IList<Follower> Following { get; }
-        public IList<Follower> Followers { get; }
 
-        public long FollowersCount => Followers.Count;
-        public long FollowingCount => Following.Count;
-
-        public Account()
-        {
-            Followers = new List<Follower>();
-            Following = new List<Follower>();
-        }
+        public Account() { }
 
         public Account(CreateAccountCommand command)
         {
@@ -50,55 +39,12 @@ namespace EzGym.Accounts
             RaiseEvent(new AvatarImageAccountChangedEvent(Id, avatarUrl));
         }
 
-        public void AddFollower(Account account)
-        {
-            if (!Followers.Select(a => a.AccountId).Contains(account.Id))
-                RaiseEvent(new AddedAccountFollowerEvent(Id, account.Id));
-        }
-        public void RemoveFollower(Account account)
-        {
-            RaiseEvent(new RemovedAccountFollowerEvent(Id, account.Id));
-        }
-
-        public void FollowAccount(Account account)
-        {
-
-            if (!Following.Select(a => a.AccountId).Contains(account.Id))
-                RaiseEvent(new AccountFollowedEvent(Id, account.Id));
-        }
-
-        public void UnfollowAccount(Account account)
-        {
-            RaiseEvent(new AccountUnfollowedEvent(Id, account.Id));
-        }
-
         protected void Apply(ProfileChangedEvent @event)
         {
             Profile = new Profile(
                 name: @event.Name,
                 jobDescription: @event.JobDescription,
                 bioDescription: @event.BioDescription);
-        }
-
-
-        protected void Apply(AccountUnfollowedEvent @event)
-        {
-            Following.Remove(Following.First(f => f.AccountId == @event.AccountId));
-        }
-
-        protected void Apply(RemovedAccountFollowerEvent @event)
-        {
-            Followers.Remove(Followers.First(f => f.AccountId == @event.AccountId));
-        }
-
-        protected void Apply(AddedAccountFollowerEvent @event)
-        {
-            Followers.Add(new Follower(@event.AccountId));
-        }
-
-        protected void Apply(AccountFollowedEvent @event)
-        {
-            Following.Add(new Follower(@event.AccountId));
         }
 
         protected void Apply(AvatarImageAccountChangedEvent @event)

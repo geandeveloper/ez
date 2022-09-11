@@ -1,26 +1,27 @@
 ﻿using EzGym.Accounts;
 using EzGym.Accounts.Events;
 using Marten.Events.Aggregation;
+using Marten.Events.Projections;
 
 namespace EzGym.Projections
 {
     public class AccountProfile
     {
         public string Id { get; set; }
+        public int Version { get; set; }
         public string UserId { get; set; }
         public string AccountName { get; set; }
         public bool IsDefault { get; set; }
         public string AvatarUrl { get; set; }
         public Profile Profile { get; set; }
         public AccountTypeEnum AccountType { get; set; }
-        public long FollowersCount { get; set; }
-        public long FollowingCount { get; set; }
     }
 
     public class AccountProfileProjection : SingleStreamAggregation<AccountProfile>
     {
         public AccountProfileProjection()
         {
+
             ProjectEvent<AccountCreatedEvent>((state, @event) =>
             {
                 state.Id = @event.Id;
@@ -30,25 +31,6 @@ namespace EzGym.Projections
                 state.IsDefault = @event.Command.IsDefault;
             });
 
-            ProjectEvent<AddedAccountFollowerEvent>((state, @event) =>
-            {
-                state.FollowersCount += 1;
-            });
-
-            ProjectEvent<RemovedAccountFollowerEvent>((state, @event) =>
-            {
-                state.FollowersCount -= 1;
-            });
-
-            ProjectEvent<AccountFollowedEvent>((state, @event) =>
-            {
-                state.FollowingCount += 1;
-            });
-
-            ProjectEvent<AccountUnfollowedEvent>((state, @event) =>
-            {
-                state.FollowingCount -= 1;
-            });
 
             ProjectEvent<AvatarImageAccountChangedEvent>((state, @event) =>
             {
@@ -63,5 +45,6 @@ namespace EzGym.Projections
                           bioDescription: @event.BioDescription);
             });
         }
+
     }
 }

@@ -3,9 +3,8 @@ using System.Threading.Tasks;
 using EzCommon.CommandHandlers;
 using EzCommon.Models;
 using EzGym.Infra.Repository;
-using EzGym.Infra.Storage;
 
-namespace EzGym.Accounts.FollowAccount
+namespace EzGym.Accounts.Followers.FollowAccount
 {
     public class FollowAccountCommandHandler : ICommandHandler<FollowAccountCommand>
     {
@@ -18,14 +17,9 @@ namespace EzGym.Accounts.FollowAccount
 
         public async Task<EventStream> Handle(FollowAccountCommand request, CancellationToken cancellationToken)
         {
-            var account = await _repository.LoadAggregateAsync<Account>(request.UserAccountId);
-            var accountToFollow = await _repository.LoadAggregateAsync<Account>(request.FollowAccountId);
+            var follower = new Follower(request.FollowAccountId, request.UserAccountId);
 
-            account.FollowAccount(accountToFollow);
-            accountToFollow.AddFollower(account);
-
-            await _repository.SaveAggregateAsync(accountToFollow);
-            return await _repository.SaveAggregateAsync(account);
+            return await _repository.SaveAggregateAsync(follower);
         }
     }
 }

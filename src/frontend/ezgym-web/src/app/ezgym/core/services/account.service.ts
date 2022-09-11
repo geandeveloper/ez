@@ -47,6 +47,22 @@ export class AccountService {
             .get<AccountProfileProjection>(`accounts/${accountName}/profile`)
     }
 
+    loadTotalFollowers(id: string) {
+        return this.http
+            .get<{ total: number }>(`accounts/${id}/followers/count`)
+    }
+
+    isFollowing(id: string, followerAccountId: string) {
+        return this.http
+            .get<{ isFollowing: boolean }>(`accounts/${id}/followers/${followerAccountId}`)
+    }
+
+
+    loadTotalFollowing(id: string) {
+        return this.http
+            .get<{ total: number }>(`accounts/${id}/following/count`)
+    }
+
     searchAccounts(query: string) {
         return this.http
             .get<AccountModel[]>(`accounts?query=${query}`)

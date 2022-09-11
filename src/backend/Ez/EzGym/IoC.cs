@@ -1,8 +1,7 @@
 ﻿using EzGym.Accounts;
 using EzGym.Accounts.ChangeAvatar;
 using EzGym.Accounts.CreateAccount;
-using EzGym.Accounts.FollowAccount;
-using EzGym.Accounts.UnfollowAccount;
+using EzGym.Accounts.Followers;
 using EzGym.Accounts.UpInsertAccountProfile;
 using EzGym.Gyms;
 using EzGym.Gyms.CreateGym;
@@ -25,6 +24,8 @@ using Marten.Events.Daemon.Resiliency;
 using Marten.Events.Projections;
 using Microsoft.Extensions.Configuration;
 using StoreOptions = Marten.StoreOptions;
+using EzGym.Accounts.Followers.UnfollowAccount;
+using EzGym.Accounts.Followers.FollowAccount;
 
 namespace EzGym
 {
@@ -69,6 +70,9 @@ namespace EzGym
                     options.Events.StreamIdentity = StreamIdentity.AsString;
 
                     options.Projections.SelfAggregate<Account>(ProjectionLifecycle.Inline);
+                    options.Schema.For<Account>().UniqueIndex(a => a.AccountName);
+
+                    options.Projections.SelfAggregate<Follower>(ProjectionLifecycle.Inline);
                     options.Projections.SelfAggregate<Gym>(ProjectionLifecycle.Inline);
                     options.Projections.SelfAggregate<GymUser>(ProjectionLifecycle.Inline);
                     options.Projections.SelfAggregate<Wallet>(ProjectionLifecycle.Inline);

@@ -45,11 +45,11 @@
                             </div>
                             <div (click)="openFollowerList()" class="profile-header-info">
                                 <p class="text-muted">Seguidores</p>
-                                <h3 class="text-primary fs-30 font-weight-medium">{{state.accountProfile.followersCount}}</h3>
+                                <h3 class="text-primary fs-30 font-weight-medium">{{state.friendship.totalFollowers}}</h3>
                             </div>
                             <div (click)="openFollowingList()" class="profile-header-info">
                                 <p class="text-muted">Seguindo</p>
-                                <h3 class="text-primary fs-30 font-weight-medium">{{state.accountProfile.followingCount}}</h3>
+                                <h3 class="text-primary fs-30 font-weight-medium">{{state.friendship.totalFollowing}}</h3>
                             </div>
                         </div>
                         <div class="profile-buttons">

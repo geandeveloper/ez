@@ -14,7 +14,7 @@
 
 	<ItemGroup>
 	  <PackageReference Include="Gerencianet.NETCore.SDK" Version="3.0.0" />
-	  <PackageReference Include="Marten" Version="5.7.0" />
+	  <PackageReference Include="Marten" Version="5.10.1" />
 	  <PackageReference Include="Refit.HttpClientFactory" Version="6.3.2" />
 	</ItemGroup>
 

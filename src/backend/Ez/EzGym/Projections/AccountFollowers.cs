@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using EzGym.Accounts;
 using EzGym.Accounts.Events;
 using Marten.Events.Aggregation;
@@ -22,15 +21,15 @@ namespace EzGym.Projections
     {
         public AccountFollowersProjection()
         {
-            DeleteEvent<RemovedAccountFollowerEvent>((state, @event) => state.FollowerAccountId == @event.FollowerAccountId);
+            DeleteEvent<FollowDeleteEvent>();
 
-            ProjectEvent<AddedAccountFollowerEvent>((session, state, @event) =>
+            ProjectEvent<FollowerCreatedEvent>((session, state, @event) =>
             {
                 var follower = session
                     .Query<Account>()
                     .First(a => a.Id == @event.FollowerAccountId);
 
-                state.Id = Guid.NewGuid().ToString();
+                state.Id = @event.Id;
                 state.AccountId = @event.AccountId;
                 state.AccountName = follower.AccountName;
                 state.FollowerAccountId = follower.Id;
@@ -38,12 +37,6 @@ namespace EzGym.Projections
                 state.AccountName = follower.AccountName;
                 state.ProfileName = follower.Profile?.Name;
             });
-
-            ProjectEvent<AvatarImageAccountChangedEvent>((state, @event) =>
-            {
-                state.AvatarUrl = @event.AvatarUrl;
-            });
-
         }
     }
 }

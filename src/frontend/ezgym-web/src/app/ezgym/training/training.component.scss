@@ -34,15 +34,15 @@
 
 .profile {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex: 1;
+    justify-content: flex-start;
 }
 
 .avatar {
 
     display: flex;
-    flex-direction: column;
-    margin-right: 30px;
+    margin-bottom: 10px;
 
     p {
         margin-top: 10px;
@@ -50,10 +50,8 @@
     }
 
     img {
-        height: 100px;
-        width: 100px;
+        height: 30px;
         display: block;
-        border-radius: 50px;
     }
 }
 

@@ -6,7 +6,5 @@ export interface AccountProfileProjection {
     accountType: AccountTypeEnum,
     profile?: ProfileModel,
     accountName: string,
-    avatarUrl?: string,
-    followingCount?: number,
-    followersCount?: number
+    avatarUrl?: string
 }

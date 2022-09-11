@@ -8,8 +8,6 @@ export interface AccountModel {
     accountName: string,
     isDefault: boolean,
     avatarUrl?: string,
-    followers?: FollowerModel[],
-    following?: FollowerModel[],
     followingCount?: number,
     followersCount?: number
 }

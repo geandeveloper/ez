@@ -3,8 +3,7 @@
 
         <section class="profile">
             <div class="avatar">
-                <img
-                    src="https://m.media-amazon.com/images/S/dmp-catalog-images-prod/images/31029f2a-104e-4f75-8518-f25be9924074/c718fdf4-275b-4241-bb6a-eeca1db90c17-5222142._SX576_SY576_BL0_QL100__UXNaN_FMjpg_QL85_.jpeg">
+                <img src="assets/img/ezgym-logo.svg" />
             </div>
             <div class="profile-info">
 
@@ -29,7 +28,7 @@
     </header>
     <nav>
         <h4>Progresso Semanal</h4>
-        <ul >
+        <ul>
             <li *ngFor="let week of state.ui.weekDays" (click)="switchDay(week.day)"
                 [ngClass]="{'active': week.day == state.today}">
 

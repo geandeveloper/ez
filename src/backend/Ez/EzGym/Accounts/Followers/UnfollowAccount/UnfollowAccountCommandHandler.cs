@@ -1,10 +1,12 @@
-﻿using System.Threading;
+﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using EzCommon.CommandHandlers;
 using EzCommon.Models;
 using EzGym.Infra.Repository;
+using Marten;
 
-namespace EzGym.Accounts.UnfollowAccount
+namespace EzGym.Accounts.Followers.UnfollowAccount
 {
     public class UnfollowAccountCommandHandler : ICommandHandler<UnfollowAccountCommand>
     {
@@ -17,14 +19,13 @@ namespace EzGym.Accounts.UnfollowAccount
 
         public async Task<EventStream> Handle(UnfollowAccountCommand request, CancellationToken cancellationToken)
         {
-            var account = await _repository.LoadAggregateAsync<Account>(request.UserAccountId);
-            var accountToUnfollow = await _repository.LoadAggregateAsync<Account>(request.UnfollowAccountId);
+            var follower = await _repository.Where<Follower>(f => f.AccountId == request.UnfollowAccountId)
+                .Where(f => f.FollowerAccountId == request.UserAccountId)
+                .FirstAsync(cancellationToken);
 
-            account.UnfollowAccount(accountToUnfollow);
-            accountToUnfollow.RemoveFollower(account);
+            follower.Unfollow();
 
-            await _repository.SaveAggregateAsync(accountToUnfollow);
-            return await _repository.SaveAggregateAsync(account);
+            return await _repository.SaveAggregateAsync(follower);
         }
     }
 }
