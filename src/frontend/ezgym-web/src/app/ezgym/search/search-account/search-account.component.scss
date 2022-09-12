@@ -1,3 +1,15 @@
+@import 'variables';
+
+
+:host {
+    font-family: $font-family  !important;
+}
+
+.search-component {
+    max-width: $screen-md;
+    margin: 0 auto;
+}
+
 .center {
     padding: 0px 20px;
 }
@@ -8,7 +20,7 @@
     flex: 1;
     align-items: center;
     display: flex;
-    padding: 0px 20px;
+    padding: 0px;
 
     form {
         flex: 1
@@ -16,12 +28,17 @@
 
     .input-group-text {
         border: none;
-        background: #f3f3f3
+        background: #f3f3f3;
+        border-top-left-radius: 20px;
+        border-bottom-left-radius: 20px;
     }
 
     #navbar-search-input {
         border: none;
+        border-top-right-radius: 20px;
+        border-bottom-right-radius: 20px;
         background: #f3f3f3;
+        padding-left: 0px;
     }
 
 }

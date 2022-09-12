@@ -25,7 +25,7 @@
     font-family: $font-family;
 
     .profile-body {
-        padding: 20px;
+        padding: 10px 15px;
     }
 
     .profile-footer {
@@ -38,13 +38,13 @@
             border: none;
             background: $primary;
             color: $white;
-            padding: 15px 20px;
-            border-radius: 15px;
+            padding: 5px 20px;
+            border-radius: 10px;
             font-size: small;
             -webkit-box-shadow: 5px 5px 2px 1px rgba(238, 238, 238, 0.97);
             box-shadow: 5px 5px 2px 1px rgba(238, 238, 238, 0.97);
             border: #efef;
-            height: 50px;
+            height: 30px;
 
             &:hover {
                 background: $secondary;
@@ -54,8 +54,7 @@
 
         .unfollow {
             background: #cccc;
-            width: 100px;
-            padding: 10px 15px;
+          
 
             &:hover {
                 background: $color-danger;
@@ -88,6 +87,14 @@
         justify-content: left;
         padding-top: 10px;
 
+        p {
+            font-size: 12px;
+        }
+
+        h3 {
+            font-size: 20px;
+        }
+
         >.profile-header-info {
             display: flex;
             margin-right: 20px;
@@ -98,7 +105,6 @@
     }
 
     .profile-info {
-        margin-bottom: 20px;
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -116,17 +122,22 @@
         }
 
         .profile-bio-image {
-            width: 100px;
-            height: 100px;
-            margin-right: 20px;
+            width: 75px;
+            height: 75px;
+            margin-right: 10px;
             background: $primary;
             overflow: hidden;
             border-radius: 25%;
             -webkit-box-shadow: 5px 5px 2px 1px rgba(238, 238, 238, 0.97);
             box-shadow: 5px 5px 2px 1px rgba(238, 238, 238, 0.97);
             border: #efef;
-            background-image: url("/assets/img/default-user-img.png");
+            background-image: #fff;
             background-size: cover;
+
+            img {
+                display: block;
+                height: 100%;
+            }
         }
     }
 }

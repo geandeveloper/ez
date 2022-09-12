@@ -57,43 +57,45 @@
 
     <div class="checkins">
         <h4>Entradas</h4>
-        <mat-tab-group mat-align-tabs="center" mat-stretch-tabs>
-            <mat-tab label="Validar" class="tab-label">
-                <div class="center">
-                    <ul class="icon-data-list">
-                        <li *ngFor="let account of state.checkinsToValidate">
-                            <div class="d-flex account-item-list">
-                                <img [src]="account?.avatarUrl || '/assets/img/default-user-img.png'" alt="user">
-                                <div class="account-item-description">
-                                    <p class="text-primary font-weight-bold">{{account.accountName}}</p>
-                                    <small>{{account.accountType == 1 ? 'Usuario' : 'Academia'}} </small>
+        <div class="card">
+            <mat-tab-group mat-align-tabs="center" mat-stretch-tabs>
+                <mat-tab label="Validar" class="tab-label">
+                    <div class="center">
+                        <ul class="icon-data-list">
+                            <li *ngFor="let account of state.checkinsToValidate">
+                                <div class="d-flex account-item-list">
+                                    <img [src]="account?.avatarUrl || '/assets/img/default-user-img.png'" alt="user">
+                                    <div class="account-item-description">
+                                        <p class="text-primary font-weight-bold">{{account.accountName}}</p>
+                                        <small>{{account.accountType == 1 ? 'Usuario' : 'Academia'}} </small>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="buttons">
-                                <button class="btn-validate">Validar</button>
-                                <button class="btn-validate btn-remove">X</button>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </mat-tab>
-            <mat-tab label="Validados">
-                <div class="center">
-                    <ul class="icon-data-list">
-                        <li *ngFor="let account of state.checkinsValidated">
-                            <div class="d-flex account-item-list">
-                                <img [src]="account?.avatarUrl || '/assets/img/default-user-img.png'" alt="user">
-                                <div class="account-item-description">
-                                    <p class="text-primary font-weight-bold">{{account.accountName}}</p>
-                                    <small>{{account.accountType == 1 ? 'Usuario' : 'Academia'}} </small>
+                                <div class="buttons">
+                                    <button class="btn-validate">Validar</button>
+                                    <button class="btn-validate btn-remove">X</button>
                                 </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </mat-tab>
-        </mat-tab-group>
+                            </li>
+                        </ul>
+                    </div>
+                </mat-tab>
+                <mat-tab label="Validados">
+                    <div class="center">
+                        <ul class="icon-data-list">
+                            <li *ngFor="let account of state.checkinsValidated">
+                                <div class="d-flex account-item-list">
+                                    <img [src]="account?.avatarUrl || '/assets/img/default-user-img.png'" alt="user">
+                                    <div class="account-item-description">
+                                        <p class="text-primary font-weight-bold">{{account.accountName}}</p>
+                                        <small>{{account.accountType == 1 ? 'Usuario' : 'Academia'}} </small>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </mat-tab>
+            </mat-tab-group>
 
+        </div>
     </div>
 
 

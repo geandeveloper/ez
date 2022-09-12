@@ -15,7 +15,7 @@
 }
 
 .card {
-    padding: 20px;
+    padding: 10px;
 }
 
 .header {
@@ -63,6 +63,7 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
+    padding: 0px 5p10;
 
     .account-configuration {
         button {
@@ -95,7 +96,6 @@
     display: flex;
     justify-content: left;
     margin-top: 30px;
-    gap: 20px;
 
 
     .balance-info {
@@ -188,7 +188,9 @@ h4 {
 .checkins {
 
     h4 {
-        margin-right: 5px;
+        margin-left: 5px;
+        margin-top: 10px;
+        margin-bottom: 15px;
     }
 
     background: #fff;

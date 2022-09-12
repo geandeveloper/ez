@@ -1,28 +1,15 @@
 <div class="gym-profile card">
-    <div clas="center">
-        <h4 class="text-primary">Como podemos ajudar ?</h4>
-    </div>
 
-    <div class="account-menu-options" >
-        <div class="menu-option" (click)="registerNewMemberShip()">
-            <div class="icon-wrapper">
-                <i class="fa-solid fa-address-card"></i>
-            </div>
-            <label>Matricular</label>
-        </div>
-        <!-- <div class="menu-option">
-            <div class="icon-wrapper">
-                <i class="fa-solid fa-money-bill-1"></i>
-            </div>
-            <label>Diaria</label>
-        </div>
-        <div class="menu-option">
-            <div class="icon-wrapper">
-                <i class="fa-solid fa-gift"></i>
-            </div>
-            <label>Presentear</label>
-        </div> -->
-    </div>
+    <nav class="apps">
+        <h4>Como podemos ajudar ?</h4>
+        <ul>
+            <li (click)="registerNewMemberShip()">
+                <img src="assets/img/contract.svg"  />
+                <p>Matricular</p>
+            </li>
+          
+        </ul>
+    </nav>
 
 
 </div>
