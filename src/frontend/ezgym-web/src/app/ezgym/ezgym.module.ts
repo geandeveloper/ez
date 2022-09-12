@@ -17,7 +17,6 @@ import { EzGymStore } from "./ezgym.store";
 import { ContentLoaderModule } from "@ngneat/content-loader";
 import { GymManagementStore } from "./gyms/management/gym-management.store";
 import { WalletStatementComponet } from "./wallet/wallet-statement/wallet-statement.component";
-import { TrainingComponent } from "./training/training.component";
 
 
 @NgModule({
@@ -25,7 +24,6 @@ import { TrainingComponent } from "./training/training.component";
     EzGymComponent,
     SearchAccountComponent,
     WalletStatementComponet,
-    TrainingComponent
   ],
   imports: [
     FormsModule,
@@ -45,7 +43,6 @@ import { TrainingComponent } from "./training/training.component";
   ],
   exports: [
     EzGymComponent,
-    TrainingComponent
   ]
 })
 export class EzGymModule { }

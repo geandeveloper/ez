@@ -10,7 +10,6 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { GymProfileComponent } from './gym-profile/gym-profile.component';
 import { GymsRoutingModule } from './gyms-routing.module';
 import { GymManagementComponent } from './management/gym-management.component';
-import { GymManagementStore } from './management/gym-management.store';
 import { GymPlansComponent } from './management/gym-plans/gym-plans.component';
 import { GymWalletComponent } from './management/gym-wallet/gym-wallet.component';
 import { RegisterMembershipComponent } from './register-membership/register-membership.component';

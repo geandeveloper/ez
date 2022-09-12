@@ -88,13 +88,13 @@
                     </li>
                     <li *ngIf="state.activeAccount?.accountType == 2">
                         <a class="nav-link" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="link-active"
-                            [routerLink]="['/', state.activeAccount?.accountName, 'management'  ]">
+                            [routerLink]="['/', state.activeAccount?.accountName, 'gyms' , { outlets:{ 'content':'management' } } ]">
                             <i class="material-icons"> apps </i>
                         </a>
                     </li>
                     <li *ngIf="state.activeAccount?.accountType == 1">
                         <a class="nav-link" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="link-active"
-                            [routerLink]="['/', state.activeAccount?.accountName, 'training' ]">
+                            [routerLink]="['/', state.activeAccount?.accountName, { outlets:{ 'content':'management' } } ]">
                             <i class="material-icons"> apps </i>
                         </a>
                     </li>

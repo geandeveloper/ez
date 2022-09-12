@@ -10,12 +10,12 @@ interface ComponentState {
 }
 
 @Component({
-    selector: 'training',
-    templateUrl: 'training.component.html',
-    styleUrls: ['training.component.scss']
+    selector: 'account-management',
+    templateUrl: 'account-management.component.html',
+    styleUrls: ['account-management.component.scss']
 })
 
-export class TrainingComponent extends Store<ComponentState> implements OnInit {
+export class AccountManagementComponent extends Store<ComponentState> implements OnInit {
     constructor() {
         super({
             ui: {

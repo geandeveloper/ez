@@ -1,7 +1,7 @@
 @import 'variables';
 
 
-.training {
+.management {
     max-width: $screen-md;
     margin: 0 auto;
     font-family: $font-family  !important;
@@ -75,6 +75,7 @@ ul {
             padding: 10px 20px;
             line-height: 10px !important;
             margin-bottom: 10px;
+            cursor: pointer;
 
             .image {
                 margin-right: 10px;
@@ -233,7 +234,7 @@ header {
                 height: 100%;
                 border-radius: 10px;
                 background: linear-gradient(to right, $secondary, $color-green);
-                animation: progressBar 3s ease-in-out;
+                animation: progressBar 1s ease-in-out;
                 animation-fill-mode: both
             }
 
@@ -343,7 +344,6 @@ h4 {
             img {
                 animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
                 transform: translate3d(0, 0, 0);
-                transition: all 100ms ease-in 0s;
                 top: 30px;
             }
 
@@ -382,6 +382,7 @@ h4 {
             60% {
                 transform: translate3d(4px, 0, 0);
             }
+
         }
 
 

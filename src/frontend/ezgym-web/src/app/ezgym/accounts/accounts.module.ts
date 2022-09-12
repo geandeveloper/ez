@@ -13,6 +13,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { MatStepperModule } from '@angular/material/stepper'
 import { GymModule } from '../gyms/gyms.module';
 import { ContentLoaderModule } from '@ngneat/content-loader';
+import { AccountManagementComponent } from './management/account-management.component';
 
 @NgModule({
     imports: [
@@ -32,6 +33,7 @@ import { ContentLoaderModule } from '@ngneat/content-loader';
         FollowerListComponent,
         EditProfileComponent,
         ProfileComponent,
+        AccountManagementComponent
     ],
     providers: [],
 })

@@ -4,7 +4,7 @@ import { GymManagementComponent } from './management/gym-management.component';
 
 export const routes: Routes = [
     {
-        path: '',
+        path: 'management',
         component: GymManagementComponent,
         outlet: 'content'
     }
