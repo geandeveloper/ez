@@ -1,6 +1,5 @@
 import { Component, NgZone } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
-import { App, URLOpenListenerEvent } from '@capacitor/app';
 
 @Component({
   selector: 'app-root',

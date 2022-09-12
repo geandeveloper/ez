@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { tap, catchError, finalize, mergeMap, map } from 'rxjs';
+import { tap, catchError, finalize, mergeMap, map, first } from 'rxjs';
 import { UserStore } from '../core/authentication/user.store';
 import { Store } from '../core/state/store';
 import { PreLoaderStore } from '../shared/components/pre-loader/pre-loader.store';
 import { AccountModel } from './core/models/accout.model';
+import { WalletModel } from './core/models/wallet.model';
 import { EzGymStore } from './ezgym.store';
 
 
@@ -31,17 +32,32 @@ export class EzGymComponent extends Store<ComponentState> implements OnInit {
     private router: Router,
     private activeRoute: ActivatedRoute
   ) {
-    super()
+    super({
+      accounts: [],
+      ui: {
+        showTopNavBar: true,
+      }
+    })
 
+    this.ezGymStore.setState(state => ({
+      ...state,
+      accountActive: {} as AccountModel,
+      accounts: [],
+      activeGym: undefined,
+      ui: undefined,
+      wallet: {} as WalletModel
+    }))
   }
 
   ngOnInit(): void {
-    this.ezGymStore.active$.subscribe(activeAccount => {
-      this.setState(state => ({
-        ...state,
-        activeAccount: activeAccount
-      }))
-    })
+
+    this.ezGymStore.active$
+      .subscribe(activeAccount => {
+        this.setState(state => ({
+          ...state,
+          activeAccount: activeAccount
+        }))
+      })
 
     this.ezGymStore
       .loadAccounts()
@@ -51,6 +67,8 @@ export class EzGymComponent extends Store<ComponentState> implements OnInit {
             tap(params => {
               var accountName = params['accountName']
               if (accounts.some(a => a.accountName == accountName) && !this.ezGymStore.state.accountActive)
+                this.ezGymStore.setActiveAccount(accountName)
+              if (accounts.some(a => a.accountName == accountName) && !Boolean(this.ezGymStore.state.accountActive.id))
                 this.ezGymStore.setActiveAccount(accountName)
             }),
             map(() => accounts)
@@ -71,7 +89,7 @@ export class EzGymComponent extends Store<ComponentState> implements OnInit {
       }
     }))
 
-   
+
     import("src/assets/templates/skydash/skydash")
 
   }
@@ -85,6 +103,7 @@ export class EzGymComponent extends Store<ComponentState> implements OnInit {
     this.preLoaderStore.show();
     this.userStore.revokeToken()
       .pipe(
+   
         tap(() => {
           this.router.navigate(['/ezidentity/login'])
         }),

@@ -11,14 +11,19 @@ import { EzGymState } from "./ezgym.state";
 export class EzGymStore extends Store<EzGymState> {
 
     active$ = this.store$.pipe(
-        filter(a => Boolean(a?.accountActive)),
+        filter(a => Boolean(a?.accountActive.id)),
         map(a => a.accountActive)
     )
 
     constructor(
         private readonly accountService: AccountService
     ) {
-        super();
+        super({
+            accountActive: {} as AccountModel,
+            accounts: [],
+            wallet: {} as WalletModel,
+            activeGym: {} as GymModel,
+        });
     }
 
 
