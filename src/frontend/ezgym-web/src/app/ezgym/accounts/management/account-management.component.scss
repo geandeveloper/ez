@@ -61,6 +61,7 @@ ul {
 
 .goals {
 
+   
     h4 {
         margin-bottom: 20px;
     }
@@ -71,14 +72,55 @@ ul {
         li {
             display: flex;
             align-items: center;
+            height: 75px;
             justify-content: space-between;
-            padding: 10px 20px;
             line-height: 10px !important;
             margin-bottom: 10px;
             cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            isolation: isolate;
+
+
+            &::before {
+                content: "";
+                background-image: conic-gradient(var(--color) 90deg,
+                        transparent 180deg);
+                width: 100%;
+                height: 600px;
+                position: absolute;
+                z-index: 0;
+                border-radius: 21px;
+                animation: rotate 3s linear infinite;
+            }
+
+            &::after {
+                content: "";
+                height: calc(100% - 2px);
+                width: calc(100% - 2px);
+                right: 1px;
+                top: 1px;
+                background: $white;
+                position: absolute;
+                font-size: larger;
+                border-radius: 21px;
+
+            }
+
+            @keyframes rotate {
+                0% {
+                    transform: rotate(0deg);
+                }
+
+                100% {
+                    transform: rotate(var(--rotate));
+                }
+            }
+
 
             .image {
-                margin-right: 10px;
+                z-index: 1;
+                padding: 20px;
 
                 img {
                     height: 60px;
@@ -87,6 +129,8 @@ ul {
 
             .status {
                 justify-self: flex-end;
+                margin-right: 10px;
+                z-index: 1;
 
                 img {
                     height: 30px;
@@ -95,7 +139,10 @@ ul {
 
 
             .details {
+                padding: 10px;
                 width: 60%;
+
+                z-index: 1;
 
                 p {
                     font-size: 15px;

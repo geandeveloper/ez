@@ -39,14 +39,7 @@ export class EzGymComponent extends Store<ComponentState> implements OnInit {
       }
     })
 
-    this.ezGymStore.setState(state => ({
-      ...state,
-      accountActive: {} as AccountModel,
-      accounts: [],
-      activeGym: undefined,
-      ui: undefined,
-      wallet: {} as WalletModel
-    }))
+
   }
 
   ngOnInit(): void {
@@ -103,7 +96,18 @@ export class EzGymComponent extends Store<ComponentState> implements OnInit {
     this.preLoaderStore.show();
     this.userStore.revokeToken()
       .pipe(
-   
+        tap(() => {
+          this.ezGymStore.setState(state => ({
+            ...state,
+            accountActive: {} as AccountModel,
+            accounts: [],
+            activeGym: undefined,
+            ui: undefined,
+            wallet: {} as WalletModel
+          }))
+
+        }),
+
         tap(() => {
           this.router.navigate(['/ezidentity/login'])
         }),
