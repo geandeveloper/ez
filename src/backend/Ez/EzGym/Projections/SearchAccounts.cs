@@ -1,4 +1,5 @@
-﻿using EzGym.Accounts.Events;
+﻿using EzGym.Accounts;
+using EzGym.Accounts.Events;
 using Marten.Events.Aggregation;
 
 namespace EzGym.Projections
@@ -8,6 +9,7 @@ namespace EzGym.Projections
         public string Id { get; set; }
         public string AccountName { get; set; }
         public string ProfileName { get; set; }
+        public AccountTypeEnum AccountType { get; set; }
         public string AvatarUrl { get; set; }
 
     }
@@ -21,6 +23,7 @@ namespace EzGym.Projections
                 state.Id = @event.Id;
                 state.AccountName = @event.Command.AccountName;
                 state.ProfileName = @event.Command.AccountName;
+                state.AccountType = @event.Command.AccountType;
             });
 
             ProjectEvent<ProfileChangedEvent>((state, @event) =>
