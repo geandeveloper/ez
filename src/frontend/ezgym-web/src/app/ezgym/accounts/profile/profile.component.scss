@@ -54,7 +54,7 @@
 
         .unfollow {
             background: #cccc;
-          
+
 
             &:hover {
                 background: $color-danger;
@@ -132,6 +132,7 @@
             box-shadow: 5px 5px 2px 1px rgba(238, 238, 238, 0.97);
             border: #efef;
             background-image: #fff;
+            background-image: url("/assets/img/default-user-img.png");
             background-size: cover;
 
             img {

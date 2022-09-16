@@ -26,6 +26,8 @@ using Microsoft.Extensions.Configuration;
 using StoreOptions = Marten.StoreOptions;
 using EzGym.Accounts.Followers.UnfollowAccount;
 using EzGym.Accounts.Followers.FollowAccount;
+using EzGym.Players;
+using EzGym.Players.CreatePlayer;
 
 namespace EzGym
 {
@@ -48,6 +50,7 @@ namespace EzGym
             services.AddTransient<CreateGymUserCommandHandler>();
             services.AddTransient<RegisterGymMemberShipCommandHandler>();
             services.AddTransient<SetupPaymentAccountCommandHandler>();
+            services.AddTransient<CreatePlayerCommandHandler>();
 
             services
                 .AddMartenStore<IGymEventStore>(serviceProvider =>
@@ -78,6 +81,7 @@ namespace EzGym
                     options.Projections.SelfAggregate<Wallet>(ProjectionLifecycle.Inline);
                     options.Projections.SelfAggregate<WalletReceipt>(ProjectionLifecycle.Inline);
                     options.Projections.SelfAggregate<GymMemberShip>(ProjectionLifecycle.Inline);
+                    options.Projections.SelfAggregate<Player>(ProjectionLifecycle.Inline);
 
 
                     //Custom Projections
