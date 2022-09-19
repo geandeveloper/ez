@@ -8,14 +8,14 @@
             <div class="profile-info">
 
                 <div class="name-and-progress">
-                    <h4>Gean Silva</h4>
+		  <h4>{{ state.activeAccount?.profile?.name }}</h4>
                     <small class="text-muted">9/10 Objetivos</small>
                     <div class="progress-level" style="--progress: 90%"></div>
                 </div>
                 <div class="name-level">
                     <div class="level-badge">
                         <img src="assets/img/trophy.svg">
-                        <small>Level 10</small>
+			<small>Level {{state.player?.level}}</small>
                     </div>
                 </div>
             </div>

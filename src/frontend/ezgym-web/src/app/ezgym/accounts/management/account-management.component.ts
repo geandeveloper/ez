@@ -57,7 +57,7 @@ export class AccountManagementComponent
           this.accountService.getPlayer(activeAccount.id)
         ),
         tap((player) => {
-          console.log(player);
+          this.setState((state) => ({ ...state, player: player }));
         })
       )
       .subscribe();
