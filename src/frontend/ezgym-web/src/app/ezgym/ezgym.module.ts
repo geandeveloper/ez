@@ -1,23 +1,21 @@
-import { NgModule } from "@angular/core";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { EzGymComponent } from './ezgym.component';
 
-import { EzGymRoutingModule } from "./ezgym-routing.module";
+import { EzGymRoutingModule } from './ezgym-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
-import { MatDialogModule } from "@angular/material/dialog";
-import { ImageCropperModule } from "ngx-image-cropper";
-import { SearchAccountComponent } from "./search/search-account/search-account.component";
-import { WalletService } from "./core/services/wallet.service";
-import { PaymentAccountService } from "../ezpayment/core/services/payment-account.service";
-import { EzGymStore } from "./ezgym.store";
-import { ContentLoaderModule } from "@ngneat/content-loader";
-import { GymManagementStore } from "./gyms/management/gym-management.store";
-import { WalletStatementComponet } from "./wallet/wallet-statement/wallet-statement.component";
-
+import { MatDialogModule } from '@angular/material/dialog';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { SearchAccountComponent } from './search/search-account/search-account.component';
+import { WalletService } from './core/services/wallet.service';
+import { PaymentAccountService } from '../ezpayment/core/services/payment-account.service';
+import { EzGymStore } from './ezgym.store';
+import { GymManagementStore } from './gyms/management/gym-management.store';
+import { WalletStatementComponet } from './wallet/wallet-statement/wallet-statement.component';
 
 @NgModule({
   declarations: [
@@ -39,10 +37,8 @@ import { WalletStatementComponet } from "./wallet/wallet-statement/wallet-statem
     WalletService,
     PaymentAccountService,
     EzGymStore,
-    GymManagementStore
+    GymManagementStore,
   ],
-  exports: [
-    EzGymComponent,
-  ]
+  exports: [EzGymComponent],
 })
-export class EzGymModule { }
+export class EzGymModule {}

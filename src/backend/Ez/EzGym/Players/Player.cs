@@ -16,7 +16,7 @@ namespace EzGym.Players
 
         public Player(string accountId)
         {
-            RaiseEvent(new PlayerCreateEvent(GenerateNewId(), accountId));
+                RaiseEvent(new PlayerCreateEvent(GenerateNewId(), accountId));
         }
 
         public void LevelUp()

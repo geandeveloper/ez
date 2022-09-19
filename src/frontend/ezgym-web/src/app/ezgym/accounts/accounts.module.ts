@@ -10,31 +10,30 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { ProfileComponent } from './profile/profile.component';
 import { EditProfileComponent } from './profile/edit-profile/edit-profile.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
-import { MatStepperModule } from '@angular/material/stepper'
+import { MatStepperModule } from '@angular/material/stepper';
 import { GymModule } from '../gyms/gyms.module';
 import { ContentLoaderModule } from '@ngneat/content-loader';
 import { AccountManagementComponent } from './management/account-management.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        AccountRoutingModule,
-        MatTabsModule,
-        ImageCropperModule,
-        MatStepperModule,
-        GymModule,
-        ContentLoaderModule
-    ],
-    declarations: [
-        AccountsComponent,
-        CreateAccountComponent,
-        FollowerListComponent,
-        EditProfileComponent,
-        ProfileComponent,
-        AccountManagementComponent
-    ],
-    providers: [],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    AccountRoutingModule,
+    MatTabsModule,
+    ImageCropperModule,
+    MatStepperModule,
+    GymModule,
+    ContentLoaderModule,
+  ],
+  declarations: [
+    AccountsComponent,
+    CreateAccountComponent,
+    FollowerListComponent,
+    EditProfileComponent,
+    ProfileComponent,
+    AccountManagementComponent,
+  ],
 })
-export class AccountsModule { }
+export class AccountsModule {}

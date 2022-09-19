@@ -18,10 +18,7 @@ namespace EzGym.Accounts
 
         public Account(CreateAccountCommand command)
         {
-            RaiseEvent(new AccountCreatedEvent(
-                    Id: GenerateNewId(),
-                    command
-           ));
+            RaiseEvent(new AccountCreatedEvent( Id: GenerateNewId(), command));
         }
 
         public void UpdateProfile(UpInsertAccountProfileCommand command)

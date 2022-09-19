@@ -18,11 +18,11 @@ using EzGym.Wallets;
 using EzGym.Wallets.UpdateWallet;
 using EzGym.Events.Gym;
 using EzGym.Projections;
-using EzPayment.Payments;
 using EzPayment.Payments.VerifyCardPayments;
 using Marten;
 using EzGym.Accounts.Followers.FollowAccount;
 using EzGym.Accounts.Followers.UnfollowAccount;
+using EzGym.Players;
 
 namespace EzGym.Apis
 {
@@ -293,6 +293,16 @@ namespace EzGym.Apis
                     var gym = repository.QueryOne<Gym>(a => a.AccountId == accountId);
 
                     return Results.Ok(gym);
+                });
+
+            app.MapGet("/accounts/{id}/player",
+                [Authorize] (
+                        [FromServices] IGymRepository repository,
+                        string id
+                        ) =>
+                {
+                    var player = repository.QueryOne<Player>(p => p.AccountId == id);
+                    return Results.Ok(player);
                 });
 
 
