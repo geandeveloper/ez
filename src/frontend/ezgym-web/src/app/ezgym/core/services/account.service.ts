@@ -128,7 +128,7 @@ export class AccountService {
   }
 
   getPlayer(playerId: string) {
-    return this.http.get<PlayerModel[]>(`players/${playerId}`);
+    return this.http.get<PlayerModel[]>(`accounts/${playerId}/player`);
   }
 
   //refactoring....
@@ -137,4 +137,3 @@ export class AccountService {
     return this.http.get<AccountModel[]>(`my/accounts`);
   }
 }
-

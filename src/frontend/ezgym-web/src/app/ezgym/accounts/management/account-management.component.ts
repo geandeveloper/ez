@@ -2,13 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from 'src/app/core/state/store';
 import { PlayerModel } from '../../core/models/player.model';
 import { AccountService } from '../../core/services/account.service';
+import { EzGymStore } from '../../ezgym.store';
+import { switchMap, tap } from 'rxjs';
+import { AccountModel } from '../../core/models/accout.model';
 
 interface ComponentState {
   ui: {
     weekDays: { day: number; name: string }[];
   };
   today?: number;
-  player: PlayerModel;
+  activeAccount?: AccountModel;
+  player?: PlayerModel;
 }
 
 @Component({
@@ -20,7 +24,10 @@ export class AccountManagementComponent
   extends Store<ComponentState>
   implements OnInit
 {
-  constructor(private accountService: AccountService) {
+  constructor(
+    private accountService: AccountService,
+    private ezGymStore: EzGymStore
+  ) {
     super({
       ui: {
         weekDays: [
@@ -34,11 +41,27 @@ export class AccountManagementComponent
         ],
       },
       today: new Date().getDay(),
-      player: {} as PlayerModel,
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.ezGymStore.active$
+      .pipe(
+        tap((activeAccount) => {
+          this.setState((state) => ({
+            ...state,
+            activeAccount: activeAccount,
+          }));
+        }),
+        switchMap((activeAccount) =>
+          this.accountService.getPlayer(activeAccount.id)
+        ),
+        tap((player) => {
+          console.log(player);
+        })
+      )
+      .subscribe();
+  }
 
   switchDay(day: number) {
     this.setState((state) => ({
