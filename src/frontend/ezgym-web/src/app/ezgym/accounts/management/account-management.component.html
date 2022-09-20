@@ -9,8 +9,11 @@
 
                 <div class="name-and-progress">
 		  <h4>{{ state.activeAccount?.profile?.name }}</h4>
-                    <small class="text-muted">9/10 Objetivos</small>
-                    <div class="progress-level" style="--progress: 90%"></div>
+		  <div class="exp-bar">
+		  <small class="text-muted">{{state.player?.exp}} Atual</small>
+		  <small class="text-muted">{{state.player?.expForNextLevel}} Level Up</small>
+		  </div>
+		  <div class="progress-level" style="--progress: {{state.ui.levelBarPercent}}"></div>
                 </div>
                 <div class="name-level">
                     <div class="level-badge">

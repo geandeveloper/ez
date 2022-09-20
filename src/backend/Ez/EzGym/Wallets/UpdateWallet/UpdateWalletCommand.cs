@@ -1,5 +1,4 @@
-﻿using System;
-using EzCommon.Commands;
+﻿using EzCommon.Commands;
 
 namespace EzGym.Wallets.UpdateWallet
 {

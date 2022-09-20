@@ -1,5 +1,4 @@
 ﻿using EzCommon.Events;
-using EzPayment.Payments;
 
 namespace EzPayment.Events.Payments;
 

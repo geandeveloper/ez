@@ -261,7 +261,7 @@ namespace EzGym.Apis
                 });
 
             app.MapGet("accounts/{accountId}/wallet",
-                [Authorize] async (
+                [Authorize] (
                       [FromServices] IGymRepository repository,
                     [FromServices] VerifyCardPaymentsCommandHandler handler,
                       string accountId
@@ -281,7 +281,7 @@ namespace EzGym.Apis
                     var wallet = repository.QueryOne<Wallet>(a => a.AccountId == accountId);
 
 
-                    return Results.Ok(wallet);
+                    return System.Threading.Tasks.Task.FromResult(Results.Ok(wallet));
                 });
 
             app.MapGet("accounts/{accountId}/gym",

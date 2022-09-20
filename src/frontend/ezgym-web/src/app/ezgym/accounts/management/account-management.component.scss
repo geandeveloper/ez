@@ -1,6 +1,5 @@
 @import 'variables';
 
-
 .management {
     max-width: $screen-md;
     margin: 0 auto;
@@ -228,6 +227,13 @@ header {
         justify-content: space-between;
         align-items: center;
 
+	      .exp-bar {
+		      padding: 0px 5px;
+		      display:flex;
+		      justify-content: space-between;
+	      }
+
+
         .name-and-progress {
             flex: 1;
             margin-right: 20px;
@@ -431,8 +437,6 @@ h4 {
             }
 
         }
-
-
 
     }
 }

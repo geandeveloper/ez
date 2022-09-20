@@ -9,6 +9,8 @@ namespace EzGym.Players
     {
         public string AccountId { get; private set; }
         public int Level { get; private set; }
+        public int Exp { get; private set; }
+        public int ExpForNextLevel { get; private set; }
         public IList<PlayerAchievement> Achievements { get; } = new List<PlayerAchievement>();
         public IList<Goal> Goals { get; } = new List<Goal>();
 
@@ -16,7 +18,7 @@ namespace EzGym.Players
 
         public Player(string accountId)
         {
-                RaiseEvent(new PlayerCreateEvent(GenerateNewId(), accountId));
+            RaiseEvent(new PlayerCreateEvent(GenerateNewId(), accountId));
         }
 
         public void LevelUp()
@@ -39,6 +41,8 @@ namespace EzGym.Players
             Id = @event.Id;
             AccountId = @event.AccountId;
             Level = 1;
+            Exp = 0;
+            ExpForNextLevel = 100 * Level;
         }
 
         protected void Apply(PlayerLevelUpEvent @event)

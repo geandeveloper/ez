@@ -9,6 +9,7 @@ import { AccountModel } from '../../core/models/accout.model';
 interface ComponentState {
   ui: {
     weekDays: { day: number; name: string }[];
+    levelBarPercent: string;
   };
   today?: number;
   activeAccount?: AccountModel;
@@ -39,6 +40,7 @@ export class AccountManagementComponent
           { day: 5, name: 'Sex' },
           { day: 6, name: 'Sab' },
         ],
+        levelBarPercent: '0%',
       },
       today: new Date().getDay(),
     });

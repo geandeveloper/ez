@@ -55,11 +55,6 @@ namespace EzGym.Apis
                     return Results.Ok(@event);
                 });
 
-            app.MapGet("/gyms/{gymId}/wallet", () =>
-            {
-
-            });
-
             return app;
         }
     }
