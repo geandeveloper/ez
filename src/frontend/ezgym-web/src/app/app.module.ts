@@ -19,15 +19,10 @@ import { Error404Component } from './shared/error-pages/404/error-404.component'
 import { Error500Component } from './shared/error-pages/500/error-500.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
-import { ContentLoaderModule } from '@ngneat/content-loader';
-
+import { SharedComponentsModule } from './shared/components/shared.module';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    Error404Component,
-    Error500Component
-  ],
+  declarations: [AppComponent, Error404Component, Error500Component],
   imports: [
     FormsModule,
     ReactiveFormsModule,
@@ -40,22 +35,27 @@ import { ContentLoaderModule } from '@ngneat/content-loader';
     PreLoaderModule,
     EzGymModule,
     EzIdentityModule,
+    SharedComponentsModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
-      registrationStrategy: 'registerWhenStable:30000'
-    })
+      registrationStrategy: 'registerWhenStable:30000',
+    }),
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: BaseUrlInterceptor,
-      multi: true
+      multi: true,
     },
-    { provide: "BASE_API_URL", useValue: "/api" },
-    { provide: HTTP_INTERCEPTORS, useClass: JwtRequestInterceptor, multi: true },
+    { provide: 'BASE_API_URL', useValue: '/api' },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtRequestInterceptor,
+      multi: true,
+    },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

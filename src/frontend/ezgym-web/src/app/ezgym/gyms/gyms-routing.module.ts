@@ -1,17 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { GymManagementComponent } from './management/gym-management.component';
+import { GymManagementComponent } from './gyms.component';
 
 export const routes: Routes = [
-    {
-        path: 'management',
-        component: GymManagementComponent,
-        outlet: 'content'
-    }
-]
+  {
+    path: 'management',
+    component: GymManagementComponent,
+    outlet: 'content',
+  },
+];
 
 @NgModule({
-    imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule]
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
-export class GymsRoutingModule { }
+export class GymsRoutingModule {}
+

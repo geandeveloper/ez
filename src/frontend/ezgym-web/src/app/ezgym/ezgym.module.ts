@@ -14,8 +14,8 @@ import { SearchAccountComponent } from './search/search-account/search-account.c
 import { WalletService } from './core/services/wallet.service';
 import { PaymentAccountService } from '../ezpayment/core/services/payment-account.service';
 import { EzGymStore } from './ezgym.store';
-import { GymManagementStore } from './gyms/management/gym-management.store';
 import { WalletStatementComponet } from './wallet/wallet-statement/wallet-statement.component';
+import { GymManagementStore } from './gyms/gyms.store';
 
 @NgModule({
   declarations: [
