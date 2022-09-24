@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { Store } from 'src/app/core/state/store';
 import { switchMap, tap } from 'rxjs';
 import { AccountModel } from '../core/models/accout.model';
 import { PlayerModel } from '../core/models/player.model';
 import { AccountService } from '../core/services/account.service';
 import { EzGymStore } from '../ezgym.store';
+import { BottomModalComponent } from 'src/app/shared/components/bottom-modal/bottom-modal.component';
 
 interface ComponentState {
   ui: {
@@ -25,6 +26,9 @@ export class AccountManagementComponent
   extends Store<ComponentState>
   implements OnInit
 {
+  @ViewChild(BottomModalComponent, { static: false })
+  checkInModal?: BottomModalComponent;
+
   constructor(
     private accountService: AccountService,
     private ezGymStore: EzGymStore
@@ -44,6 +48,10 @@ export class AccountManagementComponent
       },
       today: new Date().getDay(),
     });
+  }
+
+  openCheckIn() {
+    this.checkInModal?.open();
   }
 
   ngOnInit() {

@@ -10,10 +10,13 @@
                 <div class="name-and-progress">
 		  <h4>{{ state.activeAccount?.profile?.name }}</h4>
 		  <div class="exp-bar">
-		  <small class="text-muted">{{state.player?.exp}} Atual</small>
-		  <small class="text-muted">{{state.player?.expForNextLevel}} Level Up</small>
+		  <small class="text-muted">Experiência</small>
 		  </div>
-		  <div class="progress-level" style="--progress: {{state.ui.levelBarPercent}}"></div>
+      <div class="progress-level" style="--progress: {{state.ui.levelBarPercent}};"> 
+        <span>
+        {{state.player?.exp}} / {{state.player?.expForNextLevel}}
+        </span>
+      </div>
                 </div>
                 <div class="name-level">
                     <div class="level-badge">
@@ -61,7 +64,7 @@
         </h4>
 
         <ul>
-            <li class="card" style="--rotate: 360deg; --color: #57B657">
+            <li (click)="openCheckIn()" class="card" style="--rotate: 360deg; --color: #57B657">
                 <div class="image">
 
                     <img src="assets/img/checkIn.svg" />
@@ -94,7 +97,8 @@
 
 </section>
 <bottom-modal>
-  <h1>E aí, bora fazer um checkin?</h1>
+
+  <!--<h1>E aí, bora fazer um checkin?</h1> -->
 
 
 </bottom-modal>

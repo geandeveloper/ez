@@ -1,27 +1,48 @@
-@import 'variables';
+@import "variables";
 
 .bottom-modal {
+  font-family: $font-family;
+  padding: 20px;
   position: fixed;
-  height: calc(50vh);
   background: $white;
   z-index: 99;
   width: 100%;
-  bottom: calc(-50vh);
+  max-width: $screen-md;
+  left: 50%;
+  bottom: 0px;
   margin: 0 auto;
-  animation: slide-modal 500ms ease-in-out;
-  animation-fill-mode: forwards;
+  transform: translate(-50%, 100%);
+  height: calc(59vh);
+  display: none;
+
+  &.open {
+    display: block;
+    animation: slide-up 300ms ease-in-out;
+    animation-fill-mode: forwards;
+  }
 }
 
-@keyframes slide-modal {
+@keyframes slide-up {
   0% {
-    bottom: calc(-50vh);
+    transform: translate(-50%, 100%);
   }
   100% {
-    bottom: 0px;
+    transform: translate(-50%, 0);
   }
-	
 }
 
 .card {
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.header {
+  display: flex;
+  button {
+    font-size: 12px;
+    color: black;
+
+    &:hover {
+      color: $primary;
+    }
+  }
 }

@@ -1,3 +1,6 @@
-<section class="bottom-modal card">
+<section class="bottom-modal card" [ngClass]="{'open': state.open }">
+  <div class="header">
+    <button class="close" (click)="close()">Fechar</button>
+  </div>
       <ng-content></ng-content>
 </section>
