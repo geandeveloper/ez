@@ -89,6 +89,7 @@ namespace EzGym
                     options.Projections.Add<SearchAccountsProjection>(ProjectionLifecycle.Async);
                     options.Projections.Add<AccountFollowersProjection>(ProjectionLifecycle.Async);
                     options.Projections.Add<AccountFollowingsProjection>(ProjectionLifecycle.Async);
+                    options.Projections.Add<AccountMemberShipProjection>(ProjectionLifecycle.Async);
 
                     return options;
                 })

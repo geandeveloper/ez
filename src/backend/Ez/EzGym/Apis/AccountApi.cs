@@ -306,6 +306,16 @@ namespace EzGym.Apis
                 });
 
 
+            app.MapGet("/accounts/{accountId}/memberships",
+                [Authorize] async (
+                [FromServices] IGymRepository repository,
+                string accountId) =>
+                {
+                    var accountMemberShips = await repository.Where<AccountMemberShip>(a=> a.AccountId == accountId).ToListAsync();
+
+                    return Results.Ok(accountMemberShips);
+                });
+
             return app;
         }
     }

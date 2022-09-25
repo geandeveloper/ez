@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { Store } from 'src/app/core/state/store';
 
 interface ComponentState {

@@ -10,6 +10,8 @@ using EzGym.Gyms.CreatePlan;
 using EzGym.Infra.Repository;
 using EzGym.Events.Gym;
 using EzGym.Gyms.RegisterGymMemberShip;
+using EzGym.Projections;
+using Marten;
 
 namespace EzGym.Apis
 {
@@ -54,6 +56,7 @@ namespace EzGym.Apis
 
                     return Results.Ok(@event);
                 });
+
 
             return app;
         }

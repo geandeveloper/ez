@@ -1,0 +1,20 @@
+<section class="checkin-component">
+  <div class="header">
+    <h3>E aí, bora fazer um check in ?</h3>
+    <small>Escolha uma academia abaixo</small>
+  </div>
+  <div class="memberships">
+    <ul>
+      <li class="membership" *ngFor="let membership of state.memberShips">
+        <div class="gym-image">
+          <img [src]="membership.gymAvatarUrl" />
+        </div>
+        <div class="description">
+          <p>@{{ membership.gymAccountName }}</p>
+          <small><span>{{ membership.missingDays }}</span> dias restantes</small>
+        </div>
+      </li>
+      <ol></ol>
+    </ul>
+  </div>
+</section>

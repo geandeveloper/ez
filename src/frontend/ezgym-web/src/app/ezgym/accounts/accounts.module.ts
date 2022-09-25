@@ -14,6 +14,7 @@ import { ContentLoaderModule } from '@ngneat/content-loader';
 import { AccountManagementComponent } from './accounts.component';
 import { SharedComponentsModule } from 'src/app/shared/components/shared.module';
 import { GymModule } from '../gyms/gyms.module';
+import { PlayersModule } from '../players/players.module';
 
 @NgModule({
   imports: [
@@ -27,6 +28,7 @@ import { GymModule } from '../gyms/gyms.module';
     ContentLoaderModule,
     SharedComponentsModule,
     GymModule,
+    PlayersModule,
   ],
   declarations: [
     CreateAccountComponent,

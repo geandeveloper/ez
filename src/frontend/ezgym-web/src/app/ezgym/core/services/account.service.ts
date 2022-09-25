@@ -10,7 +10,7 @@ import {
   AvatarImageAccountChanged,
   StartFollowAccountEvent,
 } from '../events/account.events';
-import { AccountModel } from '../models/accout.model';
+import { AccountMemberShipModel, AccountModel } from '../models/accout.model';
 import { ProfileChangedEvent } from '../events/profile.events';
 import { GymModel } from '../models/gym.model';
 import { Pix, WalletModel } from '../models/wallet.model';
@@ -129,6 +129,12 @@ export class AccountService {
 
   getPlayer(playerId: string) {
     return this.http.get<PlayerModel>(`accounts/${playerId}/player`);
+  }
+
+  getMemberShips(accountId: string) {
+    return this.http.get<AccountMemberShipModel[]>(
+      `accounts/${accountId}/memberships`
+    );
   }
 
   //refactoring....

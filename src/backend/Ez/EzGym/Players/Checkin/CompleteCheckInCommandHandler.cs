@@ -1,9 +1,10 @@
-﻿using System.Threading;
+﻿
+using System.Threading;
 using System.Threading.Tasks;
 using EzCommon.CommandHandlers;
 using EzCommon.Models;
 
-namespace EzGym.Accounts.CheckIn
+namespace EzGym.Players.CheckIn
 {
     public class CompleteCheckInCommandHandler : ICommandHandler<CompleteCheckInCommand>
     {

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Store } from 'src/app/core/state/store';
 import { switchMap, tap } from 'rxjs';
 import { AccountModel } from '../core/models/accout.model';
@@ -68,6 +68,7 @@ export class AccountManagementComponent
         ),
         tap((player) => {
           this.setState((state) => ({ ...state, player: player }));
+          this.openCheckIn();
         })
       )
       .subscribe();
