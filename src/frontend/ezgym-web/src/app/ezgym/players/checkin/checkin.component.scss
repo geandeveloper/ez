@@ -4,6 +4,23 @@
   font-family: $font-family !important;
   color: $white;
 }
+.gym-image {
+  width: 75px;
+  height: 75px;
+  background: $primary;
+  overflow: hidden;
+  border-radius: 25%;
+  -webkit-box-shadow: 5px 5px 2px 1px rgba(238, 238, 238, 0.97);
+  box-shadow: 5px 5px 2px 1px rgba(238, 238, 238, 0.97);
+  border: #efef;
+  background-image: url("/assets/img/default-user-img.png");
+  background-size: cover;
+
+  img {
+    display: block;
+    height: 100%;
+  }
+}
 
 .checkin-component {
   .header {
@@ -56,24 +73,6 @@
           cursor: pointer;
         }
 
-        .gym-image {
-          width: 75px;
-          height: 75px;
-          background: $primary;
-          overflow: hidden;
-          border-radius: 25%;
-          -webkit-box-shadow: 5px 5px 2px 1px rgba(238, 238, 238, 0.97);
-          box-shadow: 5px 5px 2px 1px rgba(238, 238, 238, 0.97);
-          border: #efef;
-          background-image: url("/assets/img/default-user-img.png");
-          background-size: cover;
-
-          img {
-            display: block;
-            height: 100%;
-          }
-        }
-
         .description {
           margin-top: 30px;
           width: 120px;
@@ -90,5 +89,62 @@
         }
       }
     }
+  }
+}
+
+.confirm-checkin {
+  margin-top: 10px;
+  min-height: 200px;
+  .header {
+    margin: 5px;
+    position: relative;
+    right: 100%;
+    animation:slideLeft 500ms ease-in forwards;
+    border-radius: 20px;
+    box-shadow: rgb(0 0 0 / 30%) 0px 7px 29px 0px;
+    cursor: pointer;
+    background: $white;
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+
+    div {
+      margin-right: 10px;
+      color: $dark-grey;
+    }
+  }
+
+  .confirm {
+    display: flex;
+    justify-content: stretch;
+    display: 1;
+    position: relative;
+    right: 100%;
+    animation:slideLeft 500ms ease-in forwards 300ms;
+    button {
+      border: none;
+      margin: 10px;
+      border-radius: 15px;
+      -webkit-box-shadow: 5px 5px 2px 1px rgba(238, 238, 238, 0.97);
+      box-shadow: 5px 5px 2px 1px rgba(238, 238, 238, 0.5);
+      width: 100%;
+      padding: 20px;
+      background: $secondary;
+      color: $white;
+      font-weight: bold;
+      &:hover {
+        box-shadow: 5px 5px 2px 1px rgba(238, 238, 238, 0.8);
+      }
+    }
+  }
+}
+
+@keyframes slideLeft {
+  0% {
+    right: 100%;
+
+  }
+  100%  {
+    right:0px;
   }
 }

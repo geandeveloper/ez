@@ -4,9 +4,14 @@ import { Store } from 'src/app/core/state/store';
 import { Component, OnInit } from '@angular/core';
 import { EzGymStore } from '../../ezgym.store';
 import { switchMap, tap } from 'rxjs';
+import { ModalStore } from 'src/app/shared/components/modal/modal.store';
 
 interface ComponentState {
+  ui?: {
+    confirmMode: boolean;
+  };
   memberShips?: AccountMemberShipModel[];
+  selectedMemberShip: AccountMemberShipModel;
 }
 
 @Component({
@@ -17,7 +22,8 @@ interface ComponentState {
 export class CheckinComponent extends Store<ComponentState> implements OnInit {
   constructor(
     private accountService: AccountService,
-    private ezGymStore: EzGymStore
+    private ezGymStore: EzGymStore,
+    private modalStore: ModalStore
   ) {
     super();
   }
@@ -31,5 +37,24 @@ export class CheckinComponent extends Store<ComponentState> implements OnInit {
         })
       )
       .subscribe();
+  }
+
+  completeCheckin(memberShipId: string) {
+    this.setState((state) => ({
+      ...state,
+      ui: {
+        confirmMode: true,
+      },
+      selectedMemberShip: state.memberShips?.find(
+        (m) => m.id === memberShipId
+      )!,
+    }));
+  }
+
+  confirmCheckin() {
+    this.modalStore.success({
+      title: 'Tudo certo !',
+      description: 'Agora é so esperar academia confirmar',
+    });
   }
 }

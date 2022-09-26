@@ -1,20 +1,44 @@
 <section class="checkin-component">
-  <div class="header">
+  <div *ngIf="!state.ui?.confirmMode" class="header">
     <h3>E aí, bora fazer um check in ?</h3>
     <small>Escolha uma academia abaixo</small>
   </div>
-  <div class="memberships">
+  <div class="memberships" *ngIf="!state.ui?.confirmMode">
     <ul>
-      <li class="membership" *ngFor="let membership of state.memberShips">
+      <li
+        (click)="completeCheckin(membership.id)"
+        class="membership"
+        *ngFor="let membership of state.memberShips"
+      >
         <div class="gym-image">
           <img [src]="membership.gymAvatarUrl" />
         </div>
         <div class="description">
           <p>@{{ membership.gymAccountName }}</p>
-          <small><span>{{ membership.missingDays }}</span> dias restantes</small>
+          <small
+            ><span>{{ membership.missingDays }}</span> dias restantes</small
+          >
         </div>
       </li>
       <ol></ol>
     </ul>
+  </div>
+  <div class="confirm-checkin" *ngIf="state.ui?.confirmMode">
+    <div class="header">
+      <div class="gym-image">
+        <img [src]="state.selectedMemberShip.gymAvatarUrl" />
+      </div>
+      <div class="description">
+        <h3>@{{ state.selectedMemberShip.gymAccountName }}</h3>
+        <small
+          >Você ainda possui {{ state.selectedMemberShip.missingDays }} dias
+          validos</small
+        >
+      </div>
+
+    </div>
+      <div (click)="confirmCheckin()" class="confirm">
+        <button>Confirmar CheckIn</button>
+      </div>
   </div>
 </section>

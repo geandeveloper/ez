@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { Store } from 'src/app/core/state/store';
 
 interface ComponentState {
@@ -17,11 +17,15 @@ export class BottomModalComponent extends Store<ComponentState> {
     });
   }
 
+  @Output()
+  onClose = new EventEmitter();
+
   public open() {
     this.setState((state) => ({ ...state, open: true }));
   }
 
   public close() {
     this.setState((state) => ({ ...state, open: false }));
+    this.onClose.emit();
   }
 }

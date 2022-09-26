@@ -11,6 +11,7 @@ interface ComponentState {
   ui: {
     weekDays: { day: number; name: string }[];
     levelBarPercent: string;
+    completeCheckinMode: boolean;
   };
   today?: number;
   activeAccount?: AccountModel;
@@ -45,13 +46,10 @@ export class AccountManagementComponent
           { day: 6, name: 'Sab' },
         ],
         levelBarPercent: '0%',
+        completeCheckinMode: false,
       },
       today: new Date().getDay(),
     });
-  }
-
-  openCheckIn() {
-    this.checkInModal?.open();
   }
 
   ngOnInit() {
@@ -78,6 +76,27 @@ export class AccountManagementComponent
     this.setState((state) => ({
       ...state,
       today: day,
+    }));
+  }
+
+  openCheckIn() {
+    this.setState((state) => ({
+      ...state,
+      ui: {
+        ...state.ui!,
+        completeCheckinMode: true,
+      },
+    }));
+    this.checkInModal?.open();
+  }
+
+  checkinModeClosed() {
+    this.setState((state) => ({
+      ...state,
+      ui: {
+        ...state.ui,
+        completeCheckinMode: false,
+      },
     }));
   }
 }

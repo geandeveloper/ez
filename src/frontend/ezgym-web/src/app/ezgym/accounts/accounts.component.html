@@ -12,7 +12,7 @@
 		  <div class="exp-bar">
 		  <small class="text-muted">Experiência</small>
 		  </div>
-      <div class="progress-level" style="--progress: {{state.ui.levelBarPercent}};"> 
+      <div class="progress-level" style="--progress: {{state.ui.levelBarPercent}};">
         <span>
         {{state.player?.exp}} / {{state.player?.expForNextLevel}}
         </span>
@@ -96,8 +96,8 @@
     </section>
 
 </section>
-<bottom-modal>
+<bottom-modal (onClose)="checkinModeClosed()">
 
-  <checkin></checkin>
+  <checkin *ngIf="state.ui.completeCheckinMode"></checkin>
 
 </bottom-modal>
