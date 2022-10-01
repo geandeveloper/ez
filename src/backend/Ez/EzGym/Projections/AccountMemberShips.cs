@@ -17,7 +17,7 @@ namespace EzGym.Projections
         public DateTime PaymentDateTime { get; set; }
         public DateTime EndDateTime => PaymentDateTime.AddDays(Days);
         public int Days { get; set; }
-        public int MissingDays => (EndDateTime - PaymentDateTime).Days;
+        public int MissingDays => (EndDateTime - DateTime.UtcNow).Days;
     }
 
     public class AccountMemberShipProjection : SingleStreamAggregation<AccountMemberShip>

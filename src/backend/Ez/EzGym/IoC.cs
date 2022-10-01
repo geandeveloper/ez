@@ -7,8 +7,6 @@ using EzGym.Gyms;
 using EzGym.Gyms.CreateGym;
 using EzGym.Gyms.CreatePlan;
 using EzGym.Gyms.RegisterGymMemberShip;
-using EzGym.Gyms.Users;
-using EzGym.Gyms.Users.CreateGymUser;
 using EzGym.Infra.Repository;
 using EzGym.Infra.Storage;
 using EzGym.Projections;
@@ -28,6 +26,7 @@ using EzGym.Accounts.Followers.UnfollowAccount;
 using EzGym.Accounts.Followers.FollowAccount;
 using EzGym.Players;
 using EzGym.Players.CreatePlayer;
+using EzGym.Players.CreateCheckIn;
 
 namespace EzGym
 {
@@ -38,7 +37,6 @@ namespace EzGym
 
             services.AddScoped<IGymRepository, GymRepository>();
             services.AddSingleton<PaymentGatewayFactory>();
-
             services.AddTransient<CreateAccountCommandHandler>();
             services.AddTransient<CreateGymCommandHandler>();
             services.AddTransient<ChangeAvatarCommandHandler>();
@@ -47,10 +45,10 @@ namespace EzGym
             services.AddTransient<UnfollowAccountCommandHandler>();
             services.AddTransient<UpdateWalletCommandHandler>();
             services.AddTransient<CreatePlanCommandHandler>();
-            services.AddTransient<CreateGymUserCommandHandler>();
             services.AddTransient<RegisterGymMemberShipCommandHandler>();
             services.AddTransient<SetupPaymentAccountCommandHandler>();
             services.AddTransient<CreatePlayerCommandHandler>();
+            services.AddTransient<CreateCheckInCommandHandler>();
 
             services
                 .AddMartenStore<IGymEventStore>(serviceProvider =>
@@ -77,7 +75,6 @@ namespace EzGym
 
                     options.Projections.SelfAggregate<Follower>(ProjectionLifecycle.Inline);
                     options.Projections.SelfAggregate<Gym>(ProjectionLifecycle.Inline);
-                    options.Projections.SelfAggregate<GymUser>(ProjectionLifecycle.Inline);
                     options.Projections.SelfAggregate<Wallet>(ProjectionLifecycle.Inline);
                     options.Projections.SelfAggregate<WalletReceipt>(ProjectionLifecycle.Inline);
                     options.Projections.SelfAggregate<GymMemberShip>(ProjectionLifecycle.Inline);

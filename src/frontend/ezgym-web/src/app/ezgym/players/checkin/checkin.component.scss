@@ -23,6 +23,7 @@
 }
 
 .checkin-component {
+  position: relative;
   .header {
     margin: 10px 15px;
     h3 {
@@ -95,11 +96,13 @@
 .confirm-checkin {
   margin-top: 10px;
   min-height: 200px;
+  position: relative;
+  overflow: hidden;
   .header {
     margin: 5px;
     position: relative;
     right: 100%;
-    animation:slideLeft 500ms ease-in forwards;
+    animation: slideLeft 500ms ease-in forwards;
     border-radius: 20px;
     box-shadow: rgb(0 0 0 / 30%) 0px 7px 29px 0px;
     cursor: pointer;
@@ -120,7 +123,7 @@
     display: 1;
     position: relative;
     right: 100%;
-    animation:slideLeft 500ms ease-in forwards 300ms;
+    animation: slideLeft 500ms ease-in forwards 300ms;
     button {
       border: none;
       margin: 10px;
@@ -142,9 +145,8 @@
 @keyframes slideLeft {
   0% {
     right: 100%;
-
   }
-  100%  {
-    right:0px;
+  100% {
+    right: 0px;
   }
 }
