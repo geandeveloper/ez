@@ -66,7 +66,6 @@ export class AccountManagementComponent
         ),
         tap((player) => {
           this.setState((state) => ({ ...state, player: player }));
-          this.openCheckIn();
         })
       )
       .subscribe();
