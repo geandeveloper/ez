@@ -11,6 +11,7 @@ namespace EzGym.Projections
     {
         public string Id { get; set; }
         public string AccountId { get; set; }
+        public string GymAccountId { get; set; }
         public string GymProfileName { get; set; }
         public string GymAccountName { get; set; }
         public string GymAvatarUrl { get; set; }
@@ -36,6 +37,7 @@ namespace EzGym.Projections
 
                 state.Id = @event.Id;
                 state.AccountId = memberShip.PayerAccountId;
+                state.GymAccountId = memberShip.ReceiverAccountId;
                 state.GymAccountName = account.AccountName;
                 state.GymProfileName = account.Profile?.Name;
                 state.GymAvatarUrl = account.AvatarUrl;

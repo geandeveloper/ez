@@ -12,8 +12,9 @@ namespace EzGym.Apis
     {
         public static WebApplication UsePlayerApi(this WebApplication app)
         {
-            app.MapGet("/players/{id}/checkins",
+            app.MapPost("/players/{id}/checkins",
                        [Authorize] async (
+                         string id,
                          CreateCheckInCommand command,
                         [FromServices] CreateCheckInCommandHandler handler) =>
                        {

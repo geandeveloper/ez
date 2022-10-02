@@ -98,6 +98,6 @@
 </section>
 <bottom-modal (onClose)="checkinModeClosed()">
 
-  <checkin *ngIf="state.ui.completeCheckinMode"></checkin>
+  <checkin [player]="state.player" *ngIf="state.ui.completeCheckinMode"></checkin>
 
 </bottom-modal>

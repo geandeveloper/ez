@@ -79,6 +79,7 @@ namespace EzGym
                     options.Projections.SelfAggregate<WalletReceipt>(ProjectionLifecycle.Inline);
                     options.Projections.SelfAggregate<GymMemberShip>(ProjectionLifecycle.Inline);
                     options.Projections.SelfAggregate<Player>(ProjectionLifecycle.Inline);
+                    options.Projections.SelfAggregate<CheckIn>(ProjectionLifecycle.Inline);
 
 
                     //Custom Projections

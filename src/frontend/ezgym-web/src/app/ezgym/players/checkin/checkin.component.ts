@@ -1,10 +1,11 @@
 import { AccountService } from 'src/app/ezgym/core/services/account.service';
 import { AccountMemberShipModel } from 'src/app/ezgym/core/models/accout.model';
 import { Store } from 'src/app/core/state/store';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { EzGymStore } from '../../ezgym.store';
 import { switchMap, tap } from 'rxjs';
-import { ModalStore } from 'src/app/shared/components/modal/modal.store';
+import { PlayerService } from '../../core/services/player.service';
+import { PlayerModel } from '../../core/models/player.model';
 
 interface ComponentState {
   ui?: {
@@ -23,10 +24,13 @@ export class CheckinComponent extends Store<ComponentState> implements OnInit {
   constructor(
     private accountService: AccountService,
     private ezGymStore: EzGymStore,
-    private modalStore: ModalStore
+    private playerService: PlayerService
   ) {
     super();
   }
+
+  @Input()
+  player?: PlayerModel;
 
   ngOnInit(): void {
     this.ezGymStore.active$
@@ -39,7 +43,7 @@ export class CheckinComponent extends Store<ComponentState> implements OnInit {
       .subscribe();
   }
 
-  completeCheckin(memberShipId: string) {
+  memberShipSelected(memberShipId: string) {
     this.setState((state) => ({
       ...state,
       ui: {
@@ -51,10 +55,14 @@ export class CheckinComponent extends Store<ComponentState> implements OnInit {
     }));
   }
 
-  confirmCheckin() {
-    this.modalStore.success({
-      title: 'Tudo certo !',
-      description: 'Agora é so esperar academia confirmar',
-    });
+  createCheckin() {
+    debugger;
+    this.playerService
+      .createCheckIn({
+        gymAccountId: this.state.selectedMemberShip.gymAccountId,
+        memberShipId: this.state.selectedMemberShip.id,
+        playerId: this.player?.id!,
+      })
+      .subscribe();
   }
 }

@@ -17,7 +17,8 @@ public class CreateCheckInCommandHandler : ICommandHandler<CreateCheckInCommand>
 
     public Task<EventStream> Handle(CreateCheckInCommand request, CancellationToken cancellationToken)
     {
-        var checkIn = new CheckIn(request.PlayerId, request.GymId, request.MemberShipId);
+        var checkIn = new CheckIn(request.PlayerId, request.GymAccountId, request.MemberShipId);
+
         return _repository.SaveAggregateAsync(checkIn);
     }
 }

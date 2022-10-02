@@ -28,7 +28,8 @@ namespace EzGym
 
             app.UseAccountApi()
                 .UseGymApi()
-                .UseWalletApi();
+                .UseWalletApi()
+                .UsePlayerApi();
 
             return app;
         }

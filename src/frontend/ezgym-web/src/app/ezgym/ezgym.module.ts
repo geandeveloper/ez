@@ -16,6 +16,7 @@ import { PaymentAccountService } from '../ezpayment/core/services/payment-accoun
 import { EzGymStore } from './ezgym.store';
 import { WalletStatementComponet } from './wallet/wallet-statement/wallet-statement.component';
 import { GymManagementStore } from './gyms/gyms.store';
+import { PlayerService } from './core/services/player.service';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { GymManagementStore } from './gyms/gyms.store';
     PaymentAccountService,
     EzGymStore,
     GymManagementStore,
+    PlayerService,
   ],
   exports: [EzGymComponent],
 })

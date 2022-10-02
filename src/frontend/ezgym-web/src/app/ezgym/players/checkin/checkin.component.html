@@ -6,7 +6,7 @@
   <div class="memberships" *ngIf="!state.ui?.confirmMode">
     <ul>
       <li
-        (click)="completeCheckin(membership.id)"
+        (click)="memberShipSelected(membership.id)"
         class="membership"
         *ngFor="let membership of state.memberShips"
       >
@@ -37,7 +37,7 @@
       </div>
 
     </div>
-      <div (click)="confirmCheckin()" class="confirm">
+      <div (click)="createCheckin()" class="confirm">
         <button>Confirmar CheckIn</button>
       </div>
   </div>

@@ -24,6 +24,7 @@ export enum AccountTypeEnum {
 export interface AccountMemberShipModel {
   id: string;
   accountId: string;
+  gymAccountId: string;
   gymAccountName: string;
   gymAvatarUrl: string;
   paymentDateTime: Date;
