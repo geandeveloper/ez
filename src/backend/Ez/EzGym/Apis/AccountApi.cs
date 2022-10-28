@@ -1,6 +1,5 @@
 ﻿using EzCommon.Models;
 using EzGym.Accounts;
-using EzGym.Accounts.Events;
 using EzGym.Gyms;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -23,6 +22,7 @@ using Marten;
 using EzGym.Accounts.Followers.FollowAccount;
 using EzGym.Accounts.Followers.UnfollowAccount;
 using EzGym.Players;
+using EzGym.Events.Accounts;
 
 namespace EzGym.Apis
 {

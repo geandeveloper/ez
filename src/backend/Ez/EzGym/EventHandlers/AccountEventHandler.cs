@@ -1,10 +1,10 @@
 ﻿using EzCommon.EventHandlers;
-using EzGym.Accounts.Events;
 using System.Threading;
 using System.Threading.Tasks;
 using EzGym.Accounts;
 using EzGym.Gyms.CreateGym;
 using EzGym.Players.CreatePlayer;
+using EzGym.Events.Accounts;
 
 namespace EzGym.EventHandlers
 {

@@ -2,7 +2,7 @@
 using EzGym.Wallets;
 using System;
 
-namespace EzGym.Accounts.Events
+namespace EzGym.Events.Accounts
 {
     public record AccountWalletChangedEvent(string AccountId, Pix Pix) : Event;
 }

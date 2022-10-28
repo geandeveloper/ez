@@ -1,5 +1,5 @@
 ﻿using EzCommon.Models;
-using EzGym.Accounts.Events;
+using EzGym.Events.Accounts;
 
 namespace EzGym.Accounts.Followers
 {

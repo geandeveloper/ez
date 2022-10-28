@@ -1,7 +1,7 @@
 ﻿using EzCommon.Models;
-using EzGym.Accounts.Events;
 using EzGym.Accounts.CreateAccount;
 using EzGym.Accounts.UpInsertAccountProfile;
+using EzGym.Events.Accounts;
 
 namespace EzGym.Accounts
 {
