@@ -125,8 +125,8 @@ export class GymWalletComponent
     return this.walletService
       .setupPaymentAccount({
         walletId: this.state.wallet?.id!,
-        refreshUrl: `http://172.28.161.66:4200/close`,
-        returnUrl: `http://172.28.161.66:4200/close`,
+        refreshUrl: `http://192.168.15.136:4200/close`,
+        returnUrl: `http://192.168.15.136:4200/close`,
       })
       .pipe(
         tap(async (paymentAccountEvent) => {

@@ -16,7 +16,7 @@ namespace EzGym.Projections
         public AccountTypeEnum AccountType { get; set; }
     }
 
-    public class AccountProfileProjection : SingleStreamAggregation<AccountProfile>
+    public class AccountProfileProjection : SingleStreamProjection<AccountProfile>
     {
         public AccountProfileProjection()
         {

@@ -128,7 +128,7 @@ export class RegisterMembershipComponent
         gymId: this.state.gym.id,
         planId: this.state.ui?.planSelected.id,
         paymentMethod: this.state.ui?.paymentSelected.value,
-        redirectUrl: `http://172.28.161.66:4200/${this.ezGymStore.state.accountActive?.accountName}`,
+        redirectUrl: `http://192.168.15.136:4200/${this.ezGymStore.state.accountActive?.accountName}`,
       })
       .pipe(
         tap((paymentEvent) => {

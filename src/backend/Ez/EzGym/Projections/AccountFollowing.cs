@@ -16,7 +16,7 @@ namespace EzGym.Projections
         public string ProfileName { get; set; }
     }
 
-    public class AccountFollowingsProjection : SingleStreamAggregation<AccountFollowing>
+    public class AccountFollowingsProjection : SingleStreamProjection<AccountFollowing>
     {
         public AccountFollowingsProjection()
         {

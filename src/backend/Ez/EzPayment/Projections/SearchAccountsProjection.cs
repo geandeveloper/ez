@@ -3,7 +3,7 @@ using Stripe;
 
 namespace EzPayment.Projections
 {
-    public class SearchAccountsProjection : SingleStreamAggregation<Account>
+    public class SearchAccountsProjection : SingleStreamProjection<Account>
     {
     }
 }

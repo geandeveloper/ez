@@ -14,7 +14,7 @@ namespace EzGym.Projections
 
     }
 
-    public class SearchAccountsProjection : SingleStreamAggregation<SearchAccounts>
+    public class SearchAccountsProjection : SingleStreamProjection<SearchAccounts>
     {
         public SearchAccountsProjection()
         {

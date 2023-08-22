@@ -17,7 +17,7 @@ namespace EzGym.Projections
 
     }
 
-    public class AccountFollowersProjection : SingleStreamAggregation<AccountFollower>
+    public class AccountFollowersProjection : SingleStreamProjection<AccountFollower>
     {
         public AccountFollowersProjection()
         {
