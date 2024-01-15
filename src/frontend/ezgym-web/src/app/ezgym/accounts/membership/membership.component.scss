@@ -1,0 +1,75 @@
+@import "variables";
+
+
+.header {
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    font-family: $font-family;
+    font-size: small;
+    padding: 10px;
+    align-items: flex-start;
+}
+
+.line {
+    flex: 1;
+    border-top: 1px solid #ccc;
+    width: 100%;
+}
+
+.header-btn {
+    border: none;
+    background: none;
+
+    &:hover {
+        color: $secondary;
+    }
+}
+
+::ng-deep {
+    .mat-ink-bar {
+        background-color: $primary !important;
+    }
+
+}
+
+.search-follower-form {
+    margin: 10px 0px;
+}
+
+
+ul {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+li {
+    text-transform: capitalize;
+
+    >:hover {
+        background: #fff;
+        cursor: pointer;
+    }
+
+    .account-item-list {
+        padding: 5px 5px;
+        flex-direction: row;
+        justify-content: left;
+        align-items: center;
+
+        p {
+            line-height: 5px;
+            margin-bottom: 0px;
+        }
+
+        &:hover {
+            background: #eeeeee;
+            border-radius: 5px;
+        }
+    }
+
+    .account-item-description {
+        margin-top: 10px;
+    }
+}

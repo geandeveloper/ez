@@ -15,6 +15,7 @@ import { AccountManagementComponent } from './accounts.component';
 import { SharedComponentsModule } from 'src/app/shared/components/shared.module';
 import { GymModule } from '../gyms/gyms.module';
 import { PlayersModule } from '../players/players.module';
+import { MembershipComponent } from './membership/membership.component';
 
 @NgModule({
   imports: [
@@ -36,6 +37,7 @@ import { PlayersModule } from '../players/players.module';
     EditProfileComponent,
     ProfileComponent,
     AccountManagementComponent,
+    MembershipComponent
   ],
 })
 export class AccountsModule {}

@@ -6,6 +6,8 @@ import { PlayerModel } from '../core/models/player.model';
 import { AccountService } from '../core/services/account.service';
 import { EzGymStore } from '../ezgym.store';
 import { BottomModalComponent } from 'src/app/shared/components/bottom-modal/bottom-modal.component';
+import { MatDialog } from '@angular/material/dialog';
+import { MembershipComponent } from './membership/membership.component';
 
 interface ComponentState {
   ui: {
@@ -32,6 +34,7 @@ export class AccountManagementComponent
 
   constructor(
     private accountService: AccountService,
+    private dialog: MatDialog,
     private ezGymStore: EzGymStore
   ) {
     super({
@@ -97,5 +100,20 @@ export class AccountManagementComponent
         completeCheckinMode: false,
       },
     }));
+  }
+
+  getMemberships() {
+    this.dialog.open(MembershipComponent, {
+      data: {
+          accountId: this.state.activeAccount?.id
+      },
+      panelClass: 'fullscreen-dialog',
+      maxWidth: '935px',
+      maxHeight: '100vh',
+      height: '100%',
+      width: '100%',
+  })
+      .afterClosed()
+      .subscribe()
   }
 }
