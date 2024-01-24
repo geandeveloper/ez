@@ -30,4 +30,5 @@ export interface AccountMemberShipModel {
   paymentDateTime: Date;
   days: number;
   missingDays: number;
+  active: boolean;
 }

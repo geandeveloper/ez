@@ -16,6 +16,7 @@ namespace EzGym.Projections
         public string GymAccountName { get; set; }
         public string GymAvatarUrl { get; set; }
         public DateTime PaymentDateTime { get; set; }
+        public bool Active { get; set; }
         public DateTime EndDateTime => PaymentDateTime.AddDays(Days);
         public int Days { get; set; }
         public int MissingDays => (EndDateTime - DateTime.UtcNow).Days;
@@ -43,6 +44,7 @@ namespace EzGym.Projections
                 state.GymAvatarUrl = account.AvatarUrl;
                 state.PaymentDateTime = @event.PaymentDateTime;
                 state.Days = memberShip.Days;
+                state.Active = memberShip.Active;
             });
         }
     }

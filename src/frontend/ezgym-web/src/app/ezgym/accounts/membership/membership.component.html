@@ -2,8 +2,41 @@
     <section class="header">
         <button (click)="close()" class="header-btn">Voltar</button>
     </section>
-    <mat-tab-group mat-align-tabs="center" mat-stretch-tabs>
+    <mat-tab-group (selectedIndexChange)="tabChanged($event)" mat-align-tabs="center" mat-stretch-tabs>
         <mat-tab label="Ativos" class="tab-label"></mat-tab>
         <mat-tab label="Inativos"></mat-tab>
     </mat-tab-group>
+    <form [formGroup]="searchForm" class="search-follower-form">
+        <div class="input-group">
+            <div class="input-group-prepend hover-cursor" id="navbar-search-icon">
+                <span class="input-group-text" id="search">
+                    <i class="icon-search"></i>
+                </span>
+            </div>
+            <input formControlName="search" type="text" class="form-control" id="navbar-search-input"
+                placeholder="Buscar" aria-label="search" aria-describedby="search">
+        </div>
+    </form>
+    <div *ngIf="selectedMemberships.length > 0">
+        <h5 class="step-header">
+            Matrículas
+        </h5>
+        <section class="membership-options">
+            <div *ngFor="let memberShip of selectedMemberships" class="option">
+                <div class="membership-content">
+                    <div class="membership-image">
+                        <img [src]="memberShip.gymAvatarUrl" />
+                    </div>
+                    <div class="membership-profile-information">
+                        <h5>
+                            {{memberShip.gymAccountName}}
+                        </h5>
+                        <small class="text-muted">
+                            Dias Válidos: {{memberShip.days}}
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
 </div>

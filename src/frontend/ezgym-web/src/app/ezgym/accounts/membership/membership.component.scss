@@ -73,3 +73,89 @@ li {
         margin-top: 10px;
     }
 }
+
+.membership-options {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+
+    .selected {
+        background: $primary;
+        color: $white  !important;
+
+        .text-muted {
+            color: $white  !important;
+        }
+
+        .material-icons {
+            color: $white  !important;
+        }
+    }
+
+    .option {
+        margin-bottom: 10px;
+        border: 2px solid $primary;
+        border-radius: 20px;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        color: $primary;
+        cursor: pointer;
+
+        .icon {
+            margin-top: 10px;
+
+            .material-icons {
+                font-size: 27px;
+                color: $primary;
+            }
+        }
+
+        h5 {
+            margin: 0px;
+        }
+
+        &:hover {
+            @extend .selected
+        }
+    }
+
+    .membership-content {
+        display: flex;
+        flex-direction: row;
+        .membership-image {
+            width: 72px;
+            height: 75px;
+            margin-right: 10px;
+            background: $primary;
+            overflow: hidden;
+            border-radius: 25%;
+            -webkit-box-shadow: 5px 5px 2px 1px rgba(238, 238, 238, 0.97);
+            box-shadow: 5px 5px 2px 1px rgba(238, 238, 238, 0.97);
+            border: #efef;
+            background-image: #fff;
+            background-image: url("/assets/img/default-user-img.png");
+            background-size: cover;
+        
+            img {
+                display: block;
+                height: 100%;
+            }
+        }
+
+        .membership-profile-information {
+            margin: 10px;
+        }
+    }
+}
+
+.step-header {
+    margin-top: 25px;
+    margin-bottom: 25px;
+    width: fit-content;
+    line-height: 25px;
+    display: block;
+    color: $primary;
+    border-bottom: 2px dotted #ccc;
+}
